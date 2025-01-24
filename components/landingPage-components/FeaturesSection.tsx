@@ -2,7 +2,6 @@ import MaxWContainer from "../ui/MaxWContainer"
 import SectionHeading from "./SectionHeading"
 import { features } from "@/lib/data"
 import Section from "../ui/Section"
-import Image from "next/image"
 export default function FeaturesSection() {
   return (
     <Section 

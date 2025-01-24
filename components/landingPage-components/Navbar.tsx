@@ -5,15 +5,12 @@ import { Button } from "../ui/button"
 import Image from "next/image"
 import imgsrc from "../../public/NoteWise-logo.svg"
 import { motion,useMotionValueEvent,useScroll} from 'framer-motion'
-import { useContext, useState } from "react"
-// import TopBanner from "./TopBanner";
-
+import { useState } from "react"
 export default function Navbar() {
 
     const { scrollY } = useScroll()
-    const [inView,setInView] = useState<boolean>(false)
+    const [,setInView] = useState<boolean>(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-
     useMotionValueEvent(scrollY, "change", (latest) => {
         if(latest>150){
             setInView(true)

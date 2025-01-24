@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import imgsrc from "../../public/NoteWise-logo.svg"
 interface WelcomeBanProps{
-  Welcome_to?: String
+  Welcome_to?: string
 }
 export default function WelcomeBan({Welcome_to}:WelcomeBanProps) {
   return (

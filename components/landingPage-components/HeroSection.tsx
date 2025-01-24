@@ -5,10 +5,6 @@ import MaxWContainer from "../ui/MaxWContainer"
 import Image from "next/image"
 import heroImg from "../../public/UserDashboard-Note.svg"
 import { motion } from "framer-motion";
-import IMG1 from "../../public/ballpoint.png"
-import IMG2 from "../../public/notebook-and-pencil-hand-drawn-writing-tools.png"
-import IMG3 from "../../public/computer.png"
-import IMG4 from "../../public/chat_Note.png"
 export default function HeroSection() {
   return (
     <motion.section

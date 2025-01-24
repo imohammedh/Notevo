@@ -3,8 +3,6 @@
 import { SignInMethodDivider } from "@/components/SignInMethodDivider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { FcGoogle } from "react-icons/fc";
@@ -78,7 +76,6 @@ function SignInWithMagicLink({
   handleLinkSent: () => void;
 }) {
   const { signIn } = useAuthActions();
-  const { toast } = useToast();
   return (
     <form
       className="flex flex-col"
@@ -90,17 +87,12 @@ function SignInWithMagicLink({
           .then(handleLinkSent)
           .catch((error) => {
             console.error(error);
-            toast({
-              title: "Could not send sign-in link",
-              variant: "destructive",
-            });
           });
       }}
     >
       <label htmlFor="email">Email</label>
       <Input name="email" id="email" className="mb-4" autoComplete="email" />
       <Button type="submit">Send sign-in link</Button>
-      <Toaster />
     </form>
   );
 }

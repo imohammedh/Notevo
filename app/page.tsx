@@ -4,7 +4,6 @@ import FeaturesSection from "@/components/landingPage-components/FeaturesSection
 import SignUpToday from "@/components/landingPage-components/SignUpToday"
 import Testimonials from "@/components/landingPage-components/Testimonials"
 import Navbar from '@/components/landingPage-components/Navbar';
-import { Authenticated, Unauthenticated, useQuery } from "convex/react";
 export default function HomePage() {
     return (
       <div className="flex flex-col min-h-screen">
