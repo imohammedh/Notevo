@@ -5,7 +5,6 @@ import { cn } from "../lib/utils";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 
-
 const lato = Lato({
   weight: ["400"],
   subsets: ["latin"],

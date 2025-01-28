@@ -20,7 +20,8 @@ const buttonVariants = cva(
         Trigger: "bg-none text-brand_secondary hover:bg-brand_secondary/10",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
         UserAccountDialog:"transition-all hover:scale-95" ,
-        ChatNoteBtn : " bg-brand_secondary border border-brand_fourthary rounded-full hover:opacity-80"
+        ChatNoteBtn : " bg-brand_secondary border border-brand_fourthary rounded-full hover:opacity-80",
+        SidebarMenuButton:"flex justify-start items-center gap-2 bg-none w-full text-brand_secondary hover:bg-brand_secondary/10"
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -19,17 +19,17 @@ interface TableSettingsProps {
 export default function TableSettings({ notesTableId }: TableSettingsProps) {
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const createTable = useMutation(api.mutations.notesTables.updateTable);
+    const updateTable = useMutation(api.mutations.notesTables.updateTable);
     const deleteTable = useMutation(api.mutations.notesTables.deleteTable);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
     };
 
-    const handleChangeClick = async () => {
-        setIsLoading(true);
-        await createTable({ _id: notesTableId, name: inputValue });
-        setIsLoading(false);
+    const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key) {
+            updateTable({ _id: notesTableId, name: inputValue });
+        }
     };
 
     const handleDelete = async () => {
@@ -37,7 +37,6 @@ export default function TableSettings({ notesTableId }: TableSettingsProps) {
         await deleteTable({ _id: notesTableId });
         setIsLoading(false);
     };
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -49,18 +48,11 @@ export default function TableSettings({ notesTableId }: TableSettingsProps) {
                 <DropdownMenuGroup className="relative">
                     <Input
                         type="text"
-                        placeholder="Untitled"
+                        placeholder="Change u'r table name"
                         value={inputValue}
                         onChange={handleInputChange}
+                        onKeyUp={handleKeyUp}
                     />
-                    <Button
-                        variant="Trigger"
-                        className="opacity-50 absolute top-1 right-1 h-7 px-1"
-                        onClick={handleChangeClick}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? "Changing..." : "Change"}
-                    </Button>
                 </DropdownMenuGroup>
                 <Button
                     variant="Trigger"
