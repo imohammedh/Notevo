@@ -16,7 +16,7 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
@@ -53,7 +53,7 @@ export default function AppSidebar() {
     setLoading(true);
     try {
       await signOut();
-      router.push("/");
+      redirect("/")
     } catch (error) {
       console.error(error);
     } finally {
