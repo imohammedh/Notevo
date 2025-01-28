@@ -5,7 +5,7 @@ export function SignInMethodDivider() {
         <span className="w-full border-t" />
       </div>
       <div className="relative flex justify-center text-xs uppercase">
-        <span className="bg-transparent px-2 text-muted-foreground">
+        <span className="bg-brand_primary px-2 text-brand_tertiary/50">
           Or continue with
         </span>
       </div>

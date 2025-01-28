@@ -6,7 +6,7 @@ interface MaxWContainerProps {
 export default function MaxWContainer({children,className}:MaxWContainerProps) {
   return (
     <div className={cn(
-      "container mx-auto px-4 sm:px-6 md:px-8 lg:px-10",
+      "container mx-auto px-4 sm:px-6 lg:px-8",
       className
     )}>
       {children}
