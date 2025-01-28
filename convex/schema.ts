@@ -10,4 +10,37 @@ export default defineSchema({
     userId: v.id("users"),
     body: v.string(),
   }),
+
+  workingSpaces: defineTable({
+    name: v.string(),
+    slug: v.optional(v.string()), 
+    favorite: v.optional(v.boolean()),
+    userId: v.id("users"), 
+    createdAt: v.number(),
+    updatedAt: v.number(), 
+  }).index("by_userId", ["userId"]).index("by_slug", ["slug"]),
+
+  notesTables: defineTable({
+    name: v.optional(v.string()),
+    slug: v.optional(v.string()),
+    workingSpaceId: v.id("workingSpaces"),
+    createdAt: v.number(),
+    updatedAt: v.number()
+  }).index("by_workingSpaceId", ["workingSpaceId"]).index("by_slug", ["slug"]),
+  
+  notes: defineTable({
+    title: v.optional(v.string()),
+    slug: v.optional(v.string()), 
+    body: v.optional(v.string()),
+    favorite: v.optional(v.boolean()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    tags: v.optional(v.array(v.id("tags"))), 
+    notesTableId: v.id("notesTables"), 
+  }).index("by_notesTableId", ["notesTableId"]).index("by_slug", ["slug"]),
+  
+  tags: defineTable({
+    name: v.optional(v.string()),
+    noteId: v.optional(v.id("notes")), 
+  }),
 });

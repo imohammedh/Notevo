@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
 import { Lato } from "next/font/google";
 import "./globals.css";
 import { cn } from "../lib/utils";
-// import { Toaster } from 'sonner'
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
+import ConvexClientProvider from "@/components/ConvexClientProvider";
+
 
 const lato = Lato({
   weight: ["400"],
@@ -23,13 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <ConvexAuthNextjsServerProvider>
+      <ConvexClientProvider>
       <html lang="en" suppressHydrationWarning>
         <body
           className={cn(' bg-brand_primary text-brand_tertiary flex flex-col min-h-screen',lato.className)}
         >
-          <ThemeProvider attribute="class">{children}</ThemeProvider>
+          {children}
         </body>
       </html>
+      </ConvexClientProvider>
     </ConvexAuthNextjsServerProvider>
   );
 }

@@ -17,7 +17,7 @@ export default function WelcomeBan({Welcome_to}:WelcomeBanProps) {
       <h1 className='text-center text-3xl font-bold text-brand_secondary pt-3 sm:pt-4 md:pt-5'>
         {Welcome_to} to 
         <span className='bg-gradient-to-r from-transparent to-brand_secondary/10 rounded-xl bg-clip-content px-2'>
-          NoteWise
+          Notevo
         </span>
       </h1>
     </div>
