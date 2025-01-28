@@ -10,8 +10,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <SidebarProvider>
         <AppSidebar />
         <main className="w-full"> 
-          <div className=" p-2 flex items-center justify-start">
-          <SidebarTrigger />
+          <div className=" p-2 flex items-center justify-start gap-2">
+            <SidebarTrigger />
           </div>
           {children}
       </main>
