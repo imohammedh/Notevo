@@ -7,7 +7,7 @@ export default function ProductPage() {
   return (
     <MaxWContainer>
       <div className="w-full text-center py-14 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl">
-      <h1 className=" text-3xl font-bold text-center">Good evening , {viwer?.name}</h1>
+        <h1 className=" text-3xl font-bold text-center">Good evening , {viwer?viwer.name:"User Not Found"}</h1>
       </div>
     </MaxWContainer>
   );

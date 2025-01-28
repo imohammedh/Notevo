@@ -41,6 +41,8 @@ export default function AppSidebar() {
   const User = useQuery(api.users.viewer);
   const router = useRouter();
   const { signOut } = useAuthActions();
+  const [hoveredWorkingSpaceId, setHoveredWorkingSpaceId] = useState<string | null>(null);
+
   const handleCreateWorkingSpace =() => {
     createWorkingSpace({ name: "Untitled" });
   }
@@ -88,11 +90,23 @@ export default function AppSidebar() {
           </SidebarGroupAction>
           {
             getWorkingSpaces?.map((workingSpace) => (
-              <SidebarGroupContent className=" w-full flex justify-between items-center" key={workingSpace._id}>
-                  <SidebarMenuButton onClick={() => workingSpace.slug && handlePush(workingSpace.slug,workingSpace._id)}>
-                    <Notebook /> {workingSpace.name}
-                  </SidebarMenuButton>
-                    <WorkingSpaceSettings workingSpaceId={workingSpace._id}/>
+              <SidebarGroupContent 
+                className="relative w-full flex justify-between items-center" 
+                key={workingSpace._id}
+                onMouseEnter={() => setHoveredWorkingSpaceId(workingSpace._id)}
+                onMouseLeave={() => setHoveredWorkingSpaceId(null)}
+              >
+                  <Button 
+                    variant="SidebarMenuButton"
+                    className=" px-2 h-8 group" 
+                    onClick={() => workingSpace.slug && handlePush(workingSpace.slug, workingSpace._id)}
+                  >
+                    <Notebook size="16"/>{workingSpace.name}
+                    <WorkingSpaceSettings 
+                      className={`absolute top-0 right-0 transition-opacity duration-200 ${hoveredWorkingSpaceId === workingSpace._id ? 'opacity-100' : 'opacity-0'}`}
+                      workingSpaceId={workingSpace._id} 
+                    />
+                  </Button>
               </SidebarGroupContent>
             ))
           }
@@ -103,15 +117,15 @@ export default function AppSidebar() {
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild className=" py-5">
-                  <Button variant="ghost" className=" border-none w-full flex items-center justify-between">
+                <DropdownMenuTrigger asChild className=" py-8">
+                  <Button variant="SidebarMenuButton" className=" border-none w-full flex items-center justify-between">
                       <Avatar className="rounded-lg max-w-10 max-h-10 flex items-center justify-center border border-solid border-brand_tertiary/20">
-                        <AvatarImage src={User?.image} alt={User?.name?.charAt(1)} />
-                        <AvatarFallback>{User?.name?.charAt(0)}</AvatarFallback>
+                        <AvatarImage src={User?.image} alt={User?User.name?.charAt(0):"user not found".charAt(0)} />
+                        <AvatarFallback>{User?User.name?.charAt(0):"user not found".charAt(0)}</AvatarFallback>
                       </Avatar>
                       <p className=" flex flex-col items-start justify-center">
-                        <span>{User?.name}</span>
-                        <span>{User?.email?.replace(/(.{3}).*(@.{3}).*/, "$1...$2")}</span>
+                        <span>{User?User.name:"user not found"}</span>
+                        <span>{User?User.email?.replace(/(.{3}).*(@.{3}).*/, "$1...$2"):"user not found"}</span>
                       </p>
                     <TbSelector className=" text-xl" />
                   </Button>
