@@ -11,16 +11,14 @@ const buttonVariants = cva(
       variant: {
         default: " border bg-brand_secondary text-base text-brand_primary hover:bg-brand_secondary/80",
         destructive:
-          "bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90",
+          "bg-red-900 text-brand_tertiary hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90",
         outline:
-          "border border-brand_secondary/50 hover:bg-slate-100 hover:bg-brand_secondary/10",
+          "border border-solid border-brand_tertiary/20 hover:bg-brand_tertiary/10",
         secondary:
           "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
-        ghost: "bg-none border border-solid border-brand_secondary text-brand_secondary transition-all hover:opacity-80",
+        ghost: "bg-none border border-solid border-brand_tertiary/50 text-brand_secondary transition-all hover:opacity-80 hover:border-brand_tertiary",
         Trigger: "bg-none text-brand_secondary hover:bg-brand_secondary/10",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
-        UserAccountDialog:"transition-all hover:scale-95" ,
-        ChatNoteBtn : " bg-brand_secondary border border-brand_fourthary rounded-full hover:opacity-80",
         SidebarMenuButton:"flex justify-start items-center gap-2 bg-none w-full text-brand_secondary hover:bg-brand_secondary/10"
       },
       size: {
