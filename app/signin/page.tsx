@@ -102,7 +102,7 @@ function SignInWithMagicLink({
         formData.set("redirectTo", "/dashboard");
         signIn("resend", formData)
           .then(handleLinkSent)
-          .catch((_) => {
+          .catch(() => {
             toast({
             variant:"destructive",
             title: "Invalid Email or Password",
