@@ -1,4 +1,3 @@
-"use client";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { ReactNode } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
