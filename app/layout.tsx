@@ -25,7 +25,7 @@ export default function RootLayout({
       <ConvexClientProvider>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={cn(' bg-brand_primary text-brand_tertiary flex flex-col min-h-screen',lato.className)}
+          className={cn("bg-brand_primary text-brand_tertiary flex flex-col min-h-screen",lato.className)}
         >
           {children}
         </body>
