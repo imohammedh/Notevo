@@ -8,17 +8,19 @@ import { FcGoogle } from "react-icons/fc";
 import ADiv from "@/components/dashboard-components/ADiv";
 import { useState } from "react";
 import WelcomeBan from "@/components/ui/WelcomeBan";
-
+import { useToast } from "@/hooks/use-toast";
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
   return (
     <ADiv className="flex min-h-screen w-full">
-      <div className="rounded-xl border border-solid border-brand_tertiary/10 max-w-[450px] flex flex-col container mx-auto my-auto gap-4 pb-8">
+      <div className="rounded-xl border border-solid border-brand_tertiary/20 max-w-[450px] flex flex-col container mx-auto my-auto gap-4 pb-8">
+        <WelcomeBan Welcome_to="Sign in or create an account"/>
         {step === "signIn" ? (
           <>
-            <WelcomeBan Welcome_to="Sign in or create an account"/>
+            <span className="flex items-center justify-center gap-3 flex-col md:flex-row">
             <SignInWithGitHub />
             <SignInWithGoogle/>
+            </span>
             <SignInMethodDivider />
             <SignInWithMagicLink handleLinkSent={() => setStep("linkSent")} />
           </>
@@ -29,8 +31,7 @@ export default function SignInPage() {
             </h2>
             <p>A sign-in link has been sent to your email address.</p>
             <Button
-              className="p-0 self-start"
-              variant="link"
+              className=" w-full"
               onClick={() => setStep("signIn")}
             >
               Cancel
@@ -48,7 +49,7 @@ function SignInWithGitHub() {
 
   return (
     <Button
-      className="flex-1"
+      className="w-full flex-1"
       variant="outline"
       type="button"
       onClick={() => {
@@ -68,7 +69,7 @@ function SignInWithGoogle() {
 
   return (
     <Button
-      className="flex-1"
+      className="w-full flex-1"
       variant="outline"
       type="button"
       onClick={() => {
@@ -89,6 +90,7 @@ function SignInWithMagicLink({
 }) {
   const { signIn } = useAuthActions();
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast()
 
   return (
     <form
@@ -100,8 +102,12 @@ function SignInWithMagicLink({
         formData.set("redirectTo", "/dashboard");
         signIn("resend", formData)
           .then(handleLinkSent)
-          .catch((error) => {
-            console.error(error);
+          .catch(() => {
+            toast({
+            variant:"destructive",
+            title: "Invalid Email or Password",
+            description: "Example for a valied email : example@mail.com",
+            })
           })
           .finally(() => setLoading(false));
       }}
