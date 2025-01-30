@@ -41,7 +41,7 @@ export default function WorkingSpaceSettings({ className,workingSpaceId }: Worki
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="Trigger" className={cn("px-1.5 h-8 opacity-80",className)}>
-                    <FaEllipsis className="text-brand_fourthary" size="16" />
+                    <FaEllipsis size="16" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 p-2 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg">
