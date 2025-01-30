@@ -1,4 +1,5 @@
 "use client";
+import { Calendar } from "lucide-react";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
@@ -28,13 +29,19 @@ export default function WorkingSpacePage() {
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                         { 
-                          getNotes?.map((note:any) => (
+                          getNotes?.map((note) => (
                             note.notesTableId === table._id && 
                             <div key={note._id}>
                               {
                                 (
-                                    <button className="p-5 w-full h-40 flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105" >
+                                    <button className=" relative group p-5 w-full h-40 flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105" >
                                       <h1 className=" text-pretty text-lg font-medium">{note.title}</h1>
+                                      <span className=" absolute bottom-2 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
+                                        <span className=" flex justify-center items-center gap-1">
+                                          <Calendar size="16"/>
+                                          <p className=" font-normal text-sm">{new Date(note.createdAt).toLocaleDateString()}</p>
+                                        </span>
+                                      </span>
                                     </button>
                                 )
                               }
