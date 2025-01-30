@@ -10,7 +10,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
@@ -72,12 +71,15 @@ export default function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <Button asChild
+                    variant="SidebarMenuButton"
+                    className=" px-2 h-8 group" 
+                  >
                     <a href={item.url}>
-                      <item.icon />
+                      <item.icon size="16" />
                       <span>{item.title}</span>
                     </a>
-                  </SidebarMenuButton>
+                  </Button>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

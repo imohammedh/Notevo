@@ -8,6 +8,7 @@ import CreateTableBtn from "../../../components/dashboard-components/CreateTable
 import CreateNoteBtn from "@/components/dashboard-components/CreateNoteBtn";
 import ADiv from "@/components/dashboard-components/ADiv";
 import TableSettings from "@/components/dashboard-components/TableSettings";
+import NoteSettings from "@/components/dashboard-components/NoteSettings";
 export default function WorkingSpacePage() {
   const searchParams = useSearchParams()  
   const workingSpaceId = searchParams.get('id');
@@ -34,12 +35,15 @@ export default function WorkingSpacePage() {
                             <div key={note._id}>
                               {
                                 (
-                                    <button className=" relative group p-5 w-full h-40 flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105" >
-                                      <h1 className=" text-pretty text-lg font-medium">{note.title}</h1>
-                                      <span className=" absolute bottom-2 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
+                                    <button className=" relative group p-3.5 w-full h-40 flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105" >
+                                      <span className=" flex justify-center items-center gap-1">
+                                        <NoteSettings noteId={note._id}/>
+                                        <h1 className=" text-pretty text-lg font-medium">{note.title}</h1>
+                                      </span>
+                                      <span className=" absolute bottom-2 left-5 ">
                                         <span className=" flex justify-center items-center gap-1">
-                                          <Calendar size="16"/>
-                                          <p className=" font-normal text-sm">{new Date(note.createdAt).toLocaleDateString()}</p>
+                                          <Calendar size="16" className="transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80"/>
+                                          <p className=" font-normal text-sm transition-all duration-200 delay-150 ease-in-out opacity-0 group-hover:opacity-80">{new Date(note.createdAt).toLocaleDateString()}</p>
                                         </span>
                                       </span>
                                     </button>
@@ -60,6 +64,6 @@ export default function WorkingSpacePage() {
         workingSpaceId={workingSpaceId}
         className=" fixed bottom-5 right-5"
       />
-      </MaxWContainer>
+      </MaxWContainer>  
   );
 }
