@@ -17,7 +17,7 @@ const buttonVariants = cva(
         secondary:
           "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
         ghost: "bg-none border border-solid border-brand_tertiary/50 text-brand_secondary transition-all hover:opacity-80 hover:border-brand_tertiary",
-        Trigger: "bg-none text-brand_secondary hover:bg-brand_secondary/10",
+        Trigger: "bg-none text-brand_secondary/50 hover:text-brand_secondary",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
         SidebarMenuButton:"flex justify-start items-center gap-2 bg-none w-full text-brand_secondary hover:bg-brand_secondary/10"
       },
