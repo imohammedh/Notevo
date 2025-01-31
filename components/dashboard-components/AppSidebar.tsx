@@ -11,6 +11,7 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
+  SidebarSeparator
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { useMutation, useQuery } from "convex/react";
@@ -21,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import Link from "next/link";
 const items = [
   {
     title: "Home",
@@ -75,10 +77,10 @@ export default function AppSidebar() {
                     variant="SidebarMenuButton"
                     className=" px-2 h-8 group" 
                   >
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon size="16" />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </Button>
                 </SidebarMenuItem>
               ))}
@@ -137,13 +139,14 @@ export default function AppSidebar() {
                   className=" rounded-lg m-2 p-2 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
                 >
                   <DropdownMenuItem className=" w-full">
-                    <Button variant="Trigger" className=" w-full" disabled={true}>Account</Button>
+                    <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>Account</Button>
                   </DropdownMenuItem>
                   <DropdownMenuItem className=" w-full">
-                    <Button variant="Trigger" className=" w-full" disabled={true}>Billing</Button>
+                    <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>Billing</Button>
                   </DropdownMenuItem>
+                  <SidebarSeparator/>
                   <DropdownMenuItem className=" w-full">
-                    <Button variant="Trigger" className=" w-full" disabled={loading} onClick={handleSignOut}>
+                    <Button variant="SidebarMenuButton" className=" w-full" disabled={loading} onClick={handleSignOut}>
                       {loading ? "Signing out..." : "Sign out"}
                     </Button>
                   </DropdownMenuItem>

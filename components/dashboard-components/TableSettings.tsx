@@ -55,7 +55,7 @@ export default function TableSettings({ notesTableId }: TableSettingsProps) {
                     />
                 </DropdownMenuGroup>
                 <Button
-                    variant="Trigger"
+                    variant="SidebarMenuButton"
                     className="w-full"
                     onClick={handleDelete}
                     disabled={isLoading}

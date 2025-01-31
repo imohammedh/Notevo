@@ -40,10 +40,10 @@ export default function WorkingSpacePage() {
                                         <NoteSettings noteId={note._id}/>
                                         <h1 className=" text-pretty text-lg font-medium">{note.title}</h1>
                                       </span>
-                                      <span className=" absolute bottom-2 left-5 ">
+                                      <span className=" absolute bottom-2 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                                         <span className=" flex justify-center items-center gap-1">
-                                          <Calendar size="16" className="transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80"/>
-                                          <p className=" font-normal text-sm transition-all duration-200 delay-150 ease-in-out opacity-0 group-hover:opacity-80">{new Date(note.createdAt).toLocaleDateString()}</p>
+                                          <Calendar size="16"/>
+                                          <p className=" font-normal text-sm">{new Date(note.createdAt).toLocaleDateString()}</p>
                                         </span>
                                       </span>
                                     </button>

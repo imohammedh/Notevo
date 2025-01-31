@@ -54,12 +54,12 @@ export default function NoteSettings({noteId}:NoteSettingsProps) {
                     />
                 </DropdownMenuGroup>
                 <Button
-                    variant="Trigger"
+                    variant="SidebarMenuButton"
                     className="w-full"
                     onClick={handleDelete}
                     disabled={isLoading}
                 >
-                    {isLoading ? "Deleting..." : "Delete Table"}
+                    {isLoading ? "Deleting..." : "Delete Note"}
                 </Button>
             </DropdownMenuContent>
         </DropdownMenu>

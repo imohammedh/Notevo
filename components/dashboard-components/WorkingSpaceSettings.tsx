@@ -55,7 +55,7 @@ export default function WorkingSpaceSettings({ className,workingSpaceId }: Worki
                     />
                 </DropdownMenuGroup>
                 <Button
-                    variant="Trigger"
+                    variant="SidebarMenuButton"
                     className="w-full"
                     onClick={handleDelete}
                     disabled={isDeleting}
