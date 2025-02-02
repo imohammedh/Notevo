@@ -13,21 +13,12 @@ export default function NotePage() {
     const getNotes = useQuery(api.mutations.notes.getNotes);
     const getNote = getNotes?.find(note => note._id === noteid);
     console.log(getNote?.body)
-    const handleKeyUp = (editorInstance: any) => {
-       const content = editorInstance.getJSON();
-        updateNote({
-          _id: noteid,
-          notesTableId:getNote?.notesTableId,
-          title:getNote?.title,
-          body: JSON.stringify(content),
-          createdAt:getNote?.createdAt
-        });
-    };
-      const initialContent: JSONContent = getNote?.body 
+    const initialContent: JSONContent = getNote?.body
     ? JSON.parse(getNote?.body) 
-    : { type: 'doc', content: [{ type: 'paragraph' }] };
+    : { type: 'doc', content: [{ type: 'paragraph' }] }; 
 
     const [content, setContent] = useState<JSONContent>(initialContent);
+    console.log(content)
 
     useEffect(() => {
       if (getNote?.body) {
@@ -35,12 +26,24 @@ export default function NotePage() {
       }
     }, [getNote]);
 
+    const handleKeyUp = (editorInstance: any) => {
+        const content = editorInstance.getJSON();
+        updateNote({
+          _id: noteid,
+          notesTableId: getNote?.notesTableId,
+          title: getNote?.title,
+          body: JSON.stringify(content),
+          createdAt: getNote?.createdAt
+        });
+        setContent(content);
+    };
   return (
     <MaxWContainer>
       <Editor
-          className="bg-none text-brand_tertiary w-full"
+          className="bg-none text-brand_tertiary"
           defaultValue={content}
           onUpdate={handleKeyUp}
+          onDebouncedUpdate={handleKeyUp}
           disableLocalStorage={true}
       />
     </MaxWContainer>
