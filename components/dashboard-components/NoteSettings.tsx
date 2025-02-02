@@ -9,17 +9,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 interface NoteSettingsProps{
-    noteId:string|any
+    noteId:string|any,
 }
 export default function NoteSettings({noteId}:NoteSettingsProps) {
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const updateNote = useMutation(api.mutations.notes.updateNote);
     const deleteNote = useMutation(api.mutations.notes.deleteNote);
+    const getNotes = useQuery(api.mutations.notes.getNotes)
+    const getNote = getNotes?.find(note => note._id === noteId);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -27,7 +29,13 @@ export default function NoteSettings({noteId}:NoteSettingsProps) {
 
     const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key) {
-            updateNote({ _id: noteId, title: inputValue });
+            updateNote({
+              _id: noteId,
+              notesTableId:getNote?.notesTableId,
+              title:inputValue,
+              body: getNote?.body,
+              createdAt:getNote?.createdAt
+            });
         }
     };
 
