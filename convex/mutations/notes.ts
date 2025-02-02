@@ -38,25 +38,38 @@ export const createNote = mutation({
 
 export const updateNote = mutation({
     args:{
-        _id: v.id("notes"),
+        _id: v.any(),
+        notesTableId:v.any(),
         title: v.optional(v.string()),
         body: v.optional(v.string()),
+        createdAt:v.any()
     },
     handler: async (ctx, args)=>{
         const userId = getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        const { _id, title, body } = args;
+        const { _id,notesTableId, title, body,createdAt } = args;
         const note = await ctx.db.get(_id);
         if (!note) {
             throw new Error("Note not found");
         }
+        const generateSlugName = generateSlug(title??"Untitled");
+        // Check if the slug already exists and add incremental number if it does
+        let slug = generateSlugName;
+        let existingWorkingSpace = await ctx.db.query("notes").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
+        let counter = 1;
+        while (existingWorkingSpace) {
+            slug = `${generateSlugName}-${counter}`;
+            existingWorkingSpace = await ctx.db.query("notes").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
+            counter++;
+        }
         const update = {
-            title: title ?? note.title ?? "untitled",
-            body: body ?? note.body ?? "untitled",
-            notesTableId: note.notesTableId,
-            createdAt: note.createdAt,
+            title: title ?? "untitled",
+            body: body ?? "untitled",
+            notesTableId: notesTableId,
+            slug:slug??"untitled",
+            createdAt: createdAt,
             updatedAt: Date.now(),
         };
         const updatedNote = await ctx.db.replace(_id,update);
@@ -64,8 +77,7 @@ export const updateNote = mutation({
     }
 })
 export const getNotes = query({
-    args: {
-    },
+    args: {},
     handler: async (ctx)=>{
         const userId = getAuthUserId(ctx);
         if (!userId) {
