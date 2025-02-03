@@ -29,7 +29,7 @@ export default function ProductPage() {
         <div className="w-full text-center py-14 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-lg">
         <h1 className=" text-3xl font-bold text-center">Good evening , {viwer?viwer.name:"User Not Found"}</h1>
         </div>
-          <h2 className="text-2xl font-bold py-5">Recent Workspaces : </h2>
+          <h2 className=" text-brand_tertiary/50 text-sm font-medium pb-2 pt-5 px-1">Recent Workspaces </h2>
           {
             recentWorkspaces?.length!==0?     
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
