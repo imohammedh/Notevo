@@ -105,7 +105,7 @@ export default function AppSidebar() {
                     className=" px-2 h-8 group" 
                     onClick={() => workingSpace.slug && handlePush(workingSpace.slug, workingSpace._id)}
                   >
-                    <Notebook size="16"/>{workingSpace.name.length > 30 ? `${workingSpace.name.substring(0, 30)}...` : workingSpace.name}
+                    <Notebook size="16"/>{workingSpace.name.length > 20 ? `${workingSpace.name.substring(0, 20)}...` : workingSpace.name}
                     <WorkingSpaceSettings 
                       className={`absolute top-0 right-0 transition-opacity duration-200 ${hoveredWorkingSpaceId === workingSpace._id ? 'opacity-100' : 'opacity-0'}`}
                       workingSpaceId={workingSpace._id} 

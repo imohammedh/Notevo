@@ -44,7 +44,7 @@ export default function WorkingSpacePage() {
                                     <div className=" relative group p-3.5 w-full h-40 border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105" >
                                       <button onClick={() => note.slug && handleRouting(note._id, note.slug)} className="w-full h-full flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start gap-1">
                                         <h1 className="text-lg font-medium text-nowrap">
-                                          {note.title ? (note.title.length > 30 ? `${note.title.substring(0, 30)}...` : note.title) : 'Untitled'}
+                                          {note.title ? (note.title.length > 20 ? `${note.title.substring(0, 20)}...` : note.title) : 'Untitled'}
                                         </h1>
                                       </button>
                                       <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">

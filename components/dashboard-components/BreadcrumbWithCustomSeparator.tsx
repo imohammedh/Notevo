@@ -1,57 +1,60 @@
-import { Slash } from "lucide-react"
-import { usePathname } from 'next/navigation'
- 
+import { Slash } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-} from "@/components/ui/breadcrumb"
- 
-export default function BreadcrumbWithCustomSeparator() {
- const pathname = usePathname();
-  const pathSegments = pathname.split('/').filter((segment) => segment);
+} from "@/components/ui/breadcrumb";
 
+const slugToNameMap = {
+  'workspace-slug': 'Workspace Name',
+  'note-slug': 'Note Title',
+};
+
+export default function BreadcrumbWithCustomSeparator() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const pathSegments = pathname.split('/').filter((segment) => segment);
+  
+  // Capture query parameters
+  const queryString = searchParams.toString(); // Get query string like ?id=...
+  
   const generateBreadcrumbs = () => {
     const breadcrumbs = pathSegments.map((segment, index) => {
       const href = '/' + pathSegments.slice(0, index + 1).join('/');
+      const fullHref = queryString ? `${href}?${queryString}` : href; // Append query string if exists
       const isLast = index === pathSegments.length - 1;
+      const name = slugToNameMap[segment as keyof typeof slugToNameMap] || segment;
 
       return (
-        <div key={href} className="flex items-center">
+        <div key={fullHref} className="flex items-center">
           <BreadcrumbItem>
             {isLast ? (
-              <BreadcrumbPage>{segment}</BreadcrumbPage>
+              <BreadcrumbPage>{name}</BreadcrumbPage>
             ) : (
-              <BreadcrumbLink href={href}>{segment}</BreadcrumbLink>
+              <BreadcrumbLink href={fullHref}>{name}</BreadcrumbLink>
             )}
           </BreadcrumbItem>
-          {!isLast && <Slash />}
+          {!isLast && <Slash className="w-3 h-3 mx-1" />}
         </div>
       );
     });
 
-    return [
-      <div key="/" className="flex items-center">
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        {pathSegments.length > 0 && <Slash />}
-      </div>,
-      ...breadcrumbs,
-    ];
+    return [...breadcrumbs];
   };
+
   return (
-        <div className="bg-transparent py-2">
+    <div className="bg-transparent py-2">
       <Breadcrumb className="container mx-auto">
-        <div> 
+        <div>
           <BreadcrumbList className="flex flex-nowrap overflow-x-hidden whitespace-nowrap">
             {generateBreadcrumbs()}
           </BreadcrumbList>
         </div>
       </Breadcrumb>
     </div>
-  )
+  );
 }
- 
