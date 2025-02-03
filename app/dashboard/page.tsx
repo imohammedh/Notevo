@@ -1,5 +1,5 @@
 "use client";
-import { Clock, Divide, Plus } from "lucide-react";
+import { Clock, Plus } from "lucide-react";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
