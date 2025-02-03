@@ -102,3 +102,19 @@ export const deleteWorkingSpace = mutation({
         await ctx.db.delete(_id);
     }
 })
+export const getRecentWorkingSpaces = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await getAuthUserId(ctx);
+        if (!userId) {
+            throw new Error("Not authenticated");
+        }
+        // Fetch recent working spaces sorted by updatedAt
+        const recentWorkingSpaces = await ctx.db
+            .query("workingSpaces")
+            .withIndex("by_userId", (q) => q.eq("userId", userId))
+            .order("asc")
+            .collect();
+        return recentWorkingSpaces;
+    }
+});

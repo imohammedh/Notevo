@@ -1,14 +1,51 @@
 "use client";
+import { Clock } from "lucide-react";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import ADiv from "@/components/dashboard-components/ADiv";
+import { useRouter } from "next/navigation";
+import WorkingSpaceSettings from "@/components/dashboard-components/WorkingSpaceSettings";
 export default function ProductPage() {
   const viwer = useQuery(api.users.viewer);
+  const recentWorkspaces = useQuery(api.mutations.workingSpaces.getRecentWorkingSpaces);
+  const router = useRouter()
+  const handleRouting = (slug: string,workingSpaceid:any)=>{
+    router.push(`/dashboard/${slug}?id=${workingSpaceid}`);
+  }
   return (
     <MaxWContainer>
-      <ADiv className="w-full text-center py-14 bg-gradient-to-r from-transparent via-brand_fourthary to-transparent">
+      <ADiv>
+        <div className="w-full text-center py-14 bg-gradient-to-r from-transparent via-brand_fourthary to-transparent">
         <h1 className=" text-3xl font-bold text-center">Good evening , {viwer?viwer.name:"User Not Found"}</h1>
+        </div>
+          <h2 className="text-2xl font-bold py-5">Recent Workspaces : </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            { 
+              recentWorkspaces?.map((orkspaces) => (
+                <div key={orkspaces._id}>
+                  {
+                    (
+                        <div className=" relative group p-3.5 w-full h-40 border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105" >
+                          <button onClick={()=>orkspaces.slug&&handleRouting(orkspaces.slug,orkspaces._id)} className=" w-full h-full flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start gap-1">
+                            <h1 className="text-lg font-medium text-nowrap">
+                              {orkspaces.name.length > 30 ? `${orkspaces.name.substring(0, 30)}...` : orkspaces.name}
+                            </h1>
+                          </button>
+                          <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
+                            <WorkingSpaceSettings workingSpaceId={orkspaces._id}/>  
+                          </span>
+                          <span className="flex justify-center items-center gap-1 absolute bottom-5 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
+                            <Clock size="16"/>
+                            <p className=" font-normal text-sm">{`${new Date(orkspaces.updatedAt).toLocaleDateString()} . ${new Date(orkspaces.updatedAt).toLocaleTimeString()}`}</p>
+                          </span>
+                        </div>
+                    )
+                  }
+                </div>
+              ))
+            }
+          </div>
       </ADiv>
     </MaxWContainer>
   );
