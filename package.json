@@ -44,6 +44,7 @@
     "resend": "^4.1.1",
     "sonner": "^1.7.3",
     "tailwind-merge": "^2.6.0",
+    "tailwind-scrollbar": "^4.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1"
   },
