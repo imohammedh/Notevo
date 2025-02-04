@@ -27,7 +27,9 @@ export default function ProductPage() {
     <MaxWContainer>
       <ADiv>
         <div className="w-full text-center py-14 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-lg">
-        <h1 className=" text-3xl font-bold text-center">Good evening , {viwer?viwer.name:"User Not Found"}</h1>
+        <h1 className=" text-xl sm:text-3xl font-bold text-center">
+          Good evening, {viwer?.name ? `${viwer.name.split(" ")[0].length > 10 ? `${viwer.name.split(" ")[0].substring(0, 10)}...` : viwer.name.split(" ")[0]} ${viwer.name.split(" ")[1]?.charAt(0)}.` : "User Not Found"}
+        </h1>
         </div>
           <h2 className=" text-brand_tertiary/50 text-sm font-medium pb-2 pt-5 px-1">Recent Workspaces </h2>
           {
