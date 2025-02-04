@@ -73,13 +73,16 @@ export const updateTable = mutation({
     }
 })
 export const getTables = query({
-    args: {},
-    handler: async (ctx)=>{
+    args: {
+        workingSpaceId:v.any()
+    },
+    handler: async (ctx,args)=>{
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        const tables = ctx.db.query("notesTables").collect();
+        const {workingSpaceId}=args
+        const tables = ctx.db.query("notesTables").withIndex("by_workingSpaceId", (q) => q.eq("workingSpaceId", workingSpaceId)).collect();
         return tables;
     }
 })

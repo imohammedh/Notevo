@@ -1,19 +1,19 @@
 import { NotepadText } from "lucide-react"
-import CreateTableBtn from "./CreateTableBtn"
+import CreateNoteBtn from "./CreateNoteBtn";
 import MaxWContainer from "../ui/MaxWContainer";
-interface TablesNotFoundProps {
-  workingSpaceId: string | any;
+interface NoteNotFoundProps {
+  notesTableId: string | any;
 }
-export default function TablesNotFound({workingSpaceId}: TablesNotFoundProps) {
+export default function NoteNotFound({notesTableId}: NoteNotFoundProps) {
   return (
     <MaxWContainer>
         <div className="w-full text-center py-14">
             <div className="flex flex-col items-center justify-center gap-3">
             <NotepadText size="50"/>
-            <h1 className=" text-3xl font-bold text-center">Your working Space looks empty </h1>
+            <h1 className=" text-3xl font-bold text-center">Your table looks empty </h1>
             </div>
             <div className="w-full flex items-center justify-center mt-5">
-            <CreateTableBtn workingSpaceId={workingSpaceId} />
+                <CreateNoteBtn notesTableId={notesTableId}/>
             </div>
         </div>
     </MaxWContainer>
