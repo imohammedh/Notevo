@@ -12,13 +12,11 @@ export default function NotePage() {
     const updateNote = useMutation(api.mutations.notes.updateNote);
     const getNotes = useQuery(api.mutations.notes.getNotes);
     const getNote = getNotes?.find(note => note._id === noteid);
-    console.log(getNote?.body)
     const initialContent: JSONContent = getNote?.body
     ? JSON.parse(getNote?.body) 
     : { type: 'doc', content: [{ type: 'paragraph' }] }; 
 
     const [content, setContent] = useState<JSONContent>(initialContent);
-    console.log(content)
 
     useEffect(() => {
       if (getNote?.body) {
