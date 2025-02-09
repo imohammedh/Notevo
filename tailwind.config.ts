@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["selector", "class"],
   content: [
+	"./app/**/*.{js,ts,jsx,tsx}", // Note the addition of the `app` directory.
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -24,6 +25,19 @@ export default {
   			brand_fourthary: '#171717',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+			white: "var(--novel-white)",
+        	stone: {
+        	  50: "var(--novel-stone-50)",
+        	  100: "var(--novel-stone-100)",
+        	  200: "var(--novel-stone-200)",
+        	  300: "var(--novel-stone-300)",
+        	  400: "var(--novel-stone-400)",
+        	  500: "var(--novel-stone-500)",
+        	  600: "var(--novel-stone-600)",
+        	  700: "var(--novel-stone-700)",
+        	  800: "var(--novel-stone-800)",
+        	  900: "var(--novel-stone-900)",
+        	},
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -77,8 +91,13 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		}	
   	}
-  },
-  plugins: [require("tailwindcss-animate"),require('tailwind-scrollbar')],
+},
+  variants: {
+		extend: {
+		typography: ['dark'],
+		},
+	},
+  plugins: [require("tailwindcss-animate"),require('tailwind-scrollbar'),require("@tailwindcss/typography")],
 } satisfies Config;
