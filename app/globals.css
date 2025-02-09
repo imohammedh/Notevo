@@ -39,6 +39,31 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --novel-white: rgb(255 255 255);
+    --novel-black: rgb(25 25 25);
+    --novel-stone-50: rgb(35 35 34);
+    --novel-stone-100: rgb(41 37 36);
+    --novel-stone-200: rgb(66 69 71);
+    --novel-stone-300: rgb(112 118 123);
+    --novel-stone-400: rgb(160 167 173);
+    --novel-stone-500: rgb(193 199 204);
+    --novel-stone-600: rgb(212 217 221);
+    --novel-stone-700: rgb(229 232 235);
+    --novel-stone-800: rgb(232 234 235);
+    --novel-stone-900: rgb(240, 240, 241);
+  
+    --novel-highlight-default: #000000;
+    --novel-highlight-purple: #3f2c4b;
+    --novel-highlight-red: #5c1a1a;
+    --novel-highlight-yellow: #5c4b1a;
+    --novel-highlight-blue: #1a3d5c;
+    --novel-highlight-green: #1a5c20;
+    --novel-highlight-orange: #5c3a1a;
+    --novel-highlight-pink: #5c1a3a;
+    --novel-highlight-gray: #3a3a3a;
+  
+    --font-title: "Cal Sans", sans-serif;
   }
   .dark {
     --background: 20 14.3% 4.1%;
@@ -73,6 +98,31 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --novel-white: rgb(255 255 255);
+    --novel-black: rgb(25 25 25);
+    --novel-stone-50: rgb(35 35 34);
+    --novel-stone-100: rgb(41 37 36);
+    --novel-stone-200: rgb(66 69 71);
+    --novel-stone-300: rgb(112 118 123);
+    --novel-stone-400: rgb(160 167 173);
+    --novel-stone-500: rgb(193 199 204);
+    --novel-stone-600: rgb(212 217 221);
+    --novel-stone-700: rgb(229 232 235);
+    --novel-stone-800: rgb(232 234 235);
+    --novel-stone-900: rgb(240, 240, 241);
+  
+    --novel-highlight-default: #000000;
+    --novel-highlight-purple: #3f2c4b;
+    --novel-highlight-red: #5c1a1a;
+    --novel-highlight-yellow: #5c4b1a;
+    --novel-highlight-blue: #1a3d5c;
+    --novel-highlight-green: #1a5c20;
+    --novel-highlight-orange: #5c3a1a;
+    --novel-highlight-pink: #5c1a3a;
+    --novel-highlight-gray: #3a3a3a;
+  
+    --font-title: "Cal Sans", sans-serif;
   }
 }
 html {
@@ -80,6 +130,7 @@ html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
 }
+
 @layer base {
   * {
     @apply border-border;
@@ -87,4 +138,31 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+pre {
+  background: #1e1e1e;
+  /* Dark background */
+  border-radius: 0.5rem;
+  color: #d4d4d4;
+  /* Light gray text for readability */
+  font-family: "JetBrains Mono", monospace;
+  padding: 1rem;
+  overflow-x: auto;
+  /* Horizontal scrolling for long code */
+  line-height: 1.5;
+  white-space: pre-wrap;
+  /* Prevents horizontal overflow */
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.ProseMirror .placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  /* Adjust for dark/light themes */
 }

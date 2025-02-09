@@ -3,48 +3,52 @@ import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { useSearchParams } from "next/navigation";
-import { Editor } from "novel";
 import { useState, useEffect } from "react";
-import { JSONContent } from '@tiptap/react';
+import { JSONContent } from "@tiptap/react";
+import TailwindAdvancedEditor from "@/components/advanced-editor";
+import { useDebouncedCallback } from "use-debounce";
+
 export default function NotePage() {
-    const searchParams = useSearchParams() 
-    const noteid=searchParams.get("id")
-    const updateNote = useMutation(api.mutations.notes.updateNote);
-    const getNotes = useQuery(api.mutations.notes.getNotes);
-    const getNote = getNotes?.find(note => note._id === noteid);
-    const initialContent: JSONContent = getNote?.body
-    ? JSON.parse(getNote?.body) 
-    : { type: 'doc', content: [{ type: 'paragraph' }] }; 
+  const searchParams = useSearchParams();
+  const noteid = searchParams.get("id");
 
-    const [content, setContent] = useState<JSONContent>(initialContent);
+  const updateNote = useMutation(api.mutations.notes.updateNote);
+  const getNotes = useQuery(api.mutations.notes.getNotes);
+  const getNote = getNotes?.find(note => note._id === noteid);
 
-    useEffect(() => {
-      if (getNote?.body) {
-          setContent(JSON.parse(getNote.body));
-      }
-    }, [getNote]);
+  const initialContent: JSONContent = getNote?.body
+    ? JSON.parse(getNote.body)
+    : { type: "doc", content: [{ type: 'paragraph' }] };
+    
 
-    const handleKeyUp = (editorInstance: any) => {
-        const content = editorInstance.getJSON();
-        updateNote({
-          _id: noteid,
-          notesTableId: getNote?.notesTableId,
-          title: getNote?.title,
-          body: JSON.stringify(content),
-          createdAt: getNote?.createdAt
-        });
-        setContent(content);
-    };
+  const [content, setContent] = useState<JSONContent>(initialContent);
+
+  useEffect(() => {
+    if (getNote?.body) {
+      setContent(JSON.parse(getNote.body));
+    }
+  }, [getNote]);
+
+  const debouncedUpdateNote = useDebouncedCallback((updatedContent: JSONContent) => {
+    updateNote({
+      _id: noteid,
+      notesTableId: getNote?.notesTableId,
+      title: getNote?.title,
+      body: JSON.stringify(updatedContent),
+      createdAt: getNote?.createdAt,
+    });
+  }, 500);
+
   return (
     <MaxWContainer>
-      <Editor
-          className="bg-none text-brand_tertiary"
-          defaultValue={content}
-          onUpdate={handleKeyUp}
-          onDebouncedUpdate={handleKeyUp}
-          disableLocalStorage={true}
+      <TailwindAdvancedEditor 
+        initialContent={content} 
+        onUpdate={(editor) => {
+          const updatedContent = editor.getJSON();
+          setContent(updatedContent);
+          debouncedUpdateNote(updatedContent);
+        }}
       />
     </MaxWContainer>
-  )
+  );
 }
-//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
