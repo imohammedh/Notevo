@@ -10,7 +10,7 @@ export default function SignUpToday() {
           <br className="hidden sm:block" /> Sign Up Today and Start Your Free Trial
         </h3>
         <Button className="w-full sm:w-auto">
-          <Link href="/signup" className="text-sm sm:text-base px-6 sm:px-8 lg:px-10">
+          <Link href="/signin" className="text-sm sm:text-base px-6 sm:px-8 lg:px-10">
             Sign Up
           </Link>
         </Button>

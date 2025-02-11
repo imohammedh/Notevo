@@ -1,5 +1,11 @@
 import type { Config } from "tailwindcss";
-
+const defaultTheme = require("tailwindcss/defaultTheme");
+ 
+const colors = require("tailwindcss/colors");
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
+ 
 export default {
   darkMode: ["selector", "class"],
   content: [
@@ -18,6 +24,17 @@ export default {
   		}
   	},
   	extend: {
+		animation: {
+        	scroll:
+          		"scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+      		},
+		keyframes: {
+        scroll: {
+          to: {
+            transform: "translate(calc(-50% - 0.5rem))",
+          },
+        },
+      },
   		colors: {
   			brand_primary: '#0a0a0a',
   			brand_secondary: '#fafafa',
@@ -91,7 +108,7 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}	
+  		}
   	}
 },
   variants: {
@@ -99,5 +116,16 @@ export default {
 		typography: ['dark'],
 		},
 	},
-  plugins: [require("tailwindcss-animate"),require('tailwind-scrollbar'),require("@tailwindcss/typography")],
+  plugins: [require("tailwindcss-animate"),require('tailwind-scrollbar'),require("@tailwindcss/typography"),addVariablesForColors]
 } satisfies Config;
+
+function addVariablesForColors({ addBase, theme }: any) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+ 
+  addBase({
+    ":root": newVars,
+  });
+}
