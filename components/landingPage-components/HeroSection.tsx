@@ -12,7 +12,7 @@ export default function HeroSection() {
         whileInView={{y:0,opacity:1}}
         transition={{ease:"easeInOut",duration:0.7,delay:0.2}}
         viewport={{ once: true, amount: 0.5 }}
-        className="min-h-[90vh] md:min-h-[80vh] mt-16 md:mt-24 lg:mt-44 flex justify-center items-center w-full">
+        className="min-h-[90vh] md:min-h-[80vh] mt-1 md:mt-20 lg:mt-32 flex justify-center items-center w-full">
         <MaxWContainer className="*:text-center relative px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl sm:text-4xl lg:text-6xl font-semibold pb-3 lg:pb-5">
             Take Notes to the Next Level with <br className="hidden sm:block" />
