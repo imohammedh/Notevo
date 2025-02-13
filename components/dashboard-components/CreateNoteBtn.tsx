@@ -29,7 +29,7 @@ export default function CreateNoteBtn({ notesTableId, className }:CreateNoteBtnP
       onClick={handleCreateNote}
       disabled={loading}
     >
-      {loading ? "New Note..." : <><Plus size="20" /> New Note</>}
+      {loading ? "New Note..." : <><Plus size="20" /> <p className=" hidden sm:block">New Note</p></>}
     </Button>
   );
 }

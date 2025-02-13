@@ -26,11 +26,11 @@ export default function CreateTableBtn({ workingSpaceId, className }: CreateTabl
 
   return (
     <Button
-      className={cn("flex items-center justify-between gap-2  ", className)}
+      className={cn("flex items-center justify-between gap-2", className)}
       onClick={handleCreateTable}
       disabled={loading}
     >
-      {loading ? "Create Table..." : <><Plus size="20" /> Create Table</>}
+      {loading ? "Create Table..." : <><Plus size="20" /> <p className="hidden sm:block">Create Table</p></>}
     </Button>
   );
 }
