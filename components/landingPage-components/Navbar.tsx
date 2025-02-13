@@ -8,16 +8,16 @@ import { motion,useMotionValueEvent,useScroll} from 'framer-motion'
 import { useState } from "react"
 export default function Navbar() {
 
-    const { scrollY } = useScroll()
-    const [,setInView] = useState<boolean>(false)
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        if(latest>150){
-            setInView(true)
-        }else{
-            setInView(false)
-        }
-      })
+  const { scrollY } = useScroll()
+  const [,setInView] = useState<boolean>(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  useMotionValueEvent(scrollY, "change", (latest) => {
+      if(latest>150){
+          setInView(true)
+      }else{
+          setInView(false)
+      }
+  })
         
   return (
     <motion.div 
