@@ -1,5 +1,5 @@
 "use client";
-import { Notebook, Home, Plus, Search } from "lucide-react"
+import { Notebook, Home, Plus, Search, CircleUserRound,CreditCard, LogOut } from "lucide-react"
 import { TbSelector } from "react-icons/tb";
 import {
   Sidebar,
@@ -135,19 +135,23 @@ export default function AppSidebar() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  side="left"
+                  side="top"
                   className=" rounded-lg m-2 p-2 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
                 >
                   <DropdownMenuItem className=" w-full">
-                    <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>Account</Button>
+                    <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>
+                      <CircleUserRound size="16"/> Account
+                    </Button>
                   </DropdownMenuItem>
                   <DropdownMenuItem className=" w-full">
-                    <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>Billing</Button>
+                    <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>
+                      <CreditCard size="16"/> Billing
+                    </Button>
                   </DropdownMenuItem>
-                  <SidebarSeparator/>
+                  <SidebarSeparator className=" opacity-30 my-2"/>
                   <DropdownMenuItem className=" w-full">
                     <Button variant="SidebarMenuButton" className=" w-full" disabled={loading} onClick={handleSignOut}>
-                      {loading ? "Signing out..." : "Sign out"}
+                      {loading ? "Signing out..." : <><LogOut size="16"/> Sign out</>}
                     </Button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
