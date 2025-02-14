@@ -25,7 +25,7 @@ export default function ProductPage() {
     router.push(`/dashboard/${slug}?id=${workingSpaceid}`);
   }
   return (
-    <MaxWContainer className=" relative">
+    <MaxWContainer className=" relative mb-20">
       <ADiv>
         <div className="w-full text-center py-14 my-5 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-lg">
         <h1 className=" text-xl sm:text-3xl font-bold text-center">

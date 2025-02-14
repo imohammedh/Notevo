@@ -55,7 +55,7 @@ export default function FloatingNavbar({workingSpaceId}:FloatingNavbarProps) {
   }
 
   return (
-    <div className="fixed w-full bottom-0 right-0 h-16 bg-brand_fourthary/90 backdrop-blur border border-solid border-brand_tertiary/5 rounded-t-2xl block sm:hidden ">
+    <div className="fixed w-full bottom-0 right-0 h-14 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/5 rounded-t-2xl block sm:hidden ">
       <div className=" w-full h-full flex justify-center items-center gap-5">
         <Button 
           variant="Trigger" 
@@ -92,7 +92,7 @@ export default function FloatingNavbar({workingSpaceId}:FloatingNavbarProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent
               side="top"
-              className=" rounded-lg m-2 p-2 bg-brand_fourthary backdrop-blur border border-solid border-brand_tertiary/10 w-fit"
+              className=" rounded-lg m-2 p-2 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/10 w-fit"
               >
             <DropdownMenuItem className=" w-full">
               <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>
