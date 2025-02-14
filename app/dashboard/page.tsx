@@ -8,25 +8,26 @@ import { useRouter } from "next/navigation";
 import WorkingSpaceSettings from "@/components/dashboard-components/WorkingSpaceSettings";
 import WorkingSpaceNotFound from "@/components/dashboard-components/WorkingSpaceNotFound";
 import { useState } from "react";
+import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";
 export default function ProductPage() {
   const viwer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(api.mutations.workingSpaces.getRecentWorkingSpaces);
   const createWorkingSpace = useMutation(api.mutations.workingSpaces.createWorkingSpace);
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
     const handleCreateWorkingSpace = async () => {
-        setLoading(true);
-        await createWorkingSpace({ name: "Untitled" });
-        setLoading(false);
+      setLoading(true);
+      await createWorkingSpace({ name: "Untitled" });
+      setLoading(false);
     }
   const router = useRouter()
   const handleRouting = (slug: string,workingSpaceid:any)=>{
     router.push(`/dashboard/${slug}?id=${workingSpaceid}`);
   }
   return (
-    <MaxWContainer>
+    <MaxWContainer className=" relative">
       <ADiv>
-        <div className="w-full text-center py-14 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-lg">
+        <div className="w-full text-center py-14 my-5 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-lg">
         <h1 className=" text-xl sm:text-3xl font-bold text-center">
           Good evening, {viwer?.name ? `${viwer.name.split(" ")[0].length > 10 ? `${viwer.name.split(" ")[0].substring(0, 10)}...` : viwer.name.split(" ")[0]} ${viwer.name.split(" ")[1]?.charAt(0)}.` : "User Not Found"}
         </h1>
@@ -66,6 +67,7 @@ export default function ProductPage() {
             :<WorkingSpaceNotFound/>
           } 
       </ADiv>
+      <FloatingNavbar/>
     </MaxWContainer>
   );
 }

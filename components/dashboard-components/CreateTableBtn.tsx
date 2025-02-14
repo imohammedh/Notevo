@@ -26,7 +26,7 @@ export default function CreateTableBtn({ workingSpaceId, className }: CreateTabl
 
   return (
     <Button
-      className={cn("flex items-center justify-between gap-2", className)}
+      className={cn("lg:flex items-center justify-between gap-2 hidden", className)}
       onClick={handleCreateTable}
       disabled={loading}
     >
