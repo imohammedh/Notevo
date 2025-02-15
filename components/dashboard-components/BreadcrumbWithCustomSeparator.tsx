@@ -19,17 +19,13 @@ export default function BreadcrumbWithCustomSeparator() {
   const currentQuery = new URLSearchParams(searchParams);
   const currentId = currentQuery.get("id");
 
-  // Persist previousId across re-renders
   const previousIdRef = useRef<string | null>(null);
 
-  // Store workspace ID only if pathSegments.length === 2
   useEffect(() => {
     if (pathSegments.length === 2 && currentId) {
       previousIdRef.current = currentId;
     }
-  }, [pathSegments.length, currentId]); // Runs only when these change
-
-  console.log("Previous ID (Workspace):", previousIdRef.current);
+  }, [pathSegments.length, currentId]); 
 
   return (
     <div className="bg-transparent py-2">
@@ -39,22 +35,24 @@ export default function BreadcrumbWithCustomSeparator() {
             const href = "/" + pathSegments.slice(0, index + 1).join("/");
             let fullHref = href;
 
-            // If navigating back to the workspace, use the stored previousId
             if (index === 1 && previousIdRef.current) {
               fullHref += `?id=${previousIdRef.current}`;
             }
 
             const isLast = index === pathSegments.length - 1;
             const name = parseSlug(segment);
+            const truncatedName = window.innerWidth < 768 
+              ? (name.length > 10 ? name.slice(0, 10) + "..." : name) 
+              : (name.length > 40 ? name.slice(0, 40) + "..." : name);
 
             return (
               <div key={fullHref} className="flex items-center">
                 <BreadcrumbItem>
                   {isLast ? (
-                    <BreadcrumbPage>{name}</BreadcrumbPage>
+                    <BreadcrumbPage>{truncatedName}</BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink asChild>
-                      <Link href={fullHref}>{name}</Link>
+                      <Link href={fullHref}>{truncatedName}</Link>
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
