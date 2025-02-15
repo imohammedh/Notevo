@@ -19,7 +19,6 @@ export default function FloatingNavbar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams().get('id');
-  console.log(searchParams)
   const [, ] = useState(false);
   const [handleCreateTableloading, sethandleCreateTableloading] = useState(false);
   const [Signoutloading, setSignoutloading] = useState(false);

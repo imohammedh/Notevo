@@ -1,6 +1,7 @@
 import { Slash } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-
+import { useRef, useEffect } from "react";
+import Link from "next/link";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,52 +9,60 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-
-const slugToNameMap = {
-  'workspace-slug': 'Workspace Name',
-  'note-slug': 'Note Title',
-};
+import { parseSlug } from "@/lib/parseSlug";
 
 export default function BreadcrumbWithCustomSeparator() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const pathSegments = pathname.split('/').filter((segment) => segment);
-  
-  // Capture query parameters
-  const queryString = searchParams.toString(); // Get query string like ?id=...
-  
-  const generateBreadcrumbs = () => {
-    const breadcrumbs = pathSegments.map((segment, index) => {
-      const href = '/' + pathSegments.slice(0, index + 1).join('/');
-      const fullHref = queryString ? `${href}?${queryString}` : href; // Append query string if exists
-      const isLast = index === pathSegments.length - 1;
-      const name = slugToNameMap[segment as keyof typeof slugToNameMap] || segment;
+  const pathSegments = pathname.split("/").filter((segment) => segment);
 
-      return (
-        <div key={fullHref} className="flex items-center">
-          <BreadcrumbItem>
-            {isLast ? (
-              <BreadcrumbPage>{name}</BreadcrumbPage>
-            ) : (
-              <BreadcrumbLink href={fullHref}>{name}</BreadcrumbLink>
-            )}
-          </BreadcrumbItem>
-          {!isLast && <Slash className="w-3 h-3 mx-1" />}
-        </div>
-      );
-    });
+  const currentQuery = new URLSearchParams(searchParams);
+  const currentId = currentQuery.get("id");
 
-    return [...breadcrumbs];
-  };
+  // Persist previousId across re-renders
+  const previousIdRef = useRef<string | null>(null);
+
+  // Store workspace ID only if pathSegments.length === 2
+  useEffect(() => {
+    if (pathSegments.length === 2 && currentId) {
+      previousIdRef.current = currentId;
+    }
+  }, [pathSegments.length, currentId]); // Runs only when these change
+
+  console.log("Previous ID (Workspace):", previousIdRef.current);
 
   return (
     <div className="bg-transparent py-2">
       <Breadcrumb className="container mx-auto">
-        <div>
-          <BreadcrumbList className="flex flex-nowrap overflow-x-hidden whitespace-nowrap">
-            {generateBreadcrumbs()}
-          </BreadcrumbList>
-        </div>
+        <BreadcrumbList className="flex flex-nowrap overflow-x-hidden whitespace-nowrap">
+          {pathSegments.map((segment, index) => {
+            const href = "/" + pathSegments.slice(0, index + 1).join("/");
+            let fullHref = href;
+
+            // If navigating back to the workspace, use the stored previousId
+            if (index === 1 && previousIdRef.current) {
+              fullHref += `?id=${previousIdRef.current}`;
+            }
+
+            const isLast = index === pathSegments.length - 1;
+            const name = parseSlug(segment);
+
+            return (
+              <div key={fullHref} className="flex items-center">
+                <BreadcrumbItem>
+                  {isLast ? (
+                    <BreadcrumbPage>{name}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink asChild>
+                      <Link href={fullHref}>{name}</Link>
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+                {!isLast && <Slash className="w-3 h-3 mx-1" />}
+              </div>
+            );
+          })}
+        </BreadcrumbList>
       </Breadcrumb>
     </div>
   );
