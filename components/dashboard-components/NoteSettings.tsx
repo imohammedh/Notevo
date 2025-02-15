@@ -7,7 +7,7 @@ import {
     DropdownMenuGroup,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaEllipsisVertical } from "react-icons/fa6";
+import { FaEllipsisVertical,FaRegTrashCan } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -51,7 +51,7 @@ export default function NoteSettings({noteId}:NoteSettingsProps) {
                     <FaEllipsisVertical size="18" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 p-2 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg">
+            <DropdownMenuContent className="w-52 p-2 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg">
                 <DropdownMenuGroup className="relative">
                     <Input
                         type="text"
@@ -59,6 +59,7 @@ export default function NoteSettings({noteId}:NoteSettingsProps) {
                         value={inputValue}
                         onChange={handleInputChange}
                         onKeyUp={handleKeyUp}
+                        className=" text-brand_tertiary border-brand_tertiary/20"
                     />
                 </DropdownMenuGroup>
                 <Button
@@ -67,7 +68,7 @@ export default function NoteSettings({noteId}:NoteSettingsProps) {
                     onClick={handleDelete}
                     disabled={isLoading}
                 >
-                    {isLoading ? "Deleting..." : "Delete Note"}
+                    {isLoading ? <><FaRegTrashCan size="16"/> Deleting...</> : <><FaRegTrashCan size="16"/>Delete</>}
                 </Button>
             </DropdownMenuContent>
         </DropdownMenu>

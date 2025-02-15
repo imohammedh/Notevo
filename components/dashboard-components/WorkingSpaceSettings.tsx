@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { FaEllipsis } from "react-icons/fa6";
+import { FaEllipsis,FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 interface WorkingSpaceSettings {
     workingSpaceId: string | any;
@@ -44,7 +44,7 @@ export default function WorkingSpaceSettings({ className,workingSpaceId }: Worki
                     <FaEllipsis size="16" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 p-2 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg">
+            <DropdownMenuContent className="w-52 p-2 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg">
                 <DropdownMenuGroup className="relative">
                     <Input
                         type="text"
@@ -52,6 +52,7 @@ export default function WorkingSpaceSettings({ className,workingSpaceId }: Worki
                         value={inputValue}
                         onChange={handleInputChange}
                         onKeyUp={handleKeyUp}
+                        className=" text-brand_tertiary border-brand_tertiary/20"
                     />
                 </DropdownMenuGroup>
                 <Button
@@ -60,7 +61,7 @@ export default function WorkingSpaceSettings({ className,workingSpaceId }: Worki
                     onClick={handleDelete}
                     disabled={isDeleting}
                 >
-                    {isDeleting ? "Deleting..." : "Delete Working Space"}
+                    {isDeleting ? <><FaRegTrashCan size="16"/> Deleting...</> : <><FaRegTrashCan size="16"/> Delete</>}
                 </Button>
             </DropdownMenuContent>
         </DropdownMenu>
