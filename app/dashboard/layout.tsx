@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <main className="w-full relative"> 
         <div className=" p-2 flex items-center justify-start gap-2">
           <SidebarTrigger className=" lg:block hidden"/>
-          {/* <BreadcrumbWithCustomSeparator/> */}
+          <BreadcrumbWithCustomSeparator/>
         </div>
         {children}
       </main>

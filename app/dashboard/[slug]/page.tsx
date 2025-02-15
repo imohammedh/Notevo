@@ -31,7 +31,7 @@ export default function WorkingSpacePage() {
     setLoading(false);
   }
   return (
-    <MaxWContainer className=" relative">
+    <MaxWContainer className=" relative mb-20">
     <ADiv>
       {
         (getNoteTable?.length!==0)?
