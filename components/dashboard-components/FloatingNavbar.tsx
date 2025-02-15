@@ -14,11 +14,7 @@ import { Button } from "../ui/button";
 import { CircleUser, Home, Plus, Search , CircleUserRound,CreditCard, LogOut } from 'lucide-react';
 import Link from "next/link";
 import { truncate } from "fs";
-interface FloatingNavbarProps {
-  workingSpaceId?: string | any;
-
-}
-export default function FloatingNavbar({workingSpaceId}:FloatingNavbarProps) {
+export default function FloatingNavbar() {
   const User = useQuery(api.users.viewer);
   const router = useRouter();
   const pathname = usePathname();
@@ -92,7 +88,7 @@ export default function FloatingNavbar({workingSpaceId}:FloatingNavbarProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent
               side="top"
-              className=" rounded-lg m-2 p-2 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/10 w-fit"
+              className=" rounded-lg m-2 p-2 bg-brand_fourthary backdrop-blur border border-solid border-brand_tertiary/10 w-fit"
               >
             <DropdownMenuItem className=" w-full">
               <Button variant="SidebarMenuButton" className=" w-full" disabled={true}>
