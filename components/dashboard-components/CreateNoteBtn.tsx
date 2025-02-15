@@ -24,7 +24,7 @@ export default function CreateNoteBtn({ notesTableId, className }:CreateNoteBtnP
 
   return (
     <Button
-      className={cn(" flex items-center justify-between gap-2 ", className)}
+      className={cn(" flex items-center justify-between gap-2 h-8 px-2 ", className)}
       variant="ghost"
       onClick={handleCreateNote}
       disabled={loading}
