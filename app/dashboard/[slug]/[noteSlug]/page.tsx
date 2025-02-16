@@ -19,10 +19,9 @@ export default function NotePage() {
   const initialContent: JSONContent = getNote?.body
     ? JSON.parse(getNote.body)
     : { type: "doc", content: [{ type: 'paragraph' }] };
-    
 
   const [content, setContent] = useState<JSONContent>(initialContent);
-
+  
   useEffect(() => {
     if (getNote?.body) {
       setContent(JSON.parse(getNote.body));

@@ -66,7 +66,7 @@ export const updateNote = mutation({
         }
         const update = {
             title: title ?? "untitled",
-            body: body ?? "untitled",
+            body: body ,
             notesTableId: notesTableId,
             slug:slug??"untitled",
             createdAt: createdAt,
