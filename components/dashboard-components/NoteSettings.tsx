@@ -26,11 +26,13 @@ export default function NoteSettings({noteId}:NoteSettingsProps) {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
     };
+    const viwer = useQuery(api.users.viewer);
 
     const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key) {
             updateNote({
               _id: noteId,
+              userid:viwer?._id,
               notesTableId:getNote?.notesTableId,
               title:inputValue,
               body: getNote?.body,
