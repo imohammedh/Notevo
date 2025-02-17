@@ -27,7 +27,7 @@ export default function WorkingSpacePage() {
   }
   const handlecreateNote = async (notesTableId:any) => {
     setLoading(true);
-    await createNote({ notesTableId: notesTableId, title: "Untitled" });
+    await createNote({ notesTableId: notesTableId, title: "Untitled",workingSpacesSlug: Params.slug});
     setLoading(false);
   }
   return (

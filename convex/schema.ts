@@ -30,14 +30,16 @@ export default defineSchema({
   
   notes: defineTable({
     title: v.optional(v.string()),
-    slug: v.optional(v.string()), 
+    slug: v.optional(v.string()),
+    workingSpacesSlug: v.optional(v.string()),
+    userId: v.optional(v.id("users")),
     body: v.optional(v.string()),
     favorite: v.optional(v.boolean()),
     createdAt: v.number(),
     updatedAt: v.number(),
     tags: v.optional(v.array(v.id("tags"))), 
     notesTableId: v.id("notesTables"), 
-  }).index("by_notesTableId", ["notesTableId"]).index("by_slug", ["slug"]),
+  }).index("by_notesTableId", ["notesTableId"]).index("by_slug", ["slug"]).index("by_userId", ["userId"]),
   
   tags: defineTable({
     name: v.optional(v.string()),

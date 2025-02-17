@@ -27,10 +27,12 @@ export default function NotePage() {
       setContent(JSON.parse(getNote.body));
     }
   }, [getNote]);
+  const viwer = useQuery(api.users.viewer);
 
   const debouncedUpdateNote = useDebouncedCallback((updatedContent: JSONContent) => {
     updateNote({
       _id: noteid,
+      userid:viwer?._id,
       notesTableId: getNote?.notesTableId,
       title: getNote?.title,
       body: JSON.stringify(updatedContent),

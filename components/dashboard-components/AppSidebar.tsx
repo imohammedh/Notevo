@@ -23,18 +23,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Link from "next/link";
-const items = [
-  {
-    title: "Home",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-]
+import SearchDialog from "./SearchDialog";
 
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(api.mutations.workingSpaces.createWorkingSpace);
@@ -71,19 +60,20 @@ export default function AppSidebar() {
           <SidebarGroupLabel className=" text-brand_tertiary/50">Notevo</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem>
                   <Button asChild
                     variant="SidebarMenuButton"
                     className=" px-2 h-8 group" 
                   >
-                    <Link href={item.url}>
-                      <item.icon size="16" />
-                      <span>{item.title}</span>
+                    <Link href="/dashboard">
+                      <Home size="16" />
+                      <span>Home</span>
                     </Link>
                   </Button>
                 </SidebarMenuItem>
-              ))}
+                <SidebarMenuItem>
+                  <SearchDialog/>
+                </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
