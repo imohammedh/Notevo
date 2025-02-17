@@ -3,7 +3,7 @@ import { Button } from "../ui/button"
 import Link from "next/link"
 import MaxWContainer from "../ui/MaxWContainer"
 import Image from "next/image"
-import heroImg from "../../public/UserDashboard-Note.svg"
+import heroImg from "../../public/AIChatBot.svg"
 import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
