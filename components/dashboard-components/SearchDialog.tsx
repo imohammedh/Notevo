@@ -33,7 +33,12 @@ import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-export default function SearchDialog() {
+interface SearchDialogProps{
+    Variant:"SidebarMenuButton" | "Trigger",
+    WithTheTitle:boolean,
+    IconSize:"16"|"24"
+}
+export default function SearchDialog({Variant,WithTheTitle,IconSize}:SearchDialogProps) {
   const viwer = useQuery(api.users.viewer);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId,{userid:viwer?._id});
   const router = useRouter()
@@ -44,11 +49,13 @@ export default function SearchDialog() {
     <Dialog>
         <DialogTrigger asChild>
             <Button 
-                variant="SidebarMenuButton"
+                variant={Variant}
                 className=" px-2 h-8 group"
             >
-            <Search size="16" />
-            <span>Search</span>
+            <Search size={IconSize} />
+            {
+               WithTheTitle&&<span>Search</span>
+            }
           </Button>
         </DialogTrigger>
         <DialogContent className=" p-2 bg-brand_fourthary rounded-lg border-brand_tertiary/10 md:min-w-[450px]">

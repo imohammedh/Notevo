@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { CircleUser, Home, Plus, Search , CircleUserRound,CreditCard, LogOut } from 'lucide-react';
 import Link from "next/link";
-import { truncate } from "fs";
+import SearchDialog from "./SearchDialog";
 export default function FloatingNavbar() {
   const User = useQuery(api.users.viewer);
   const router = useRouter();
@@ -56,16 +56,14 @@ export default function FloatingNavbar() {
           variant="Trigger" 
           className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary">
             <Link href="/dashboard">
-              <Home />
+              <Home size="24"/>
             </Link>
         </Button>
-        <Button 
-          variant="Trigger" 
-          className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
-          disabled={true}
-        >
-          <Search />
-        </Button>
+        <SearchDialog
+          Variant="Trigger"
+          WithTheTitle={false}
+          IconSize="24"
+        />
         <Button 
           variant="Trigger" 
           className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
@@ -74,7 +72,7 @@ export default function FloatingNavbar() {
           }
           disabled={handleCreateTableloading}
           >
-            <Plus />
+            <Plus size="24"/>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
