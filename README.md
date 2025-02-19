@@ -94,5 +94,3 @@ We appreciate contributions to Notevo! Follow these steps to contribute:
 
 We will review your PR and provide feedback as needed. Thanks for contributing! 🚀
 
-## License
-MIT License
