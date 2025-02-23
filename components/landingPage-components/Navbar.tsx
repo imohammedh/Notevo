@@ -6,10 +6,11 @@ import Image from "next/image"
 import imgsrc from "../../public/NoteWise-logo.svg"
 import { motion,useMotionValueEvent,useScroll} from 'framer-motion'
 import { useState } from "react"
+import { cn } from "@/lib/utils";
 export default function Navbar() {
 
   const { scrollY } = useScroll()
-  const [,setInView] = useState<boolean>(false)
+  const [inView,setInView] = useState<boolean>(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   useMotionValueEvent(scrollY, "change", (latest) => {
       if(latest>150){
@@ -18,16 +19,19 @@ export default function Navbar() {
           setInView(false)
       }
   })
-        
+
   return (
     <motion.div 
-      className="fixed top-0 w-full z-50 backdrop-blur" 
+      className={cn("border-b border-transparent text-mainColor200 p-1 fixed top-0 w-full z-50 transition-all",
+        inView ? 
+        "border-brand_tertiary/10 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]" : 
+        "bg-transparent")} 
       initial={{y: -60 , opacity: 0 }} 
       animate={{ y:0 , opacity:1 }}
       transition={{ease:"linear",duration:0.6,delay:0.3}}
     >
       <motion.header 
-        className=' p-3 bg-brand_primary/70 border-b border-brand_tertiary/10'
+        className=' p-3'
         initial={{y: -60 , opacity: 0 }} 
         animate={{ y:0 , opacity:1 }}
         transition={{ease:"linear"}}

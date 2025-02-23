@@ -1,4 +1,4 @@
-import { testimonials } from "@/lib/data"
+import { testimonials1,testimonials2 } from "@/lib/data"
 import { InfiniteMovingCards } from "../ui/infinite-moving-cards";
 import MaxWContainer from "../ui/MaxWContainer"
 import Section from "../ui/Section"
@@ -22,9 +22,14 @@ export default function Testimonials() {
             />
             <div className="h-[20rem] rounded-md flex flex-col antialiased bg-transparent items-center justify-center relative overflow-hidden">
             <InfiniteMovingCards
-                items={Array.from(testimonials)}
+                items={Array.from(testimonials1)}
                 direction="right"
-                speed="slow"
+                speed="fast"
+            />
+            <InfiniteMovingCards
+                items={Array.from(testimonials2)}
+                direction="left"
+                speed="fast"
             />
             </div>
         </MaxWContainer>
