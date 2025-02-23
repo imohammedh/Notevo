@@ -2,6 +2,9 @@ import imgSrc_TalkNote from "../public/chat_Note.png"
 import imgSrc_Categorization from "../public/data-classification_note.png"
 import imgSrc_TextEditor from "../public/content-creator_note.png"
 import imgSrc_Sync from "../public/sync_note.png"
+import { IoLogoVercel } from "react-icons/io5";
+import { BsStars } from "react-icons/bs";
+
 export const NavLinks = [
     {
         Name:"Home",
@@ -77,7 +80,19 @@ export const features = [
         isReverse:true
     },
 ] as const 
-export const testimonials = [
+
+export const poweredBy =[
+  {
+    icon:BsStars,
+    brannedName:"Novel"
+  },
+  {
+    icon:IoLogoVercel,
+    brannedName:"Vercel AI SDK"
+  },
+] as const 
+
+export const testimonials1 = [
   {
     quote:
       "Notevo has completely transformed the way I take and manage notes. The AI interaction feature is a game-changer, making it easy to organize and retrieve information quickly.",
@@ -90,11 +105,8 @@ export const testimonials = [
     name: "William Shakespeare",
     title: "Hamlet",
   },
-  {
-    quote: "Notevo's real-time collaboration feature has streamlined our team's workflow. We can all contribute to and edit notes simultaneously, which is a huge productivity boost.",
-    name: "Edgar Allan Poe",
-    title: "A Dream Within a Dream",
-  },
+]as const;
+export const testimonials2 = [
   {
     quote:
       "I love how intuitive and user-friendly Notevo is. The AI suggestions for organizing my notes have saved me so much time.",
@@ -106,5 +118,10 @@ export const testimonials = [
       "Notevo has become an indispensable tool for my research projects. The ability to interact with my notes and get relevant insights is amazing.",
     name: "Herman Melville",
     title: "Moby-Dick",
+  },
+  {
+    quote: "Notevo's real-time collaboration feature has streamlined our team's workflow. We can all contribute to and edit notes simultaneously, which is a huge productivity boost.",
+    name: "Edgar Allan Poe",
+    title: "A Dream Within a Dream",
   },
 ]as const;

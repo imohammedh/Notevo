@@ -5,6 +5,7 @@ import MaxWContainer from "../ui/MaxWContainer"
 import Image from "next/image"
 import heroImg from "../../public/AIChatBot.svg"
 import { motion } from "framer-motion";
+import { poweredBy } from "@/lib/data";
 export default function HeroSection() {
   return (
     <motion.section
@@ -14,7 +15,7 @@ export default function HeroSection() {
         viewport={{ once: true, amount: 0.5 }}
         className="min-h-[90vh] md:min-h-[80vh] mt-1 md:mt-20 lg:mt-32 flex justify-center items-center w-full">
         <MaxWContainer className="*:text-center relative px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-semibold pb-3 lg:pb-5">
+          <h1 className="text-2xl sm:text-4xl lg:text-7xl font-semibold pb-3 lg:pb-5">
             Take Notes to the Next Level with <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-transparent to-brand_tertiary/20 rounded-xl bg-clip-content">
               AI-Powered
@@ -33,7 +34,24 @@ export default function HeroSection() {
               <Link href="/#features" className="text-sm sm:text-base font-medium">Learn More</Link>
             </Button>
           </span>
-
+          <div className=" w-full pb-10 ">
+            <p className=" text-brand_tertiary/50 text-sm pb-3">Powered by</p>
+            <div className=" w-full flex justify-center items-center gap-10">
+              {
+                poweredBy.map((by,indx)=>{
+                  return(
+                    <span key={indx} className=" py-2 flex justify-center items-center gap-2">
+                      <by.icon/>
+                    <p>
+                      {by.brannedName}
+                    </p>
+                    </span>
+                  )
+                })
+              }
+            </div>
+          </div>
+          <div className=" absolute -z-20 bg-gradient-to-t from-brand_fourthary/20 to-brand_tertiary/20 top-5 sm:top-16 h-[20rem] w-full rounded-2xl blur-[10rem]"/>
           <span className="relative w-full">
             <Image src={heroImg} alt="hero img" priority quality={100} 
               className="w-full p-2 sm:p-4 lg:p-5 rounded-xl bg-brand_tertiary/10 backdrop-blur-xl"/>
