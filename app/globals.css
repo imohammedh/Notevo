@@ -175,3 +175,14 @@ pre code {
   color: rgba(255, 255, 255, 0.5);
   /* Adjust for dark/light themes */
 }
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

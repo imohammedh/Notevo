@@ -24,17 +24,25 @@ export default {
   		}
   	},
   	extend: {
-		animation: {
-        	scroll:
-          		"scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
-      		},
-		keyframes: {
-        scroll: {
-          to: {
-            transform: "translate(calc(-50% - 0.5rem))",
-          },
-        },
-      },
+  		animation: {
+  			scroll: 'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
+  			'shiny-text': 'shiny-text 8s infinite'
+  		},
+  		keyframes: {
+  			scroll: {
+  				to: {
+  					transform: 'translate(calc(-50% - 0.5rem))'
+  				}
+  			},
+  			'shiny-text': {
+  				'0%, 90%, 100%': {
+  					'background-position': 'calc(-100% - var(--shiny-width)) 0'
+  				},
+  				'30%, 60%': {
+  					'background-position': 'calc(100% + var(--shiny-width)) 0'
+  				}
+  			}
+  		},
   		colors: {
   			brand_primary: '#0a0a0a',
   			brand_secondary: '#fafafa',
@@ -42,19 +50,19 @@ export default {
   			brand_fourthary: '#171717',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
-			white: "var(--novel-white)",
-        	stone: {
-        	  50: "var(--novel-stone-50)",
-        	  100: "var(--novel-stone-100)",
-        	  200: "var(--novel-stone-200)",
-        	  300: "var(--novel-stone-300)",
-        	  400: "var(--novel-stone-400)",
-        	  500: "var(--novel-stone-500)",
-        	  600: "var(--novel-stone-600)",
-        	  700: "var(--novel-stone-700)",
-        	  800: "var(--novel-stone-800)",
-        	  900: "var(--novel-stone-900)",
-        	},
+  			white: 'var(--novel-white)',
+  			stone: {
+  				'50': 'var(--novel-stone-50)',
+  				'100': 'var(--novel-stone-100)',
+  				'200': 'var(--novel-stone-200)',
+  				'300': 'var(--novel-stone-300)',
+  				'400': 'var(--novel-stone-400)',
+  				'500': 'var(--novel-stone-500)',
+  				'600': 'var(--novel-stone-600)',
+  				'700': 'var(--novel-stone-700)',
+  				'800': 'var(--novel-stone-800)',
+  				'900': 'var(--novel-stone-900)'
+  			},
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -110,7 +118,7 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		}
   	}
-},
+  },
   variants: {
 		extend: {
 		typography: ['dark'],
