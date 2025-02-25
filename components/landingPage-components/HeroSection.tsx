@@ -10,6 +10,7 @@ export default function HeroSection() {
   return (
     <section className="min-h-[90vh] md:min-h-[80vh] mt-1 md:mt-20 lg:mt-32 flex justify-center items-center w-full">
         <MaxWContainer className="*:text-center relative px-4 sm:px-6 lg:px-8">
+          
           <motion.h1 
             initial={{y: 100 , opacity: 0 }} 
             animate={{ y:0 , opacity:1 }}
