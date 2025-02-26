@@ -6,10 +6,33 @@ import Image from "next/image"
 import heroImg from "../../public/AIChatBot.svg"
 import { motion } from "framer-motion";
 import { Particles } from "../magicui/particles"; 
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
+import { AnimatedShinyText } from "../magicui/animated-shiny-text";
 export default function HeroSection() { 
+  const handleClick = ()=>{
+    window.open("https://www.convex.dev/", "_blank")
+  }
   return (
     <section className="min-h-[90vh] md:min-h-[80vh] mt-1 md:mt-20 lg:mt-32 flex justify-center items-center w-full">
         <MaxWContainer className="*:text-center relative px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            initial={{y: 100 , opacity: 0 }} 
+            animate={{ y:0 , opacity:1 }}
+            transition={{ ease: "easeInOut", duration: 0.4, delay: 0.4 }}
+            onClick={handleClick} className="z-10 flex min-h-20 items-center justify-center"
+            >
+            <div
+              className={cn(
+                "group rounded-full border border-brand_tertiary/20 bg-brand_primary text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-opacity-30",
+              )}
+            >
+            <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+              <span>🔥 Powered by Convex</span>
+              <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+            </AnimatedShinyText>
+          </div>
+          </motion.div>
           <motion.h1 
             initial={{y: 100 , opacity: 0 }} 
             animate={{ y:0 , opacity:1 }}
