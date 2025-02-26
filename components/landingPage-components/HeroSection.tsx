@@ -10,7 +10,6 @@ export default function HeroSection() {
   return (
     <section className="min-h-[90vh] md:min-h-[80vh] mt-1 md:mt-20 lg:mt-32 flex justify-center items-center w-full">
         <MaxWContainer className="*:text-center relative px-4 sm:px-6 lg:px-8">
-          
           <motion.h1 
             initial={{y: 100 , opacity: 0 }} 
             animate={{ y:0 , opacity:1 }}
@@ -61,12 +60,12 @@ export default function HeroSection() {
           <motion.span 
             initial={{y: 90 , opacity: 0 }} 
             animate={{ y:0 , opacity:1 }}
-            transition={{ ease: "linear", duration: 1.0, delay: 1.0 }}
+            transition={{ ease: "linear", duration: 0.3, delay: 0.3 }}
             className=" transition-all ease-in-out"
           >
           <Particles
           className="absolute inset-0 -z-20"
-          quantity={70}
+          quantity={100}
           ease={80}
           color={"#e5e5e5"}
           refresh
