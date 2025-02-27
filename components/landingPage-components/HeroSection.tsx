@@ -70,7 +70,7 @@ export default function HeroSection() {
             initial={{y: 90 , opacity: 0 }} 
             animate={{ y:0 , opacity:1 }}
             transition={{ ease: "linear", duration: 0.8, delay: 0.8 }}
-            className=" absolute -z-20 bg-gradient-to-t from-transparent to-brand_tertiary/10 left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]"/>
+            className=" absolute -z-20 bg-gradient-to-t from-transparent to-brand_tertiary/20 left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]"/>
           <motion.div 
             initial={{y: 90 , opacity: 0 }} 
             animate={{ y:0 , opacity:1 }}
