@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
-
+import LoadingAnimation from "../ui/LoadingAnimation";
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(api.mutations.workingSpaces.createWorkingSpace);
   const getWorkingSpaces = useQuery(api.mutations.workingSpaces.getWorkingSpaces);
@@ -116,17 +116,29 @@ export default function AppSidebar() {
             <SidebarMenuItem>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild className=" py-8">
-                  <Button variant="SidebarMenuButton" className=" border-none w-full flex items-center justify-between">
-                      <Avatar className="rounded-lg max-w-10 max-h-10 flex items-center justify-center border border-solid border-brand_tertiary/20">
-                        <AvatarImage src={User?.image} alt={User?User.name?.charAt(0):"user not found".charAt(0)} />
-                        <AvatarFallback>{User?User.name?.charAt(0):"user not found".charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <p className=" flex flex-col items-start justify-center">
-                        <span>{User?User.name:"user not found"}</span>
-                        <span>{User?User.email?.replace(/(.{3}).*(@.{3}).*/, "$1...$2"):"user not found"}</span>
-                      </p>
-                    <TbSelector className=" text-xl" />
-                  </Button>
+                    {
+                      loading === false ?
+                      <Button variant="SidebarMenuButton" className=" border-none w-full flex items-center justify-between" disabled={loading}>
+                        <Avatar className="rounded-lg max-w-10 max-h-10 flex items-center justify-center border border-solid border-brand_tertiary/20">
+                          <AvatarImage src={User?.image} alt={User ? User.name?.charAt(0) : "user not found".charAt(0)} />
+                          <AvatarFallback>{User ? User.name?.charAt(0) : "user not found".charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <p className=" flex flex-col items-start justify-center">
+                          <span>
+                            {User ? User.name : "user not found"}</span>
+                          <span>
+                            {User?.email && User.email.length > 6 
+                              ? User.email.replace(/(.{3})(.*)(@.{3})/, "$1...$3") 
+                              : "user not found"}
+                          </span>
+                        </p>
+                      <TbSelector className=" text-xl" />
+                      </Button> 
+                      : <Button variant="SidebarMenuButton" className=" border-none w-full flex items-center justify-center gap-2" disabled={loading}>
+                        <LoadingAnimation/>
+                        Signing out...
+                      </Button>
+                    }
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   side="top"
