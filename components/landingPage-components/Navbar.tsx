@@ -31,10 +31,10 @@ export default function Navbar() {
       transition={{ease:"linear",duration:0.6,delay:0.3}}
     >
       <motion.header 
-        className=' p-3'
         initial={{y: -60 , opacity: 0 }} 
         animate={{ y:0 , opacity:1 }}
         transition={{ease:"linear"}}
+        className=' p-3'
       >
         <div className=' container mx-auto flex justify-between items-center'>
           <div className=" flex justify-center items-center">
@@ -63,7 +63,7 @@ export default function Navbar() {
         </div>
         {isMenuOpen && (
             <div className="lg:hidden">
-                <div className="px-2 pt-2 pb-3 space-y-1">
+                <div className="px-2 pt-2 pb-3 space-y-1 rounded-xl m-2 border-brand_tertiary/10 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]">
                     {NavLinks.map((link, i) => (
                         <Link
                             key={i}
