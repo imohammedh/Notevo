@@ -9,6 +9,7 @@ import ADiv from "@/components/dashboard-components/ADiv";
 import { useState } from "react";
 import WelcomeBan from "@/components/ui/WelcomeBan";
 import { useToast } from "@/hooks/use-toast";
+import LoadingAnimation from "@/components/ui/LoadingAnimation";
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
   return (
@@ -58,7 +59,7 @@ function SignInWithGitHub() {
       }}
       disabled={loading}
     >
-      {loading ? "GitHub..." : <><GitHubLogoIcon className="mr-2 h-4 w-4" /> GitHub</>}
+      {loading ? <><LoadingAnimation className ="m-2 w-3 h-3"/> GitHub...</> : <><GitHubLogoIcon className="mr-2 h-4 w-4" /> GitHub</>}
     </Button>
   );
 }
@@ -78,7 +79,7 @@ function SignInWithGoogle() {
       }}
       disabled={loading}
     >
-      {loading ? "Google..." : <><FcGoogle className="mr-2 h-4 w-4" /> Google</>}
+      {loading ? <><LoadingAnimation className ="m-2 w-3 h-3"/> Google...</> : <><FcGoogle className="mr-2 h-4 w-4" /> Google</>}
     </Button>
   );
 }
@@ -115,7 +116,7 @@ function SignInWithMagicLink({
       <label htmlFor="email">Email</label>
       <Input name="email" id="email" className="mb-4" autoComplete="email" disabled={loading} />
       <Button type="submit" disabled={loading}>
-        {loading ? "Sending..." : "Send sign-in link"}
+        {loading ? <><LoadingAnimation className ="m-2 w-3 h-3"/> Sending...</>: "Send sign-in link"}
       </Button>
     </form>
   );
