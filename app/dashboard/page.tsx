@@ -9,6 +9,7 @@ import WorkingSpaceSettings from "@/components/dashboard-components/WorkingSpace
 import WorkingSpaceNotFound from "@/components/dashboard-components/WorkingSpaceNotFound";
 import { useState } from "react";
 import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";
+import LoadingAnimation from "@/components/ui/LoadingAnimation";
 export default function ProductPage() {
   const viwer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(api.mutations.workingSpaces.getRecentWorkingSpaces);
@@ -28,8 +29,8 @@ export default function ProductPage() {
     <MaxWContainer className=" relative mb-20">
       <ADiv>
         <div className="w-full text-center py-14 my-5 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-lg">
-        <h1 className=" text-xl sm:text-3xl font-bold text-center">
-          Good evening, {viwer?.name ? `${viwer.name.split(" ")[0].length > 10 ? `${viwer.name.split(" ")[0].substring(0, 10)}...` : viwer.name.split(" ")[0]} ${viwer.name.split(" ")[1]?.charAt(0)}.` : "User Not Found"}
+        <h1 className=" text-xl sm:text-3xl font-bold text-center flex justify-center items-center">
+          Welcome to Notevo , {viwer?.name ? `${viwer.name.split(" ")[0].length > 10 ? `${viwer.name.split(" ")[0].substring(0, 10)}...` : viwer.name.split(" ")[0]}${viwer.name.split(" ")[1] ? ` ${viwer.name.split(" ")[1].charAt(0)}.` : '.'}` : <LoadingAnimation className="mx-3 h-7 w-7"/>}
         </h1>
         </div>
           <h2 className=" text-brand_tertiary/50 text-sm font-medium pb-2 pt-5 px-1">Recent Workspaces </h2>
