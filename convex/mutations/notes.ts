@@ -130,23 +130,6 @@ export const deleteNote = mutation({
         return _id;
     }
 })
-export const getNoteById = query({
-    args: {
-        notesTableId:v.any()
-    },
-    handler: async (ctx,args)=>{
-        const userId = getAuthUserId(ctx);
-        if (!userId) {
-            throw new Error("Not authenticated");
-        }
-        const {notesTableId}=args
-        const note = ctx.db.query("notes").withIndex("by_notesTableId", (q) => q.eq("notesTableId", notesTableId)).collect();
-        if (!note) {
-            throw new Error("Note not found");
-        }
-        return note;
-    }
-})
 export const getNoteByUserId = query({
     args: {
         userid:v.any()
