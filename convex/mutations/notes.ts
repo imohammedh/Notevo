@@ -95,6 +95,20 @@ export const getNotes = query({
         return note;
     }
 })
+export const getNotesByNoteId = query({
+    args: { noteId: v.any() }, // Accept noteId as an argument
+    handler: async (ctx, { noteId }) => { // Destructure noteId from args
+        const userId = getAuthUserId(ctx);
+        if (!userId) {
+            throw new Error("Not authenticated");
+        }
+        const note = await ctx.db.query("notes").filter(q => q.eq(q.field("_id"), noteId)).first(); // Fetch the note by ID
+        if (!note) {
+            throw new Error("Note not found");
+        }
+        return note;
+    }
+})
 
 export const deleteNote = mutation({
     args:{

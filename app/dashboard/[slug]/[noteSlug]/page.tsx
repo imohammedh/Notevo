@@ -13,8 +13,7 @@ export default function NotePage() {
   const noteid = searchParams.get("id");
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
-  const getNotes = useQuery(api.mutations.notes.getNotes);
-  const getNote = getNotes?.find(note => note._id === noteid);
+  const getNote = useQuery(api.mutations.notes.getNotesByNoteId,{noteId:noteid});
 
   const initialContent: JSONContent = getNote?.body
     ? JSON.parse(getNote.body)
