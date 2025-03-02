@@ -82,7 +82,7 @@ export const getTables = query({
             throw new Error("Not authenticated");
         }
         const {workingSpaceId}=args
-        const tables = ctx.db.query("notesTables").withIndex("by_workingSpaceId", (q) => q.eq("workingSpaceId", workingSpaceId)).collect();
+        const tables = await ctx.db.query("notesTables").withIndex("by_workingSpaceId", (q) => q.eq("workingSpaceId", workingSpaceId)).collect();
         return tables;
     }
 })

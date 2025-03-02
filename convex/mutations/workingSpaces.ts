@@ -79,7 +79,7 @@ export const getWorkingSpaces = query({
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        const workingSpaces = ctx.db.query("workingSpaces").withIndex("by_userId", (q) => q.eq("userId", userId)).collect();
+        const workingSpaces = await ctx.db.query("workingSpaces").withIndex("by_userId", (q) => q.eq("userId", userId)).collect();
         return workingSpaces;
     }
 })
