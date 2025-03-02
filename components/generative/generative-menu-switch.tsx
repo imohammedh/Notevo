@@ -9,7 +9,11 @@ interface GenerativeMenuSwitchProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-const GenerativeMenuSwitch = ({ children, open, onOpenChange }: GenerativeMenuSwitchProps) => {
+const GenerativeMenuSwitch = ({
+  children,
+  open,
+  onOpenChange,
+}: GenerativeMenuSwitchProps) => {
   const { editor } = useEditor();
   useEffect(() => {
     if (!open && editor) removeAIHighlight(editor);

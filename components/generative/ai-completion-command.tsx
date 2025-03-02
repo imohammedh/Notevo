@@ -19,7 +19,8 @@ const AICompletionCommands = ({
           onSelect={() => {
             const selection = editor?.view.state.selection;
 
-            editor?.chain()
+            editor
+              ?.chain()
               .focus()
               .insertContentAt(
                 {
@@ -40,7 +41,8 @@ const AICompletionCommands = ({
           onSelect={() => {
             const selection = editor?.view.state.selection;
             if (selection) {
-              editor?.chain()
+              editor
+                ?.chain()
                 .focus()
                 .insertContentAt(selection.to + 1, completion)
                 .run();

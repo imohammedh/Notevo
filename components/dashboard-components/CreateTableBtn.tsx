@@ -11,7 +11,10 @@ interface CreateTableBtnProps {
   className?: string;
 }
 
-export default function CreateTableBtn({ workingSpaceId, className }: CreateTableBtnProps) {
+export default function CreateTableBtn({
+  workingSpaceId,
+  className,
+}: CreateTableBtnProps) {
   const [loading, setLoading] = useState(false);
   const createTable = useMutation(api.mutations.notesTables.createTable);
 
@@ -26,11 +29,20 @@ export default function CreateTableBtn({ workingSpaceId, className }: CreateTabl
 
   return (
     <Button
-      className={cn("lg:flex items-center justify-between gap-2 hidden", className)}
+      className={cn(
+        "lg:flex items-center justify-between gap-2 hidden",
+        className,
+      )}
       onClick={handleCreateTable}
       disabled={loading}
     >
-      {loading ? "Create Table..." : <><Plus size="20" /> <p className="hidden sm:block">Create Table</p></>}
+      {loading ? (
+        "Create Table..."
+      ) : (
+        <>
+          <Plus size="20" /> <p className="hidden sm:block">Create Table</p>
+        </>
+      )}
     </Button>
   );
 }

@@ -90,7 +90,7 @@ export const getNotes = query({
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        const note = ctx.db.query("notes").collect();
+        const note = await ctx.db.query("notes").collect();
         if (!note) {
             throw new Error("Note not found");
         }
@@ -140,7 +140,7 @@ export const getNoteByUserId = query({
             throw new Error("Not authenticated");
         }
         const {userid}=args
-        const note = ctx.db.query("notes").withIndex("by_userId", (q) => q.eq("userId", userid)).collect();
+        const note = await ctx.db.query("notes").withIndex("by_userId", (q) => q.eq("userId", userid)).collect();
         if (!note) {
             throw new Error("Note not found");
         }

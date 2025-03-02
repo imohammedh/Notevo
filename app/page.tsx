@@ -1,12 +1,12 @@
 "use client";
-import HeroSection from "@/components/landingPage-components/HeroSection"
-import HowToStartSection from "@/components/landingPage-components/HowToStartSection"
-import FeaturesSection from "@/components/landingPage-components/FeaturesSection"
-import SignUpToday from "@/components/landingPage-components/SignUpToday"
-import Testimonials from "@/components/landingPage-components/Testimonials"
-import Navbar from '@/components/landingPage-components/Navbar';
-import { useQuery } from "convex/react"
-import { api } from "@/convex/_generated/api"
+import HeroSection from "@/components/landingPage-components/HeroSection";
+import HowToStartSection from "@/components/landingPage-components/HowToStartSection";
+import FeaturesSection from "@/components/landingPage-components/FeaturesSection";
+import SignUpToday from "@/components/landingPage-components/SignUpToday";
+import Testimonials from "@/components/landingPage-components/Testimonials";
+import Navbar from "@/components/landingPage-components/Navbar";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
 export default function HomePage() {
   const viewer = useQuery(api.auth.isAuthenticated);
@@ -16,15 +16,14 @@ export default function HomePage() {
         <Navbar />
         <div className="flex-grow flex-1">
           <HeroSection />
-          <HowToStartSection /> 
+          <HowToStartSection />
           <FeaturesSection />
           <Testimonials />
         </div>
-          <SignUpToday />
+        <SignUpToday />
       </div>
     );
-  }
-  else{    
-    redirect("/dashboard")
+  } else {
+    redirect("/dashboard");
   }
 }
