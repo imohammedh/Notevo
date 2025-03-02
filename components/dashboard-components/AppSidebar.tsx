@@ -153,14 +153,10 @@ export default function AppSidebar() {
                     className=" border-none w-full flex items-center justify-between"
                     disabled={loading}
                   >
-                    <Avatar className="rounded-lg max-w-10 max-h-10 flex items-center justify-center border border-solid border-brand_tertiary/20">
+                    <Avatar className="max-w-10 max-h-10 flex items-center justify-center">
                       <AvatarImage
                         src={User?.image}
-                        alt={
-                          User
-                            ? User.name?.charAt(0)
-                            : `${(<LoadingAnimation />)}`
-                        }
+                        alt={User ? User.name?.charAt(0) : `...`}
                       />
                       <AvatarFallback>
                         {User ? User.name?.charAt(0) : <LoadingAnimation />}
@@ -168,16 +164,14 @@ export default function AppSidebar() {
                     </Avatar>
                     <p className=" flex flex-col items-start justify-center">
                       <span>
-                        {User?.name ? (
-                          `${User.name.split(" ")[0].length > 10 ? `${User.name.split(" ")[0].substring(0, 10)}...` : User.name.split(" ")[0]}${User.name.split(" ")[1] ? ` ${User.name.split(" ")[1].charAt(0)}.` : "."}`
-                        ) : (
-                          <LoadingAnimation className=" h-4 w-4" />
-                        )}
+                        {User?.name
+                          ? `${User.name.split(" ")[0].length > 10 ? `${User.name.split(" ")[0].substring(0, 10)}...` : User.name.split(" ")[0]}${User.name.split(" ")[1] ? ` ${User.name.split(" ")[1].charAt(0)}.` : "."}`
+                          : "..."}
                       </span>
                       <span>
                         {User?.email && User.email.length > 6
                           ? User.email.replace(/(.{3})(.*)(@.{3})/, "$1...$3")
-                          : ""}
+                          : "..."}
                       </span>
                     </p>
                     <TbSelector className=" text-xl" />
