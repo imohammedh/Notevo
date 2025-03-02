@@ -14,14 +14,14 @@ export default function NotePage() {
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const getNotes = useQuery(api.mutations.notes.getNotes);
-  const getNote = getNotes?.find(note => note._id === noteid);
+  const getNote = getNotes?.find((note) => note._id === noteid);
 
   const initialContent: JSONContent = getNote?.body
     ? JSON.parse(getNote.body)
-    : { type: "doc", content: [{ type: 'paragraph' }] };
+    : { type: "doc", content: [{ type: "paragraph" }] };
 
   const [content, setContent] = useState<JSONContent>(initialContent);
-  
+
   useEffect(() => {
     if (getNote?.body) {
       setContent(JSON.parse(getNote.body));
@@ -29,22 +29,25 @@ export default function NotePage() {
   }, [getNote]);
   const viwer = useQuery(api.users.viewer);
 
-  const debouncedUpdateNote = useDebouncedCallback((updatedContent: JSONContent) => {
-    updateNote({
-      _id: noteid,
-      userid:viwer?._id,
-      notesTableId: getNote?.notesTableId,
-      title: getNote?.title,
-      body: JSON.stringify(updatedContent),
-      workingSpacesSlug:getNote?.workingSpacesSlug,
-      createdAt: getNote?.createdAt,
-    });
-  }, 500);
+  const debouncedUpdateNote = useDebouncedCallback(
+    (updatedContent: JSONContent) => {
+      updateNote({
+        _id: noteid,
+        userid: viwer?._id,
+        notesTableId: getNote?.notesTableId,
+        title: getNote?.title,
+        body: JSON.stringify(updatedContent),
+        workingSpacesSlug: getNote?.workingSpacesSlug,
+        createdAt: getNote?.createdAt,
+      });
+    },
+    500,
+  );
 
   return (
     <MaxWContainer>
-      <TailwindAdvancedEditor 
-        initialContent={content} 
+      <TailwindAdvancedEditor
+        initialContent={content}
         onUpdate={(editor) => {
           const updatedContent = editor.getJSON();
           setContent(updatedContent);

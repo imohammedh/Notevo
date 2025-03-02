@@ -71,12 +71,12 @@ export const updateNote = mutation({
         }
         const update = {
             userId:userid,
-            title: title ?? "untitled",
+            title: title,
             body: body ,
             notesTableId: notesTableId,
-            slug:slug??"untitled",
-            createdAt: createdAt,
+            slug:slug,
             workingSpacesSlug:workingSpacesSlug,
+            createdAt: createdAt,
             updatedAt: Date.now(),
         };
         const updatedNote = await ctx.db.replace(_id, update);
