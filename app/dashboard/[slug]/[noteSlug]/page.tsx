@@ -11,9 +11,12 @@ import { useDebouncedCallback } from "use-debounce";
 export default function NotePage() {
   const searchParams = useSearchParams();
   const noteid = searchParams.get("id");
+  const viwer = useQuery(api.users.viewer);
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
-  const getNotes = useQuery(api.mutations.notes.getNotes);
+  const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
+    userid: viwer?._id,
+  });
   const getNote = getNotes?.find((note) => note._id === noteid);
 
   const initialContent: JSONContent = getNote?.body
@@ -27,7 +30,6 @@ export default function NotePage() {
       setContent(JSON.parse(getNote.body));
     }
   }, [getNote]);
-  const viwer = useQuery(api.users.viewer);
 
   const debouncedUpdateNote = useDebouncedCallback(
     (updatedContent: JSONContent) => {
