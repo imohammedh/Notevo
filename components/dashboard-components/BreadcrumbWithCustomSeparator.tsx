@@ -41,23 +41,14 @@ export default function BreadcrumbWithCustomSeparator() {
 
             const isLast = index === pathSegments.length - 1;
             const name = parseSlug(segment);
-            const truncatedName =
-              window.innerWidth < 768
-                ? name.length > 10
-                  ? name.slice(0, 10) + "..."
-                  : name
-                : name.length > 40
-                  ? name.slice(0, 40) + "..."
-                  : name;
-
             return (
               <div key={fullHref} className="flex items-center">
                 <BreadcrumbItem>
                   {isLast ? (
-                    <BreadcrumbPage>{truncatedName}</BreadcrumbPage>
+                    <BreadcrumbPage>{name}</BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink asChild>
-                      <Link href={fullHref}>{truncatedName}</Link>
+                      <Link href={fullHref}>{name}</Link>
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
