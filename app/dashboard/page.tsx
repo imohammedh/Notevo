@@ -4,12 +4,12 @@ import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import ADiv from "@/components/dashboard-components/ADiv";
-import { useRouter } from "next/navigation";
 import WorkingSpaceSettings from "@/components/dashboard-components/WorkingSpaceSettings";
 import WorkingSpaceNotFound from "@/components/dashboard-components/WorkingSpaceNotFound";
 import { useState } from "react";
 import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
+import Link from "next/link";
 export default function ProductPage() {
   const viwer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(api.mutations.workingSpaces.getRecentWorkingSpaces);
@@ -21,10 +21,6 @@ export default function ProductPage() {
       await createWorkingSpace({ name: "Untitled" });
       setLoading(false);
     }
-  const router = useRouter()
-  const handleRouting = (slug: string,workingSpaceid:any)=>{
-    router.push(`/dashboard/${slug}?id=${workingSpaceid}`);
-  }
   return (
     <MaxWContainer className=" relative mb-20">
       <ADiv>
@@ -43,11 +39,11 @@ export default function ProductPage() {
                     {
                       (
                         <div className=" relative group p-3.5 w-full h-40 border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105" >
-                          <button onClick={()=>orkspaces.slug&&handleRouting(orkspaces.slug,orkspaces._id)} className=" w-full h-full flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start gap-1">
+                          <Link href={`/dashboard/${orkspaces.slug}?id=${orkspaces._id}`} className=" w-full h-full flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start gap-1">
                             <h1 className="text-lg font-medium text-nowrap">
                               {orkspaces.name.length > 20 ? `${orkspaces.name.substring(0, 20)}...` : orkspaces.name}
                             </h1>
-                          </button>
+                          </Link>
                           <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                             <WorkingSpaceSettings workingSpaceId={orkspaces._id}/>  
                           </span>
