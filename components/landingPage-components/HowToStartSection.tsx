@@ -1,7 +1,7 @@
 "use client";
-import { HowToStartSteps } from "../../lib/data"
-import SectionHeading from "./SectionHeading"
-import MaxWContainer from "../ui/MaxWContainer"
+import { HowToStartSteps } from "../../lib/data";
+import SectionHeading from "./SectionHeading";
+import MaxWContainer from "../ui/MaxWContainer";
 import Section from "../ui/Section";
 
 export default function HowToStartSection() {
@@ -13,8 +13,11 @@ export default function HowToStartSection() {
           SectionSubTitle="it has never been easier"
         />
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
-          {HowToStartSteps.map(step => (
-            <div key={step.id} className="relative flex justify-center items-start group">
+          {HowToStartSteps.map((step) => (
+            <div
+              key={step.id}
+              className="relative flex justify-center items-start group"
+            >
               <span className=" absolute -top-5 left-0 text-sm md:text-sm text-brand_tertiary/20 font-bold transition-all ease-in-out duration-300 group-hover:rotate-45 group-hover:scale-125  group-hover:text-brand_tertiary">
                 {step.StepNum}
               </span>
@@ -31,5 +34,5 @@ export default function HowToStartSection() {
         </div>
       </MaxWContainer>
     </Section>
-  )
+  );
 }

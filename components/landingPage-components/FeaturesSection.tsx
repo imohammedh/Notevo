@@ -1,18 +1,15 @@
-import MaxWContainer from "../ui/MaxWContainer"
-import SectionHeading from "./SectionHeading"
-import { features } from "@/lib/data"
-import Section from "../ui/Section"
+import MaxWContainer from "../ui/MaxWContainer";
+import SectionHeading from "./SectionHeading";
+import { features } from "@/lib/data";
+import Section from "../ui/Section";
 import Image from "next/image";
 import { WobbleCard } from "../ui/wobble-card";
-import AIPoweredimg from "@/public/AI-Powered.svg"
-import RichTextEditorimg from "@/public/Rich Text Editor.svg"
-
+import AIPoweredimg from "@/public/AI-Powered.svg";
+import RichTextEditorimg from "@/public/Rich Text Editor.svg";
 
 export default function FeaturesSection() {
   return (
-    <Section 
-      sectionId="features" 
-    >
+    <Section sectionId="features">
       <MaxWContainer>
         <SectionHeading
           SectionTitle="Features"
@@ -20,16 +17,17 @@ export default function FeaturesSection() {
         />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full">
           <WobbleCard
-              containerClassName="col-span-1 lg:col-span-2 h-full bg-gradient-to-br from-brand_fourthary from-15% to-transparent min-h-[500px] lg:min-h-[300px]"
-              className=""
-            >
+            containerClassName="col-span-1 lg:col-span-2 h-full bg-gradient-to-br from-brand_fourthary from-15% to-transparent min-h-[500px] lg:min-h-[300px]"
+            className=""
+          >
             <div className="max-w-xs">
               <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-brand_tertiary">
                 AI-Powered
               </h2>
               <p className="mt-4 text-left  text-base/6 text-neutral-200">
-                Our advanced AI allows you to interact with your notes naturally,
-                Ask questions, get summaries, and explore insights seamlessly.
+                Our advanced AI allows you to interact with your notes
+                naturally, Ask questions, get summaries, and explore insights
+                seamlessly.
               </p>
             </div>
             <Image
@@ -45,7 +43,8 @@ export default function FeaturesSection() {
               Sync Across Devices
             </h2>
             <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-              Access your notes from anywhere with seamless syncing across all your devices.
+              Access your notes from anywhere with seamless syncing across all
+              your devices.
             </p>
           </WobbleCard>
           <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-gradient-to-br from-brand_fourthary from-15% to-transparent min-h-[500px] lg:min-h-[600px] xl:min-h-[300px]">
@@ -54,8 +53,9 @@ export default function FeaturesSection() {
                 Rich Text Editor
               </h2>
               <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-                Create and edit notes with a Notion-style WYSIWYG editor, powered by Novel. 
-                Enjoy AI-powered autocompletion and rich text formatting.
+                Create and edit notes with a Notion-style WYSIWYG editor,
+                powered by Novel. Enjoy AI-powered autocompletion and rich text
+                formatting.
               </p>
             </div>
             <Image
@@ -69,5 +69,5 @@ export default function FeaturesSection() {
         </div>
       </MaxWContainer>
     </Section>
-  )
+  );
 }

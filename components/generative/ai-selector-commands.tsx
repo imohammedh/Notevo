@@ -1,4 +1,10 @@
-import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, StepForward, WrapText } from "lucide-react";
+import {
+  ArrowDownWideNarrow,
+  CheckCheck,
+  RefreshCcwDot,
+  StepForward,
+  WrapText,
+} from "lucide-react";
 import { getPrevText, useEditor } from "novel";
 import { CommandGroup, CommandItem, CommandSeparator } from "../ui/command";
 
@@ -34,12 +40,17 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
 
   return (
     <>
-      <CommandGroup heading="Edit or review selection" className="bg-brand_fourthary">
+      <CommandGroup
+        heading="Edit or review selection"
+        className="bg-brand_fourthary"
+      >
         {options.map((option) => (
           <CommandItem
             onSelect={(value) => {
               const slice = editor?.state.selection.content();
-              const text = editor?.storage.markdown.serializer.serialize(slice?.content);
+              const text = editor?.storage.markdown.serializer.serialize(
+                slice?.content,
+              );
               onSelect(text, value);
             }}
             className="flex gap-2 px-4"
@@ -57,7 +68,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
           onSelect={() => {
             if (editor) {
               const pos = editor.state.selection.from;
-              const text = "hi there let's talk about short form videos"
+              const text = "hi there let's talk about short form videos";
               onSelect(text, "continue");
             }
           }}

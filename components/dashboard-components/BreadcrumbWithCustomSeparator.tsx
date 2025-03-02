@@ -25,7 +25,7 @@ export default function BreadcrumbWithCustomSeparator() {
     if (pathSegments.length === 2 && currentId) {
       previousIdRef.current = currentId;
     }
-  }, [pathSegments.length, currentId]); 
+  }, [pathSegments.length, currentId]);
 
   return (
     <div className="bg-transparent py-2">
@@ -41,9 +41,14 @@ export default function BreadcrumbWithCustomSeparator() {
 
             const isLast = index === pathSegments.length - 1;
             const name = parseSlug(segment);
-            const truncatedName = window.innerWidth < 768 
-              ? (name.length > 10 ? name.slice(0, 10) + "..." : name) 
-              : (name.length > 40 ? name.slice(0, 40) + "..." : name);
+            const truncatedName =
+              window.innerWidth < 768
+                ? name.length > 10
+                  ? name.slice(0, 10) + "..."
+                  : name
+                : name.length > 40
+                  ? name.slice(0, 40) + "..."
+                  : name;
 
             return (
               <div key={fullHref} className="flex items-center">

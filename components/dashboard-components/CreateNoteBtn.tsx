@@ -9,7 +9,10 @@ interface CreateNoteBtnProps {
   className?: string;
 }
 
-export default function CreateNoteBtn({ notesTableId, className }:CreateNoteBtnProps) {
+export default function CreateNoteBtn({
+  notesTableId,
+  className,
+}: CreateNoteBtnProps) {
   const [loading, setLoading] = useState(false);
   const createNote = useMutation(api.mutations.notes.createNote);
 
@@ -24,12 +27,21 @@ export default function CreateNoteBtn({ notesTableId, className }:CreateNoteBtnP
 
   return (
     <Button
-      className={cn(" flex items-center justify-between gap-2 h-8 px-2 ", className)}
+      className={cn(
+        " flex items-center justify-between gap-2 h-8 px-2 ",
+        className,
+      )}
       variant="ghost"
       onClick={handleCreateNote}
       disabled={loading}
     >
-      {loading ? "New Note..." : <><Plus size="20" /> <p className=" hidden sm:block">New Note</p></>}
+      {loading ? (
+        "New Note..."
+      ) : (
+        <>
+          <Plus size="20" /> <p className=" hidden sm:block">New Note</p>
+        </>
+      )}
     </Button>
   );
 }
