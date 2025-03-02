@@ -1,4 +1,3 @@
-"use client";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 
 export default function loading() {
