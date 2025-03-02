@@ -36,6 +36,7 @@ export default function NoteSettings({noteId}:NoteSettingsProps) {
               notesTableId:getNote?.notesTableId,
               title:inputValue,
               body: getNote?.body,
+              workingSpacesSlug:getNote?.workingSpacesSlug,
               createdAt:getNote?.createdAt
             });
         }

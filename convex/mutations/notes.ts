@@ -46,6 +46,7 @@ export const updateNote = mutation({
         notesTableId:v.any(),
         title: v.optional(v.string()),
         body: v.optional(v.string()),
+        workingSpacesSlug:v.any(),
         createdAt:v.any()
     },
     handler: async (ctx, args)=>{
@@ -53,7 +54,7 @@ export const updateNote = mutation({
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        const { _id,userid,notesTableId, title, body,createdAt } = args;
+        const { _id,userid,notesTableId, title, body,workingSpacesSlug,createdAt } = args;
         const note = await ctx.db.get(_id);
         if (!note) {
             throw new Error("Note not found");
@@ -75,6 +76,7 @@ export const updateNote = mutation({
             notesTableId: notesTableId,
             slug:slug??"untitled",
             createdAt: createdAt,
+            workingSpacesSlug:workingSpacesSlug,
             updatedAt: Date.now(),
         };
         const updatedNote = await ctx.db.replace(_id, update);
