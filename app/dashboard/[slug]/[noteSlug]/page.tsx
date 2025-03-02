@@ -35,6 +35,7 @@ export default function NotePage() {
       notesTableId: getNote?.notesTableId,
       title: getNote?.title,
       body: JSON.stringify(updatedContent),
+      workingSpacesSlug:getNote?.workingSpacesSlug,
       createdAt: getNote?.createdAt,
     });
   }, 500);

@@ -9,7 +9,6 @@ import CreateNoteBtn from "@/components/dashboard-components/CreateNoteBtn";
 import ADiv from "@/components/dashboard-components/ADiv";
 import TableSettings from "@/components/dashboard-components/TableSettings";
 import NoteSettings from "@/components/dashboard-components/NoteSettings";
-import { useRouter } from "next/navigation";
 import TablesNotFound from "@/components/dashboard-components/TablesNotFound";
 import { useState } from "react";
 import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";

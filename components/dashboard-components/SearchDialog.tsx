@@ -22,8 +22,7 @@ import { Button } from "../ui/button"
 import { Search } from "lucide-react"
 import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import Link from "next/link";
 interface SearchDialogProps{
     Variant:"SidebarMenuButton" | "Trigger",
     WithTheTitle:boolean,
@@ -32,10 +31,6 @@ interface SearchDialogProps{
 export default function SearchDialog({Variant,WithTheTitle,IconSize}:SearchDialogProps) {
   const viwer = useQuery(api.users.viewer);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId,{userid:viwer?._id});
-  const router = useRouter()
-  const handleRouting = (noteId: any,noteSlug: any,workingSpacesSlug:any)=>{
-    router.push(`/dashboard/${workingSpacesSlug}/${noteSlug}?id=${noteId}`);
-  }
   return (
     <Dialog>
         <DialogTrigger asChild>
@@ -60,7 +55,7 @@ export default function SearchDialog({Variant,WithTheTitle,IconSize}:SearchDialo
                                 {
                                     getNotes.map((note) => (
                                         <CommandItem key={note._id} className=" group hover:bg-brand_tertiary/5 aria-selected:bg-brand_tertiary/5">
-                                            <button onClick={() => note.slug && handleRouting(note._id, note.slug,note.workingSpacesSlug)} className="w-full h-full flex flex-shrink-0 flex-grow-0 justify-between items-start gap-1">
+                                            <Link href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`} className="w-full h-full flex flex-shrink-0 flex-grow-0 justify-between items-start gap-1">
                                                 <h1 className="text-lg font-medium text-nowrap">
                                                 {note.title ? (note.title.length > 20 ? `${note.title.substring(0, 20)}...` : note.title) : 'Untitled'}
                                                 </h1>
@@ -68,7 +63,7 @@ export default function SearchDialog({Variant,WithTheTitle,IconSize}:SearchDialo
                                                     <Calendar size="16"/>
                                                     <p className=" font-normal text-sm">{new Date(note.createdAt).toLocaleDateString()}</p>
                                                 </span>
-                                            </button>
+                                            </Link>
                                         </CommandItem>
                                     ))
                                 }
