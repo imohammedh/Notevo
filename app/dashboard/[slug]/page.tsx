@@ -20,7 +20,10 @@ export default function WorkingSpacePage() {
   const getNoteTable = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId: workingSpaceId,
   });
-  const getNotes = useQuery(api.mutations.notes.getNotes);
+  const viwer = useQuery(api.users.viewer);
+  const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
+    userid: viwer?._id,
+  });
   const createNote = useMutation(api.mutations.notes.createNote);
   const [loading, setLoading] = useState(false);
   const handlecreateNote = async (notesTableId: any) => {
