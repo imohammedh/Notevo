@@ -156,6 +156,7 @@ export default function AppSidebar() {
                     <Avatar className="max-w-10 max-h-10 flex items-center justify-center">
                       <AvatarImage
                         src={User?.image}
+                        className=" rounded-lg"
                         alt={User ? User.name?.charAt(0) : `...`}
                       />
                       <AvatarFallback>
