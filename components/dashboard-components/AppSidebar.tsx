@@ -34,10 +34,11 @@ import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
+
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
@@ -51,6 +52,18 @@ export default function AppSidebar() {
   const [hoveredWorkingSpaceId, setHoveredWorkingSpaceId] = useState<
     string | null
   >(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Adjust the width as needed
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Call on mount to set initial state
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleCreateWorkingSpace = () => {
     createWorkingSpace({ name: "Untitled" });
@@ -71,6 +84,9 @@ export default function AppSidebar() {
       setLoading(false);
     }
   };
+
+  // Conditionally render the sidebar based on screen size
+  if (isMobile) return null; // Remove from DOM on mobile view
 
   return (
     <Sidebar className=" border-brand_tertiary/20">
