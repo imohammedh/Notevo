@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
+import LoadingAnimation from "../ui/LoadingAnimation";
 export default function FloatingNavbar() {
   const User = useQuery(api.users.viewer);
   const router = useRouter();
@@ -69,11 +70,11 @@ export default function FloatingNavbar() {
   };
 
   return (
-    <div className="fixed w-full bottom-0 right-0 h-14 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/5 rounded-t-2xl block sm:hidden ">
+    <div className="fixed w-full bottom-0 right-0 h-16 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/5 block sm:hidden ">
       <div className=" w-full h-full flex justify-center items-center gap-5">
         <Button
           variant="Trigger"
-          className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+          className="justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
         >
           <Link href="/dashboard">
             <Home size="24" />
@@ -82,7 +83,7 @@ export default function FloatingNavbar() {
         <SearchDialog Variant="Trigger" WithTheTitle={false} IconSize="24" />
         <Button
           variant="Trigger"
-          className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+          className="justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
           onClick={
             searchParams === null ? handleCreateWorkingSpace : handleCreateTable
           }
@@ -92,20 +93,31 @@ export default function FloatingNavbar() {
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="Trigger"
-              className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
-            >
-              <Avatar className="rounded-lg max-w-8 max-h-8 flex items-center justify-center border border-solid border-brand_tertiary/20">
-                <AvatarImage
-                  src={User?.image}
-                  alt={User ? User.name?.charAt(0) : "user not found".charAt(0)}
-                />
-                <AvatarFallback>
-                  {User ? User.name?.charAt(0) : "user not found".charAt(0)}
-                </AvatarFallback>
-              </Avatar>
-            </Button>
+            {Signoutloading === false ? (
+              <Button
+                variant="Trigger"
+                className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+              >
+                <Avatar className="max-w-9 max-h-9 flex items-center justify-center">
+                  <AvatarImage
+                    src={User?.image}
+                    className=" rounded-lg"
+                    alt={User ? User.name?.charAt(0) : ""}
+                  />
+                  <AvatarFallback>
+                    {User ? User.name?.charAt(0) : <LoadingAnimation />}
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            ) : (
+              <Button
+                variant="Trigger"
+                className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+                disabled={Signoutloading}
+              >
+                <LoadingAnimation />
+              </Button>
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent
             side="top"
