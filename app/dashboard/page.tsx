@@ -10,6 +10,7 @@ import { useState } from "react";
 import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
 import Link from "next/link";
+import SkeletonTextAnimation from "@/components/ui/SkeletonTextAnimation";
 export default function ProductPage() {
   const viwer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(
@@ -34,7 +35,7 @@ export default function ProductPage() {
             {viwer?.name ? (
               `${viwer.name.split(" ")[0].length > 10 ? `${viwer.name.split(" ")[0].substring(0, 10)}...` : viwer.name.split(" ")[0]}${viwer.name.split(" ")[1] ? ` ${viwer.name.split(" ")[1].charAt(0)}.` : "."}`
             ) : (
-              <LoadingAnimation className="mx-3 h-7 w-7" />
+              <SkeletonTextAnimation />
             )}
           </h1>
         </div>

@@ -38,6 +38,7 @@ import { useState } from "react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
+import SkeletonTextAnimation from "../ui/SkeletonTextAnimation";
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
@@ -163,18 +164,20 @@ export default function AppSidebar() {
                         {User ? User.name?.charAt(0) : <LoadingAnimation />}
                       </AvatarFallback>
                     </Avatar>
-                    <p className=" flex flex-col items-start justify-center">
-                      <span>
-                        {User?.name
-                          ? `${User.name.split(" ")[0].length > 10 ? `${User.name.split(" ")[0].substring(0, 10)}...` : User.name.split(" ")[0]}${User.name.split(" ")[1] ? ` ${User.name.split(" ")[1].charAt(0)}.` : "."}`
-                          : "..."}
-                      </span>
-                      <span>
+                    <div className=" flex flex-col items-start justify-center">
+                      <div>
+                        {User?.name ? (
+                          `${User.name.split(" ")[0].length > 10 ? `${User.name.split(" ")[0].substring(0, 10)}...` : User.name.split(" ")[0]}${User.name.split(" ")[1] ? ` ${User.name.split(" ")[1].charAt(0)}.` : "."}`
+                        ) : (
+                          <SkeletonTextAnimation className=" w-28" />
+                        )}
+                      </div>
+                      <div>
                         {User?.email && User.email.length > 6
                           ? User.email.replace(/(.{3})(.*)(@.{3})/, "$1...$3")
-                          : "..."}
-                      </span>
-                    </p>
+                          : ""}
+                      </div>
+                    </div>
                     <TbSelector className=" text-xl" />
                   </Button>
                 ) : (
