@@ -74,10 +74,14 @@ export default function ProductPage() {
               disabled={loading}
               className="p-3.5 w-full h-40 group flex justify-center items-center border border-dashed border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105"
             >
-              <Plus
-                size="24"
-                className="transition-all duration-300 opacity-10 group-hover:opacity-80"
-              />
+              {loading === false ? (
+                <Plus
+                  size="24"
+                  className="transition-all duration-300 opacity-10 group-hover:opacity-80"
+                />
+              ) : (
+                <LoadingAnimation />
+              )}
             </button>
           </div>
         ) : (
