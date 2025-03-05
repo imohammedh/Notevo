@@ -3,8 +3,12 @@ import CreateNoteBtn from "./CreateNoteBtn";
 import MaxWContainer from "../ui/MaxWContainer";
 interface NoteNotFoundProps {
   notesTableId: string | any;
+  workingSpacesSlug: string | any;
 }
-export default function NoteNotFound({ notesTableId }: NoteNotFoundProps) {
+export default function NoteNotFound({
+  notesTableId,
+  workingSpacesSlug,
+}: NoteNotFoundProps) {
   return (
     <MaxWContainer>
       <div className="w-full text-center py-14">
@@ -15,7 +19,10 @@ export default function NoteNotFound({ notesTableId }: NoteNotFoundProps) {
           </h1>
         </div>
         <div className="w-full flex items-center justify-center mt-5">
-          <CreateNoteBtn notesTableId={notesTableId} />
+          <CreateNoteBtn
+            notesTableId={notesTableId}
+            workingSpacesSlug={workingSpacesSlug}
+          />
         </div>
       </div>
     </MaxWContainer>

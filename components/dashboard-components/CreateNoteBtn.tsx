@@ -4,13 +4,16 @@ import { Button } from "../ui/button";
 import { useMutation } from "convex/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import LoadingAnimation from "../ui/LoadingAnimation";
 interface CreateNoteBtnProps {
   notesTableId: string | any;
+  workingSpacesSlug: string | any;
   className?: string;
 }
 
 export default function CreateNoteBtn({
   notesTableId,
+  workingSpacesSlug,
   className,
 }: CreateNoteBtnProps) {
   const [loading, setLoading] = useState(false);
@@ -19,7 +22,11 @@ export default function CreateNoteBtn({
   const handleCreateNote = async () => {
     setLoading(true);
     try {
-      await createNote({ notesTableId: notesTableId, title: "Untitled" });
+      await createNote({
+        notesTableId: notesTableId,
+        workingSpacesSlug: workingSpacesSlug,
+        title: "Untitled",
+      });
     } finally {
       setLoading(false);
     }
@@ -28,15 +35,18 @@ export default function CreateNoteBtn({
   return (
     <Button
       className={cn(
-        " flex items-center justify-between gap-2 h-8 px-2 ",
+        " flex items-center justify-between gap-2 h-9 px-2 ",
         className,
       )}
-      variant="ghost"
+      variant="outline"
       onClick={handleCreateNote}
       disabled={loading}
     >
       {loading ? (
-        "New Note..."
+        <>
+          <LoadingAnimation className=" h-3 w-3" />
+          <p className=" hidden sm:block">New Note...</p>
+        </>
       ) : (
         <>
           <Plus size="20" /> <p className=" hidden sm:block">New Note</p>
