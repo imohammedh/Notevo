@@ -48,7 +48,10 @@ export default function WorkingSpacePage() {
                       <TableSettings notesTableId={table._id} />
                       {table.name}
                     </h1>
-                    <CreateNoteBtn notesTableId={table._id} />
+                    <CreateNoteBtn
+                      notesTableId={table._id}
+                      workingSpacesSlug={Params.slug}
+                    />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-c ols-3 lg:grid-cols-4 gap-2">
                     {getNotes?.map(
