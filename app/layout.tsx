@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <ConvexClientProvider>
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en">
           <body
             className={cn(
               "bg-brand_primary text-brand_tertiary flex flex-col min-h-screen",
