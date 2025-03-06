@@ -11,7 +11,6 @@ import {
   CodeBlockLowlight,
 } from "novel";
 import { UploadImagesPlugin } from "novel";
-import { common, createLowlight} from "lowlight";
 import { cx } from "class-variance-authority";
 
 //TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
@@ -110,11 +109,6 @@ const starterKit = StarterKit.configure({
   gapcursor: false,
 });
 
-const codeBlockLowlight = CodeBlockLowlight.configure({
-  // configure lowlight: common /  all / use highlightJS in case there is a need to specify certain language grammars only
-  // common: covers 37 language grammars which should be good enough in most cases
-  lowlight: createLowlight(common),
-});
 
 export const defaultExtensions = [
   starterKit,
@@ -124,7 +118,6 @@ export const defaultExtensions = [
   updatedImage,
   taskList,
   taskItem,
-  codeBlockLowlight,
   horizontalRule,
   aiHighlight,
 ];
