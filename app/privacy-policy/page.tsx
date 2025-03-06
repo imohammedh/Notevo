@@ -13,13 +13,14 @@ export default function page() {
           <Section className="py-10 px-5">
             <h1 className="text-4xl font-bold py-5">Notevo Privacy Policy</h1>
             <p className="text-lg leading-relaxed">
-              Notevo ("we," "us," or "our") provides this Privacy Policy to
-              inform you of our policies and procedures regarding the
-              collection, use, and disclosure of personal information we may
-              receive from users of our website ("Site"), accessible from
-              https://notevo.vercel.app "Just for now", and any other services
-              offered by us in connection with our Site (any and all of the
-              foregoing, the "Services").
+              Notevo (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;)
+              provides this Privacy Policy to inform you of our policies and
+              procedures regarding the collection, use, and disclosure of
+              personal information we may receive from users of our website
+              (&quot;Site&quot;), accessible from https://notevo.vercel.app
+              &quot;Just for now&quot;, and any other services offered by us in
+              connection with our Site (any and all of the foregoing, the
+              &quot;Services&quot;).
             </p>
             <p>
               If you have additional questions or require more information about
@@ -70,12 +71,12 @@ export default function page() {
               Our services may contain links to other websites, applications,
               and online services. If you choose to visit a third-party service
               or click on a third-party link, you will be directed to that third
-              party's website, application, or online service. The fact that we
-              link to a website or content is not an endorsement, authorization,
-              or representation of our affiliation with that third party, nor is
-              it an endorsement of their privacy or information security
-              policies or practices. We do not exercise control over third-party
-              websites or services.
+              party&apos;s website, application, or online service. The fact
+              that we link to a website or content is not an endorsement,
+              authorization, or representation of our affiliation with that
+              third party, nor is it an endorsement of their privacy or
+              information security policies or practices. We do not exercise
+              control over third-party websites or services.
             </p>
             <h2 className="text-2xl font-semibold mt-8">
               Third-Party Privacy Policies
@@ -88,10 +89,12 @@ export default function page() {
               certain options.
             </p>
             <p>
-              You can choose to disable cookies through your individual browser
-              settings. More detailed information about cookie management with
-              specific web browsers can be found on the browsers' respective
-              websites.
+              {`
+                    You can choose to disable cookies through your individual browser
+                    settings. More detailed information about cookie management with
+                    specific web browsers can be found on the browsers' respective
+                    websites.
+                    `}
             </p>
             <h2 className="text-2xl font-semibold mt-8">Cookies</h2>
             <p>
@@ -172,10 +175,10 @@ export default function page() {
             </h2>
             <p>
               This Privacy Policy may be revised periodically, and this will be
-              reflected by a "Last modified" date below. We advise you to review
-              this page periodically for any changes. We will notify you of any
-              changes by posting the new Privacy Policy on this page. These
-              changes are effective immediately upon posting.
+              reflected by a &quot;Last modified&quot; date below. We advise you
+              to review this page periodically for any changes. We will notify
+              you of any changes by posting the new Privacy Policy on this page.
+              These changes are effective immediately upon posting.
             </p>
             <p className="py-10">
               <strong>Last Modified:</strong> 03/06/2025

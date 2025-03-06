@@ -22,10 +22,10 @@ export default function page() {
               No Warranty or Guarantee
             </h3>
             <p>
-              We provide this service "as-is" and without any warranty or
-              guarantee. While we make every effort to ensure the functionality,
-              security, and reliability of our platform, we do not make any
-              representations or warranties regarding the accuracy,
+              We provide this service &quot;as-is&quot; and without any warranty
+              or guarantee. While we make every effort to ensure the
+              functionality, security, and reliability of our platform, we do
+              not make any representations or warranties regarding the accuracy,
               completeness, or suitability of the information and materials
               found or offered on this platform.
             </p>
@@ -49,11 +49,11 @@ export default function page() {
             </p>
             <h3 className="text-xl font-medium mt-6">Indemnification</h3>
             <p>
-              By using this service, you agree to indemnify and hold Notevo
+              By using our service, you agree to indemnify and hold Notevo
               harmless from any claims, actions, damages, liabilities, costs,
-              and expenses, including reasonable attorneys' fees, arising out of
-              or in connection with your use of the service or any violation of
-              these terms.
+              and expenses, including reasonable attorneys&apos; fees, arising
+              out of or in connection with your use of the service or any
+              violation of these terms.
             </p>
             <p>
               If you do not agree with any part of these terms, your only
@@ -96,10 +96,12 @@ export default function page() {
             </h2>
             <h3 className="text-xl font-medium mt-6">Uptime</h3>
             <p>
-              While we strive to maintain the availability of our services, we
-              do not provide any service level agreement (SLA). The website's
-              uptime may be subject to occasional interruptions, including
-              maintenance, updates, or unforeseen technical issues.
+              {`
+                    While we strive to maintain the availability of our services, we
+                    do not provide any service level agreement (SLA). The website's
+                    uptime may be subject to occasional interruptions, including
+                    maintenance, updates, or unforeseen technical issues.
+                    `}
             </p>
             <h3 className="text-xl font-medium mt-6">Security</h3>
             <p>
@@ -206,10 +208,12 @@ export default function page() {
             </p>
             <h3 className="text-xl font-medium mt-6">Review of Terms</h3>
             <p>
-              It's advisable to review these terms regularly to ensure that you
-              are aware of any changes that may affect your use of Notevo. Your
-              continued use of the service after updates indicates your
-              agreement to be bound by the modified terms.
+              {`
+                    It's advisable to review these terms regularly to ensure that you
+                    are aware of any changes that may affect your use of Notevo. Your
+                    continued use of the service after updates indicates your
+                    agreement to be bound by the modified terms.
+                    `}
             </p>
             <p className="py-10">
               <strong>Last Modified: 3/6/2025</strong>
