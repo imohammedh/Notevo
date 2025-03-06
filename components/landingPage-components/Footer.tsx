@@ -3,7 +3,7 @@ import NotevoLogo from "@/public/NoteWise-logo.svg";
 import Image from "next/image";
 export default function Footer() {
   return (
-    <footer className="w-full bg-brand_fourthary text-brand_tertiary py-10">
+    <footer className="w-full bg-brand_fourthary rounded-t-xl text-brand_tertiary py-10">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo and Description */}
@@ -60,9 +60,9 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-
-        <div className="mt-8 text-center text-gray-500 text-sm">
-          © {new Date().getFullYear()} Notevo. All rights reserved.
+        <div className="mt-8 text-start text-gray-500 text-sm">
+          <hr className=" border-brand_tertiary/10 py-5" />©{" "}
+          {new Date().getFullYear()} Notevo. All rights reserved.
         </div>
       </div>
     </footer>
