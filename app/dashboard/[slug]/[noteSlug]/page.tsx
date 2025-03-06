@@ -52,10 +52,10 @@ export default function NotePage() {
     <MaxWContainer>
       {step !== undefined ||
         (!getNote?.body && (
-          <div className=" w-full flex justify-center items-center gap-5 py-16">
+          <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-5 py-16">
             <button
               onClick={() => setStep("writeingNote")}
-              className=" p-5 w-1/4 h-32 text-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105"
+              className="p-5 w-full sm:w-1/4 h-32 text-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105"
             >
               <span className=" flex flex-col justify-center items-start">
                 <h1 className=" text-brand_tertiary text-lg py-2">
