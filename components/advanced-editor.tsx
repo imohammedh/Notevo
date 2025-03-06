@@ -21,21 +21,19 @@ import { LinkSelector } from "./selectors/link-selector";
 import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { uploadFn } from "./image-upload";
-const hljs = require("highlight.js");
 const extensions = [...defaultExtensions, slashCommand];
 
-const TailwindAdvancedEditor = ({ initialContent, onUpdate }: { initialContent: any, onUpdate: (editor: EditorInstance) => void }) => {
+const TailwindAdvancedEditor = ({
+  initialContent,
+  onUpdate,
+}: {
+  initialContent: any;
+  onUpdate: (editor: EditorInstance) => void;
+}) => {
   const [openNode, setOpenNode] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
 
-  const highlightCodeblocks = (content: string) => {
-    const doc = new DOMParser().parseFromString(content, "text/html");
-    doc.querySelectorAll("pre code").forEach((el) => {
-      hljs.highlightElement(el);
-    });
-    return new XMLSerializer().serializeToString(doc);
-  };
   return (
     <EditorRoot>
       <EditorContent
@@ -47,16 +45,20 @@ const TailwindAdvancedEditor = ({ initialContent, onUpdate }: { initialContent: 
             keydown: (_view, event) => handleCommandNavigation(event),
           },
           handlePaste: (view, event) => handleImagePaste(view, event, uploadFn),
-          handleDrop: (view, event, _slice, moved) => handleImageDrop(view, event, moved, uploadFn),
+          handleDrop: (view, event, _slice, moved) =>
+            handleImageDrop(view, event, moved, uploadFn),
           attributes: {
-            class: "text-brand_secondary py-10 prose-stone prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none w-full",
+            class:
+              "text-brand_secondary py-10 prose-stone prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none w-full",
           },
         }}
         onUpdate={({ editor }) => onUpdate(editor)}
         slotAfter={<ImageResizer />}
       >
         <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary">
-          <EditorCommandEmpty className="px-2 text-brand_tertiary">No results</EditorCommandEmpty>
+          <EditorCommandEmpty className="px-2 text-brand_tertiary">
+            No results
+          </EditorCommandEmpty>
           <EditorCommandList>
             {suggestionItems.map((item: any) => (
               <EditorCommandItem
@@ -70,7 +72,9 @@ const TailwindAdvancedEditor = ({ initialContent, onUpdate }: { initialContent: 
                 </div>
                 <div>
                   <p className="font-medium">{item.title}</p>
-                  <p className="text-xs text-brand_tertiary/50">{item.description}</p>
+                  <p className="text-xs text-brand_tertiary/50">
+                    {item.description}
+                  </p>
                 </div>
               </EditorCommandItem>
             ))}
