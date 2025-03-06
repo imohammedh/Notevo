@@ -8,6 +8,7 @@ import Navbar from "@/components/landingPage-components/Navbar";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
+import Footer from "@/components/landingPage-components/Footer";
 export default function HomePage() {
   const viewer = useQuery(api.auth.isAuthenticated);
   if (!viewer) {
@@ -19,8 +20,9 @@ export default function HomePage() {
           <HowToStartSection />
           <FeaturesSection />
           <Testimonials />
+          <SignUpToday />
         </div>
-        <SignUpToday />
+        <Footer />
       </div>
     );
   } else {
