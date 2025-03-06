@@ -70,7 +70,7 @@ export default function NotePage() {
             <button
               onClick={() => setStep("contrbute")}
               disabled={true}
-              className=" relative opacity-70 p-4 w-1/4 h-32 text-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105"
+              className=" relative opacity-70 p-5 w-full sm:w-1/4 h-32 text-start border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105"
             >
               <span className=" flex flex-col justify-center items-start">
                 <h1 className=" text-brand_tertiary text-lg py-2">
