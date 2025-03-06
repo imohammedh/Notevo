@@ -25,16 +25,6 @@ export default function WorkingSpacePage() {
     userid: viwer?._id,
   });
   const createNote = useMutation(api.mutations.notes.createNote);
-  const [loading, setLoading] = useState(false);
-  const handlecreateNote = async (notesTableId: any) => {
-    setLoading(true);
-    await createNote({
-      notesTableId: notesTableId,
-      title: "Untitled",
-      workingSpacesSlug: Params.slug,
-    });
-    setLoading(false);
-  };
   return (
     <MaxWContainer className=" relative mb-20">
       <ADiv>
@@ -86,16 +76,6 @@ export default function WorkingSpacePage() {
                           </div>
                         ),
                     )}
-                    <button
-                      onClick={() => handlecreateNote(table._id)}
-                      disabled={loading}
-                      className="p-3.5 w-full h-40 group flex justify-center items-center border border-dashed border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105"
-                    >
-                      <Plus
-                        size="24"
-                        className="transition-all duration-300 opacity-10 group-hover:opacity-80"
-                      />
-                    </button>
                   </div>
                 </div>
               }
