@@ -36,13 +36,11 @@ export const WobbleCard = ({
         transition: "transform 0.1s ease-out",
       }}
       className={cn(
-        "mx-auto w-full bg-transparent relative rounded-md overflow-hidden",
-        containerClassName
+        "mx-auto w-full bg-transparent relative rounded-xl overflow-hidden",
+        containerClassName,
       )}
     >
-      <div
-        className="relative  h-full [background-image:radial-gradient(88%_100%_at_top,rgba(255,255,255,0.5),rgba(255,255,255,0))]  sm:mx-0 sm:rounded-md overflow-hidden"
-      >
+      <div className="relative  h-full  sm:mx-0 sm:rounded-md overflow-hidden">
         <motion.div
           style={{
             transform: isHovering
@@ -63,7 +61,7 @@ export const WobbleCard = ({
 const Noise = () => {
   return (
     <div
-      className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
+      className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 "
       style={{
         backgroundSize: "30%",
       }}
