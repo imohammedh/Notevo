@@ -9,7 +9,7 @@ export default function HeroSection() {
   return (
     <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-20 flex justify-center items-center w-full">
       <motion.div
-        className=" mx-2 lg:mx-10 py-10 w-full bg-gradient-to-b from-brand_fourthary to-transparent rounded-xl"
+        className=" mx-2 lg:mx-10 py-10 w-full bg-gradient-to-b from-brand_fourthary via-purple-900/10 to-transparent rounded-xl"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ ease: "easeInOut", duration: 0.3, delay: 0.3 }}
@@ -22,7 +22,10 @@ export default function HeroSection() {
             className="text-2xl sm:text-4xl lg:text-7xl font-semibold pb-3 lg:pb-5"
           >
             Take Notes to the Next Level with <br className="hidden sm:block" />
-            AI-Powered Conversations
+            <span className="bg-gradient-to-l from-purple-900 from-15% to-purple-600 text-transparent bg-clip-text font-extrabold">
+              AI-Powered
+            </span>{" "}
+            Conversations
           </motion.h1>
           <motion.p
             initial={{ y: 100, opacity: 0 }}
