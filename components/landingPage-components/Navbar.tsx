@@ -43,6 +43,7 @@ export default function Navbar() {
             <Image
               src={imgsrc}
               alt="NoteWise Logo"
+              className="hover:opacity-50"
               priority
               width={40}
               height={40}
