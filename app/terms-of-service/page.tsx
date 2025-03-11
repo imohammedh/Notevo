@@ -10,7 +10,7 @@ export default function page() {
       <Navbar />
       <div className="flex-grow">
         <MaxWContainer>
-          <Section className="py-10 px-5">
+          <section className="py-20 px-5">
             <h1 className="text-4xl font-bold py-5">Notevo Terms of Service</h1>
             <h2 className="text-2xl font-semibold mt-8">Liability</h2>
             <p>
@@ -218,7 +218,7 @@ export default function page() {
             <p className="py-10">
               <strong>Last Modified: 3/6/2025</strong>
             </p>
-          </Section>
+          </section>
         </MaxWContainer>
       </div>
       <Footer />
