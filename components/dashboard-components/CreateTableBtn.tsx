@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-
+import LoadingAnimation from "../ui/LoadingAnimation";
 interface CreateTableBtnProps {
   workingSpaceId: string | any;
   className?: string;
@@ -33,11 +33,15 @@ export default function CreateTableBtn({
         "lg:flex items-center justify-between gap-2 hidden",
         className,
       )}
+      variant="outline"
       onClick={handleCreateTable}
       disabled={loading}
     >
       {loading ? (
-        "Create Table..."
+        <>
+          <LoadingAnimation className=" h-4 w-4" />
+          Create Table...
+        </>
       ) : (
         <>
           <Plus size="20" /> <p className="hidden sm:block">Create Table</p>
