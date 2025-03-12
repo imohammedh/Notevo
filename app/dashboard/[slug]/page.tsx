@@ -88,8 +88,8 @@ export default function WorkingSpacePage() {
                           ),
                       )
                     ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                        {Array.from({ length: 3 }).map((_, index) => (
+                      <div>
+                        {Array.from({ length: 1 }).map((_, index) => (
                           <div key={index}>
                             <div className="relative group p-3.5 w-full h-40 border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300">
                               <div className="skeleton w-32 h-6 bg-brand_tertiary/20 rounded mb-2"></div>
