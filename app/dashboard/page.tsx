@@ -70,8 +70,8 @@ export default function ProductPage() {
               </div>
             ))
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {Array.from({ length: 3 }).map((_, index) => (
+            <div>
+              {Array.from({ length: 1 }).map((_, index) => (
                 <div
                   key={index}
                   className="relative group p-3.5 w-full h-40 border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300"
@@ -85,9 +85,6 @@ export default function ProductPage() {
                   </div>
                 </div>
               ))}
-              <div className="p-3.5 w-full h-40 group flex justify-center items-center border border-dashed border-brand_tertiary/10 rounded-lg transition-all duration-300">
-                <div className="h-10 w-10 rounded bg-brand_tertiary/20 animate-pulse"></div>
-              </div>
             </div>
           )}
           <button
