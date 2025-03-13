@@ -3,7 +3,7 @@ import { NavLinks } from "../../lib/data";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import imgsrc from "../../public/NoteWise-logo.svg";
+import imgsrc from "../../public/Notevo-logo.svg";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
