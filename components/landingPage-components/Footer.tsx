@@ -1,5 +1,5 @@
 import Link from "next/link";
-import NotevoLogo from "@/public/NoteWise-logo.svg";
+import NotevoLogo from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 export default function Footer() {
   return (
