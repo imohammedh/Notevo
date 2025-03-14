@@ -43,6 +43,7 @@ export default function NotePage() {
         body: JSON.stringify(updatedContent),
         workingSpacesSlug: getNote?.workingSpacesSlug,
         createdAt: getNote?.createdAt,
+        order: getNote?.order,
       });
     },
     500,
