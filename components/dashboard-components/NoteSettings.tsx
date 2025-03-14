@@ -18,15 +18,18 @@ interface NoteSettingsProps {
 export default function NoteSettings({ noteId }: NoteSettingsProps) {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const viwer = useQuery(api.users.viewer);
+
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
-  const getNotes = useQuery(api.mutations.notes.getNotes);
+  const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
+    userid: viwer?._id,
+  });
   const getNote = getNotes?.find((note) => note._id === noteId);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-  const viwer = useQuery(api.users.viewer);
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key) {
@@ -38,6 +41,7 @@ export default function NoteSettings({ noteId }: NoteSettingsProps) {
         body: getNote?.body,
         workingSpacesSlug: getNote?.workingSpacesSlug,
         createdAt: getNote?.createdAt,
+        order: getNote?.order,
       });
     }
   };
