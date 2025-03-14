@@ -16,6 +16,7 @@ import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";
 import Link from "next/link";
 import { Tooltip } from "@heroui/tooltip";
 import { parseSlug } from "@/lib/parseSlug";
+import { MdDragIndicator } from "react-icons/md";
 
 export default function WorkingSpacePage() {
   const searchParams = useSearchParams();
@@ -128,25 +129,24 @@ export default function WorkingSpacePage() {
                                       className={`${snapshot.isDragging ? "opacity-80" : ""}`}
                                     >
                                       <div className="relative group p-3.5 w-full h-40 bg-brand_primary border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105">
-                                        <Tooltip
-                                          className="bg-brand_fourthary text-sm rounded-xl"
-                                          content="move or open"
-                                          showArrow={true}
-                                          placement="bottom-end"
+                                        <span className=" absolute top-4 -left-6 opacity-0 group-hover:opacity-50">
+                                          <MdDragIndicator
+                                            size="24"
+                                            className="opacity-0 group-hover:opacity-50 text-brand_tertiary"
+                                          />
+                                        </span>
+                                        <Link
+                                          href={`/dashboard/${Params.slug}/${note.slug}?id=${note._id}`}
+                                          className="w-full h-full flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start gap-1"
                                         >
-                                          <Link
-                                            href={`/dashboard/${Params.slug}/${note.slug}?id=${note._id}`}
-                                            className="w-full h-full flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start gap-1"
-                                          >
-                                            <h1 className="text-lg font-medium text-nowrap">
-                                              {note.title
-                                                ? note.title.length > 20
-                                                  ? `${note.title.substring(0, 20)}...`
-                                                  : note.title
-                                                : "Untitled"}
-                                            </h1>
-                                          </Link>
-                                        </Tooltip>
+                                          <h1 className="text-lg font-medium text-nowrap">
+                                            {note.title
+                                              ? note.title.length > 20
+                                                ? `${note.title.substring(0, 20)}...`
+                                                : note.title
+                                              : "Untitled"}
+                                          </h1>
+                                        </Link>
                                         <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                                           <NoteSettings noteId={note._id} />
                                         </span>
