@@ -130,7 +130,7 @@ export default function WorkingSpacePage() {
                                       <div className="relative group p-3.5 w-full h-40 bg-brand_primary border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105">
                                         <Tooltip
                                           className="bg-brand_fourthary text-sm rounded-xl"
-                                          content="drag or open"
+                                          content="move or open"
                                           showArrow={true}
                                           placement="bottom-end"
                                         >
