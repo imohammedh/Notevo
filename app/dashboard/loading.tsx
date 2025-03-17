@@ -19,8 +19,7 @@ export default function loading() {
               <div className="h-full flex flex-col justify-start items-start gap-1">
                 <div className="h-6 rounded bg-brand_tertiary/20 animate-pulse"></div>
                 <div className="flex justify-center items-center gap-1 absolute bottom-5 left-5">
-                  <div className="w-10 h-10 rounded bg-brand_tertiary/20 animate-pulse"></div>
-                  <div className="h-4 w-24 rounded bg-brand_tertiary/20 animate-pulse"></div>
+                  <div className="h-4 w-32 rounded bg-brand_tertiary/20 animate-pulse"></div>
                 </div>
               </div>
             </div>
