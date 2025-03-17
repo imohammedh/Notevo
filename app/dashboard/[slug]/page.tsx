@@ -129,12 +129,6 @@ export default function WorkingSpacePage() {
                                       className={`${snapshot.isDragging ? "opacity-80" : ""}`}
                                     >
                                       <div className="relative group p-3.5 w-full h-40 bg-brand_primary border border-solid border-brand_tertiary/10 rounded-lg transition-all duration-300 hover:border-brand_tertiary/30 hover:scale-y-105">
-                                        <span className=" absolute top-4 -left-6 opacity-0 group-hover:opacity-50">
-                                          <MdDragIndicator
-                                            size="24"
-                                            className="opacity-0 group-hover:opacity-50 text-brand_tertiary"
-                                          />
-                                        </span>
                                         <Link
                                           href={`/dashboard/${Params.slug}/${note.slug}?id=${note._id}`}
                                           className="w-full h-full flex flex-col flex-shrink-0 flex-grow-0 justify-start items-start gap-1"
