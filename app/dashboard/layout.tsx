@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <div className=" w-full fixed top-0 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)] z-50 p-2">
           <div className="flex items-center justify-start gap-2">
             <SidebarTrigger className=" lg:block hidden" />
-            <BreadcrumbWithCustomSeparator />
+            {isClient && <BreadcrumbWithCustomSeparator />}
           </div>
         </div>
         <div className=" mt-16">{children}</div>
