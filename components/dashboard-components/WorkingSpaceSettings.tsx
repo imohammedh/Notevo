@@ -54,7 +54,11 @@ export default function WorkingSpaceSettings({
           <FaEllipsis size="16" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-52 p-2 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg">
+      <DropdownMenuContent
+        side="right"
+        align="start"
+        className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
+      >
         <DropdownMenuGroup className="relative">
           <Input
             type="text"
@@ -67,17 +71,17 @@ export default function WorkingSpaceSettings({
         </DropdownMenuGroup>
         <Button
           variant="SidebarMenuButton"
-          className="w-full"
+          className="w-full text-sm"
           onClick={handleDelete}
           disabled={isDeleting}
         >
           {isDeleting ? (
             <>
-              <FaRegTrashCan size="16" /> Deleting...
+              <FaRegTrashCan size="14" /> Deleting...
             </>
           ) : (
             <>
-              <FaRegTrashCan size="16" /> Delete
+              <FaRegTrashCan size="14" /> Delete
             </>
           )}
         </Button>

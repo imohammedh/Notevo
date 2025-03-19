@@ -106,7 +106,7 @@ export default function AppSidebar() {
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel className=" text-brand_tertiary/50">
-            Your WorkingSpacs
+            My WorkingSpacs
           </SidebarGroupLabel>
           <SidebarGroupAction
             title="Add Project"
