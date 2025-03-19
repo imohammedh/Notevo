@@ -58,7 +58,11 @@ export default function NoteSettings({ noteId }: NoteSettingsProps) {
           <FaEllipsisVertical size="18" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-52 p-2 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg">
+      <DropdownMenuContent
+        side="right"
+        align="start"
+        className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg"
+      >
         <DropdownMenuGroup className="relative">
           <Input
             type="text"
@@ -71,17 +75,17 @@ export default function NoteSettings({ noteId }: NoteSettingsProps) {
         </DropdownMenuGroup>
         <Button
           variant="SidebarMenuButton"
-          className="w-full"
+          className="w-full text-sm"
           onClick={handleDelete}
           disabled={isLoading}
         >
           {isLoading ? (
             <>
-              <FaRegTrashCan size="16" /> Deleting...
+              <FaRegTrashCan size="14" /> Deleting...
             </>
           ) : (
             <>
-              <FaRegTrashCan size="16" />
+              <FaRegTrashCan size="14" />
               Delete
             </>
           )}
