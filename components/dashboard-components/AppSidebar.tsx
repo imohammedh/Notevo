@@ -29,7 +29,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
@@ -65,7 +65,7 @@ export default function AppSidebar() {
     setLoading(true);
     try {
       await signOut();
-      redirect("/");
+      router.push("/");
     } catch (error) {
       console.error(error);
     } finally {
@@ -121,23 +121,29 @@ export default function AppSidebar() {
               onMouseEnter={() => setHoveredWorkingSpaceId(workingSpace._id)}
               onMouseLeave={() => setHoveredWorkingSpaceId(null)}
             >
-              <Button
-                variant="SidebarMenuButton"
-                className=" px-2 h-8 group"
-                onClick={() =>
-                  workingSpace.slug &&
-                  handlePush(workingSpace.slug, workingSpace._id)
-                }
-              >
-                <Notebook size="16" />
-                {workingSpace.name.length > 20
-                  ? `${workingSpace.name.substring(0, 20)}...`
-                  : workingSpace.name}
+              <div className="flex w-full items-center relative">
+                <Button
+                  variant="SidebarMenuButton"
+                  className="px-2 h-8 group flex-1"
+                  onClick={() =>
+                    workingSpace.slug &&
+                    handlePush(workingSpace.slug, workingSpace._id)
+                  }
+                >
+                  <Notebook size="16" />
+                  {workingSpace.name.length > 20
+                    ? `${workingSpace.name.substring(0, 20)}...`
+                    : workingSpace.name}
+                </Button>
                 <WorkingSpaceSettings
-                  className={`absolute top-0 right-0 transition-opacity duration-200 ${hoveredWorkingSpaceId === workingSpace._id ? "opacity-100" : "opacity-0"}`}
+                  className={`absolute right-2 transition-opacity duration-200 ${
+                    hoveredWorkingSpaceId === workingSpace._id
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }`}
                   workingSpaceId={workingSpace._id}
                 />
-              </Button>
+              </div>
             </SidebarGroupContent>
           ))}
           <SidebarGroupContent />
