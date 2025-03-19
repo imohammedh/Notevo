@@ -1,3 +1,4 @@
+"use client";
 import { Slash } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRef, useEffect } from "react";

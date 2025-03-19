@@ -104,7 +104,6 @@ export default function ProductPage() {
       ) : (
         <WorkingSpaceNotFound />
       )}
-      <FloatingNavbar />
     </MaxWContainer>
   );
 }

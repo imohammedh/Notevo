@@ -209,7 +209,6 @@ export default function WorkingSpacePage() {
           <TablesNotFound workingSpaceId={workingSpaceId} />
         )}
       </DragDropContext>
-      <FloatingNavbar />
     </MaxWContainer>
   );
 }
