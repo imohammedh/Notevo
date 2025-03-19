@@ -1,5 +1,7 @@
 "use client";
 import { Calendar } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Command,
@@ -11,28 +13,43 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { Search } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
+
 interface SearchDialogProps {
   Variant: "SidebarMenuButton" | "Trigger";
   WithTheTitle: boolean;
   IconSize: "16" | "24";
 }
+
 export default function SearchDialog({
   Variant,
   WithTheTitle,
   IconSize,
 }: SearchDialogProps) {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
   const viwer = useQuery(api.users.viewer);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
     userid: viwer?._id,
   });
+
+  const handleItemClick = (href: string) => {
+    setOpen(false);
+    router.push(href);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant={Variant} className=" px-2 h-8 group">
           <Search size={IconSize} />
@@ -40,6 +57,7 @@ export default function SearchDialog({
         </Button>
       </DialogTrigger>
       <DialogContent className=" p-2 bg-brand_fourthary rounded-lg border-brand_tertiary/10 md:min-w-[450px]">
+        <DialogTitle className="sr-only">Search Notes</DialogTitle>
         <Command className=" bg-brand_fourthary">
           <CommandInput placeholder="Search for your note..." />
           <CommandList className="scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary">
@@ -57,6 +75,12 @@ export default function SearchDialog({
                   >
                     <Link
                       href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleItemClick(
+                          `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                        );
+                      }}
                       className="w-full h-full flex flex-shrink-0 flex-grow-0 justify-between items-start gap-1"
                     >
                       <h1 className="text-lg font-medium text-nowrap">
