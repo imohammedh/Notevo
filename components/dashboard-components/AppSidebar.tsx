@@ -3,6 +3,7 @@ import {
   Notebook,
   Home,
   Plus,
+  Pin,
   Search,
   CircleUserRound,
   CreditCard,
@@ -40,6 +41,7 @@ import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import SkeletonTextAnimation from "../ui/SkeletonTextAnimation";
 import SkeletonSmImgAnimation from "../ui/SkeletonSmImgAnimation";
+import NoteSettings from "./NoteSettings";
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
@@ -47,12 +49,21 @@ export default function AppSidebar() {
   const getWorkingSpaces = useQuery(
     api.mutations.workingSpaces.getWorkingSpaces,
   );
+  const viwer = useQuery(api.users.viewer);
   const User = useQuery(api.users.viewer);
   const router = useRouter();
   const { signOut } = useAuthActions();
   const [hoveredWorkingSpaceId, setHoveredWorkingSpaceId] = useState<
     string | null
   >(null);
+
+  // Query to fetch all notes by user ID
+  const getNotesByUserId = useQuery(api.mutations.notes.getNoteByUserId, {
+    userid: viwer?._id,
+  });
+
+  // Filter notes to get only the favorite ones
+  const favoriteNotes = getNotesByUserId?.filter((note) => note.favorite);
 
   const handleCreateWorkingSpace = () => {
     createWorkingSpace({ name: "Untitled" });
@@ -105,6 +116,35 @@ export default function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {favoriteNotes?.length !== 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel className=" text-brand_tertiary/50">
+              My Pinned Notes
+            </SidebarGroupLabel>
+            {favoriteNotes &&
+              favoriteNotes.map((note) => (
+                <SidebarGroupContent
+                  className="relative w-full flex justify-between items-center"
+                  key={note._id}
+                >
+                  <div className="flex w-full items-center relative">
+                    <Button
+                      variant="SidebarMenuButton"
+                      className="px-2 h-8 group flex-1"
+                    >
+                      <Pin size="16" />
+                      {note.title
+                        ? note.title.length > 20
+                          ? `${note.title.substring(0, 20)}...`
+                          : note.title
+                        : "Untitled"}
+                    </Button>
+                  </div>
+                </SidebarGroupContent>
+              ))}
+            <SidebarGroupContent />
+          </SidebarGroup>
+        )}
         <SidebarGroup>
           <SidebarGroupLabel className=" text-brand_tertiary/50">
             My WorkingSpacs
