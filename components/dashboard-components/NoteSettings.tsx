@@ -7,17 +7,25 @@ import {
   DropdownMenuGroup,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaEllipsisVertical, FaRegTrashCan } from "react-icons/fa6";
+import { FaEllipsisVertical, FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { Pin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import LoadingAnimation from "../ui/LoadingAnimation";
+import { cn } from "@/lib/utils";
 interface NoteSettingsProps {
   noteId: string | any;
   noteTitle: string | any;
+  IconVariant: "vertical_icon" | "horizontal_icon";
+  BtnClassName?: string | any;
 }
-export default function NoteSettings({ noteId, noteTitle }: NoteSettingsProps) {
+export default function NoteSettings({
+  noteId,
+  noteTitle,
+  IconVariant,
+  BtnClassName,
+}: NoteSettingsProps) {
   const [inputValue, setInputValue] = useState(noteTitle);
   const [ishandleDeleteLoading, setIshandleDeleteLoading] = useState(false);
   const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
@@ -74,12 +82,19 @@ export default function NoteSettings({ noteId, noteTitle }: NoteSettingsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="Trigger" className="px-0.5 h-8 mt-0.5 opacity-80">
-          <FaEllipsisVertical size="18" />
+        <Button
+          variant="Trigger"
+          className={cn("px-0.5 h-8 mt-0.5 opacity-80", BtnClassName)}
+        >
+          {IconVariant === "vertical_icon" ? (
+            <FaEllipsisVertical size="24" />
+          ) : (
+            <FaEllipsis size="16" />
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        side="right"
+        side="bottom"
         align="start"
         className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
       >

@@ -56,6 +56,7 @@ export default function AppSidebar() {
   const [hoveredWorkingSpaceId, setHoveredWorkingSpaceId] = useState<
     string | null
   >(null);
+  const [HoveredNoteId, setHoveredNoteId] = useState<string | null>(null);
 
   // Query to fetch all notes by user ID
   const getNotesByUserId = useQuery(api.mutations.notes.getNoteByUserId, {
@@ -72,7 +73,6 @@ export default function AppSidebar() {
     router.push(`/dashboard/${slug}?id=${workingSpaceid}`);
   };
   const [loading, setLoading] = useState(false);
-
   const handleSignOut = async () => {
     setLoading(true);
     try {
@@ -119,13 +119,15 @@ export default function AppSidebar() {
         {favoriteNotes?.length !== 0 && (
           <SidebarGroup>
             <SidebarGroupLabel className=" text-brand_tertiary/50">
-              My Pinned Notes
+              Pinned Notes
             </SidebarGroupLabel>
             {favoriteNotes &&
               favoriteNotes.map((note) => (
                 <SidebarGroupContent
                   className="relative w-full flex justify-between items-center"
                   key={note._id}
+                  onMouseEnter={() => setHoveredNoteId(note._id)}
+                  onMouseLeave={() => setHoveredNoteId(null)}
                 >
                   <div className="flex w-full items-center relative">
                     <Button
@@ -140,6 +142,14 @@ export default function AppSidebar() {
                         : "Untitled"}
                     </Button>
                   </div>
+                  <NoteSettings
+                    noteId={note._id}
+                    noteTitle={note.title}
+                    IconVariant="horizontal_icon"
+                    BtnClassName={`absolute right-2 transition-opacity duration-200 ${
+                      HoveredNoteId === note._id ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
                 </SidebarGroupContent>
               ))}
             <SidebarGroupContent />
@@ -147,7 +157,7 @@ export default function AppSidebar() {
         )}
         <SidebarGroup>
           <SidebarGroupLabel className=" text-brand_tertiary/50">
-            My WorkingSpacs
+            WorkingSpacs
           </SidebarGroupLabel>
           <SidebarGroupAction
             title="Add Project"
