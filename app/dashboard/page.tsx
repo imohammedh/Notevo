@@ -63,7 +63,11 @@ export default function ProductPage() {
                     </span>
                     <span className="flex justify-center items-center gap-1 absolute bottom-5 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                       <Clock size="16" />
-                      <p className=" font-normal text-sm">{`${new Date(orkspaces.updatedAt).toLocaleDateString()} . ${new Date(orkspaces.updatedAt).toLocaleTimeString()}`}</p>
+                      {typeof window !== "undefined" ? (
+                        <p className=" font-normal text-sm">{`${new Date(orkspaces.updatedAt).toLocaleDateString()}  ${new Date(orkspaces.updatedAt).toLocaleTimeString()}`}</p>
+                      ) : (
+                        <SkeletonTextAnimation />
+                      )}
                     </span>
                   </div>
                 }
