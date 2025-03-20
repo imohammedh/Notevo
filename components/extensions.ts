@@ -1,17 +1,31 @@
 import {
+  AIHighlight,
+  CharacterCount,
+  CodeBlockLowlight,
+  Color,
+  CustomKeymap,
+  GlobalDragHandle,
+  HighlightExtension,
+  HorizontalRule,
+  Mathematics,
+  Placeholder,
+  StarterKit,
+  TaskItem,
+  TaskList,
+  TextStyle,
   TiptapImage,
   TiptapLink,
+  TiptapUnderline,
+  Twitter,
   UpdatedImage,
-  TaskList,
-  TaskItem,
-  HorizontalRule,
-  StarterKit,
-  Placeholder,
-  AIHighlight,
-  CodeBlockLowlight,
+  Youtube,
 } from "novel";
 import { UploadImagesPlugin } from "novel";
 import { cx } from "class-variance-authority";
+import { common, createLowlight } from "lowlight";
+import javascript from 'highlight.js/lib/languages/javascript'
+import typescript from 'highlight.js/lib/languages/typescript';
+
 
 //TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
 const aiHighlight = AIHighlight;
@@ -68,6 +82,7 @@ const horizontalRule = HorizontalRule.configure({
 });
 
 const starterKit = StarterKit.configure({
+  codeBlock: false,
   bulletList: {
     HTMLAttributes: {
       class: cx("list-disc list-outside leading-3 -mt-2"),
@@ -88,13 +103,6 @@ const starterKit = StarterKit.configure({
       class: cx("border-l-4 border-primary"),
     },
   },
-  codeBlock: {
-    HTMLAttributes: {
-      class: cx(
-        "rounded-md bg-brand_fourthary text-brand_tertiary border p-5 font-mono font-medium",
-      ),
-    },
-  },
   code: {
     HTMLAttributes: {
       class: cx("rounded-md bg-brand_fourthary text-brand_tertiary px-1.5 py-1 font-mono font-medium"),
@@ -108,8 +116,17 @@ const starterKit = StarterKit.configure({
   },
   gapcursor: false,
 });
-
-
+const lowlight = createLowlight(common);
+lowlight.register('typescript', typescript);
+const codeBlockLowlight = CodeBlockLowlight.configure({
+  lowlight,
+  HTMLAttributes: {
+    class: cx(
+      "rounded-md bg-brand_fourthary text-brand_tertiary p-5 font-mono font-medium my-4 overflow-x-auto"
+    ),
+  },
+  defaultLanguage: 'typescript',
+});
 export const defaultExtensions = [
   starterKit,
   placeholder,
@@ -120,5 +137,6 @@ export const defaultExtensions = [
   taskItem,
   horizontalRule,
   aiHighlight,
+  codeBlockLowlight
 ];
 

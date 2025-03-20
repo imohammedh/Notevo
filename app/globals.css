@@ -149,26 +149,81 @@ html {
   }
 }
 
-pre {
-  background: #1e1e1e;
-  /* Dark background */
-  border-radius: 0.5rem;
-  color: #d4d4d4;
-  /* Light gray text for readability */
-  font-family: "JetBrains Mono", monospace;
-  padding: 1rem;
-  overflow-x: auto;
-  /* Horizontal scrolling for long code */
-  line-height: 1.5;
-  white-space: pre-wrap;
-  /* Prevents horizontal overflow */
+/* Add this to your CSS file */
+.hljs-comment,
+.hljs-quote {
+  color: #999;
 }
 
-pre code {
-  background: none;
-  color: inherit;
-  font-size: 0.9rem;
-  padding: 0;
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  color: #88aece;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: #b5bd68;
+}
+
+.hljs-deletion,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-meta {
+  color: #c66;
+}
+
+.hljs-doctag {
+  color: #c66;
+}
+
+.hljs-attr {
+  color: #de935f;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #d19a66;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/* Additionally, you might want to style the code block container */
+.code-block {
+  position: relative;
+  margin: 1rem 0;
+  background-color: #1e1e1e;
+  border-radius: 0.5rem;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #252525;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom: 1px solid #333;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  color: #999;
 }
 
 .ProseMirror .placeholder {

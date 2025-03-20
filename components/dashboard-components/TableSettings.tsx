@@ -47,7 +47,7 @@ export default function TableSettings({ notesTableId }: TableSettingsProps) {
       <DropdownMenuContent
         side="left"
         align="start"
-        className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-lg"
+        className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
       >
         <DropdownMenuGroup className="relative">
           <Input
@@ -61,7 +61,7 @@ export default function TableSettings({ notesTableId }: TableSettingsProps) {
         </DropdownMenuGroup>
         <Button
           variant="SidebarMenuButton"
-          className="w-full text-sm"
+          className="w-full h-9 text-sm"
           onClick={handleDelete}
           disabled={isLoading}
         >
