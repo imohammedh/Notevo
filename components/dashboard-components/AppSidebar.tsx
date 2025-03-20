@@ -39,6 +39,7 @@ import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import SkeletonTextAnimation from "../ui/SkeletonTextAnimation";
+import SkeletonSmImgAnimation from "../ui/SkeletonSmImgAnimation";
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
@@ -164,11 +165,15 @@ export default function AppSidebar() {
                     <Avatar className="max-w-10 max-h-10 flex items-center justify-center">
                       <AvatarImage
                         src={User?.image}
-                        className=" rounded-lg"
+                        className=" rounded-xl"
                         alt={User ? User.name?.charAt(0) : `...`}
                       />
                       <AvatarFallback>
-                        {User ? User.name?.charAt(0) : <LoadingAnimation />}
+                        {User ? (
+                          User.name?.charAt(0)
+                        ) : (
+                          <SkeletonSmImgAnimation />
+                        )}
                       </AvatarFallback>
                     </Avatar>
                     <div className=" flex flex-col items-start justify-center">
