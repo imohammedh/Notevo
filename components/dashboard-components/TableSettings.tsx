@@ -14,10 +14,14 @@ import { api } from "@/convex/_generated/api";
 
 interface TableSettingsProps {
   notesTableId: string | any;
+  tableName: string | any;
 }
 
-export default function TableSettings({ notesTableId }: TableSettingsProps) {
-  const [inputValue, setInputValue] = useState("");
+export default function TableSettings({
+  notesTableId,
+  tableName,
+}: TableSettingsProps) {
+  const [inputValue, setInputValue] = useState(tableName);
   const [isLoading, setIsLoading] = useState(false);
   const updateTable = useMutation(api.mutations.notesTables.updateTable);
   const deleteTable = useMutation(api.mutations.notesTables.deleteTable);
@@ -52,7 +56,6 @@ export default function TableSettings({ notesTableId }: TableSettingsProps) {
         <DropdownMenuGroup className="relative">
           <Input
             type="text"
-            placeholder="Change u'r table name"
             value={inputValue}
             onChange={handleInputChange}
             onKeyUp={handleKeyUp}

@@ -98,7 +98,10 @@ export default function WorkingSpacePage() {
                   <div className="py-5">
                     <div className=" w-full flex items-center justify-between border-b border-solid border-brand_tertiary/10 py-5 mb-5">
                       <h1 className=" text-pretty text-xl font-medium flex justify-center items-center gap-1">
-                        <TableSettings notesTableId={table._id} />
+                        <TableSettings
+                          notesTableId={table._id}
+                          tableName={table.name}
+                        />
                         {table.name}
                       </h1>
                       <CreateNoteBtn
@@ -143,7 +146,10 @@ export default function WorkingSpacePage() {
                                           </h1>
                                         </Link>
                                         <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
-                                          <NoteSettings noteId={note._id} />
+                                          <NoteSettings
+                                            noteId={note._id}
+                                            noteTitle={note.title}
+                                          />
                                         </span>
                                         <span className="flex justify-center items-center gap-1 absolute bottom-5 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                                           <Calendar size="16" />

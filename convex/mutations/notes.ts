@@ -58,14 +58,15 @@ export const updateNote = mutation({
         body: v.optional(v.string()),
         workingSpacesSlug: v.any(),
         createdAt: v.any(),
-        order: v.optional(v.number()) // Add this if you want to explicitly pass it
+        order: v.optional(v.number()), // Add this if you want to explicitly pass it
+        favorite: v.optional(v.boolean())
     },
     handler: async (ctx, args) => {
         const userId = getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        const { _id, userid, notesTableId, title, body, workingSpacesSlug, createdAt, order } = args;
+        const { _id, userid, notesTableId, title, body, workingSpacesSlug, createdAt, order,favorite } = args;
         const note = await ctx.db.get(_id);
         if (!note) {
             throw new Error("Note not found");
@@ -89,7 +90,8 @@ export const updateNote = mutation({
             workingSpacesSlug: workingSpacesSlug,
             createdAt: createdAt,
             updatedAt: Date.now(),
-            order: order  // Preserve the existing order if not explicitly provided
+            order: order ,
+            favorite:favorite
         };
         const updatedNote = await ctx.db.replace(_id, update);
         return updatedNote;

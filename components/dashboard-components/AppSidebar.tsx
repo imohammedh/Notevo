@@ -142,6 +142,7 @@ export default function AppSidebar() {
                       : "opacity-0"
                   }`}
                   workingSpaceId={workingSpace._id}
+                  workingspaceName={workingSpace.name}
                 />
               </div>
             </SidebarGroupContent>

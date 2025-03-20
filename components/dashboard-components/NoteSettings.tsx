@@ -14,9 +14,10 @@ import { api } from "@/convex/_generated/api";
 
 interface NoteSettingsProps {
   noteId: string | any;
+  noteTitle: string | any;
 }
-export default function NoteSettings({ noteId }: NoteSettingsProps) {
-  const [inputValue, setInputValue] = useState("");
+export default function NoteSettings({ noteId, noteTitle }: NoteSettingsProps) {
+  const [inputValue, setInputValue] = useState(noteTitle);
   const [isLoading, setIsLoading] = useState(false);
   const viwer = useQuery(api.users.viewer);
 
@@ -66,7 +67,6 @@ export default function NoteSettings({ noteId }: NoteSettingsProps) {
         <DropdownMenuGroup className="relative">
           <Input
             type="text"
-            placeholder="Change u'r note name"
             value={inputValue}
             onChange={handleInputChange}
             onKeyUp={handleKeyUp}
