@@ -87,7 +87,7 @@ export default function NoteSettings({
           className={cn("px-0.5 h-8 mt-0.5 opacity-80", BtnClassName)}
         >
           {IconVariant === "vertical_icon" ? (
-            <FaEllipsisVertical size="24" />
+            <FaEllipsisVertical size="18" />
           ) : (
             <FaEllipsis size="16" />
           )}
