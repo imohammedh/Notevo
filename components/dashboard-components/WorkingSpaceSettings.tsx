@@ -15,12 +15,14 @@ import { cn } from "@/lib/utils";
 interface WorkingSpaceSettings {
   workingSpaceId: string | any;
   className?: string;
+  workingspaceName: string | any;
 }
 export default function WorkingSpaceSettings({
   className,
   workingSpaceId,
+  workingspaceName,
 }: WorkingSpaceSettings) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(workingspaceName);
   const [isDeleting, setIsDeleting] = useState(false);
   const updateWorkingSpace = useMutation(
     api.mutations.workingSpaces.updateWorkingSpace,
@@ -62,7 +64,6 @@ export default function WorkingSpaceSettings({
         <DropdownMenuGroup className="relative">
           <Input
             type="text"
-            placeholder="Untitled"
             value={inputValue}
             onChange={handleInputChange}
             onKeyUp={handleKeyUp}

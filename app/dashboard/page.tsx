@@ -59,7 +59,10 @@ export default function ProductPage() {
                       </h1>
                     </Link>
                     <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
-                      <WorkingSpaceSettings workingSpaceId={orkspaces._id} />
+                      <WorkingSpaceSettings
+                        workingSpaceId={orkspaces._id}
+                        workingspaceName={orkspaces.name}
+                      />
                     </span>
                     <span className="flex justify-center items-center gap-1 absolute bottom-5 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                       <Clock size="16" />

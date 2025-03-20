@@ -41,6 +41,7 @@ export default function NotePage() {
         workingSpacesSlug: getNote?.workingSpacesSlug,
         createdAt: getNote?.createdAt,
         order: getNote?.order,
+        favorite: getNote?.favorite,
       });
     },
     500,
