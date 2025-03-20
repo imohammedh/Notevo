@@ -8,17 +8,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsisVertical, FaRegTrashCan } from "react-icons/fa6";
+import { Pin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-
+import LoadingAnimation from "../ui/LoadingAnimation";
 interface NoteSettingsProps {
   noteId: string | any;
   noteTitle: string | any;
 }
 export default function NoteSettings({ noteId, noteTitle }: NoteSettingsProps) {
   const [inputValue, setInputValue] = useState(noteTitle);
-  const [isLoading, setIsLoading] = useState(false);
+  const [ishandleDeleteLoading, setIshandleDeleteLoading] = useState(false);
+  const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
+    useState(false);
   const viwer = useQuery(api.users.viewer);
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
@@ -43,14 +46,30 @@ export default function NoteSettings({ noteId, noteTitle }: NoteSettingsProps) {
         workingSpacesSlug: getNote?.workingSpacesSlug,
         createdAt: getNote?.createdAt,
         order: getNote?.order,
+        favorite: getNote?.favorite,
       });
     }
   };
 
   const handleDelete = async () => {
-    setIsLoading(true);
+    setIshandleDeleteLoading(true);
     await deleteNote({ _id: noteId });
-    setIsLoading(false);
+    setIshandleDeleteLoading(false);
+  };
+  const handleFavoritePin = async () => {
+    setIshandleFavoritePinLoading(true);
+    await updateNote({
+      _id: noteId,
+      userid: viwer?._id,
+      notesTableId: getNote?.notesTableId,
+      title: inputValue,
+      body: getNote?.body,
+      workingSpacesSlug: getNote?.workingSpacesSlug,
+      createdAt: getNote?.createdAt,
+      order: getNote?.order,
+      favorite: !getNote?.favorite,
+    });
+    setIshandleFavoritePinLoading(false);
   };
   return (
     <DropdownMenu>
@@ -73,23 +92,43 @@ export default function NoteSettings({ noteId, noteTitle }: NoteSettingsProps) {
             className=" text-brand_tertiary border-brand_tertiary/20"
           />
         </DropdownMenuGroup>
-        <Button
-          variant="SidebarMenuButton"
-          className="w-full h-9 text-sm"
-          onClick={handleDelete}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <FaRegTrashCan size="14" /> Deleting...
-            </>
-          ) : (
-            <>
-              <FaRegTrashCan size="14" />
-              Delete
-            </>
-          )}
-        </Button>
+        <DropdownMenuGroup>
+          <Button
+            variant="SidebarMenuButton"
+            className="w-full h-8 px-2 text-sm"
+            onClick={handleFavoritePin}
+            disabled={ishandleFavoritePinLoading}
+          >
+            {ishandleFavoritePinLoading ? (
+              <>
+                <LoadingAnimation className=" h-3 w-3" />{" "}
+                {getNote?.favorite ? "Unpinning..." : "Pinning..."}
+              </>
+            ) : (
+              <>
+                <Pin size="14" />
+                {getNote?.favorite ? "Unpin Note" : "Pin Note"}
+              </>
+            )}
+          </Button>
+          <Button
+            variant="SidebarMenuButton"
+            className="w-full h-8 px-2 text-sm"
+            onClick={handleDelete}
+            disabled={ishandleDeleteLoading}
+          >
+            {ishandleDeleteLoading ? (
+              <>
+                <LoadingAnimation className=" h-3 w-3" /> Deleting...
+              </>
+            ) : (
+              <>
+                <FaRegTrashCan size="14" />
+                Delete
+              </>
+            )}
+          </Button>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
