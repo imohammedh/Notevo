@@ -17,6 +17,7 @@ import Link from "next/link";
 import { Tooltip } from "@heroui/tooltip";
 import { parseSlug } from "@/lib/parseSlug";
 import { MdDragIndicator } from "react-icons/md";
+import SkeletonTextAnimation from "../../../components/ui/SkeletonTextAnimation";
 
 export default function WorkingSpacePage() {
   const searchParams = useSearchParams();
@@ -147,9 +148,13 @@ export default function WorkingSpacePage() {
                                         <span className="flex justify-center items-center gap-1 absolute bottom-5 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                                           <Calendar size="16" />
                                           <p className=" font-normal text-sm">
-                                            {new Date(
-                                              note.createdAt,
-                                            ).toLocaleDateString()}
+                                            {typeof window !== "undefined" ? (
+                                              new Date(
+                                                note.createdAt,
+                                              ).toLocaleDateString()
+                                            ) : (
+                                              <SkeletonTextAnimation />
+                                            )}
                                           </p>
                                         </span>
                                       </div>
