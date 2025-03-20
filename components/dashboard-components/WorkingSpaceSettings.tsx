@@ -13,6 +13,7 @@ import { api } from "@/convex/_generated/api";
 import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@heroui/tooltip";
+import LoadingAnimation from "../ui/LoadingAnimation";
 interface WorkingSpaceSettings {
   workingSpaceId: string | any;
   className?: string;
@@ -58,7 +59,7 @@ export default function WorkingSpaceSettings({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        side="right"
+        side="bottom"
         align="start"
         className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
       >
@@ -73,13 +74,13 @@ export default function WorkingSpaceSettings({
         </DropdownMenuGroup>
         <Button
           variant="SidebarMenuButton"
-          className="w-full h-9 text-sm"
+          className="w-full h-8 px-2 text-sm"
           onClick={handleDelete}
           disabled={isDeleting}
         >
           {isDeleting ? (
             <>
-              <FaRegTrashCan size="14" /> Deleting...
+              <LoadingAnimation className=" h-3 w-3" /> Deleting...
             </>
           ) : (
             <>
