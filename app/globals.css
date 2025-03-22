@@ -207,7 +207,7 @@ html {
 .ProseMirror p.is-empty:not(.is-editor-empty)::before {
   content: attr(data-placeholder);
   float: left;
-  color: #adb5bd;
+  color: #e5e5e54b;
   pointer-events: none;
   height: 0;
 }
