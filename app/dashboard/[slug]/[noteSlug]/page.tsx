@@ -20,8 +20,10 @@ export default function NotePage() {
 
   const initialContent: JSONContent = getNote?.body
     ? JSON.parse(getNote.body)
-    : "Start with Pressing '/' for commands ✨";
-
+    : {
+        type: "doc",
+        content: [{ type: "paragraph" }],
+      };
   const [content, setContent] = useState<JSONContent>(initialContent);
 
   useEffect(() => {

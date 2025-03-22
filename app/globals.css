@@ -204,6 +204,13 @@ html {
   font-weight: bold;
 }
 
+.ProseMirror p.is-empty:not(.is-editor-empty)::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
 /* Additionally, you might want to style the code block container */
 .code-block {
   position: relative;
