@@ -87,8 +87,8 @@ export default function AppSidebar() {
   };
 
   return (
-    <Sidebar className=" border-brand_tertiary/20">
-      <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-brand_fourthary hover:scrollbar-thumb-brand_tertiary/20">
+    <Sidebar className=" border-brand_tertiary/20 group">
+      <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-brand_fourthary group-hover:scrollbar-thumb-brand_tertiary">
         <SidebarGroup>
           <SidebarGroupLabel className=" text-brand_tertiary/50">
             Notevo
