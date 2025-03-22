@@ -8,6 +8,7 @@ import {
   type EditorInstance,
   EditorRoot,
   ImageResizer,
+  Placeholder,
   handleCommandNavigation,
   handleImageDrop,
   handleImagePaste,
@@ -21,7 +22,21 @@ import { LinkSelector } from "./selectors/link-selector";
 import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { uploadFn } from "./image-upload";
-const extensions = [...defaultExtensions, slashCommand];
+
+const placeholderExtension = Placeholder.configure({
+  placeholder: ({ node }) => {
+    // This shows different placeholders for different node types
+    if (node.type.name === "paragraph") {
+      return "Press '/' for commands";
+    } else {
+      return "";
+    }
+  },
+  showOnlyWhenEditable: true,
+  showOnlyCurrent: false, // Only show placeholder on currently selected node
+  includeChildren: false,
+});
+const extensions = [placeholderExtension, ...defaultExtensions, slashCommand];
 
 const TailwindAdvancedEditor = ({
   initialContent,

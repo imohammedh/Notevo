@@ -29,11 +29,6 @@ import typescript from 'highlight.js/lib/languages/typescript';
 
 //TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
 const aiHighlight = AIHighlight;
-
-const placeholder = Placeholder.configure({
-  placeholder: "Press '/' for commands",
-});
-
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
@@ -129,7 +124,6 @@ const codeBlockLowlight = CodeBlockLowlight.configure({
 });
 export const defaultExtensions = [
   starterKit,
-  placeholder,
   tiptapLink,
   tiptapImage,
   updatedImage,
