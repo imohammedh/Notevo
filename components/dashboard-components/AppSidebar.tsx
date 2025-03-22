@@ -43,6 +43,7 @@ import SkeletonTextAnimation from "../ui/SkeletonTextAnimation";
 import SkeletonSmImgAnimation from "../ui/SkeletonSmImgAnimation";
 import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
 import NoteSettings from "./NoteSettings";
+import { redirect } from "next/navigation";
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
@@ -78,7 +79,7 @@ export default function AppSidebar() {
     setLoading(true);
     try {
       await signOut();
-      router.replace("/");
+      redirect("/");
     } catch (error) {
       console.error(error);
     } finally {
