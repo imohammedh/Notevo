@@ -28,12 +28,11 @@ const placeholderExtension = Placeholder.configure({
     // This shows different placeholders for different node types
     if (node.type.name === "paragraph") {
       return "Press '/' for commands";
-    } else {
-      return "";
     }
+    return "";
   },
   showOnlyWhenEditable: true,
-  showOnlyCurrent: false, // Only show placeholder on currently selected node
+  showOnlyCurrent: true,
   includeChildren: false,
 });
 const extensions = [placeholderExtension, ...defaultExtensions, slashCommand];
