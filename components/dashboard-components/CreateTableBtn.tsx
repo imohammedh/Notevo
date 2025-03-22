@@ -44,7 +44,7 @@ export default function CreateTableBtn({
         </>
       ) : (
         <>
-          <Plus size="20" /> <p className="hidden sm:block">Create Table</p>
+          <Plus size={20} /> <p className="hidden sm:block">Create Table</p>
         </>
       )}
     </Button>

@@ -28,8 +28,9 @@ export default function WorkingSpaceNotFound() {
           <Button
             onClick={handleCreateWorkingSpace}
             className=" flex justify-center items-center gap-1"
+            variant="outline"
           >
-            <Plus />
+            <Plus size={20} />
             {loading ? "Creating..." : "Create Working Space"}
           </Button>
         </div>

@@ -41,6 +41,7 @@ import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import SkeletonTextAnimation from "../ui/SkeletonTextAnimation";
 import SkeletonSmImgAnimation from "../ui/SkeletonSmImgAnimation";
+import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
 import NoteSettings from "./NoteSettings";
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(
@@ -77,7 +78,7 @@ export default function AppSidebar() {
     setLoading(true);
     try {
       await signOut();
-      router.push("/");
+      router.replace("/");
     } catch (error) {
       console.error(error);
     } finally {
@@ -121,7 +122,7 @@ export default function AppSidebar() {
             <SidebarGroupLabel className=" text-brand_tertiary/50">
               Pinned Notes
             </SidebarGroupLabel>
-            {favoriteNotes &&
+            {favoriteNotes ? (
               favoriteNotes.map((note) => (
                 <SidebarGroupContent
                   className="relative w-full flex justify-between items-center"
@@ -133,6 +134,11 @@ export default function AppSidebar() {
                     <Button
                       variant="SidebarMenuButton"
                       className="px-2 h-8 group flex-1"
+                      onClick={() =>
+                        router.push(
+                          `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                        )
+                      }
                     >
                       <Pin size="16" />
                       {note.title
@@ -151,7 +157,16 @@ export default function AppSidebar() {
                     }`}
                   />
                 </SidebarGroupContent>
-              ))}
+              ))
+            ) : (
+              <div>
+                {Array.from({ length: 2 }).map((_, index) => (
+                  <div key={index}>
+                    <SkeletonTextAndIconAnimation />
+                  </div>
+                ))}
+              </div>
+            )}
             <SidebarGroupContent />
           </SidebarGroup>
         )}
@@ -165,39 +180,51 @@ export default function AppSidebar() {
           >
             <Plus /> <span className="sr-only">Add WorkingSpacs</span>
           </SidebarGroupAction>
-          {getWorkingSpaces?.map((workingSpace) => (
-            <SidebarGroupContent
-              className="relative w-full flex justify-between items-center"
-              key={workingSpace._id}
-              onMouseEnter={() => setHoveredWorkingSpaceId(workingSpace._id)}
-              onMouseLeave={() => setHoveredWorkingSpaceId(null)}
+          {getWorkingSpaces?.length !== 0 ? (
+            getWorkingSpaces?.map((workingSpace) => (
+              <SidebarGroupContent
+                className="relative w-full flex justify-between items-center"
+                key={workingSpace._id}
+                onMouseEnter={() => setHoveredWorkingSpaceId(workingSpace._id)}
+                onMouseLeave={() => setHoveredWorkingSpaceId(null)}
+              >
+                <div className="flex w-full items-center relative">
+                  <Button
+                    variant="SidebarMenuButton"
+                    className="px-2 h-8 group flex-1"
+                    onClick={() =>
+                      workingSpace.slug &&
+                      handlePush(workingSpace.slug, workingSpace._id)
+                    }
+                  >
+                    <Notebook size="16" />
+                    {workingSpace.name.length > 20
+                      ? `${workingSpace.name.substring(0, 20)}...`
+                      : workingSpace.name}
+                  </Button>
+                  <WorkingSpaceSettings
+                    className={`absolute right-2 transition-opacity duration-200 ${
+                      hoveredWorkingSpaceId === workingSpace._id
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }`}
+                    workingSpaceId={workingSpace._id}
+                    workingspaceName={workingSpace.name}
+                  />
+                </div>
+              </SidebarGroupContent>
+            ))
+          ) : (
+            <Button
+              variant="outline"
+              onClick={handleCreateWorkingSpace}
+              className=" border-dashed h-9 my-5"
             >
-              <div className="flex w-full items-center relative">
-                <Button
-                  variant="SidebarMenuButton"
-                  className="px-2 h-8 group flex-1"
-                  onClick={() =>
-                    workingSpace.slug &&
-                    handlePush(workingSpace.slug, workingSpace._id)
-                  }
-                >
-                  <Notebook size="16" />
-                  {workingSpace.name.length > 20
-                    ? `${workingSpace.name.substring(0, 20)}...`
-                    : workingSpace.name}
-                </Button>
-                <WorkingSpaceSettings
-                  className={`absolute right-2 transition-opacity duration-200 ${
-                    hoveredWorkingSpaceId === workingSpace._id
-                      ? "opacity-100"
-                      : "opacity-0"
-                  }`}
-                  workingSpaceId={workingSpace._id}
-                  workingspaceName={workingSpace.name}
-                />
-              </div>
-            </SidebarGroupContent>
-          ))}
+              <p className=" text-xs w-full flex justify-center items-center gap-2">
+                <Plus size={16} /> Create WorkingSpace
+              </p>
+            </Button>
+          )}
           <SidebarGroupContent />
         </SidebarGroup>
       </SidebarContent>
@@ -255,7 +282,7 @@ export default function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className=" rounded-xl m-2 py-1.5 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
+                className=" rounded-xl m-2 p-1.5 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem className=" w-full">
                   <Button
