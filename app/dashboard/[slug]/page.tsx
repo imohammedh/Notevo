@@ -145,11 +145,12 @@ export default function WorkingSpacePage() {
                                               : "Untitled"}
                                           </h1>
                                         </Link>
-                                        <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
+                                        <span className="w-10 h-10 absolute top-3 right-0 transition-all duration-200 ease-in-out opacity-50 group-hover:opacity-100">
                                           <NoteSettings
                                             noteId={note._id}
                                             noteTitle={note.title}
                                             IconVariant="vertical_icon"
+                                            Tooltip_placement="left"
                                           />
                                         </span>
                                         <span className="flex justify-center items-center gap-1 absolute bottom-5 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">

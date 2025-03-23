@@ -44,6 +44,7 @@ import SkeletonSmImgAnimation from "../ui/SkeletonSmImgAnimation";
 import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
 import NoteSettings from "./NoteSettings";
 import { redirect } from "next/navigation";
+
 export default function AppSidebar() {
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
@@ -148,15 +149,15 @@ export default function AppSidebar() {
                           : note.title
                         : "Untitled"}
                     </Button>
+                    <NoteSettings
+                      noteId={note._id}
+                      noteTitle={note.title}
+                      IconVariant="horizontal_icon"
+                      BtnClassName={`absolute right-2 transition-opacity duration-200 ${
+                        HoveredNoteId === note._id ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
                   </div>
-                  <NoteSettings
-                    noteId={note._id}
-                    noteTitle={note.title}
-                    IconVariant="horizontal_icon"
-                    BtnClassName={`absolute right-2 transition-opacity duration-200 ${
-                      HoveredNoteId === note._id ? "opacity-100" : "opacity-0"
-                    }`}
-                  />
                 </SidebarGroupContent>
               ))
             ) : (
