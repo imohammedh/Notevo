@@ -18,11 +18,29 @@ interface WorkingSpaceSettings {
   workingSpaceId: string | any;
   className?: string;
   workingspaceName: string | any;
+  Tooltip_className?: string;
+  Tooltip_content?: string;
+  Tooltip_placement?:
+    | "top"
+    | "bottom"
+    | "right"
+    | "left"
+    | "top-start"
+    | "top-end"
+    | "bottom-start"
+    | "bottom-end"
+    | "left-start"
+    | "left-end"
+    | "right-start"
+    | "right-end";
 }
 export default function WorkingSpaceSettings({
   className,
   workingSpaceId,
   workingspaceName,
+  Tooltip_className,
+  Tooltip_content,
+  Tooltip_placement,
 }: WorkingSpaceSettings) {
   const [inputValue, setInputValue] = useState(workingspaceName);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -50,14 +68,23 @@ export default function WorkingSpaceSettings({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="Trigger"
-          className={cn("px-1.5 h-8 opacity-80", className)}
-        >
-          <FaEllipsis size="16" />
-        </Button>
-      </DropdownMenuTrigger>
+      <Tooltip
+        className={cn(
+          " rounded-lg bg-gradient-to-r from-brand_primary from-15% to-brand_tertiary/10 border border-solid border-brand_tertiary/10 text-brand_tertiary text-xs",
+          Tooltip_className,
+        )}
+        content={!Tooltip_content ? "Delete ,rename" : Tooltip_content}
+        placement={!Tooltip_placement ? "right" : Tooltip_placement}
+      >
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="Trigger"
+            className={cn("px-1.5 h-8 opacity-80", className)}
+          >
+            <FaEllipsis size="16" />
+          </Button>
+        </DropdownMenuTrigger>
+      </Tooltip>
       <DropdownMenuContent
         side="bottom"
         align="start"
