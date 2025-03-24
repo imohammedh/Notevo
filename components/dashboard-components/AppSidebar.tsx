@@ -156,6 +156,7 @@ export default function AppSidebar() {
                       BtnClassName={`absolute right-2 transition-opacity duration-200 ${
                         HoveredNoteId === note._id ? "opacity-100" : "opacity-0"
                       }`}
+                      Tooltip_placement="right"
                     />
                   </div>
                 </SidebarGroupContent>
@@ -212,6 +213,7 @@ export default function AppSidebar() {
                     }`}
                     workingSpaceId={workingSpace._id}
                     workingspaceName={workingSpace.name}
+                    Tooltip_placement="right"
                   />
                 </div>
               </SidebarGroupContent>
