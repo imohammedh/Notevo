@@ -264,12 +264,12 @@ export default function AppSidebar() {
                         )}
                       </div>
                       <div>
-                        {User?.email && User.email.length > 6
-                          ? User.email.replace(/(.{3})(.*)(@.{3})/, "$1...$3")
+                        {User?.email
+                          ? User.email.replace(/(.{3}).*?(@.{3}).*/, "$1...$2")
                           : ""}
                       </div>
                     </div>
-                    <TbSelector className=" text-xl" />
+                    <TbSelector size={19} />
                   </Button>
                 ) : (
                   <Button
