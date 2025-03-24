@@ -60,11 +60,9 @@ export default function SearchDialog({
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
         <Command className=" bg-brand_fourthary">
           <CommandInput placeholder="Search for your note..." />
-          <CommandList className="scrollbar-thin scrollbar-thumb-brand_tertiary pr-2 scrollbar-track-brand_fourthary">
+          <CommandList className="scrollbar-thin scrollbar-thumb-brand_tertiary pr-1 scrollbar-track-brand_fourthary">
             <CommandEmpty className="text-brand_tertiary p-2">
-              {getNotes && getNotes?.length !== 0
-                ? "No results found."
-                : "it looks like you don't have any note's."}
+              {getNotes && getNotes?.length !== 0 ? "No results found." : ""}
             </CommandEmpty>
             {getNotes && getNotes?.length !== 0 ? (
               <CommandGroup heading="Suggestions">
