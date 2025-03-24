@@ -62,7 +62,6 @@ export default function ProductPage() {
                       <WorkingSpaceSettings
                         workingSpaceId={orkspaces._id}
                         workingspaceName={orkspaces.name}
-                        Tooltip_placement="bottom-end"
                       />
                     </span>
                     <span className="flex justify-center items-center gap-1 absolute bottom-5 left-5 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">

@@ -70,11 +70,11 @@ export default function WorkingSpaceSettings({
     <DropdownMenu>
       <Tooltip
         className={cn(
-          " rounded-lg bg-gradient-to-r from-brand_primary from-15% to-brand_tertiary/10 border border-solid border-brand_tertiary/10 text-brand_tertiary text-xs",
+          " rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs",
           Tooltip_className,
         )}
         content={!Tooltip_content ? "Delete ,rename" : Tooltip_content}
-        placement={!Tooltip_placement ? "right" : Tooltip_placement}
+        placement={!Tooltip_placement ? "left" : Tooltip_placement}
       >
         <DropdownMenuTrigger asChild>
           <Button
