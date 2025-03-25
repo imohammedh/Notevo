@@ -61,14 +61,21 @@ export default function HeroSection() {
             initial={{ y: 90, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ ease: "linear", duration: 0.9, delay: 0.9 }}
-            className="w-full p-2 sm:p-4 lg:p-5 rounded-xl  bg-gradient-to-t from-transparent to-brand_tertiary/5 backdrop-blur-xl"
+            className="w-full p-2 sm:p-4 lg:p-5 rounded-xl bg-gradient-to-t from-transparent to-brand_tertiary/5 backdrop-blur-xl"
           >
+            <div className=" w-full flex items-center justify-start p-1.5 bg-transparent rounded-t-lg relative top-[-0.5rem] mx-auto">
+              <div className="flex items-center">
+                <span className="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
+                <span className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
+                <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+              </div>
+            </div>
             <Image
               src={heroImg}
               alt="hero img"
               priority
               quality={100}
-              className="opacity-70"
+              className="opacity-70 mask-image-gradient"
             />
           </motion.div>
         </MaxWContainer>
