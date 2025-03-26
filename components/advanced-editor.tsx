@@ -13,6 +13,8 @@ import {
   handleImageDrop,
   handleImagePaste,
 } from "novel";
+import { Color } from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
 import { useState } from "react";
 import { defaultExtensions } from "./extensions";
 import { slashCommand, suggestionItems } from "./slash-command";
@@ -22,6 +24,7 @@ import { LinkSelector } from "./selectors/link-selector";
 import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { uploadFn } from "./image-upload";
+import { ColorSelector } from "./selectors/color-selector";
 
 const placeholderExtension = Placeholder.configure({
   placeholder: ({ node }) => {
@@ -35,7 +38,13 @@ const placeholderExtension = Placeholder.configure({
   showOnlyCurrent: true,
   includeChildren: false,
 });
-const extensions = [placeholderExtension, ...defaultExtensions, slashCommand];
+const extensions = [
+  placeholderExtension,
+  TextStyle,
+  Color,
+  ...defaultExtensions,
+  slashCommand,
+];
 
 const TailwindAdvancedEditor = ({
   initialContent,
@@ -45,6 +54,7 @@ const TailwindAdvancedEditor = ({
   onUpdate: (editor: EditorInstance) => void;
 }) => {
   const [openNode, setOpenNode] = useState(false);
+  const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
 
@@ -102,6 +112,7 @@ const TailwindAdvancedEditor = ({
           <Separator orientation="vertical" />
           <TextButtons />
           <Separator orientation="vertical" />
+          <ColorSelector open={openColor} onOpenChange={setOpenColor} />
         </GenerativeMenuSwitch>
       </EditorContent>
     </EditorRoot>
