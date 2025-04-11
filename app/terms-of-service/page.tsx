@@ -7,7 +7,6 @@ import Footer from "@/components/landingPage-components/Footer";
 export default function page() {
   return (
     <div className="bg-brand_primary text-brand_tertiary flex flex-col min-h-screen">
-      <Navbar />
       <div className="flex-grow">
         <MaxWContainer>
           <section className="py-20 px-5">
@@ -221,7 +220,6 @@ export default function page() {
           </section>
         </MaxWContainer>
       </div>
-      <Footer />
     </div>
   );
 }

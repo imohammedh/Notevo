@@ -67,7 +67,7 @@ export default function FeaturesSection() {
             />
           </WobbleCard>
         </div>
-        <div className=" absolute -z-20 bg-gradient-to-t from-purple-900/30 to-brand_fourthary left-0 top-1/2 h-[23rem] w-full rounded-xl blur-[5rem]" />
+        <div className=" absolute -z-20 bg-gradient-to-t from-purple-900/50 to-brand_fourthary left-0 top-1/2 h-[23rem] w-full rounded-xl blur-[5rem]" />
       </MaxWContainer>
     </Section>
   );

@@ -1,11 +1,24 @@
 import MaxWContainer from "../ui/MaxWContainer";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { AnimatedGridPattern } from "../magicui/animated-grid-pattern";
 export default function SignUpToday() {
   return (
     <section className="w-full py-10 sm:py-14 md:py-16 lg:py-20">
-      <MaxWContainer className="flex justify-center items-center flex-col gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-6">
-        <h3 className="text-xl sm:text-2xl md:text-3xl text-center bg-gradient-to-b from-brand_tertiary to-transparent bg-clip-text text-transparent font-semibold leading-relaxed sm:leading-relaxed">
+      <div className="relative flex flex-col gap-6 h-[250px] w-full items-center justify-center overflow-hidden rounded-xl bg-transparent">
+        <AnimatedGridPattern
+          numSquares={30}
+          maxOpacity={0.1}
+          duration={3}
+          repeatDelay={1}
+          className={cn(
+            "[mask-image:radial-gradient(400px_circle_at_top,black,transparent)]",
+            "inset-x-0 inset-y-[-30%] h-[85%] -skew-y-12",
+          )}
+        />
+
+        <h3 className="text-xl sm:text-2xl md:text-4xl text-center bg-gradient-to-b from-brand_tertiary to-transparent bg-clip-text text-transparent font-semibold leading-relaxed sm:leading-relaxed">
           Ready to Experience the Future of Note-Taking?{" "}
           <br className="hidden sm:block" /> Sign Up Today and Start Your Free
           Trial
@@ -18,7 +31,7 @@ export default function SignUpToday() {
             Sign Up
           </Link>
         </Button>
-      </MaxWContainer>
+      </div>
     </section>
   );
 }
