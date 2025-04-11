@@ -7,16 +7,12 @@ import { useSearchParams, useParams } from "next/navigation";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import CreateTableBtn from "../../../components/dashboard-components/CreateTableBtn";
 import CreateNoteBtn from "@/components/dashboard-components/CreateNoteBtn";
-import ADiv from "@/components/dashboard-components/ADiv";
 import TableSettings from "@/components/dashboard-components/TableSettings";
 import NoteSettings from "@/components/dashboard-components/NoteSettings";
 import TablesNotFound from "@/components/dashboard-components/TablesNotFound";
 import { useState, useEffect } from "react";
-import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";
 import Link from "next/link";
-import { Tooltip } from "@heroui/tooltip";
 import { parseSlug } from "@/lib/parseSlug";
-import { MdDragIndicator } from "react-icons/md";
 import SkeletonTextAnimation from "../../../components/ui/SkeletonTextAnimation";
 
 export default function WorkingSpacePage() {

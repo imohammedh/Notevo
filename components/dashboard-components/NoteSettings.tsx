@@ -15,7 +15,6 @@ import { api } from "@/convex/_generated/api";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@heroui/tooltip";
-import { useToast } from "@/hooks/use-toast";
 
 interface NoteSettingsProps {
   noteId: string | any;

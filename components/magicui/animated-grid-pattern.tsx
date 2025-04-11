@@ -80,7 +80,7 @@ export function AnimatedGridPattern({
 
   // Resize observer to update container dimensions
   useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserver((entries: any) => {
       for (const entry of entries) {
         setDimensions({
           width: entry.contentRect.width,
