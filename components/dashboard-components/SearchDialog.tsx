@@ -1,6 +1,6 @@
 "use client";
 import { Calendar } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -43,6 +43,18 @@ export default function SearchDialog({
     userid: viwer?._id,
   });
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        setOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleItemClick = (href: string) => {
     setOpen(false);
     router.push(href);
@@ -53,7 +65,14 @@ export default function SearchDialog({
       <DialogTrigger asChild>
         <Button variant={Variant} className=" px-2 h-8 group">
           <Search size={IconSize} />
-          {WithTheTitle && <span>Search</span>}
+          {WithTheTitle && (
+            <div className="w-full flex items-center justify-between gap-1">
+              <span>Search</span>
+              <CommandShortcut className="text-xs opacity-50">
+                {`⌘ + K`}
+              </CommandShortcut>
+            </div>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className=" p-2 bg-brand_fourthary rounded-xl border-brand_tertiary/10 md:min-w-[450px]">
@@ -69,18 +88,14 @@ export default function SearchDialog({
                 {getNotes.map((note) => (
                   <CommandItem
                     key={note._id}
-                    className=" group hover:bg-brand_tertiary/5 aria-selected:bg-brand_tertiary/5"
+                    className="group hover:bg-brand_tertiary/5 aria-selected:bg-brand_tertiary/5"
+                    onSelect={() =>
+                      handleItemClick(
+                        `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                      )
+                    }
                   >
-                    <Link
-                      href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleItemClick(
-                          `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
-                        );
-                      }}
-                      className="w-full h-full flex flex-shrink-0 flex-grow-0 justify-between items-start gap-1"
-                    >
+                    <div className="w-full h-full flex flex-shrink-0 flex-grow-0 justify-between items-start gap-1">
                       <h1 className="text-lg font-medium text-nowrap">
                         {note.title
                           ? note.title.length > 20
@@ -90,11 +105,11 @@ export default function SearchDialog({
                       </h1>
                       <span className="flex justify-center items-center gap-1 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
                         <Calendar size="16" />
-                        <p className=" font-normal text-sm">
+                        <p className="font-normal text-sm">
                           {new Date(note.createdAt).toLocaleDateString()}
                         </p>
                       </span>
-                    </Link>
+                    </div>
                   </CommandItem>
                 ))}
               </CommandGroup>
