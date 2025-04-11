@@ -68,7 +68,7 @@ export default function SearchDialog({
           {WithTheTitle && (
             <div className="w-full flex items-center justify-between gap-1">
               <span>Search</span>
-              <CommandShortcut className="text-xs opacity-50">
+              <CommandShortcut className="text-xs opacity-70">
                 {`⌘ + K`}
               </CommandShortcut>
             </div>
