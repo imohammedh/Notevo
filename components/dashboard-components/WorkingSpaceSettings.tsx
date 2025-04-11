@@ -44,6 +44,7 @@ export default function WorkingSpaceSettings({
 }: WorkingSpaceSettings) {
   const [inputValue, setInputValue] = useState(workingspaceName);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [open, setOpen] = useState(false);
   const updateWorkingSpace = useMutation(
     api.mutations.workingSpaces.updateWorkingSpace,
   );
@@ -54,10 +55,17 @@ export default function WorkingSpaceSettings({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key) {
-      updateWorkingSpace({ _id: workingSpaceId, name: inputValue });
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleBlur();
     }
+  };
+
+  const handleBlur = () => {
+    updateWorkingSpace({ _id: workingSpaceId, name: inputValue });
+    setOpen(false);
   };
 
   const handleDelete = async () => {
@@ -67,7 +75,7 @@ export default function WorkingSpaceSettings({
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <Tooltip
         className={cn(
           " rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs",
@@ -95,7 +103,8 @@ export default function WorkingSpaceSettings({
             type="text"
             value={inputValue}
             onChange={handleInputChange}
-            onKeyUp={handleKeyUp}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
             className=" text-brand_tertiary border-brand_tertiary/20"
           />
         </DropdownMenuGroup>
