@@ -72,9 +72,6 @@ export default function AppSidebar() {
   const handleCreateWorkingSpace = () => {
     createWorkingSpace({ name: "Untitled" });
   };
-  const handlePush = (slug: string, workingSpaceid: any) => {
-    router.push(`/dashboard/${slug}?id=${workingSpaceid}`);
-  };
   const [loading, setLoading] = useState(false);
   const handleSignOut = async () => {
     setLoading(true);
@@ -136,18 +133,18 @@ export default function AppSidebar() {
                     <Button
                       variant="SidebarMenuButton"
                       className="px-2 h-8 group flex-1"
-                      onClick={() =>
-                        router.push(
-                          `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
-                        )
-                      }
+                      asChild
                     >
-                      <Pin size="16" />
-                      {note.title
-                        ? note.title.length > 20
-                          ? `${note.title.substring(0, 20)}...`
-                          : note.title
-                        : "Untitled"}
+                      <Link
+                        href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`}
+                      >
+                        <Pin size="16" />
+                        {note.title
+                          ? note.title.length > 20
+                            ? `${note.title.substring(0, 20)}...`
+                            : note.title
+                          : "Untitled"}
+                      </Link>
                     </Button>
                     <NoteSettings
                       noteId={note._id}
@@ -195,15 +192,16 @@ export default function AppSidebar() {
                   <Button
                     variant="SidebarMenuButton"
                     className="px-2 h-8 group flex-1"
-                    onClick={() =>
-                      workingSpace.slug &&
-                      handlePush(workingSpace.slug, workingSpace._id)
-                    }
+                    asChild
                   >
-                    <Notebook size="16" />
-                    {workingSpace.name.length > 20
-                      ? `${workingSpace.name.substring(0, 20)}...`
-                      : workingSpace.name}
+                    <Link
+                      href={`/dashboard/${workingSpace.slug}?id=${workingSpace._id}`}
+                    >
+                      <Notebook size="16" />
+                      {workingSpace.name.length > 20
+                        ? `${workingSpace.name.substring(0, 20)}...`
+                        : workingSpace.name}
+                    </Link>
                   </Button>
                   <WorkingSpaceSettings
                     className={`absolute right-2 transition-opacity duration-200 ${
