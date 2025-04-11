@@ -24,6 +24,7 @@ export default function TableSettings({
 }: TableSettingsProps) {
   const [inputValue, setInputValue] = useState(tableName);
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const updateTable = useMutation(api.mutations.notesTables.updateTable);
   const deleteTable = useMutation(api.mutations.notesTables.deleteTable);
 
@@ -31,10 +32,16 @@ export default function TableSettings({
     setInputValue(event.target.value);
   };
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key) {
-      updateTable({ _id: notesTableId, name: inputValue });
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleBlur();
     }
+  };
+
+  const handleBlur = () => {
+    updateTable({ _id: notesTableId, name: inputValue });
+    setOpen(false);
   };
 
   const handleDelete = async () => {
@@ -43,7 +50,7 @@ export default function TableSettings({
     setIsLoading(false);
   };
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="Trigger" className="px-0.5 h-8 mt-0.5 opacity-80">
           <FaEllipsisVertical size="18" />
@@ -59,7 +66,8 @@ export default function TableSettings({
             type="text"
             value={inputValue}
             onChange={handleInputChange}
-            onKeyUp={handleKeyUp}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
             className=" text-brand_tertiary border-brand_tertiary/20"
           />
         </DropdownMenuGroup>

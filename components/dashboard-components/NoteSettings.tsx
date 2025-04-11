@@ -50,6 +50,7 @@ export default function NoteSettings({
   const [ishandleDeleteLoading, setIshandleDeleteLoading] = useState(false);
   const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
     useState(false);
+  const [open, setOpen] = useState(false);
   const viwer = useQuery(api.users.viewer);
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
@@ -63,20 +64,26 @@ export default function NoteSettings({
     setInputValue(event.target.value);
   };
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key) {
-      updateNote({
-        _id: noteId,
-        userid: viwer?._id,
-        notesTableId: getNote?.notesTableId,
-        title: inputValue,
-        body: getNote?.body,
-        workingSpacesSlug: getNote?.workingSpacesSlug,
-        createdAt: getNote?.createdAt,
-        order: getNote?.order,
-        favorite: getNote?.favorite,
-      });
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleBlur();
     }
+  };
+
+  const handleBlur = () => {
+    updateNote({
+      _id: noteId,
+      userid: viwer?._id,
+      notesTableId: getNote?.notesTableId,
+      title: inputValue,
+      body: getNote?.body,
+      workingSpacesSlug: getNote?.workingSpacesSlug,
+      createdAt: getNote?.createdAt,
+      order: getNote?.order,
+      favorite: getNote?.favorite,
+    });
+    setOpen(false);
   };
 
   const handleDelete = async () => {
@@ -100,7 +107,7 @@ export default function NoteSettings({
     setIshandleFavoritePinLoading(false);
   };
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <Tooltip
         className={cn(
           " rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs",
@@ -132,7 +139,8 @@ export default function NoteSettings({
             type="text"
             value={inputValue}
             onChange={handleInputChange}
-            onKeyUp={handleKeyUp}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
             className=" text-brand_tertiary border-brand_tertiary/20"
           />
         </DropdownMenuGroup>
