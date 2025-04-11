@@ -9,8 +9,15 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
 import Footer from "@/components/landingPage-components/Footer";
+import { useEffect, useState } from "react";
 export default function HomePage() {
   const viewer = useQuery(api.auth.isAuthenticated);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   if (!viewer) {
     return (
       <div className="flex flex-col min-h-screen">
@@ -22,7 +29,7 @@ export default function HomePage() {
           <Testimonials />
           <SignUpToday />
         </div>
-        <Footer />
+        {isClient && <Footer />}
       </div>
     );
   } else {

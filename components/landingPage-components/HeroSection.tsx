@@ -7,79 +7,80 @@ import heroImg from "../../public/AIChatBot.svg";
 import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
-    <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-20 flex justify-center items-center w-full">
-      <motion.div
-        className=" mx-2 lg:mx-10 py-10 w-full bg-gradient-to-b from-brand_fourthary via-purple-900/10 to-transparent rounded-xl"
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ ease: "easeInOut", duration: 0.3, delay: 0.3 }}
-      >
-        <MaxWContainer className="*:text-center relative px-4 sm:px-6 lg:px-8">
-          <motion.h1
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ ease: "easeInOut", duration: 0.5, delay: 0.5 }}
-            className="text-2xl sm:text-4xl lg:text-7xl font-semibold pb-3 lg:pb-5"
-          >
-            Take Notes to the Next Level with <br className="hidden sm:block" />
-            <span className="bg-gradient-to-l from-purple-900 from-15% to-purple-600 text-transparent bg-clip-text font-extrabold">
-              AI-Powered
-            </span>{" "}
-            Conversations
-          </motion.h1>
-          <motion.p
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ ease: "easeInOut", duration: 0.6, delay: 0.6 }}
-            className=" text-brand_secondary/70 text-sm sm:text-lg lg:text-xl font-medium lg:font-medium px-2"
-          >
-            Interact with Your Notes Like Never Before.{" "}
-            <br className="hidden sm:block" />
-            Organize, Discuss, and Enhance Your Ideas Seamlessly.
-          </motion.p>
-          <motion.span
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ ease: "easeInOut", duration: 0.7, delay: 0.7 }}
-            className="w-full flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 py-6 sm:py-8 lg:py-10"
-          >
-            <Button className="w-full sm:w-auto">
-              <Link href="/signin" className="text-sm sm:text-base font-medium">
-                Get Started for Free
-              </Link>
-            </Button>
-            <Button className="w-full sm:w-auto" variant="ghost">
-              <Link
-                href="/#features"
-                className="text-sm sm:text-base font-medium"
-              >
-                Learn More
-              </Link>
-            </Button>
-          </motion.span>
-          <motion.div
-            initial={{ y: 90, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ ease: "linear", duration: 0.9, delay: 0.9 }}
-            className="w-full p-2 sm:p-4 lg:p-5 rounded-xl bg-gradient-to-t from-transparent to-brand_tertiary/5 backdrop-blur-xl"
-          >
-            <div className=" w-full flex items-center justify-start p-1.5 bg-transparent rounded-t-lg relative top-[-0.5rem] mx-auto">
-              <div className="flex items-center">
-                <span className="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
-                <span className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
-                <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-              </div>
-            </div>
-            <Image
-              src={heroImg}
-              alt="hero img"
-              priority
-              quality={100}
-              className="opacity-70 mask-image-gradient"
-            />
-          </motion.div>
-        </MaxWContainer>
-      </motion.div>
+    <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-32 flex justify-center items-center w-full">
+      <MaxWContainer className="flex flex-col items-center justify-center *:text-center relative px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ease: "easeInOut", duration: 0.4, delay: 0.4 }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/20 text-red-400 text-xs font-mono font-medium mb-6 border border-red-400/20"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
+          Bug • Fixing the AI API
+        </motion.div>
+        <motion.h1
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ease: "easeInOut", duration: 0.5, delay: 0.5 }}
+          className="text-2xl sm:text-4xl lg:text-7xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary to-transparent bg-clip-text text-transparent font-semibold"
+        >
+          Take Notes to the Next Level with <br className="hidden sm:block" />
+          <span className="bg-gradient-to-l from-purple-900 from-15% to-purple-600 text-transparent bg-clip-text font-extrabold">
+            AI-Powered
+          </span>{" "}
+          Conversations
+        </motion.h1>
+        <motion.p
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ease: "easeInOut", duration: 0.6, delay: 0.6 }}
+          className=" text-brand_secondary/70 text-sm sm:text-lg lg:text-xl font-medium lg:font-medium px-2"
+        >
+          Interact with Your Notes Like Never Before.{" "}
+          <br className="hidden sm:block" />
+          Organize, Discuss, and Enhance Your Ideas Seamlessly.
+        </motion.p>
+        <motion.span
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ease: "easeInOut", duration: 0.7, delay: 0.7 }}
+          className="w-full flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 py-6 sm:py-8 lg:py-10"
+        >
+          <Button className="w-full sm:w-auto">
+            <Link href="/signin" className="text-sm sm:text-base font-medium">
+              Get Started for Free
+            </Link>
+          </Button>
+          <Button className="w-full sm:w-auto" variant="ghost">
+            <Link
+              href="/#features"
+              className="text-sm sm:text-base font-medium"
+            >
+              Learn More
+            </Link>
+          </Button>
+        </motion.span>
+        <motion.div
+          initial={{ y: 90, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ease: "linear", duration: 0.8, delay: 0.8 }}
+          className=" absolute -z-20 bg-gradient-to-t from-purple-900/50 from-15% to-brand_fourthary left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]"
+        />
+        <motion.div
+          initial={{ y: 90, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ ease: "linear", duration: 0.9, delay: 0.9 }}
+          className="w-full p-2 sm:p-4 lg:p-5 rounded-xl bg-gradient-to-t from-transparent to-brand_tertiary/5 backdrop-blur-xl"
+        >
+          <Image
+            src={heroImg}
+            alt="hero img"
+            priority
+            quality={100}
+            className="opacity-70 mask-image-gradient"
+          />
+        </motion.div>
+      </MaxWContainer>
     </section>
   );
 }
