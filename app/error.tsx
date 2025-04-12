@@ -29,7 +29,7 @@ export default function Error({
             height={20}
           />
           <p className=" text-brand_secondary/70 text-xs  font-medium px-2">
-            {` ! Hi this Notevo team we're really soory for this `}
+            {` ! Hi this is Notevo team we're really soory for this `}
           </p>
         </div>
         <h2 className="text-2xl sm:text-4xl lg:text-7xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary to-transparent bg-clip-text text-transparent font-semibold">
