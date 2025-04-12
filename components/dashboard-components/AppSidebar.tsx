@@ -30,7 +30,6 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useRouter } from "next/navigation";
 import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
@@ -54,7 +53,6 @@ export default function AppSidebar() {
   );
   const viwer = useQuery(api.users.viewer);
   const User = useQuery(api.users.viewer);
-  const router = useRouter();
   const { signOut } = useAuthActions();
   const [hoveredWorkingSpaceId, setHoveredWorkingSpaceId] = useState<
     string | null
