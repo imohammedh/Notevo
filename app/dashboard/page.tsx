@@ -11,7 +11,7 @@ import FloatingNavbar from "@/components/dashboard-components/FloatingNavbar";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
 import Link from "next/link";
 import SkeletonTextAnimation from "@/components/ui/SkeletonTextAnimation";
-export default function ProductPage() {
+export default function Dashboard() {
   const viwer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(
     api.mutations.workingSpaces.getRecentWorkingSpaces,
