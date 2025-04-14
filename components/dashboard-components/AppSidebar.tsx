@@ -102,11 +102,7 @@ export default function AppSidebar() {
                 </Button>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SearchDialog
-                  Variant="SidebarMenuButton"
-                  WithTheTitle={true}
-                  IconSize="16"
-                />
+                <SearchDialog showTitle={true} iconSize={16} />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

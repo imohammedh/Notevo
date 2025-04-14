@@ -1,5 +1,17 @@
 "use client";
-import { Calendar } from "lucide-react";
+
+import React from "react";
+
+import {
+  Calendar,
+  Clock,
+  Code,
+  FileText,
+  Inbox,
+  Search,
+  Settings,
+  Star,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -19,26 +31,84 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
-import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import Link from "next/link";
 
 interface SearchDialogProps {
-  Variant: "SidebarMenuButton" | "Trigger";
-  WithTheTitle: boolean;
-  IconSize: "16" | "24";
+  variant?: "default" | "SidebarMenuButton";
+  showTitle?: boolean;
+  iconSize?: number;
 }
 
+// Helper function to get icon based on note type or category
+const getNoteIcon = (note: any) => {
+  const typeMap: Record<string, any> = {
+    document: FileText,
+    code: Code,
+    inbox: Inbox,
+    starred: Star,
+    settings: Settings,
+  };
+
+  return typeMap[note.type] || FileText;
+};
+
+// Helper to format relative time
+const getRelativeTime = (date: Date) => {
+  const now = new Date();
+  const diffInDays = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  if (diffInDays === 0) return "Today";
+  if (diffInDays === 1) return "Yesterday";
+  if (diffInDays < 7) return `${diffInDays} days ago`;
+  if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+  return `${Math.floor(diffInDays / 30)} months ago`;
+};
+
+// Group notes by time period
+const groupNotesByTime = (notes: any[]) => {
+  const now = new Date();
+  const today = new Date(now.setHours(0, 0, 0, 0));
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const lastWeek = new Date(today);
+  lastWeek.setDate(lastWeek.getDate() - 7);
+  const lastMonth = new Date(today);
+  lastMonth.setDate(lastMonth.getDate() - 30);
+
+  return {
+    today: notes.filter((note) => new Date(note.createdAt) >= today),
+    yesterday: notes.filter(
+      (note) =>
+        new Date(note.createdAt) >= yesterday &&
+        new Date(note.createdAt) < today,
+    ),
+    pastWeek: notes.filter(
+      (note) =>
+        new Date(note.createdAt) >= lastWeek &&
+        new Date(note.createdAt) < yesterday,
+    ),
+    pastMonth: notes.filter(
+      (note) =>
+        new Date(note.createdAt) >= lastMonth &&
+        new Date(note.createdAt) < lastWeek,
+    ),
+    older: notes.filter((note) => new Date(note.createdAt) < lastMonth),
+  };
+};
+
 export default function SearchDialog({
-  Variant,
-  WithTheTitle,
-  IconSize,
+  variant = "SidebarMenuButton",
+  showTitle = false,
+  iconSize = 16,
 }: SearchDialogProps) {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const router = useRouter();
-  const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
+  const notes = useQuery(api.mutations.notes.getNoteByUserId);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -57,62 +127,256 @@ export default function SearchDialog({
     router.push(href);
   };
 
+  // Filter notes based on search query
+  const filteredNotes = notes?.filter(
+    (note) =>
+      note.title?.toLowerCase().includes(query.toLowerCase()) ||
+      note.workingSpacesSlug?.toLowerCase().includes(query.toLowerCase()),
+  );
+
+  // Group filtered notes by time
+  const groupedNotes = filteredNotes ? groupNotesByTime(filteredNotes) : null;
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={Variant} className=" px-2 h-8 group">
-          <Search size={IconSize} />
-          {WithTheTitle && (
+        <Button variant={variant} size="sm" className="px-2 h-8 group b">
+          <Search size={iconSize} className="text-brand_tertiary" />
+          {showTitle && (
             <div className="w-full flex items-center justify-between gap-1">
-              <span>Search</span>
-              <CommandShortcut className="text-xs opacity-70">
-                {`⌘ + K`}
-              </CommandShortcut>
+              <span className="text-brand_tertiary">Search</span>
+              <CommandShortcut className="text-xs opacity-70">{`⌘ + K`}</CommandShortcut>
             </div>
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className=" p-2 bg-brand_fourthary rounded-xl border-brand_tertiary/10 md:min-w-[450px]">
+      <DialogContent className="p-0 overflow-hidden border border-brand_tertiary/20 bg-brand_fourthary shadow-lg md:min-w-[500px]">
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
-        <Command className=" bg-brand_fourthary">
-          <CommandInput placeholder="Search for your note..." />
-          <CommandList className="scrollbar-thin scrollbar-thumb-brand_tertiary pr-1 scrollbar-track-brand_fourthary">
-            <CommandEmpty className="text-brand_tertiary p-2">
-              {getNotes && getNotes?.length !== 0 ? "No results found." : ""}
+        <Command className="bg-brand_fourthary">
+          <div className="flex items-center border-b border-brand_tertiary/20 w-full px-3">
+            <CommandInput
+              placeholder="Search for notes, spaces, or content..."
+              className="h-11 border-none focus:ring-0 focus-visible:ring-0 placeholder:text-brand_tertiary/50"
+              value={query}
+              onValueChange={setQuery}
+            />
+          </div>
+          <CommandList className="max-h-[80vh] overflow-auto p-1">
+            <CommandEmpty className="py-6 text-center text-sm">
+              No results found.
             </CommandEmpty>
-            {getNotes && getNotes?.length !== 0 ? (
-              <CommandGroup heading="Suggestions">
-                {getNotes.map((note) => (
-                  <CommandItem
-                    key={note._id}
-                    className="group hover:bg-brand_tertiary/5 aria-selected:bg-brand_tertiary/5"
-                    onSelect={() =>
-                      handleItemClick(
-                        `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
-                      )
-                    }
-                  >
-                    <div className="w-full h-full flex flex-shrink-0 flex-grow-0 justify-between items-start gap-1">
-                      <h1 className="text-lg font-medium text-nowrap">
-                        {note.title
-                          ? note.title.length > 20
-                            ? `${note.title.substring(0, 20)}...`
-                            : note.title
-                          : "Untitled"}
-                      </h1>
-                      <span className="flex justify-center items-center gap-1 transition-all duration-200 ease-in-out opacity-10 group-hover:opacity-80">
-                        <Calendar size="16" />
-                        <p className="font-normal text-sm">
-                          {new Date(note.createdAt).toLocaleDateString()}
-                        </p>
-                      </span>
-                    </div>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            ) : (
-              <p className="text-brand_tertiary">{`it looks like you don't have any note's`}</p>
+
+            {groupedNotes && (
+              <>
+                {groupedNotes.today.length > 0 && (
+                  <CommandGroup heading="Today">
+                    {groupedNotes.today.map((note) => (
+                      <CommandItem
+                        key={note._id}
+                        className="flex items-center py-2 px-2"
+                        onSelect={() =>
+                          handleItemClick(
+                            `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                          )
+                        }
+                      >
+                        <div className="flex w-full items-center">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                            {React.createElement(getNoteIcon(note), {
+                              size: 16,
+                            })}
+                          </div>
+                          <div className="flex-1 overflow-hidden">
+                            <div className="font-medium truncate">
+                              {note.title || "Untitled"}
+                            </div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {note.workingSpacesSlug || "Personal"}
+                            </div>
+                          </div>
+                          <div className="flex items-center text-xs text-muted-foreground">
+                            <Clock className="mr-1 h-3 w-3" />
+                            <span>
+                              {getRelativeTime(new Date(note.createdAt))}
+                            </span>
+                          </div>
+                        </div>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {groupedNotes.yesterday.length > 0 && (
+                  <>
+                    <CommandSeparator />
+                    <CommandGroup heading="Yesterday">
+                      {groupedNotes.yesterday.map((note) => (
+                        <CommandItem
+                          key={note._id}
+                          className="flex items-center py-2 px-2"
+                          onSelect={() =>
+                            handleItemClick(
+                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                            )
+                          }
+                        >
+                          <div className="flex w-full items-center">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                              {React.createElement(getNoteIcon(note), {
+                                size: 16,
+                              })}
+                            </div>
+                            <div className="flex-1 overflow-hidden">
+                              <div className="font-medium truncate">
+                                {note.title || "Untitled"}
+                              </div>
+                              <div className="text-xs text-muted-foreground truncate">
+                                {note.workingSpacesSlug || "Personal"}
+                              </div>
+                            </div>
+                            <div className="flex items-center text-xs text-muted-foreground">
+                              <Clock className="mr-1 h-3 w-3" />
+                              <span>Yesterday</span>
+                            </div>
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </>
+                )}
+
+                {groupedNotes.pastWeek.length > 0 && (
+                  <>
+                    <CommandSeparator />
+                    <CommandGroup heading="Past Week">
+                      {groupedNotes.pastWeek.map((note) => (
+                        <CommandItem
+                          key={note._id}
+                          className="flex items-center py-2 px-2"
+                          onSelect={() =>
+                            handleItemClick(
+                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                            )
+                          }
+                        >
+                          <div className="flex w-full items-center">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                              {React.createElement(getNoteIcon(note), {
+                                size: 16,
+                              })}
+                            </div>
+                            <div className="flex-1 overflow-hidden">
+                              <div className="font-medium truncate">
+                                {note.title || "Untitled"}
+                              </div>
+                              <div className="text-xs text-muted-foreground truncate">
+                                {note.workingSpacesSlug || "Personal"}
+                              </div>
+                            </div>
+                            <div className="flex items-center text-xs text-muted-foreground">
+                              <Clock className="mr-1 h-3 w-3" />
+                              <span>
+                                {getRelativeTime(new Date(note.createdAt))}
+                              </span>
+                            </div>
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </>
+                )}
+
+                {groupedNotes.pastMonth.length > 0 && (
+                  <>
+                    <CommandSeparator />
+                    <CommandGroup heading="Past 30 Days">
+                      {groupedNotes.pastMonth.map((note) => (
+                        <CommandItem
+                          key={note._id}
+                          className="flex items-center py-2 px-2"
+                          onSelect={() =>
+                            handleItemClick(
+                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                            )
+                          }
+                        >
+                          <div className="flex w-full items-center">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                              {React.createElement(getNoteIcon(note), {
+                                size: 16,
+                              })}
+                            </div>
+                            <div className="flex-1 overflow-hidden">
+                              <div className="font-medium truncate">
+                                {note.title || "Untitled"}
+                              </div>
+                              <div className="text-xs text-muted-foreground truncate">
+                                {note.workingSpacesSlug || "Personal"}
+                              </div>
+                            </div>
+                            <div className="flex items-center text-xs text-muted-foreground">
+                              <Calendar className="mr-1 h-3 w-3" />
+                              <span>
+                                {new Date(note.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </>
+                )}
+
+                {groupedNotes.older.length > 0 && (
+                  <>
+                    <CommandSeparator />
+                    <CommandGroup heading="Older">
+                      {groupedNotes.older.map((note) => (
+                        <CommandItem
+                          key={note._id}
+                          className="flex items-center py-2 px-2"
+                          onSelect={() =>
+                            handleItemClick(
+                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                            )
+                          }
+                        >
+                          <div className="flex w-full items-center">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                              {React.createElement(getNoteIcon(note), {
+                                size: 16,
+                              })}
+                            </div>
+                            <div className="flex-1 overflow-hidden">
+                              <div className="font-medium truncate">
+                                {note.title || "Untitled"}
+                              </div>
+                              <div className="text-xs text-muted-foreground truncate">
+                                {note.workingSpacesSlug || "Personal"}
+                              </div>
+                            </div>
+                            <div className="flex items-center text-xs text-muted-foreground">
+                              <Calendar className="mr-1 h-3 w-3" />
+                              <span>
+                                {new Date(note.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </>
+                )}
+              </>
             )}
+
+            {!notes || notes.length === 0 ? (
+              <div className="py-6 text-center text-sm text-muted-foreground">
+                <FileText className="mx-auto h-8 w-8 opacity-50 mb-2" />
+                <p>No notes found</p>
+                <p className="text-xs">Create your first note to get started</p>
+              </div>
+            ) : null}
           </CommandList>
         </Command>
       </DialogContent>

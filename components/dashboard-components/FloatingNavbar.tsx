@@ -85,11 +85,11 @@ export default function FloatingNavbar() {
         </div>
         <div className=" flex flex-col justify-center items-center text-brand_tertiary/70 text-xs hover:text-brand_tertiary">
           <span className="h-10 px-4 py-2">
-            <SearchDialog
+            {/* <SearchDialog
               Variant="Trigger"
               WithTheTitle={false}
               IconSize="24"
-            />
+            /> */}
           </span>
           Search
         </div>
