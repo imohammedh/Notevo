@@ -7,15 +7,14 @@ import { useState, useEffect } from "react";
 import { JSONContent } from "@tiptap/react";
 import TailwindAdvancedEditor from "@/components/advanced-editor";
 import { useDebouncedCallback } from "use-debounce";
+import type { Id } from "@/convex/_generated/dataModel";
+
 export default function NotePage() {
   const searchParams = useSearchParams();
-  const noteid = searchParams.get("id");
-  const viwer = useQuery(api.users.viewer);
+  const noteid: Id<"notes"> = searchParams.get("id") as Id<"notes">;
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
-  const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
-    userid: viwer?._id,
-  });
+  const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
   const getNote = getNotes?.find((note) => note._id === noteid);
 
   const initialContent: JSONContent = getNote?.body
@@ -36,12 +35,8 @@ export default function NotePage() {
     (updatedContent: JSONContent) => {
       updateNote({
         _id: noteid,
-        userid: viwer?._id,
-        notesTableId: getNote?.notesTableId,
         title: getNote?.title,
         body: JSON.stringify(updatedContent),
-        workingSpacesSlug: getNote?.workingSpacesSlug,
-        createdAt: getNote?.createdAt,
         order: getNote?.order,
         favorite: getNote?.favorite,
       });

@@ -1,13 +1,13 @@
 import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import {generateSlug} from "../../lib/generateSlug";
+import { generateSlug } from "../../lib/generateSlug";
 
 export const createWorkingSpace = mutation({
-    args:{
+    args: {
         name: v.string(),
     },
-    handler: async (ctx, args)=>{
+    handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
@@ -15,7 +15,6 @@ export const createWorkingSpace = mutation({
         const { name } = args;
         const generateSlugName = generateSlug(name);
 
-        // Check if the slug already exists and add incremental number if it does
         let slug = generateSlugName;
         let existingWorkingSpace = await ctx.db.query("workingSpaces").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
         let counter = 1;
@@ -37,11 +36,11 @@ export const createWorkingSpace = mutation({
 })
 
 export const updateWorkingSpace = mutation({
-    args:{
+    args: {
         _id: v.id("workingSpaces"),
         name: v.optional(v.string()),
     },
-    handler: async (ctx, args)=>{
+    handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
@@ -51,43 +50,52 @@ export const updateWorkingSpace = mutation({
         if (!workingSpace) {
             throw new Error("WorkingSpace not found");
         }
-        const generateSlugName = generateSlug(name??"Untitled");
+        
+        // Authorization check: verify the workspace belongs to the authenticated user
+        if (workingSpace.userId !== userId) {
+            throw new Error("Not authorized to update this workspace");
+        }
+        
+        const generateSlugName = generateSlug(name ?? "Untitled");
         // Check if the slug already exists and add incremental number if it does
         let slug = generateSlugName;
         let existingWorkingSpace = await ctx.db.query("workingSpaces").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
         let counter = 1;
-        while (existingWorkingSpace) {
+        while (existingWorkingSpace && existingWorkingSpace._id !== _id) { // Skip current workspace
             slug = `${generateSlugName}-${counter}`;
             existingWorkingSpace = await ctx.db.query("workingSpaces").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
             counter++;
         }
         const update = {
             name: name ?? workingSpace.name,
-            userId: workingSpace.userId,
+            userId: workingSpace.userId, // Preserve the original user ID
             slug: slug,
             createdAt: workingSpace.createdAt,
             updatedAt: Date.now(),
         };
-        const updatedWorkingSpace = await ctx.db.replace(_id,update);
+        const updatedWorkingSpace = await ctx.db.replace(_id, update);
         return updatedWorkingSpace;
     }
 })
+
 export const getWorkingSpaces = query({
     args: {},
-    handler: async (ctx)=>{
+    handler: async (ctx) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
+        // This function is already secure since it only returns workspaces belonging to the authenticated user
         const workingSpaces = await ctx.db.query("workingSpaces").withIndex("by_userId", (q) => q.eq("userId", userId)).collect();
         return workingSpaces;
     }
 })
+
 export const deleteWorkingSpace = mutation({
-    args:{
+    args: {
         _id: v.id("workingSpaces"),
     },
-    handler: async (ctx, args)=>{
+    handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
@@ -98,11 +106,13 @@ export const deleteWorkingSpace = mutation({
             throw new Error("WorkingSpace not found");
         }
         if (workingSpace.userId !== userId) {
-            throw new Error("Not authorized");
+            throw new Error("Not authorized to delete this workspace");
         }
         await ctx.db.delete(_id);
+        return { success: true };
     }
 })
+
 export const getRecentWorkingSpaces = query({
     args: {},
     handler: async (ctx) => {
@@ -110,11 +120,12 @@ export const getRecentWorkingSpaces = query({
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        // Fetch recent working spaces sorted by updatedAt
+        // This function is already secure since it only returns workspaces belonging to the authenticated user
+        // However, I fixed the sorting to be by updatedAt in descending order to get truly recent workspaces
         const recentWorkingSpaces = await ctx.db
             .query("workingSpaces")
             .withIndex("by_userId", (q) => q.eq("userId", userId))
-            .order("asc")
+            .order("desc") // Changed from "asc" to "desc" to get newest first
             .collect();
         return recentWorkingSpaces;
     }

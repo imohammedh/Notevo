@@ -38,10 +38,7 @@ export default function SearchDialog({
 }: SearchDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const viwer = useQuery(api.users.viewer);
-  const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
-    userid: viwer?._id,
-  });
+  const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

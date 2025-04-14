@@ -51,7 +51,6 @@ export default function AppSidebar() {
   const getWorkingSpaces = useQuery(
     api.mutations.workingSpaces.getWorkingSpaces,
   );
-  const viwer = useQuery(api.users.viewer);
   const User = useQuery(api.users.viewer);
   const { signOut } = useAuthActions();
   const [hoveredWorkingSpaceId, setHoveredWorkingSpaceId] = useState<
@@ -60,9 +59,7 @@ export default function AppSidebar() {
   const [HoveredNoteId, setHoveredNoteId] = useState<string | null>(null);
 
   // Query to fetch all notes by user ID
-  const getNotesByUserId = useQuery(api.mutations.notes.getNoteByUserId, {
-    userid: viwer?._id,
-  });
+  const getNotesByUserId = useQuery(api.mutations.notes.getNoteByUserId);
 
   // Filter notes to get only the favorite ones
   const favoriteNotes = getNotesByUserId?.filter((note) => note.favorite);

@@ -1,29 +1,42 @@
 import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import {generateSlug} from "../../lib/generateSlug";
+import { generateSlug } from "../../lib/generateSlug";
 
 export const createTable = mutation({
-    args:{
+    args: {
         name: v.string(),
         workingSpaceId: v.id("workingSpaces"),
     },
-    handler: async (ctx, args:any)=>{
+    handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
+        
         const { name, workingSpaceId } = args;
+        
+        // Verify the user owns the workspace
+        const workspace = await ctx.db.get(workingSpaceId);
+        if (!workspace) {
+            throw new Error("Workspace not found");
+        }
+        
+        if (workspace.userId !== userId) {
+            throw new Error("Not authorized to create tables in this workspace");
+        }
+        
         const generateSlugName = generateSlug(name);
         // Check if the slug already exists and add incremental number if it does
         let slug = generateSlugName;
-        let existingWorkingSpace = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
+        let existingTable = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
         let counter = 1;
-        while (existingWorkingSpace) {
+        while (existingTable) {
             slug = `${generateSlugName}-${counter}`;
-            existingWorkingSpace = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
+            existingTable = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
             counter++;
         }
+        
         const table = {
             name,
             workingSpaceId,
@@ -31,36 +44,50 @@ export const createTable = mutation({
             createdAt: Date.now(),
             updatedAt: Date.now(),
         };
+        
         const newTable = await ctx.db.insert("notesTables", table);
         return newTable;
     }
 })
 
 export const updateTable = mutation({
-    args:{
+    args: {
         _id: v.id("notesTables"),
         name: v.optional(v.string()),
     },
-    handler: async (ctx, args)=>{
+    handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
+        
         const { _id, name } = args;
         const table = await ctx.db.get(_id);
         if (!table) {
             throw new Error("Table not found");
         }
-        const generateSlugName = generateSlug(name??"Untitled");
+        
+        // Verify the user owns the workspace that contains this table
+        const workspace = await ctx.db.get(table.workingSpaceId);
+        if (!workspace) {
+            throw new Error("Workspace not found");
+        }
+        
+        if (workspace.userId !== userId) {
+            throw new Error("Not authorized to update tables in this workspace");
+        }
+        
+        const generateSlugName = generateSlug(name ?? "Untitled");
         // Check if the slug already exists and add incremental number if it does
         let slug = generateSlugName;
-        let existingWorkingSpace = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
+        let existingTable = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
         let counter = 1;
-        while (existingWorkingSpace) {
+        while (existingTable && existingTable._id !== _id) { // Skip the current table
             slug = `${generateSlugName}-${counter}`;
-            existingWorkingSpace = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
+            existingTable = await ctx.db.query("notesTables").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
             counter++;
         }
+        
         const update = {
             name: name ?? table.name,
             workingSpaceId: table.workingSpaceId,
@@ -68,34 +95,69 @@ export const updateTable = mutation({
             createdAt: table.createdAt,
             updatedAt: Date.now(),
         };
-        const updatedTable = await ctx.db.replace(_id,update);
+        
+        const updatedTable = await ctx.db.replace(_id, update);
         return updatedTable;
     }
 })
+
 export const getTables = query({
     args: {
-        workingSpaceId:v.any()
+        workingSpaceId: v.id("workingSpaces") // Changed from v.any() to be more type-safe
     },
-    handler: async (ctx,args)=>{
+    handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
-        const {workingSpaceId}=args
-        const tables = await ctx.db.query("notesTables").withIndex("by_workingSpaceId", (q) => q.eq("workingSpaceId", workingSpaceId)).collect();
+        
+        const { workingSpaceId } = args;
+        
+        // Verify the user owns the workspace
+        const workspace = await ctx.db.get(workingSpaceId);
+        if (!workspace) {
+            throw new Error("Workspace not found");
+        }
+        
+        if (workspace.userId !== userId) {
+            throw new Error("Not authorized to view tables in this workspace");
+        }
+        
+        const tables = await ctx.db
+            .query("notesTables")
+            .withIndex("by_workingSpaceId", (q) => q.eq("workingSpaceId", workingSpaceId))
+            .collect();
+            
         return tables;
     }
 })
+
 export const deleteTable = mutation({
-    args:{
+    args: {
         _id: v.id("notesTables"),
     },
-    handler: async (ctx, args)=>{
+    handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
             throw new Error("Not authenticated");
         }
+        
         const { _id } = args;
+        const table = await ctx.db.get(_id);
+        if (!table) {
+            throw new Error("Table not found");
+        }
+        
+        // Verify the user owns the workspace that contains this table
+        const workspace = await ctx.db.get(table.workingSpaceId);
+        if (!workspace) {
+            throw new Error("Workspace not found");
+        }
+        
+        if (workspace.userId !== userId) {
+            throw new Error("Not authorized to delete tables in this workspace");
+        }
+        
         await ctx.db.delete(_id);
         return true;
     }

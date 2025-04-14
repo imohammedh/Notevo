@@ -31,11 +31,11 @@ import {
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
+import type { Id } from "@/convex/_generated/dataModel";
+
 export default function FloatingNavbar() {
   const User = useQuery(api.users.viewer);
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams().get("id");
+  const searchParams = useSearchParams().get("id") as Id<"workingSpaces">;
   const [,] = useState(false);
   const [handleCreateTableloading, sethandleCreateTableloading] =
     useState(false);
