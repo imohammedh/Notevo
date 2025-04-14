@@ -17,6 +17,9 @@ export default function Error({
     console.error(error);
   }, [error]);
 
+  // Capture the error message or use a default message
+  const errorMessage = "An unexpected error occurred. Please try again .";
+
   return (
     <Section>
       <MaxWContainer className="flex flex-col items-center justify-center gap-4 *:text-center relative px-4 sm:px-6 lg:px-8">
@@ -29,14 +32,14 @@ export default function Error({
             height={20}
           />
           <p className=" text-brand_secondary/70 text-xs  font-medium px-2">
-            {` ! Hi this is Notevo team we're really soory for this `}
+            {` ! Hi this is Notevo team we're really sorry for this `}
           </p>
         </div>
         <h2 className="text-2xl sm:text-4xl lg:text-7xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary to-transparent bg-clip-text text-transparent font-semibold">
           Something went wrong!
         </h2>
         <p className=" text-brand_secondary/70 text-sm sm:text-lg lg:text-xl font-medium lg:font-medium px-2">
-          Could not find requested resource
+          {errorMessage}
         </p>
         <Button onClick={() => reset()} className="w-full sm:w-auto">
           <Link href="/">Try again</Link>

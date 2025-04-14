@@ -15,6 +15,7 @@ import { api } from "@/convex/_generated/api";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@heroui/tooltip";
+import type { Id } from "@/convex/_generated/dataModel";
 
 interface NoteSettingsProps {
   noteId: string | any;
@@ -51,13 +52,10 @@ export default function NoteSettings({
   const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
     useState(false);
   const [open, setOpen] = useState(false);
-  const viwer = useQuery(api.users.viewer);
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
-  const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
-    userid: viwer?._id,
-  });
+  const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
   const getNote = getNotes?.find((note) => note._id === noteId);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,12 +72,8 @@ export default function NoteSettings({
   const handleBlur = () => {
     updateNote({
       _id: noteId,
-      userid: viwer?._id,
-      notesTableId: getNote?.notesTableId,
       title: inputValue,
       body: getNote?.body,
-      workingSpacesSlug: getNote?.workingSpacesSlug,
-      createdAt: getNote?.createdAt,
       order: getNote?.order,
       favorite: getNote?.favorite,
     });
@@ -95,12 +89,8 @@ export default function NoteSettings({
     setIshandleFavoritePinLoading(true);
     await updateNote({
       _id: noteId,
-      userid: viwer?._id,
-      notesTableId: getNote?.notesTableId,
       title: inputValue,
       body: getNote?.body,
-      workingSpacesSlug: getNote?.workingSpacesSlug,
-      createdAt: getNote?.createdAt,
       order: getNote?.order,
       favorite: !getNote?.favorite,
     });

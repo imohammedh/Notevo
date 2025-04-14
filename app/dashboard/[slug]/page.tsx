@@ -13,21 +13,21 @@ import TablesNotFound from "@/components/dashboard-components/TablesNotFound";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { parseSlug } from "@/lib/parseSlug";
+import type { Id } from "@/convex/_generated/dataModel";
 import SkeletonTextAnimation from "../../../components/ui/SkeletonTextAnimation";
 
 export default function WorkingSpacePage() {
   const searchParams = useSearchParams();
-  const workingSpaceId = searchParams.get("id");
+  const workingSpaceId: Id<"workingSpaces"> = searchParams.get(
+    "id",
+  ) as Id<"workingSpaces">;
   const Params = useParams();
   const workingSpaceName = Params.slug;
   const workingspaceNameafterparseSlug = parseSlug(`${workingSpaceName}`);
   const getNoteTable = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId: workingSpaceId,
   });
-  const viwer = useQuery(api.users.viewer);
-  const getNotes = useQuery(api.mutations.notes.getNoteByUserId, {
-    userid: viwer?._id,
-  });
+  const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
   const updateNoteOrder = useMutation(api.mutations.notes.updateNoteOrder);
 
   const [optimisticNotes, setOptimisticNotes] = useState(getNotes);
