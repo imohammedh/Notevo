@@ -109,7 +109,7 @@ export default function WorkingSpaceSettings({
           />
         </DropdownMenuGroup>
         <Button
-          variant="SidebarMenuButton"
+          variant="SidebarMenuButton_destructive"
           className="w-full h-8 px-2 text-sm"
           onClick={handleDelete}
           disabled={isDeleting}
