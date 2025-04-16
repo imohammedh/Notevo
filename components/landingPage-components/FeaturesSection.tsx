@@ -13,8 +13,20 @@ export default function FeaturesSection() {
   return (
     <Section
       sectionId="features"
-      className="pt-2 sm:pt-2 md:pt-2 lg:pt-2 border-t rounded-full border-brand_tertiary/10 bg-gradient-to-t from-transparent from-15% via-purple-900/10 to-brand_fourthary/30"
+      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-t from-transparent from-15% via-purple-900/10 to-brand_fourthary/30"
     >
+      <svg
+        viewBox="0 0 1440 58"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        width="100hv"
+        className="absolute top-0 bg-transparent"
+      >
+        <path
+          d="M-100 58C-100 58 218.416 36.3297 693.5 36.3297C1168.58 36.3297 1487 58 1487 58V-3.8147e-06H-100V58Z"
+          fill="#0a0a0a"
+        ></path>
+      </svg>
       <MaxWContainer>
         <SectionHeading
           SectionTitle="Features"
