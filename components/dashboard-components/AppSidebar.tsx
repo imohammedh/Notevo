@@ -100,7 +100,7 @@ export default function AppSidebar() {
             variant="secondary"
             className="text-xs bg-brand_tertiary/5 border-brand_tertiary/20 text-brand_tertiary"
           >
-            v1.0
+            BETA
           </Badge>
         </div>
       </SidebarHeader>
