@@ -116,7 +116,8 @@ export default function WorkingSpaceSettings({
         >
           {isDeleting ? (
             <>
-              <LoadingAnimation className=" h-3 w-3" /> Deleting...
+              <LoadingAnimation className="text-red-600/10 animate-spin fill-red-600 h-3 w-3" />{" "}
+              Deleting...
             </>
           ) : (
             <>
