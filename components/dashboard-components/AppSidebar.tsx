@@ -1,13 +1,16 @@
 "use client";
 import {
   Notebook,
-  Home,
   Plus,
   Pin,
-  Search,
   CircleUserRound,
   CreditCard,
   LogOut,
+  Settings,
+  LayoutDashboard,
+  Star,
+  Clock,
+  FileText,
 } from "lucide-react";
 import { TbSelector } from "react-icons/tb";
 import {
@@ -18,6 +21,7 @@ import {
   SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
   SidebarSeparator,
@@ -27,11 +31,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import WorkingSpaceSettings from "./WorkingSpaceSettings";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -42,9 +46,11 @@ import SkeletonTextAnimation from "../ui/SkeletonTextAnimation";
 import SkeletonSmImgAnimation from "../ui/SkeletonSmImgAnimation";
 import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
 import NoteSettings from "./NoteSettings";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 
 export default function AppSidebar() {
+  const pathname = usePathname();
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
   );
@@ -80,12 +86,28 @@ export default function AppSidebar() {
     }
   };
 
+  // Check if the current path is the dashboard
+  const isDashboard = pathname === "/dashboard";
+
   return (
-    <Sidebar className=" border-brand_tertiary/20 group">
+    <Sidebar className="border-brand_tertiary/20 group">
+      <SidebarHeader className="bg-brand_fourthary text-brand_tertiary/90 border-b border-brand_tertiary/10">
+        <div className="flex items-center justify-between p-2">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-brand_tertiary/90">Notevo</span>
+          </div>
+          <Badge
+            variant="secondary"
+            className="text-xs bg-brand_tertiary/5 border-brand_tertiary/20 text-brand_tertiary"
+          >
+            v1.0
+          </Badge>
+        </div>
+      </SidebarHeader>
       <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-brand_fourthary group-hover:scrollbar-thumb-brand_tertiary">
         <SidebarGroup>
-          <SidebarGroupLabel className=" text-brand_tertiary/50">
-            Notevo
+          <SidebarGroupLabel className="text-brand_tertiary/50">
+            Navigation
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -93,11 +115,11 @@ export default function AppSidebar() {
                 <Button
                   asChild
                   variant="SidebarMenuButton"
-                  className=" px-2 h-8 group"
+                  className={`px-2 h-8 group ${isDashboard ? "bg-brand_tertiary/10" : ""}`}
                 >
                   <Link href="/dashboard">
-                    <Home size="16" />
-                    <span>Home</span>
+                    <LayoutDashboard size="16" />
+                    <span>Dashboard</span>
                   </Link>
                 </Button>
               </SidebarMenuItem>
@@ -107,10 +129,19 @@ export default function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
         {favoriteNotes?.length !== 0 && (
           <SidebarGroup>
-            <SidebarGroupLabel className=" text-brand_tertiary/50">
-              Pinned Notes
+            <SidebarGroupLabel className="text-brand_tertiary/50 flex items-center justify-between">
+              <span>Pinned Notes</span>
+              {favoriteNotes && (
+                <Badge
+                  variant="secondary"
+                  className="text-xs h-5 text-brand_tertiary bg-brand_tertiary/5 border-brand_tertiary/20"
+                >
+                  {favoriteNotes.length}
+                </Badge>
+              )}
             </SidebarGroupLabel>
             {favoriteNotes ? (
               favoriteNotes.map((note) => (
@@ -129,7 +160,7 @@ export default function AppSidebar() {
                       <Link
                         href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`}
                       >
-                        <Pin size="16" />
+                        <Pin size="16" className="text-amber-400" />
                         {note.title
                           ? note.title.length > 20
                             ? `${note.title.substring(0, 20)}...`
@@ -161,15 +192,16 @@ export default function AppSidebar() {
             <SidebarGroupContent />
           </SidebarGroup>
         )}
+
         <SidebarGroup>
-          <SidebarGroupLabel className=" text-brand_tertiary/50">
-            WorkingSpacs
+          <SidebarGroupLabel className="text-brand_tertiary/50 flex items-center justify-between">
+            <span>Workspaces</span>
           </SidebarGroupLabel>
           <SidebarGroupAction
-            title="Add Project"
+            title="Add Workspace"
             onClick={handleCreateWorkingSpace}
           >
-            <Plus /> <span className="sr-only">Add WorkingSpacs</span>
+            <Plus /> <span className="sr-only">Add Workspace</span>
           </SidebarGroupAction>
           {getWorkingSpaces?.length !== 0 ? (
             getWorkingSpaces?.map((workingSpace) => (
@@ -211,34 +243,35 @@ export default function AppSidebar() {
             <Button
               variant="outline"
               onClick={handleCreateWorkingSpace}
-              className=" border-dashed h-9 my-5"
+              className="border-dashed h-9 my-2 w-full"
             >
-              <p className=" text-xs w-full flex justify-center items-center gap-2">
-                <Plus size={16} /> Create WorkingSpace
+              <p className="text-xs w-full flex justify-center items-center gap-2">
+                <Plus size={16} /> Create Workspace
               </p>
             </Button>
           )}
           <SidebarGroupContent />
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className=" bg-brand_fourthary text-brand_tertiary/90">
+
+      <SidebarFooter className="bg-brand_fourthary text-brand_tertiary/90 border-t border-brand_tertiary/10">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild className=" py-8">
+              <DropdownMenuTrigger asChild className="my-3">
                 {loading === false ? (
                   <Button
                     variant="SidebarMenuButton"
-                    className=" border-none w-full flex items-center justify-between"
+                    className="border-none w-full h-15 flex items-center justify-between"
                     disabled={loading}
                   >
-                    <Avatar className="max-w-10 max-h-10 flex items-center justify-center">
+                    <Avatar className="h-8 w-8">
                       <AvatarImage
-                        src={User?.image}
-                        className=" rounded-xl"
+                        src={User?.image || "/placeholder.svg"}
+                        className="rounded-full"
                         alt={User ? User.name?.charAt(0) : `...`}
                       />
-                      <AvatarFallback>
+                      <AvatarFallback className="bg-brand_tertiary/10 text-brand_tertiary">
                         {User ? (
                           User.name?.charAt(0)
                         ) : (
@@ -246,26 +279,26 @@ export default function AppSidebar() {
                         )}
                       </AvatarFallback>
                     </Avatar>
-                    <div className=" flex flex-col items-start justify-center">
-                      <div>
+                    <div className="flex flex-col items-start justify-center">
+                      <div className="font-medium">
                         {User?.name ? (
                           `${User.name.split(" ")[0].length > 10 ? `${User.name.split(" ")[0].substring(0, 10)}...` : User.name.split(" ")[0]}${User.name.split(" ")[1] ? ` ${User.name.split(" ")[1].charAt(0)}.` : "."}`
                         ) : (
-                          <SkeletonTextAnimation className=" w-28" />
+                          <SkeletonTextAnimation className="w-28" />
                         )}
                       </div>
-                      <div>
+                      <div className="text-xs text-brand_tertiary/60">
                         {User?.email
                           ? User.email.replace(/(.{3}).*?(@.{3}).*/, "$1...$2")
                           : ""}
                       </div>
                     </div>
-                    <TbSelector size={19} />
+                    <TbSelector size={16} />
                   </Button>
                 ) : (
                   <Button
                     variant="SidebarMenuButton"
-                    className=" border-none w-full flex items-center justify-center gap-2"
+                    className="border-none w-full flex items-center justify-center gap-2"
                     disabled={loading}
                   >
                     <LoadingAnimation />
@@ -275,31 +308,49 @@ export default function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className=" rounded-xl m-2 p-1.5 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
+                className="rounded-xl m-2 p-1.5 bg-brand_fourthary/90 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
               >
-                <DropdownMenuItem className=" w-full">
+                <DropdownMenuItem className="w-full">
                   <Button
                     variant="SidebarMenuButton"
-                    className=" w-full"
+                    className="w-full"
                     disabled={true}
+                    asChild
                   >
-                    <CircleUserRound size="16" /> Account
+                    <Link href="/dashboard/settings/profile">
+                      <CircleUserRound size="16" /> Account
+                    </Link>
                   </Button>
                 </DropdownMenuItem>
-                <DropdownMenuItem className=" w-full">
+                <DropdownMenuItem className="w-full">
                   <Button
                     variant="SidebarMenuButton"
-                    className=" w-full"
+                    className="w-full"
                     disabled={true}
+                    asChild
                   >
-                    <CreditCard size="16" /> Billing
+                    <Link href="/dashboard/settings/billing">
+                      <CreditCard size="16" /> Billing
+                    </Link>
                   </Button>
                 </DropdownMenuItem>
-                <SidebarSeparator className=" opacity-30 my-2" />
-                <DropdownMenuItem className=" w-full">
+                <DropdownMenuItem className="w-full">
                   <Button
                     variant="SidebarMenuButton"
-                    className=" w-full"
+                    className="w-full"
+                    disabled={true}
+                    asChild
+                  >
+                    <Link href="/dashboard/settings">
+                      <Settings size="16" /> Settings
+                    </Link>
+                  </Button>
+                </DropdownMenuItem>
+                <SidebarSeparator className="opacity-30 my-2" />
+                <DropdownMenuItem className="w-full">
+                  <Button
+                    variant="SidebarMenuButton"
+                    className="w-full"
                     disabled={loading}
                     onClick={handleSignOut}
                   >
