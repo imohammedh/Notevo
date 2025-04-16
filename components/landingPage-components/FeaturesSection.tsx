@@ -13,7 +13,7 @@ export default function FeaturesSection() {
   return (
     <Section
       sectionId="features"
-      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-t from-transparent from-15% via-purple-900/10 to-brand_fourthary/30"
+      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-t from-transparent from-15% via-purple-900/10 to-brand_fourthary/50"
     >
       <svg
         viewBox="0 0 1440 58"
