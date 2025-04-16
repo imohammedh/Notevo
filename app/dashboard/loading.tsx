@@ -27,7 +27,7 @@ export default function DashboardSkeleton() {
 
       {/* Stats Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        {[1, 2, 3].map((i) => (
+        {[1, 2, 3,4].map((i) => (
           <Card
             key={i}
             className="bg-brand_fourthary/30 border-brand_tertiary/20"
@@ -37,7 +37,6 @@ export default function DashboardSkeleton() {
                 <div className="h-5 w-24 bg-brand_tertiary/10 rounded animate-pulse mb-2"></div>
                 <div className="h-8 w-12 bg-brand_tertiary/10 rounded animate-pulse"></div>
               </div>
-              <div className="h-12 w-12 bg-brand_tertiary/10 rounded-full animate-pulse"></div>
             </CardContent>
           </Card>
         ))}
