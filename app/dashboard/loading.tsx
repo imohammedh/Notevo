@@ -26,8 +26,8 @@ export default function DashboardSkeleton() {
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        {[1, 2, 3,4].map((i) => (
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+        {[1, 2, 3, 4].map((i) => (
           <Card
             key={i}
             className="bg-brand_fourthary/30 border-brand_tertiary/20"
