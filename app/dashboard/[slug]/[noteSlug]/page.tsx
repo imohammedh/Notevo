@@ -21,7 +21,24 @@ export default function NotePage() {
     ? JSON.parse(getNote.body)
     : {
         type: "doc",
-        content: [{ type: "paragraph" }],
+        content: [
+          {
+            type: "heading",
+            attrs: { level: 2 },
+            content: [{ type: "text", text: "! Hi 👋 " }],
+          },
+          {
+            type: "codeBlock",
+            attrs: { language: "typescriptreact" },
+            content: [
+              {
+                type: "text",
+                text: "Write something or Press '/' for commands",
+              },
+            ],
+          },
+          { type: "paragraph" },
+        ],
       };
   const [content, setContent] = useState<JSONContent>(initialContent);
 

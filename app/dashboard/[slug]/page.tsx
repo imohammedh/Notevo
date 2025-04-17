@@ -180,14 +180,6 @@ export default function WorkingSpacePage() {
                     className="flex items-center gap-1.5"
                   >
                     <span>{table.name}</span>
-                    <Badge
-                      variant="secondary"
-                      className="ml-1 bg-brand_tertiary/5 text-brand_tertiary/70"
-                    >
-                      {notesToRender?.filter(
-                        (note) => note.notesTableId === table._id,
-                      ).length || 0}
-                    </Badge>
                   </TabsTrigger>
                 ))}
               </TabsList>

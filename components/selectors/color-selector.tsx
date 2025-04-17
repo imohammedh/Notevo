@@ -129,7 +129,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       </PopoverTrigger>
       <PopoverContent
         sideOffset={5}
-        className="my-1 rounded-md border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourtharyflex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl "
+        className="my-1 rounded-md border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl "
         align="start"
       >
         <div className="flex flex-col">
@@ -147,7 +147,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
             >
               <div className="flex items-center gap-2">
                 <div
-                  className="rounded-sm border px-2 py-px font-medium"
+                  className="rounded-sm border border-brand_tertiary/5 px-2 py-px font-medium"
                   style={{ color }}
                 >
                   A
@@ -158,7 +158,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
           ))}
         </div>
         <div>
-          {/* <div className="my-1 px-2 text-sm font-semibold text-brand_tertiary">
+          <div className="my-1 px-2 text-sm font-semibold text-brand_tertiary">
             Background
           </div>
           {HIGHLIGHT_COLORS.map(({ name, color }) => (
@@ -171,7 +171,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
             >
               <div className="flex items-center gap-2">
                 <div
-                  className="rounded-sm border px-2 py-px font-medium"
+                  className="rounded-sm border border-brand_tertiary/5 px-2 py-px font-medium"
                   style={{ backgroundColor: color }}
                 >
                   A
@@ -182,7 +182,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                 <Check className="h-4 w-4" />
               )}
             </EditorBubbleItem>
-          ))} */}
+          ))}
         </div>
       </PopoverContent>
     </Popover>
