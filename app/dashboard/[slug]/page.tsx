@@ -172,7 +172,7 @@ export default function WorkingSpacePage() {
         {getNoteTable?.length !== 0 ? (
           getNoteTable ? (
             <Tabs defaultValue={getNoteTable[0]?._id} className="mt-4">
-              <TabsList className="bg-brand_fourthary/50 text-brand_tertiary/90 mb-6 justify-start w-fit flex-wrap h-fit gap-3 px-3 py-2">
+              <TabsList className="bg-brand_fourthary/50 text-brand_tertiary/90 mb-6 justify-start w-fit flex-wrap h-fit gap-3">
                 {getNoteTable.map((table) => (
                   <TabsTrigger
                     key={table._id}
