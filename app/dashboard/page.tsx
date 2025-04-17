@@ -28,6 +28,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StatsRow } from "@/components/dashboard-components/stats-row";
+import {
+  extractTextFromTiptap as parseTiptapContentExtractText,
+  truncateText as parseTiptapContentTruncateText,
+} from "@/lib/parse-tiptap-content";
 
 export default function Dashboard() {
   const viewer = useQuery(api.users.viewer);
@@ -251,6 +255,19 @@ function CreateWorkspaceCard({
 }
 // Note Card Component
 function NoteCard({ note }: { note: any }) {
+  const getContentPreview = (content: any) => {
+    if (!content) return "No content yet. Click to start writing...";
+
+    try {
+      const plainText = parseTiptapContentExtractText(content);
+      return plainText
+        ? parseTiptapContentTruncateText(plainText, 80)
+        : "No content yet. Click to start writing...";
+    } catch (error) {
+      console.error("Error parsing content:", error);
+      return "Unable to display content preview";
+    }
+  };
   return (
     <Card className="group bg-brand_fourthary/30 border-brand_tertiary/20 hover:border-brand_tertiary/40 transition-all duration-300 hover:shadow-md hover:scale-[1.02]">
       <CardHeader className="pb-2">
@@ -262,12 +279,12 @@ function NoteCard({ note }: { note: any }) {
             : "Untitled"}
         </CardTitle>
         <CardDescription className="text-brand_tertiary/60">
-          {note.workspaceName || "Personal Workspace"}
+          {note.workingSpacesSlug || "Personal Workspace"}
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-2">
         <p className="text-sm text-brand_tertiary/70 line-clamp-2">
-          {note.content || "No content yet. Click to start writing..."}
+          {getContentPreview(note.body)}
         </p>
       </CardContent>
       <CardFooter className="pt-2 flex justify-between items-center text-xs text-brand_tertiary/50">
