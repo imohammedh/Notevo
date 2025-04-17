@@ -10,12 +10,6 @@ export default function Testimonials() {
   return (
     <Section sectionId="testimonials">
       <MaxWContainer className="relative px-4">
-        <span className="absolute top-60 left-2 sm:left-3 lg:left-5 -rotate-12 text-brand_tertiary/5 blur-sm">
-          <LiaQuoteLeftSolid className="size-16 sm:size-20 lg:size-24" />
-        </span>
-        <span className="absolute bottom-0 right-2 sm:right-3 lg:right-5 -rotate-12 text-brand_tertiary/5 blur-sm hidden md:block">
-          <LiaQuoteRightSolid className="size-16 sm:size-20 lg:size-24" />
-        </span>
         <SectionHeading
           SectionTitle="Testimonials"
           SectionSubTitle="What our users have been saying."
