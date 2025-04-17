@@ -258,7 +258,7 @@ export default function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild className="my-3">
+              <DropdownMenuTrigger asChild className="my-2">
                 {loading === false ? (
                   <Button
                     variant="SidebarMenuButton"
