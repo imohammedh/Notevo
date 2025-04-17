@@ -49,7 +49,7 @@ export default function HeroSection() {
         >
           <Button className="w-full sm:w-auto">
             <Link href="/signin" className="text-sm sm:text-base font-medium">
-              Get Started for Free
+              Start Taking Notes
             </Link>
           </Button>
           <Button className="w-full sm:w-auto" variant="ghost">
@@ -57,7 +57,7 @@ export default function HeroSection() {
               href="/#features"
               className="text-sm sm:text-base font-medium"
             >
-              Learn More
+              Explore Features
             </Link>
           </Button>
         </motion.span>
