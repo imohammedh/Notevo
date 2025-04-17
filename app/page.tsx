@@ -10,6 +10,7 @@ import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
 import Footer from "@/components/landingPage-components/Footer";
 import { useEffect, useState } from "react";
+import MoreAboutMe from "@/components/landingPage-components/MoreAboutMe";
 export default function HomePage() {
   const viewer = useQuery(api.auth.isAuthenticated);
   const [isClient, setIsClient] = useState(false);
@@ -26,6 +27,7 @@ export default function HomePage() {
           <HeroSection />
           <HowToStartSection />
           <FeaturesSection />
+          <MoreAboutMe />
           <Testimonials />
           <SignUpToday />
         </div>

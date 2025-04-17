@@ -11,10 +11,9 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title:
-    "Notevo : Take Notes to the Next Level and Organize, Discuss, and Enhance Your Ideas Seamlessly",
+  title: "Notevo : Simple, Structured Note-Taking. Supercharged by AI.",
   description:
-    "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly.",
+    "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly, Notevo helps you capture your thoughts, organize them effortlessly, and interact with your notes using powerful AI tools - all in one clean, modern interface.",
 };
 
 export default function RootLayout({

@@ -24,11 +24,11 @@ export default function HeroSection() {
           transition={{ ease: "easeInOut", duration: 0.5, delay: 0.5 }}
           className="text-2xl sm:text-4xl lg:text-7xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary to-transparent bg-clip-text text-transparent font-semibold"
         >
-          Take Notes to the Next Level with <br className="hidden sm:block" />
+          Simple, Structured Note-Taking. <br className="hidden sm:block" />
           <span className="bg-gradient-to-l from-purple-900 from-15% to-purple-600 text-transparent bg-clip-text font-extrabold">
-            AI-Powered
+            Supercharged
           </span>{" "}
-          Conversations
+          by AI
         </motion.h1>
         <motion.p
           initial={{ y: 100, opacity: 0 }}
@@ -36,9 +36,10 @@ export default function HeroSection() {
           transition={{ ease: "easeInOut", duration: 0.6, delay: 0.6 }}
           className=" text-brand_secondary/70 text-sm sm:text-lg lg:text-xl font-medium lg:font-medium px-2"
         >
-          Interact with Your Notes Like Never Before.{" "}
+          Notevo helps you capture your thoughts, organize them effortlessly{" "}
           <br className="hidden sm:block" />
-          Organize, Discuss, and Enhance Your Ideas Seamlessly.
+          and interact with your notes using powerful AI tools - all in one
+          clean, modern interface.
         </motion.p>
         <motion.span
           initial={{ y: 100, opacity: 0 }}
