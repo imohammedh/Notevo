@@ -102,9 +102,6 @@ export default function FeaturesSection() {
               <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-brand_tertiary">
                 Track Daily Activities
               </h2>
-              <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-                manage your workspaces, and boost your productivity with Notevo.
-              </p>
             </div>
             <Image
               src={Activities}
