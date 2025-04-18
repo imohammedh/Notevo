@@ -33,18 +33,14 @@ export default function MoreAboutMe() {
                 className="mask-image-gradient rounded-xl"
               />
             </div>
-            <div className=" h-full flex justify-between items-center flex-col gap-2 w-full sm:w-2/3">
+            <div className=" h-full flex justify-between items-center flex-col gap-4 w-full sm:w-2/3">
               <h1 className=" text-start text-lg sm:text-xl lg:text-2xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary from-15% to-transparent bg-clip-text text-transparent sm:text-left">
-                {`Hi everyone, A lot of my colleagues
-                have been asking if I’m rebuilding Notion, but honestly, it’s
-                not like Notion—well, maybe just the text editor, I guess? But
-                anyway, Notion is way more than just a note-taking app.
-                Notevo, is more focused on simple, structured
-                note-taking with some cool AI features.`}
+                {`Hi everyone, I’ve been looking for a note-taking app that’s simpler than Notion but more organized than Google Keep. 
+                Something clean, structured, with a rich text editor—and a little AI to help. 
+                That’s what Notevo is: a minimal, structured, AI-powered note-taking app`}
               </h1>
-              <span className=" w-full flex justify-center items-start flex-col text-brand_tertiary/70">
+              <span className=" w-full flex justify-center items-start flex-col text-brand_tertiary/50">
                 <p>- Mohammed H </p>
-                <p> final year CS student </p>
               </span>
             </div>
           </CardContent>
