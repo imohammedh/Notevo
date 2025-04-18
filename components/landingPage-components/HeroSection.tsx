@@ -5,6 +5,8 @@ import MaxWContainer from "../ui/MaxWContainer";
 import Image from "next/image";
 import heroImg from "../../public/AIChatBot.svg";
 import { motion } from "framer-motion";
+import { TypingAnimation } from "../magicui/typing-animation";
+
 export default function HeroSection() {
   return (
     <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-32 flex justify-center items-center w-full">
@@ -16,7 +18,10 @@ export default function HeroSection() {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/20 text-red-400 text-xs font-mono font-medium mb-6 border border-red-400/20"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-          {`Bug • we're currently Fixing the AI API`}
+          {`Bug • `}{" "}
+          <TypingAnimation delay={1500} className="text-xs">
+            {` we're currently Fixing the AI API`}
+          </TypingAnimation>
         </motion.div>
         <motion.h1
           initial={{ y: 100, opacity: 0 }}

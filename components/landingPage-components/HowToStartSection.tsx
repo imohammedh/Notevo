@@ -27,7 +27,7 @@ export default function HowToStartSection() {
                   </span>
                 </div>
               </div>
-              <div className="py-4 px-3 sm:px-4 w-full max-w-sm transition-all ease-in-out duration-300 group-hover:border-brand_tertiary group-hover:shadow-lg group-hover:shadow-brand_tertiary/5">
+              <div className="py-4 px-3 sm:px-4 w-full max-w-sm transition-all ease-in-out duration-300 group-hover:border-brand_tertiary">
                 <h3 className="py-2 text-lg md:text-xl lg:text-2xl text-brand_tertiary font-semibold group-hover:text-brand_tertiary/90">
                   {step.Title}
                 </h3>
