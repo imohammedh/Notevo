@@ -6,7 +6,7 @@ import Image from "next/image";
 import heroImg from "../../public/AIChatBot.svg";
 import { motion } from "framer-motion";
 import { TypingAnimation } from "../magicui/typing-animation";
-
+import { Particles } from "../magicui/particles";
 export default function HeroSection() {
   return (
     <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-32 flex justify-center items-center w-full">
@@ -86,6 +86,13 @@ export default function HeroSection() {
             className="opacity-70 mask-image-gradient"
           />
         </motion.div>
+        <Particles
+          className="absolute inset-0 -z-50"
+          quantity={50}
+          ease={30}
+          color="#e5e5e5"
+          refresh
+        />
       </MaxWContainer>
     </section>
   );

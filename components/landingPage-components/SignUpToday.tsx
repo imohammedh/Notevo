@@ -14,7 +14,7 @@ export default function SignUpToday() {
           repeatDelay={1}
           className={cn(
             "[mask-image:radial-gradient(400px_circle_at_top,black,transparent)]",
-            "inset-x-0 inset-y-[-30%] h-[85%] -skew-y-12",
+            "inset-x-0 inset-y-[-30%] h-[85%] skew-y-0",
           )}
         />
 
