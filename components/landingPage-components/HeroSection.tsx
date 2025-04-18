@@ -16,7 +16,7 @@ export default function HeroSection() {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/20 text-red-400 text-xs font-mono font-medium mb-6 border border-red-400/20"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-          Bug • Fixing the AI API
+          {`Bug • we're currently Fixing the AI API`}
         </motion.div>
         <motion.h1
           initial={{ y: 100, opacity: 0 }}
@@ -38,8 +38,8 @@ export default function HeroSection() {
         >
           Notevo helps you capture your thoughts, organize them effortlessly{" "}
           <br className="hidden sm:block" />
-          and interact with your notes using powerful AI tools - all in one
-          clean, modern interface.
+          and interact with your notes using AI all in one clean, modern
+          interface.
         </motion.p>
         <motion.span
           initial={{ y: 100, opacity: 0 }}
