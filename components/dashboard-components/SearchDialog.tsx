@@ -150,7 +150,7 @@ export default function SearchDialog({
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-0 overflow-hidden border border-brand_tertiary/20 bg-brand_fourthary shadow-lg md:min-w-[500px]">
+      <DialogContent className="p-0 overflow-hidden border border-brand_tertiary/20 bg-brand_fourthary shadow-xl shadow-brand_primary md:min-w-[700px]">
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
         <Command className="bg-brand_fourthary">
           <div className="flex items-center border-b border-brand_tertiary/20 w-full px-3">
@@ -161,8 +161,8 @@ export default function SearchDialog({
               onValueChange={setQuery}
             />
           </div>
-          <CommandList className="max-h-[80vh] overflow-auto p-1">
-            <CommandEmpty className="py-6 text-center text-sm">
+          <CommandList className="max-h-[80vh] scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary overflow-auto p-1">
+            <CommandEmpty className="py-6 text-center text-sm text-brand_tertiary">
               No results found.
             </CommandEmpty>
 
