@@ -25,12 +25,13 @@ import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { uploadFn } from "./image-upload";
 import { ColorSelector } from "./selectors/color-selector";
+import Highlight from "@tiptap/extension-highlight";
 
 const placeholderExtension = Placeholder.configure({
   placeholder: ({ node }) => {
     // This shows different placeholders for different node types
     if (node.type.name === "paragraph") {
-      return "Press '/' for commands";
+      return "Write something or Press '/' for commands";
     }
     return "";
   },
@@ -42,6 +43,9 @@ const extensions = [
   placeholderExtension,
   TextStyle,
   Color,
+  Highlight.configure({
+    multicolor: true,
+  }),
   ...defaultExtensions,
   slashCommand,
 ];
