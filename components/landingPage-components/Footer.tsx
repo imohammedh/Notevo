@@ -3,10 +3,9 @@ import NotevoLogo from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 export default function Footer() {
   return (
-    <footer className="w-full bg-brand_fourthary rounded-t-xl text-brand_tertiary py-10">
+    <footer className="w-full rounded-t-xl text-brand_tertiary py-10">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Logo and Description */}
           <div>
             <Link href="/">
               <Image
@@ -21,7 +20,6 @@ export default function Footer() {
             <p className="mt-2 text-gray-400">Notes to the Next Level.</p>
           </div>
 
-          {/* Links */}
           <div>
             <h3 className="text-lg font-semibold">Notevo</h3>
             <ul className="mt-2 space-y-2 text-gray-400">
@@ -43,7 +41,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social Media & Legal */}
           <div>
             <h3 className="mt-4 text-lg font-semibold">Legal</h3>
             <ul className="mt-2 space-y-2 text-gray-400">
