@@ -40,7 +40,8 @@ export default function MoreAboutMe() {
                 That’s what Notevo is: a minimal, structured, AI-powered note-taking app`}
               </h1>
               <span className=" w-full flex justify-center items-start flex-col text-brand_tertiary/50">
-                <p>- Mohammed H </p>
+                <p className=" font-semibold text-sm">- Mohammed H </p>
+                <p className="font-light text-xs">Founder Of Notevo </p>
               </span>
             </div>
           </CardContent>
