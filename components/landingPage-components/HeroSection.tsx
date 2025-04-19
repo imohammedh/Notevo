@@ -19,7 +19,7 @@ export default function HeroSection() {
         >
           <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
           {`Bug • `}{" "}
-          <TypingAnimation delay={1500} className="text-xs">
+          <TypingAnimation delay={1200} className="text-xs">
             {` we're currently Fixing the AI API`}
           </TypingAnimation>
         </motion.div>

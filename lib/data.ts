@@ -17,13 +17,13 @@ export const NavLinks = [
         clicked:false,
     },
     {
-        Name:"How To Start",
-        path:"/#How_To_Start",
+        Name:"Testimonials",
+        path:"/#testimonials",
         clicked:false,
     },
     {
-        Name:"Testimonials",
-        path:"/#testimonials",
+        Name:"Pricing",
+        path:"/#pricing",
         clicked:false,
     },
 ] as const

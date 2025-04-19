@@ -3,9 +3,10 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { AnimatedGridPattern } from "../magicui/animated-grid-pattern";
+import Section from "../ui/Section";
 export default function SignUpToday() {
   return (
-    <section className="w-full py-10 sm:py-14 md:py-16 lg:py-20">
+    <Section>
       <div className="relative flex flex-col gap-6 h-[250px] w-full items-center justify-center overflow-hidden rounded-xl bg-transparent">
         <AnimatedGridPattern
           numSquares={30}
@@ -32,6 +33,6 @@ export default function SignUpToday() {
           </Link>
         </Button>
       </div>
-    </section>
+    </Section>
   );
 }
