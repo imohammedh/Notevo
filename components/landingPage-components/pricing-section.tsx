@@ -132,7 +132,7 @@ export default function PricingSection() {
 
   return (
     <Section
-      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-b from-transparent from-15% via-purple-900/10 to-brand_fourthary/50"
+      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-b from-transparent from-15% via-purple-900/20 to-brand_fourthary/70"
       sectionId="pricing"
     >
       <svg
