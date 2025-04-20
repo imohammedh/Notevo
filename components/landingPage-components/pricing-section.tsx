@@ -18,14 +18,12 @@ import Section from "../ui/Section";
 import MaxWContainer from "../ui/MaxWContainer";
 import SectionHeading from "./SectionHeading";
 
-// Currency configuration
 const CURRENCIES = {
   USD: { symbol: "$", rate: 1 },
-  EGP: { symbol: "LE", rate: 30.9 }, // Egyptian Pound
-  SAR: { symbol: "SAR", rate: 3.75 }, // Saudi Riyal
-  EUR: { symbol: "€", rate: 0.91 }, // Euro
-  GBP: { symbol: "£", rate: 0.78 }, // British Pound
-  // Add more currencies as needed
+  EGP: { symbol: "LE", rate: 30 },
+  SAR: { symbol: "SAR", rate: 3.75 },
+  EUR: { symbol: "€", rate: 0.91 },
+  GBP: { symbol: "£", rate: 0.78 },
 };
 
 // Default currency
@@ -41,20 +39,14 @@ export default function PricingSection() {
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  // Base prices in USD
   const baseMonthlyPrice = 6;
-  const yearlyDiscount = 20; // 20% discount for yearly billing
-  const baseYearlyPrice = baseMonthlyPrice * 12 * (1 - yearlyDiscount / 100);
 
-  // Get user location and set currency automatically
   useEffect(() => {
     async function detectUserLocation() {
       try {
-        // Using a geolocation API
         const response = await fetch("https://ipapi.co/json/");
         const data = await response.json();
 
-        // Set currency based on country code
         switch (data.country_code) {
           case "EG":
             setCurrency("EGP");
@@ -72,7 +64,6 @@ export default function PricingSection() {
             setCurrency("GBP");
             setCurrencySymbol(CURRENCIES.GBP.symbol);
             break;
-          // Euro countries
           case "DE":
           case "FR":
           case "IT":
@@ -87,15 +78,12 @@ export default function PricingSection() {
             setCurrency("EUR");
             setCurrencySymbol(CURRENCIES.EUR.symbol);
             break;
-          // Add more countries as needed
           default:
-            // Default to USD for all other countries
             setCurrency(DEFAULT_CURRENCY);
             setCurrencySymbol(CURRENCIES[DEFAULT_CURRENCY].symbol);
         }
       } catch (error) {
         console.error("Failed to detect location:", error);
-        // Fall back to default currency
         setCurrency(DEFAULT_CURRENCY);
         setCurrencySymbol(CURRENCIES[DEFAULT_CURRENCY].symbol);
       } finally {
@@ -106,11 +94,6 @@ export default function PricingSection() {
     detectUserLocation();
   }, []);
 
-  const toggleBillingCycle = () => {
-    setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly");
-  };
-
-  // Calculate current prices based on detected currency
   const getPrice = (basePrice: number) => {
     const conversionRate =
       CURRENCIES[currency as keyof typeof CURRENCIES]?.rate || 1;
@@ -118,21 +101,10 @@ export default function PricingSection() {
   };
 
   const monthlyPrice = getPrice(baseMonthlyPrice);
-  const yearlyPrice = getPrice(baseYearlyPrice);
-  const yearlySavings = getPrice(baseMonthlyPrice * 12 - baseYearlyPrice);
-
-  // Format price with the correct decimal places
-  const formatPrice = (price: any) => {
-    // For currencies like JPY that don't typically use decimal places
-    if (["JPY"].includes(currency)) {
-      return Math.round(price);
-    }
-    return price;
-  };
 
   return (
     <Section
-      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-b from-transparent from-15% via-purple-900/20 to-brand_fourthary/70"
+      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-b from-transparent from-15% via-purple-900/20 to-brand_fourthary"
       sectionId="pricing"
     >
       <svg
@@ -154,27 +126,6 @@ export default function PricingSection() {
           SectionTitle="Pricing"
           SectionSubTitle="Choose the Perfect Plan for You"
         />
-
-        {/* Billing cycle toggle */}
-        {/* <div className="flex justify-center mb-6 max-w-4xl mx-auto">
-          <div className="flex items-center space-x-2">
-            <Button
-              variant={billingCycle === "monthly" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setBillingCycle("monthly")}
-            >
-              Monthly
-            </Button>
-            <Button
-              variant={billingCycle === "yearly" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setBillingCycle("yearly")}
-            >
-              Yearly (20% off)
-            </Button>
-          </div>
-        </div> */}
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 max-w-4xl mx-auto">
           {/* Free Plan */}
           <Card className="border-brand_tertiary/20 bg-brand_fourthary/30 transition-all duration-200 hover:shadow-md">
@@ -223,20 +174,10 @@ export default function PricingSection() {
               <div className="mt-4 flex items-baseline text-brand_tertiary">
                 <span className="text-4xl font-extrabold tracking-tight">
                   {currencySymbol}
-                  {formatPrice(
-                    billingCycle === "monthly" ? monthlyPrice : yearlyPrice,
-                  )}
+                  {monthlyPrice}
                 </span>
                 <span className="ml-1 text-xl font-semibold">/month</span>
               </div>
-              {billingCycle === "yearly" && (
-                <div className="mt-1 text-sm text-emerald-500">
-                  {currencySymbol}
-                  {formatPrice(yearlyPrice)} billed yearly (save{" "}
-                  {currencySymbol}
-                  {yearlySavings})
-                </div>
-              )}
             </CardHeader>
             <CardContent className="pb-6">
               <ul className="space-y-3">
