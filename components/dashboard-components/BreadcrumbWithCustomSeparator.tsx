@@ -30,7 +30,7 @@ export default function BreadcrumbWithCustomSeparator() {
 
   return (
     <div className="bg-transparent py-2">
-      <Breadcrumb className="container mx-auto">
+      <Breadcrumb>
         <BreadcrumbList className="flex flex-nowrap overflow-x-hidden whitespace-nowrap">
           {pathSegments.map((segment, index) => {
             const href = "/" + pathSegments.slice(0, index + 1).join("/");
