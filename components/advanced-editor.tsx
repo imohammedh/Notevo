@@ -33,6 +33,15 @@ const placeholderExtension = Placeholder.configure({
     if (node.type.name === "paragraph") {
       return "Write something or Press '/' for commands";
     }
+    if (node.type.name === "heading" && node.attrs.level === 1) {
+      return "Header 1";
+    }
+    if (node.type.name === "heading" && node.attrs.level === 2) {
+      return "Header 2";
+    }
+    if (node.type.name === "heading" && node.attrs.level === 3) {
+      return "Header 3";
+    }
     return "";
   },
   showOnlyWhenEditable: true,
@@ -84,7 +93,7 @@ const DragHandleIndicator = ({ editor }: { editor: EditorInstance }) => {
 
         setPosition({
           top: rect.top - editorRect.top, // Center vertically
-          left: editorRect.left - 90, // Position to the left of the node
+          left: 0, // Position to the left of the node
         });
 
         setVisible(true);
@@ -117,20 +126,19 @@ const DragHandleIndicator = ({ editor }: { editor: EditorInstance }) => {
   return (
     <div
       ref={dragRef}
-      className="absolute z-50"
+      className="absolute -left-8 z-50"
       style={{
         top: `${position.top}px`,
-        left: `${position.left}px`,
       }}
     >
       <div
-        className="p-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 cursor-grab"
+        className="p-1 rounded text-brand_tertiary/70  cursor-grab"
         title="Drag to move"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
