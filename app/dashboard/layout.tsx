@@ -21,8 +21,8 @@ function DashboardContent({ children }: { children: ReactNode }) {
     <>
       {isClient && <AppSidebar />}
       <main className="w-full relative">
-        <div className="w-full fixed top-0 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)] z-50 px-0.5 py-2">
-          <div className="flex items-center justify-start">
+        <div className="w-full fixed top-0 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)] z-50 container mx-auto p-2.5">
+          <div className="flex items-center justify-start gap-3">
             {!open && <SidebarTrigger />}
             {isClient && <BreadcrumbWithCustomSeparator />}
           </div>
