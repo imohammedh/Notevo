@@ -39,6 +39,8 @@ interface SearchDialogProps {
   variant?: "default" | "SidebarMenuButton";
   showTitle?: boolean;
   iconSize?: number;
+  sidebaraOpen?: boolean;
+  sidbarMobile?: boolean;
 }
 
 // Helper function to get icon based on note type or category
@@ -104,6 +106,8 @@ export default function SearchDialog({
   variant = "SidebarMenuButton",
   showTitle = false,
   iconSize = 16,
+  sidebaraOpen,
+  sidbarMobile,
 }: SearchDialogProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -145,7 +149,9 @@ export default function SearchDialog({
           {showTitle && (
             <div className="w-full flex items-center justify-between gap-1">
               <span className="text-brand_tertiary">Search</span>
-              <CommandShortcut className="text-xs opacity-70">{`⌘ + K`}</CommandShortcut>
+              <CommandShortcut className="text-xs opacity-70">
+                {sidebaraOpen && sidbarMobile ? "" : "⌘ + K"}
+              </CommandShortcut>
             </div>
           )}
         </Button>

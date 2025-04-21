@@ -61,7 +61,6 @@ export default function Dashboard() {
       <div className="w-full py-10 my-5 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-xl">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h1 className="text-2xl sm:text-3xl font-bold mb-3 flex justify-center items-center gap-2">
-            <Sparkles className="h-6 w-6 text-brand_tertiary/70" />
             Welcome to Notevo,{" "}
             {viewer?.name ? (
               `${viewer.name.split(" ")[0].length > 10 ? `${viewer.name.split(" ")[0].substring(0, 10)}...` : viewer.name.split(" ")[0]}${viewer.name.split(" ")[1] ? ` ${viewer.name.split(" ")[1].charAt(0)}.` : "."}`
