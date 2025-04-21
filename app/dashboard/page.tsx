@@ -85,7 +85,7 @@ export default function Dashboard() {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="workspaces" className="mt-8">
-        <TabsList className="bg-brand_fourthary/50 text-brand_tertiary/90 mb-6 ">
+        <TabsList className="mb-6 ">
           <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
           <TabsTrigger value="recent">Recent Notes</TabsTrigger>
         </TabsList>
