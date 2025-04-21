@@ -20,7 +20,9 @@ function DashboardContent({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
       {isClient && <AppSidebar />}
-      <SidebarInset className="flex flex-col bg-brand_primary">
+      <main
+        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 delay-300 ease-in-out rounded-xl border-t border-l border-brand_tertiary/20 mt-2.5 ${!open && `border-none rounded-none mt-0`} bg-brand_primary`}
+      >
         <div className={`w-full absolute top-0 ${open && `mx-auto`} py-2.5`}>
           <div
             className={`w-full flex items-center justify-start container ${!open && ` mx-auto`} gap-3`}
@@ -29,8 +31,10 @@ function DashboardContent({ children }: { children: ReactNode }) {
             {isClient && <BreadcrumbWithCustomSeparator />}
           </div>
         </div>
-        <div className="mt-16 flex-1 overflow-auto">{children}</div>
-      </SidebarInset>
+        <div className="mt-14 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_primary">
+          {children}
+        </div>
+      </main>
     </div>
   );
 }
