@@ -1,14 +1,14 @@
 "use client";
 
-import { ReactNode, useState, useEffect } from "react";
+import { type ReactNode, useState, useEffect } from "react";
 import {
   SidebarProvider,
   SidebarTrigger,
   useSidebar,
+  SidebarInset,
 } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/dashboard-components/AppSidebar";
 import BreadcrumbWithCustomSeparator from "@/components/dashboard-components/BreadcrumbWithCustomSeparator";
-
 function DashboardContent({ children }: { children: ReactNode }) {
   const { open } = useSidebar();
   const [isClient, setIsClient] = useState(false);
@@ -18,22 +18,20 @@ function DashboardContent({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <>
+    <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
       {isClient && <AppSidebar />}
-      <main className="w-full relative">
-        <div
-          className={`w-full fixed top-0 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)] z-50 ${open && `mx-auto`} p-2.5`}
-        >
+      <SidebarInset className="flex flex-col bg-brand_primary">
+        <div className={`w-full absolute top-0 ${open && `mx-auto`} py-2.5`}>
           <div
-            className={` w-full flex items-center justify-start ${!open && `container mx-auto`} gap-3`}
+            className={`w-full flex items-center justify-start container ${!open && ` mx-auto`} gap-3`}
           >
             {!open && <SidebarTrigger />}
             {isClient && <BreadcrumbWithCustomSeparator />}
           </div>
         </div>
-        <div className="mt-16">{children}</div>
-      </main>
-    </>
+        <div className="mt-16 flex-1 overflow-auto">{children}</div>
+      </SidebarInset>
+    </div>
   );
 }
 

@@ -47,7 +47,7 @@ export default function BreadcrumbWithCustomSeparator() {
             const displayName =
               isMobile && name.length > 10 ? `${name.slice(0, 10)}...` : name;
             return (
-              <div key={fullHref} className="flex items-center">
+              <div key={fullHref} className="flex items-center justify-start">
                 <BreadcrumbItem>
                   {isLast ? (
                     <BreadcrumbPage>{displayName}</BreadcrumbPage>
