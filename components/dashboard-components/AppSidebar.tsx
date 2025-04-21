@@ -91,7 +91,7 @@ export default function AppSidebar() {
   const isDashboard = pathname === "/dashboard";
 
   return (
-    <Sidebar className="border-brand_tertiary/20 group">
+    <Sidebar variant="inset" className="border-brand_tertiary/20 group">
       <SidebarHeader className="bg-brand_fourthary text-brand_tertiary/90 border-b border-brand_tertiary/10">
         <div className="flex items-center justify-between p-1.5">
           <div className="flex items-center gap-2">
