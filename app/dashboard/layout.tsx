@@ -21,11 +21,11 @@ function DashboardContent({ children }: { children: ReactNode }) {
     <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
       {isClient && <AppSidebar />}
       <main
-        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 delay-300 ease-in-out rounded-xl border-t border-l border-brand_tertiary/20 mt-2.5 ${!open && `border-none rounded-none mt-0`} bg-brand_primary`}
+        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${open && `rounded-t-xl border-t border-l mt-3`} rounded-none bg-brand_primary`}
       >
-        <div className={`w-full absolute top-0 ${open && `mx-auto`} py-2.5`}>
+        <div className={`w-full absolute top-0 mx-auto py-2.5`}>
           <div
-            className={`w-full flex items-center justify-start container ${!open && ` mx-auto`} gap-3`}
+            className={`w-full flex items-center justify-start container gap-3`}
           >
             {!open && <SidebarTrigger />}
             {isClient && <BreadcrumbWithCustomSeparator />}
