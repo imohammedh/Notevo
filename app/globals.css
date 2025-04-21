@@ -53,7 +53,7 @@
     --novel-stone-800: rgb(232 234 235);
     --novel-stone-900: rgb(240, 240, 241);
   
-    --novel-highlight-default: #000000;
+    --novel-highlight-default: none;
     --novel-highlight-purple: #3f2c4b;
     --novel-highlight-red: #5c1a1a;
     --novel-highlight-yellow: #5c4b1a;
