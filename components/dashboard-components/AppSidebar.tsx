@@ -256,7 +256,7 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="bg-brand_fourthary text-brand_tertiary/90 border-t border-brand_tertiary/10">
+      <SidebarFooter className="bg-brand_fourthary text-brand_tertiary/90">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
