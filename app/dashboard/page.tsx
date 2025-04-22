@@ -100,10 +100,10 @@ export default function Dashboard() {
               size="sm"
               onClick={handleCreateWorkingSpace}
               disabled={loading}
-              className="border-brand_tertiary/30 text-brand_tertiary"
+              className="border-brand_tertiary/30 text-brand_tertiary px-2"
             >
               {loading ? (
-                <LoadingAnimation />
+                <LoadingAnimation className="h-3 w-3" />
               ) : (
                 <Plus className="h-4 w-4 mr-2" />
               )}
