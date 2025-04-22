@@ -41,7 +41,7 @@ export default function Error({
         <p className=" text-brand_secondary/70 text-sm sm:text-lg lg:text-xl font-medium lg:font-medium px-2">
           {errorMessage}
         </p>
-        <Button onClick={() => reset()} className="w-full sm:w-auto">
+        <Button className="w-full sm:w-auto">
           <Link href="/">Try again</Link>
         </Button>
         <div className=" absolute -z-20 bg-gradient-to-t from-purple-900/30 from-15% to-brand_fourthary left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]" />
