@@ -31,7 +31,7 @@ export default function WorkingSpaceSkeleton() {
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-brand_tertiary/30" />
                 <div className="h-9 w-[200px] bg-brand_tertiary/10 rounded animate-pulse"></div>
               </div>
-              <div className="flex items-center border border-brand_tertiary/20 rounded-md overflow-hidden">
+              <div className="flex items-center border border-brand_tertiary/20 rounded-lg overflow-hidden">
                 <Button
                   variant="Trigger"
                   size="icon"
@@ -121,7 +121,7 @@ export default function WorkingSpaceSkeleton() {
               key={index}
               className="flex items-center gap-3 p-3 bg-brand_fourthary/30 border border-brand_tertiary/20 rounded-lg"
             >
-              <div className="flex items-center justify-center h-10 w-10 rounded-md bg-brand_tertiary/5 flex-shrink-0">
+              <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-brand_tertiary/5 flex-shrink-0">
                 <FileText className="h-5 w-5 text-brand_tertiary/30" />
               </div>
               <div className="flex-grow min-w-0">

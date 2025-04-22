@@ -40,7 +40,7 @@ export const WobbleCard = ({
         containerClassName,
       )}
     >
-      <div className="relative  h-full  sm:mx-0 sm:rounded-md overflow-hidden">
+      <div className="relative  h-full  sm:mx-0 sm:rounded-lg overflow-hidden">
         <motion.div
           style={{
             transform: isHovering

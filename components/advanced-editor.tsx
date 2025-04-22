@@ -214,7 +214,7 @@ const TailwindAdvancedEditor = ({
           }}
           slotAfter={<ImageResizer />}
         >
-          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary">
+          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary">
             <EditorCommandEmpty className="px-2 text-brand_tertiary">
               No results
             </EditorCommandEmpty>
@@ -223,10 +223,10 @@ const TailwindAdvancedEditor = ({
                 <EditorCommandItem
                   value={item.title}
                   onCommand={(val) => item.command(val)}
-                  className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-brand_tertiary/5 aria-selected:bg-brand_tertiary/5"
+                  className="flex w-full items-center space-x-2 rounded-lg px-2 py-1 text-left text-sm hover:bg-brand_tertiary/5 aria-selected:bg-brand_tertiary/5"
                   key={item.title}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md border border-brand_tertiary/20 bg-brand_fourthary">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-brand_tertiary/20 bg-brand_fourthary">
                     {item.icon}
                   </div>
                   <div>

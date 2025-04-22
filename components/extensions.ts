@@ -99,7 +99,7 @@ const starterKit = StarterKit.configure({
   },
   code: {
     HTMLAttributes: {
-      class: cx("rounded-md bg-brand_fourthary text-brand_tertiary px-1.5 py-1 font-mono font-medium"),
+      class: cx("rounded-lg bg-brand_fourthary text-brand_tertiary px-1.5 py-1 font-mono font-medium"),
       spellcheck: "false",
     },
   },

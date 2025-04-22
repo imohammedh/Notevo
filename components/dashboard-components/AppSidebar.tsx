@@ -52,7 +52,7 @@ import { redirect, usePathname } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 
 export default function AppSidebar() {
-  const { open, isMobile } = useSidebar();
+  const { open, isMobile, setOpenMobile } = useSidebar();
 
   const pathname = usePathname();
   const createWorkingSpace = useMutation(
@@ -93,6 +93,13 @@ export default function AppSidebar() {
   // Check if the current path is the dashboard
   const isDashboard = pathname === "/dashboard";
 
+  // Function to close sidebar when navigating in mobile view
+  const handleNavClick = () => {
+    if (isMobile) {
+      setOpenMobile(true);
+    }
+  };
+
   return (
     <Sidebar variant="inset" className="border-brand_tertiary/20 group">
       <SidebarHeader className="bg-brand_fourthary text-brand_tertiary/90 border-b border-brand_tertiary/10">
@@ -123,8 +130,9 @@ export default function AppSidebar() {
                   asChild
                   variant="SidebarMenuButton"
                   className={`px-2 h-8 group ${isDashboard ? "bg-brand_tertiary/10" : ""}`}
+                  onClick={handleNavClick}
                 >
-                  <Link href="/dashboard">
+                  <Link href="/dashboard" onClick={handleNavClick}>
                     <LayoutDashboard size="16" />
                     <span>Dashboard</span>
                   </Link>
@@ -168,6 +176,7 @@ export default function AppSidebar() {
                       variant="SidebarMenuButton"
                       className="px-2 h-8 group flex-1"
                       asChild
+                      onClick={handleNavClick}
                     >
                       <Link
                         href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`}
@@ -228,6 +237,7 @@ export default function AppSidebar() {
                     variant="SidebarMenuButton"
                     className="px-2 h-8 group flex-1"
                     asChild
+                    onClick={handleNavClick}
                   >
                     <Link
                       href={`/dashboard/${workingSpace.slug}?id=${workingSpace._id}`}

@@ -187,7 +187,7 @@ export default function SearchDialog({
                         }
                       >
                         <div className="flex w-full items-center">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
                             {React.createElement(getNoteIcon(note), {
                               size: 16,
                             })}
@@ -227,7 +227,7 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
@@ -266,7 +266,7 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
@@ -307,7 +307,7 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
@@ -348,7 +348,7 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
