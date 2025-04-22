@@ -101,7 +101,7 @@ export default function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-brand_tertiary/20 group">
+    <Sidebar variant="inset" className="border-brand_tertiary/20 group">
       <SidebarHeader className="bg-brand_fourthary text-brand_tertiary/90 border-b border-brand_tertiary/10">
         <div className="flex items-center justify-between p-1.5">
           <div className="flex items-center gap-2">
@@ -157,7 +157,7 @@ export default function AppSidebar() {
               {favoriteNotes && (
                 <Badge
                   variant="secondary"
-                  className="text-xs h-5 text-brand_tertiary bg-brand_tertiary/5 border-brand_tertiary/20"
+                  className="text-[0.6rem] h-5 text-brand_tertiary bg-brand_tertiary/5 border-brand_tertiary/20"
                 >
                   {favoriteNotes.length}
                 </Badge>
