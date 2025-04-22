@@ -16,10 +16,10 @@ import ImgSrcNotevoLogo from "@/public/Notevo-logo.svg";
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-brand_fourthary p-6 md:p-10">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-br from-brand_fourthary via-purple-600/10 to-brand_primary p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
         <div className="flex flex-col gap-6">
-          <Card className="overflow-hidden bg-brand_primary border-brand_tertiary/20">
+          <Card className="overflow-hidden bg-brand_primary/70 backdrop-blur-md border-brand_tertiary/20">
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="p-6 md:p-8">
                 <div className="flex flex-col gap-6">
@@ -67,11 +67,11 @@ export default function SignInPage() {
                   )}
                 </div>
               </div>
-              <div className="relative hidden bg-brand_fourthary md:block">
+              <div className="relative hidden bg-brand_primary/70 backdrop-blur-md md:block">
                 <Image
                   src={ImgSrc}
                   alt="login Image"
-                  className="absolute blur-sm opacity-50 inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                  className="absolute blur-sm opacity-30 inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />
                 <Image
                   src={ImgSrcNotevoLogo}
