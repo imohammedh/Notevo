@@ -5,39 +5,92 @@ import { Input } from "@/components/ui/input";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { FcGoogle } from "react-icons/fc";
-import ADiv from "@/components/dashboard-components/ADiv";
 import { useState } from "react";
-import WelcomeBan from "@/components/ui/WelcomeBan";
 import { useToast } from "@/hooks/use-toast";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
+import Image from "next/image";
+import ImgSrc from "@/public/AIChatBotLogin.svg";
+import ImgSrcNotevoLogo from "@/public/Notevo-logo.svg";
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
   return (
-    <ADiv className="flex min-h-screen w-full">
-      <div className="rounded-xl border border-solid border-brand_tertiary/20 max-w-[450px] flex flex-col container mx-auto my-auto gap-4 pb-8">
-        <WelcomeBan Welcome_to="Sign in or create an account" />
-        {step === "signIn" ? (
-          <>
-            <span className="flex items-center justify-center gap-3 flex-col md:flex-row">
-              <SignInWithGitHub />
-              <SignInWithGoogle />
-            </span>
-            <SignInMethodDivider />
-            <SignInWithMagicLink handleLinkSent={() => setStep("linkSent")} />
-          </>
-        ) : (
-          <>
-            <h2 className="font-semibold text-2xl tracking-tight">
-              Check your email
-            </h2>
-            <p>A sign-in link has been sent to your email address.</p>
-            <Button className=" w-full" onClick={() => setStep("signIn")}>
-              Cancel
-            </Button>
-          </>
-        )}
+    <div className="flex min-h-svh flex-col items-center justify-center bg-brand_fourthary p-6 md:p-10">
+      <div className="w-full max-w-sm md:max-w-3xl">
+        <div className="flex flex-col gap-6">
+          <Card className="overflow-hidden bg-brand_primary border-brand_tertiary/20">
+            <CardContent className="grid p-0 md:grid-cols-2">
+              <div className="p-6 md:p-8">
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col items-center mb-2 text-center">
+                    <Image
+                      src={ImgSrcNotevoLogo}
+                      alt="log Image"
+                      width={45}
+                      height={45}
+                      className="mb-3 sm:block md:hidden lg:hidden"
+                    />
+                    <h1 className="text-2xl font-bold">Welcome back</h1>
+                    <p className="text-balance text-brand_tertiary/50">
+                      Login or create an account
+                    </p>
+                  </div>
+                  {step === "signIn" ? (
+                    <>
+                      <SignInWithMagicLink
+                        handleLinkSent={() => setStep("linkSent")}
+                      />
+                      <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                        <span className="relative z-10 bg-brand_primary px-2 text-brand_tertiary">
+                          Or continue with
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <SignInWithGitHub />
+                        <SignInWithGoogle />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="font-semibold text-2xl tracking-tight">
+                        Check your email
+                      </h2>
+                      <p>A sign-in link has been sent to your email address.</p>
+                      <Button
+                        className=" w-full"
+                        onClick={() => setStep("signIn")}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="relative hidden bg-brand_fourthary md:block">
+                <Image
+                  src={ImgSrc}
+                  alt="login Image"
+                  className="absolute blur-sm opacity-50 inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                />
+                <Image
+                  src={ImgSrcNotevoLogo}
+                  alt="log Image"
+                  width={75}
+                  height={75}
+                  className="absolute top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2 inset-0 object-cover dark:brightness-[0.2] dark:grayscale"
+                />
+              </div>
+            </CardContent>
+          </Card>
+          <div className="text-balance text-center text-xs text-brand_tertiary/50 [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-brand_tertiary/40">
+            By clicking continue, you agree to our{" "}
+            <Link href="/terms-of-service">Terms of Service</Link> and{" "}
+            <Link href="/privacy-policy">Privacy Policy</Link>.
+          </div>
+        </div>
       </div>
-    </ADiv>
+    </div>
   );
 }
 
