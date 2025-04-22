@@ -340,31 +340,7 @@ export default function AppSidebar() {
                     asChild
                   >
                     <Link href="/dashboard/settings/profile">
-                      <CircleUserRound size="16" /> Account
-                    </Link>
-                  </Button>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="w-full">
-                  <Button
-                    variant="SidebarMenuButton"
-                    className="w-full"
-                    disabled={true}
-                    asChild
-                  >
-                    <Link href="/dashboard/settings/billing">
-                      <CreditCard size="16" /> Billing
-                    </Link>
-                  </Button>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="w-full">
-                  <Button
-                    variant="SidebarMenuButton"
-                    className="w-full"
-                    disabled={true}
-                    asChild
-                  >
-                    <Link href="/dashboard/settings">
-                      <Settings size="16" /> Settings
+                      <CircleUserRound size="16" /> Account & Settings
                     </Link>
                   </Button>
                 </DropdownMenuItem>
