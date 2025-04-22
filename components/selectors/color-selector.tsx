@@ -129,7 +129,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       </PopoverTrigger>
       <PopoverContent
         sideOffset={5}
-        className="my-1 rounded-md border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl "
+        className="my-1 rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl "
         align="start"
       >
         <div className="flex flex-col">
@@ -143,7 +143,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                 editor.commands.setColor(color);
                 onOpenChange(false);
               }}
-              className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm rounded-md hover:bg-brand_tertiary/5"
+              className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm rounded-lg hover:bg-brand_tertiary/5"
             >
               <div className="flex items-center gap-2">
                 <div
@@ -167,7 +167,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
               onSelect={() => {
                 editor.commands.setHighlight({ color });
               }}
-              className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm rounded-md hover:bg-brand_tertiary/10"
+              className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm rounded-lg hover:bg-brand_tertiary/10"
             >
               <div className="flex items-center gap-2">
                 <div

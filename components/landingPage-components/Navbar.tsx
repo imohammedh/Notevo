@@ -101,7 +101,7 @@ export default function Navbar() {
               <Link
                 key={i}
                 href={link.path}
-                className="block px-3 py-2 text-base hover:bg-brand_tertiary/10 rounded-md"
+                className="block px-3 py-2 text-base hover:bg-brand_tertiary/10 rounded-lg"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.Name}

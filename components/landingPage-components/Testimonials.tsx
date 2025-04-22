@@ -14,7 +14,7 @@ export default function Testimonials() {
           SectionTitle="Testimonials"
           SectionSubTitle="What our users have been saying."
         />
-        <div className="h-[20rem] rounded-md flex flex-col antialiased bg-transparent items-center justify-center relative overflow-hidden">
+        <div className="h-[20rem] rounded-lg flex flex-col antialiased bg-transparent items-center justify-center relative overflow-hidden">
           <InfiniteMovingCards
             items={Array.from(testimonials1)}
             direction="right"

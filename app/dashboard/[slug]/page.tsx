@@ -142,7 +142,7 @@ export default function WorkingSpacePage() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <div className="flex items-center border border-brand_tertiary/20 rounded-md overflow-hidden">
+              <div className="flex items-center border border-brand_tertiary/20 rounded-lg overflow-hidden">
                 <Button
                   variant="Trigger"
                   size="icon"
@@ -286,7 +286,7 @@ export default function WorkingSpacePage() {
                                         className="flex items-center gap-3 p-3 bg-brand_fourthary/30 border border-brand_tertiary/20 hover:border-brand_tertiary/40 rounded-lg transition-all duration-300 hover:shadow-md group"
                                         {...provided.dragHandleProps}
                                       >
-                                        <div className="flex items-center justify-center h-10 w-10 rounded-md bg-brand_tertiary/5 text-brand_tertiary/70 flex-shrink-0">
+                                        <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-brand_tertiary/5 text-brand_tertiary/70 flex-shrink-0">
                                           <FileText className="h-5 w-5" />
                                         </div>
                                         <div className="flex-grow min-w-0">
