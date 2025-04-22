@@ -42,7 +42,7 @@ export default function SignInPage() {
                         handleLinkSent={() => setStep("linkSent")}
                       />
                       <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                        <span className="relative z-10 bg-brand_primary px-2 text-brand_tertiary">
+                        <span className="relative z-10 bg-brand_primary/70 backdrop-blur-md px-2 text-brand_tertiary">
                           Or continue with
                         </span>
                       </div>
