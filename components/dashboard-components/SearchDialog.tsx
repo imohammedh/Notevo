@@ -167,7 +167,7 @@ export default function SearchDialog({
               onValueChange={setQuery}
             />
           </div>
-          <CommandList className="max-h-[80vh] scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent-transparent-brand_fourthary overflow-auto p-1">
+          <CommandList className="max-h-[80vh] scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent overflow-auto p-1">
             <CommandEmpty className="py-6 text-center text-sm text-brand_tertiary">
               No results found.
             </CommandEmpty>

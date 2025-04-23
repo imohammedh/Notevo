@@ -214,7 +214,7 @@ const TailwindAdvancedEditor = ({
           }}
           slotAfter={<ImageResizer />}
         >
-          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent-brand_fourthary">
+          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent">
             <EditorCommandEmpty className="px-2 text-brand_tertiary">
               No results
             </EditorCommandEmpty>
