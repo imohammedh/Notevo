@@ -31,7 +31,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
             {isClient && <BreadcrumbWithCustomSeparator />}
           </div>
         </div>
-        <div className="mt-14 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_primary">
+        <div className="mt-14 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent-transparent">
           {children}
         </div>
       </main>
