@@ -133,32 +133,40 @@ export const getTables = query({
 })
 
 export const deleteTable = mutation({
-    args: {
-        _id: v.id("notesTables"),
-    },
-    handler: async (ctx, args) => {
-        const userId = await getAuthUserId(ctx);
-        if (!userId) {
-            throw new Error("Not authenticated");
-        }
-        
-        const { _id } = args;
-        const table = await ctx.db.get(_id);
-        if (!table) {
-            throw new Error("Table not found");
-        }
-        
-        // Verify the user owns the workspace that contains this table
-        const workspace = await ctx.db.get(table.workingSpaceId);
-        if (!workspace) {
-            throw new Error("Workspace not found");
-        }
-        
-        if (workspace.userId !== userId) {
-            throw new Error("Not authorized to delete tables in this workspace");
-        }
-        
-        await ctx.db.delete(_id);
-        return true;
+  args: {
+    _id: v.id("notesTables"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
     }
-})
+
+    const { _id } = args;
+    const table = await ctx.db.get(_id);
+    if (!table) {
+      throw new Error("Table not found");
+    }
+
+    const workspace = await ctx.db.get(table.workingSpaceId);
+    if (!workspace) {
+      throw new Error("Workspace not found");
+    }
+
+    if (workspace.userId !== userId) {
+      throw new Error("Not authorized to delete tables in this workspace");
+    }
+
+    const notesToDelete = await ctx.db
+      .query("notes")
+      .withIndex("by_notesTableId", (q) => q.eq("notesTableId", _id))
+      .collect();
+
+    for (const note of notesToDelete) {
+      await ctx.db.delete(note._id);
+    }
+
+    await ctx.db.delete(_id); 
+    return true;
+  },
+});
