@@ -192,7 +192,7 @@ const TailwindAdvancedEditor = ({
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
-          className="relative w-full bg-brand_primary/80 text-brand_secondary placeholder"
+          className="relative w-full bg-transparent text-brand_secondary placeholder"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
