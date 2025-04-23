@@ -129,7 +129,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       </PopoverTrigger>
       <PopoverContent
         sideOffset={5}
-        className="my-1 rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-brand_fourthary flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl "
+        className="my-1 rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent-brand_fourthary flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl "
         align="start"
       >
         <div className="flex flex-col">
