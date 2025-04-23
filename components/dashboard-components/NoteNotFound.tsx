@@ -1,13 +1,17 @@
 import { NotepadText } from "lucide-react";
 import CreateNoteBtn from "./CreateNoteBtn";
 import MaxWContainer from "../ui/MaxWContainer";
+import type { Id } from "@/convex/_generated/dataModel";
+
 interface NoteNotFoundProps {
   notesTableId: string | any;
   workingSpacesSlug: string | any;
+  workingSpaceId: Id<"workingSpaces">;
 }
 export default function NoteNotFound({
   notesTableId,
   workingSpacesSlug,
+  workingSpaceId,
 }: NoteNotFoundProps) {
   return (
     <MaxWContainer>
@@ -22,6 +26,7 @@ export default function NoteNotFound({
           <CreateNoteBtn
             notesTableId={notesTableId}
             workingSpacesSlug={workingSpacesSlug}
+            workingSpaceId={workingSpaceId}
           />
         </div>
       </div>

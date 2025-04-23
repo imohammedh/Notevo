@@ -6,8 +6,10 @@ import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import LoadingAnimation from "../ui/LoadingAnimation";
+import type { Id } from "@/convex/_generated/dataModel";
+
 interface CreateTableBtnProps {
-  workingSpaceId: string | any;
+  workingSpaceId: Id<"workingSpaces">;
   className?: string;
 }
 
