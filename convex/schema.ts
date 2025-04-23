@@ -32,6 +32,7 @@ notes: defineTable({
   title: v.optional(v.string()),
   slug: v.optional(v.string()),
   workingSpacesSlug: v.optional(v.string()),
+  workingSpaceId: v.optional(v.id("workingSpaces")),
   userId: v.optional(v.id("users")),
   body: v.optional(v.string()),
   favorite: v.optional(v.boolean()),
@@ -40,7 +41,7 @@ notes: defineTable({
   tags: v.optional(v.array(v.id("tags"))), 
   notesTableId: v.id("notesTables"),
   order: v.optional(v.number()), // Add this field to track position
-}).index("by_notesTableId", ["notesTableId"]).index("by_slug", ["slug"]).index("by_userId", ["userId"]),
+}).index("by_notesTableId", ["notesTableId"]).index("by_workingSpaceId", ["workingSpaceId"]).index("by_slug", ["slug"]).index("by_userId", ["userId"]),
   
   tags: defineTable({
     name: v.optional(v.string()),

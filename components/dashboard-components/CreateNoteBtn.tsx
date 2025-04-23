@@ -5,15 +5,19 @@ import { useMutation } from "convex/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import LoadingAnimation from "../ui/LoadingAnimation";
+import type { Id } from "@/convex/_generated/dataModel";
+
 interface CreateNoteBtnProps {
   notesTableId: string | any;
   workingSpacesSlug: string | any;
+  workingSpaceId: Id<"workingSpaces">;
   className?: string;
 }
 
 export default function CreateNoteBtn({
   notesTableId,
   workingSpacesSlug,
+  workingSpaceId,
   className,
 }: CreateNoteBtnProps) {
   const [loading, setLoading] = useState(false);
@@ -25,6 +29,7 @@ export default function CreateNoteBtn({
       await createNote({
         notesTableId: notesTableId,
         workingSpacesSlug: workingSpacesSlug,
+        workingSpaceId: workingSpaceId,
         title: "Untitled",
       });
     } finally {

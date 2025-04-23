@@ -92,26 +92,54 @@ export const getWorkingSpaces = query({
 })
 
 export const deleteWorkingSpace = mutation({
-    args: {
-        _id: v.id("workingSpaces"),
-    },
-    handler: async (ctx, args) => {
-        const userId = await getAuthUserId(ctx);
-        if (!userId) {
-            throw new Error("Not authenticated");
-        }
-        const { _id } = args;
-        const workingSpace = await ctx.db.get(_id);
-        if (!workingSpace) {
-            throw new Error("WorkingSpace not found");
-        }
-        if (workingSpace.userId !== userId) {
-            throw new Error("Not authorized to delete this workspace");
-        }
-        await ctx.db.delete(_id);
-        return { success: true };
+  args: {
+    _id: v.id("workingSpaces"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
     }
-})
+    
+    const { _id } = args;
+    const workingSpace = await ctx.db.get(_id);
+    
+    if (!workingSpace) {
+      throw new Error("WorkingSpace not found");
+    }
+    
+    if (workingSpace.userId !== userId) {
+      throw new Error("Not authorized to delete this workspace");
+    }
+    
+    // Find all tables associated with this workspace
+    const tables = await ctx.db
+      .query("notesTables")
+      .withIndex("by_workingSpaceId", (q) => q.eq("workingSpaceId", _id))
+      .collect();
+    
+    // Delete all notes associated with this workspace
+    const notes = await ctx.db
+      .query("notes")
+      .withIndex("by_workingSpaceId", (q) => q.eq("workingSpaceId", _id))
+      .collect();
+    
+    // Delete all notes
+    for (const note of notes) {
+      await ctx.db.delete(note._id);
+    }
+    
+    // Delete all tables
+    for (const table of tables) {
+      await ctx.db.delete(table._id);
+    }
+    
+    // Finally, delete the workspace
+    await ctx.db.delete(_id);
+    
+    return { success: true };
+  }
+});
 
 export const getRecentWorkingSpaces = query({
     args: {},

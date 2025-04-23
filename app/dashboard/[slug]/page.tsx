@@ -198,6 +198,7 @@ export default function WorkingSpacePage() {
                       <CreateNoteBtn
                         notesTableId={table._id}
                         workingSpacesSlug={params.slug}
+                        workingSpaceId={workingSpaceId}
                       />
                     </div>
 
@@ -372,6 +373,7 @@ export default function WorkingSpacePage() {
                                     <CreateNoteBtn
                                       notesTableId={table._id}
                                       workingSpacesSlug={params.slug}
+                                      workingSpaceId={workingSpaceId}
                                     />
                                   </span>
                                 </div>
