@@ -94,13 +94,11 @@ export const updateNote = mutation({
             throw new Error("Note not found");
         }
         
-        // Verify the note belongs to this user
         if (note.userId !== userId) {
             throw new Error("Not authorized to update this note");
         }
         
         const generateSlugName = generateSlug(title ?? note.title ?? "Untitled");
-        // Check if the slug already exists and add incremental number if it does
         let slug = generateSlugName;
         let existingNote = await ctx.db.query("notes").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
         let counter = 1;
@@ -110,7 +108,6 @@ export const updateNote = mutation({
             counter++;
         }
         
-        // Preserve existing fields and only update what was provided
         const update = {
             ...note,
             title: title ?? note.title,
@@ -235,13 +232,13 @@ export const getNoteByUserId = query({
             throw new Error("Not authenticated");
         }
         
-        // Modified to only get current user's notes (removed userid parameter)
+       
         const notes = await ctx.db.query("notes")
             .withIndex("by_userId", (q) => q.eq("userId", userId))
             .collect();
         
         if (!notes) {
-            return []; // Return empty array instead of throwing error
+            return []; 
         }
         
         return notes.sort((a, b) => {
@@ -251,4 +248,27 @@ export const getNoteByUserId = query({
             return (a.order ?? Infinity) - (b.order ?? Infinity);
         });
     }
+});
+export const getNotesByNotesTableId = query({
+  args: {
+    notesTableId: v.id("notesTables"), 
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+        throw new Error("Not authenticated");
+    }
+
+    const { notesTableId } = args; 
+
+    const notes = await ctx.db
+      .query("notes")
+      .withIndex("by_notesTableId", (q) =>
+        q.eq("notesTableId", notesTableId)
+      )
+      .filter((q) => q.eq(q.field("userId"), userId))  
+      .collect();
+
+    return notes;
+},
 });
