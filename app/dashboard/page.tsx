@@ -32,6 +32,7 @@ import {
   extractTextFromTiptap as parseTiptapContentExtractText,
   truncateText as parseTiptapContentTruncateText,
 } from "@/lib/parse-tiptap-content";
+import type { Id } from "@/convex/_generated/dataModel";
 
 export default function Dashboard() {
   const viewer = useQuery(api.users.viewer);
@@ -63,7 +64,15 @@ export default function Dashboard() {
           <h1 className="text-2xl sm:text-3xl font-bold mb-3 flex justify-center items-center gap-2">
             Welcome to Notevo,{" "}
             {viewer?.name ? (
-              `${viewer.name.split(" ")[0].length > 10 ? `${viewer.name.split(" ")[0].substring(0, 10)}...` : viewer.name.split(" ")[0]}${viewer.name.split(" ")[1] ? ` ${viewer.name.split(" ")[1].charAt(0)}.` : "."}`
+              `${
+                viewer.name.split(" ")[0].length > 10
+                  ? `${viewer.name.split(" ")[0].substring(0, 10)}...`
+                  : viewer.name.split(" ")[0]
+              }${
+                viewer.name.split(" ")[1]
+                  ? ` ${viewer.name.split(" ")[1].charAt(0)}.`
+                  : "."
+              }`
             ) : (
               <SkeletonTextAnimation />
             )}
@@ -103,7 +112,7 @@ export default function Dashboard() {
               className="border-brand_tertiary/30 text-brand_tertiary px-2"
             >
               {loading ? (
-                <LoadingAnimation className="h-3 w-3" />
+                <LoadingAnimation className="h-3 w-3 mr-2" />
               ) : (
                 <Plus className="h-4 w-4 mr-2" />
               )}
@@ -175,15 +184,27 @@ export default function Dashboard() {
   );
 }
 // Workspace Card Component
+interface Workspace {
+  _id: Id<"workingSpaces">;
+  name: string;
+  slug?: string;
+  favorite?: boolean;
+  userId: Id<"users">;
+  createdAt: number;
+  updatedAt: number;
+}
+
+interface WorkspaceCardProps {
+  workspace: Workspace;
+  handleCreateWorkingSpace: () => void;
+  loading: boolean;
+}
+
 function WorkspaceCard({
   workspace,
   handleCreateWorkingSpace,
   loading,
-}: {
-  workspace: any;
-  handleCreateWorkingSpace: () => void;
-  loading: boolean;
-}) {
+}: WorkspaceCardProps) {
   return (
     <Card className="group bg-brand_fourthary/30 border-brand_tertiary/20 hover:border-brand_tertiary/40 transition-all duration-300 hover:shadow-md hover:scale-[1.02]">
       <CardHeader className="pb-2 relative">
@@ -252,8 +273,25 @@ function CreateWorkspaceCard({
     </Card>
   );
 }
+
+interface Note {
+  _id: Id<"notes">;
+  title?: string;
+  slug?: string;
+  workingSpacesSlug?: string;
+  workingSpaceId?: Id<"workingSpaces">;
+  userId?: Id<"users">;
+  body?: string;
+  favorite?: boolean;
+  createdAt: number;
+  updatedAt: number;
+  tags?: Id<"tags">[];
+  notesTableId: Id<"notesTables">;
+  order?: number;
+}
+
 // Note Card Component
-function NoteCard({ note }: { note: any }) {
+function NoteCard({ note }: { note: Note }) {
   const getContentPreview = (content: any) => {
     if (!content) return "No content yet. Click to start writing...";
 

@@ -7,7 +7,8 @@ export const createNote = mutation({
     args: {
         title: v.string(),
         notesTableId: v.id("notesTables"),
-        workingSpacesSlug: v.string()
+        workingSpacesSlug: v.string(),
+        workingSpaceId: v.id("workingSpaces"),
     },
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
@@ -15,7 +16,7 @@ export const createNote = mutation({
             throw new Error("Not authenticated");
         }
         
-        const { title, notesTableId, workingSpacesSlug } = args;
+        const { title, notesTableId, workingSpacesSlug,workingSpaceId } = args;
         
         // Verify the user has access to this table
         const table = await ctx.db.get(notesTableId);
@@ -63,6 +64,7 @@ export const createNote = mutation({
             workingSpacesSlug,
             slug: slug,
             order: highestOrder + 1, // Add to the end of the list
+            workingSpaceId:workingSpaceId,
             createdAt: Date.now(),
             updatedAt: Date.now(),
         };
@@ -175,30 +177,6 @@ export const updateNoteOrder = mutation({
     }
 });
 
-export const getNotesByNoteId = query({
-    args: { 
-        noteId: v.id("notes") 
-    },
-    handler: async (ctx, { noteId })=> {
-        const userId = await getAuthUserId(ctx);
-        if (!userId) {
-            throw new Error("Not authenticated");
-        }
-        
-        const note = await ctx.db.get(noteId);
-        if (!note) {
-            throw new Error("Note not found");
-        }
-        
-        // Verify the note belongs to this user
-        if (note.userId !== userId) {
-            throw new Error("Not authorized to access this note");
-        }
-        
-        return note;
-    }
-});
-
 export const deleteNote = mutation({
     args: {
         _id: v.id("notes"),
@@ -223,6 +201,30 @@ export const deleteNote = mutation({
         await ctx.db.delete(_id);
         return _id;
     }
+});
+
+export const getNotesByWorkspaceId = query({
+  args: {
+    workingSpaceId: v.id("workingSpaces"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const { workingSpaceId } = args;
+
+    // Get notes that belong to both the authenticated user and the specified workspace
+    const notes = await ctx.db.query("notes")
+      .withIndex("by_workingSpaceId", (q) =>
+        q.eq("workingSpaceId", workingSpaceId)
+      )
+      .filter((q) => q.eq(q.field("userId"), userId))
+      .collect();
+
+    return notes;
+  }
 });
 
 export const getNoteByUserId = query({
