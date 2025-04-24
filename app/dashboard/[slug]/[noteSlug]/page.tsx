@@ -41,7 +41,26 @@ export default function NotePage() {
         ],
       };
   const [content, setContent] = useState<JSONContent>(initialContent);
+  useEffect(() => {
+    if (getNote?.title) {
+      // Update document title
+      document.title = `${getNote.title} - Notevo`;
 
+      // Update meta description
+      const metaDescription = document.querySelector(
+        'meta[name="description"]',
+      );
+      if (metaDescription) {
+        metaDescription.setAttribute("content", `${getNote.title}'s Notevo`);
+      } else {
+        // Create meta description if it doesn't exist
+        const newMeta = document.createElement("meta");
+        newMeta.name = "description";
+        newMeta.content = `${getNote.title}'s Notevo`;
+        document.head.appendChild(newMeta);
+      }
+    }
+  }, [getNote?.title]);
   useEffect(() => {
     if (getNote?.body) {
       setContent(JSON.parse(getNote.body));
