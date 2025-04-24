@@ -37,7 +37,7 @@ export default function MoreAboutMe() {
               <h1 className=" text-start text-lg sm:text-xl lg:text-2xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary from-15% to-transparent bg-clip-text text-transparent sm:text-left">
                 {`I’ve been looking for a note-taking app that’s simpler than Notion but more organized than Google Keep. 
                 Something clean, structured, with a rich text editor—and a little AI to help. 
-                That’s what Notevo trying to be: a minimal, structured, AI-powered note-taking app`}
+                That’s what Notevo’s trying to be: a minimal, structured, AI-powered note-taking app`}
               </h1>
               <span className=" w-full flex justify-center items-start flex-col gap-2 text-brand_tertiary/50">
                 <p className=" font-semibold text-base">Mohammed H </p>
