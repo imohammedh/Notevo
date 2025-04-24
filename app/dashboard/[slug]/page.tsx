@@ -3,14 +3,14 @@ import { Calendar, FileText, LayoutGrid, List, Search } from "lucide-react";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
-import { useSearchParams, useParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation"; // Replace useParams with usePathname
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import CreateTableBtn from "@/components/dashboard-components/CreateTableBtn";
 import CreateNoteBtn from "@/components/dashboard-components/CreateNoteBtn";
 import TableSettings from "@/components/dashboard-components/TableSettings";
 import NoteSettings from "@/components/dashboard-components/NoteSettings";
 import TablesNotFound from "@/components/dashboard-components/TablesNotFound";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { parseSlug } from "@/lib/parseSlug";
 import {
@@ -33,12 +33,19 @@ import { Badge } from "@/components/ui/badge";
 
 export default function WorkingSpacePage() {
   const searchParams = useSearchParams();
+  const pathname = usePathname(); // Use usePathname to get the current URL path
   const workingSpaceId: Id<"workingSpaces"> = searchParams.get(
     "id",
   ) as Id<"workingSpaces">;
-  const params = useParams();
-  const workingSpaceName = params.slug;
-  const workingspaceNameafterparseSlug = parseSlug(`${workingSpaceName}`);
+
+  // Extract slug from pathname (e.g., /dashboard/my-workspace -> my-workspace)
+  const slug =
+    pathname
+      .split("/")
+      .filter((segment) => segment)
+      .pop() || "";
+  const workspaceNameRef = useRef<string | null>(null);
+  const workspaceNameRefCurrent = (workspaceNameRef.current = parseSlug(slug));
   const getNoteTable = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId: workingSpaceId,
   });
@@ -67,22 +74,16 @@ export default function WorkingSpacePage() {
 
     if (sourceTableId === destTableId && optimisticNotes) {
       const updatedNotes = [...optimisticNotes];
-
       const sourceTableNotes = updatedNotes.filter(
         (note) => note.notesTableId === sourceTableId,
       );
-
       const [movedNote] = sourceTableNotes.splice(result.source.index, 1);
       sourceTableNotes.splice(result.destination.index, 0, movedNote);
-
       const newOrder = sourceTableNotes.map((note) => note._id);
-
       const otherNotes = updatedNotes.filter(
         (note) => note.notesTableId !== sourceTableId,
       );
-
       setOptimisticNotes([...otherNotes, ...sourceTableNotes]);
-
       updateNoteOrder({
         tableId: sourceTableId,
         noteIds: newOrder,
@@ -99,6 +100,7 @@ export default function WorkingSpacePage() {
         return note.title?.toLowerCase().includes(searchQuery.toLowerCase());
       })
     : [];
+
   // Function to get content preview
   const getContentPreview = (content: any) => {
     if (!content) return "No content yet. Click to start writing...";
@@ -116,6 +118,29 @@ export default function WorkingSpacePage() {
       return "Unable to display content preview";
     }
   };
+
+  useEffect(() => {
+    if (workspaceNameRefCurrent) {
+      // Update document title
+      document.title = `${workspaceNameRefCurrent} - Notevo Workspace`;
+
+      // Update meta description
+      const metaDescription = document.querySelector(
+        'meta[name="description"]',
+      );
+      const descriptionContent = `${workspaceNameRefCurrent} workspace with ${getNoteTable?.length || 0} tables and ${notesToRender?.length || 0} notes. Organize your thoughts with Notevo.`;
+
+      if (metaDescription) {
+        metaDescription.setAttribute("content", descriptionContent);
+      } else {
+        const newMeta = document.createElement("meta");
+        newMeta.name = "description";
+        newMeta.content = descriptionContent;
+        document.head.appendChild(newMeta);
+      }
+    }
+  }, [workspaceNameRefCurrent, getNoteTable?.length, notesToRender?.length]);
+
   return (
     <MaxWContainer className="mb-20">
       <header className="py-6">
@@ -124,7 +149,7 @@ export default function WorkingSpacePage() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <h1 className="text-2xl md:text-3xl font-bold">
-                  {workingspaceNameafterparseSlug}
+                  {workspaceNameRefCurrent}
                 </h1>
               </div>
               <p className="text-brand_tertiary/70 text-sm">
@@ -197,7 +222,7 @@ export default function WorkingSpacePage() {
                       </div>
                       <CreateNoteBtn
                         notesTableId={table._id}
-                        workingSpacesSlug={params.slug}
+                        workingSpacesSlug={slug} // Use slug instead of params.slug
                         workingSpaceId={workingSpaceId}
                       />
                     </div>
@@ -275,7 +300,7 @@ export default function WorkingSpacePage() {
                                             className="h-7 px-2 text-xs"
                                           >
                                             <Link
-                                              href={`/dashboard/${params.slug}/${note.slug}?id=${note._id}`}
+                                              href={`/dashboard/${slug}/${note.slug}?id=${note._id}`} // Use slug instead of params.slug
                                             >
                                               Open
                                             </Link>
@@ -317,7 +342,7 @@ export default function WorkingSpacePage() {
                                               className="h-7 px-2 text-xs"
                                             >
                                               <Link
-                                                href={`/dashboard/${params.slug}/${note.slug}?id=${note._id}`}
+                                                href={`/dashboard/${slug}/${note.slug}?id=${note._id}`} // Use slug instead of params.slug
                                               >
                                                 Open
                                               </Link>
@@ -372,7 +397,7 @@ export default function WorkingSpacePage() {
                                   <span className=" w-full flex justify-center items-center">
                                     <CreateNoteBtn
                                       notesTableId={table._id}
-                                      workingSpacesSlug={params.slug}
+                                      workingSpacesSlug={slug} // Use slug instead of params.slug
                                       workingSpaceId={workingSpaceId}
                                     />
                                   </span>

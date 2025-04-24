@@ -5,15 +5,23 @@ import { cn } from "../lib/utils";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { Toaster } from "@/components/ui/toaster";
+import Notevologo from "@/public/Notevo-Logo-png.png";
 const lato = Lato({
   weight: ["400"],
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Notevo : Simple, Structured Note-Taking. Supercharged by AI.",
+  title: {
+    template: "Notevo",
+    default: "Notevo : Simple, Structured Note-Taking. Supercharged by AI.",
+  },
   description:
-    "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly, Notevo helps you capture your thoughts, organize them effortlessly, and interact with your notes using powerful AI tools - all in one clean, modern interface.",
+    "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly, Notevo helps you capture your thoughts, organize them effortlessly, and interact with your notes using powerful AI all in one clean, modern interface.",
+
+  icons: {
+    icon: "/Notevo-Logo-png.png",
+  },
 };
 
 export default function RootLayout({

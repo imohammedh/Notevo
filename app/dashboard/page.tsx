@@ -8,7 +8,7 @@ import {
   Notebook,
   PenSquare,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
@@ -33,6 +33,7 @@ import {
   truncateText as parseTiptapContentTruncateText,
 } from "@/lib/parse-tiptap-content";
 import type { Id } from "@/convex/_generated/dataModel";
+import Head from "next/head";
 
 export default function Dashboard() {
   const viewer = useQuery(api.users.viewer);
@@ -50,137 +51,161 @@ export default function Dashboard() {
     await createWorkingSpace({ name: "Untitled" });
     setLoading(false);
   };
+  useEffect(() => {
+    if (viewer?.name) {
+      // Update document title
+      document.title = `${viewer.name} - Dashboard`;
 
+      // Update meta description
+      const metaDescription = document.querySelector(
+        'meta[name="description"]',
+      );
+      if (metaDescription) {
+        metaDescription.setAttribute(
+          "content",
+          `${viewer.name}'s Notevo dashboard`,
+        );
+      } else {
+        // Create meta description if it doesn't exist
+        const newMeta = document.createElement("meta");
+        newMeta.name = "description";
+        newMeta.content = `${viewer.name}'s Notevo dashboard`;
+        document.head.appendChild(newMeta);
+      }
+    }
+  }, [viewer]);
   // Get counts for stats
   const workspaceCount = recentWorkspaces?.length || 0;
   const notesCount = recentNotes?.length || 0;
   const pinnedCount = recentNotes?.filter((note) => note.favorite)?.length || 0;
 
   return (
-    <MaxWContainer className="relative mb-20">
-      {/* Hero Section */}
-      <div className="w-full py-10 my-5 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-xl">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-3 flex justify-center items-center gap-2">
-            Welcome to Notevo,{" "}
-            {viewer?.name ? (
-              `${
-                viewer.name.split(" ")[0].length > 10
-                  ? `${viewer.name.split(" ")[0].substring(0, 10)}...`
-                  : viewer.name.split(" ")[0]
-              }${
-                viewer.name.split(" ")[1]
-                  ? ` ${viewer.name.split(" ")[1].charAt(0)}.`
-                  : "."
-              }`
-            ) : (
-              <SkeletonTextAnimation />
-            )}
-          </h1>
-          <p className="text-brand_tertiary/70 max-w-lg mx-auto">
-            Organize your thoughts, manage your workspaces, and boost your
-            productivity with Notevo.
-          </p>
+    <>
+      <MaxWContainer className="relative mb-20">
+        {/* Hero Section */}
+        <div className="w-full py-10 my-5 bg-gradient-to-r from-brand_fourthary via-transparent to-brand_fourthary rounded-xl">
+          <div className="max-w-3xl mx-auto px-4 text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3 flex justify-center items-center gap-2">
+              Welcome to Notevo,{" "}
+              {viewer?.name ? (
+                `${
+                  viewer.name.split(" ")[0].length > 10
+                    ? `${viewer.name.split(" ")[0].substring(0, 10)}...`
+                    : viewer.name.split(" ")[0]
+                }${
+                  viewer.name.split(" ")[1]
+                    ? ` ${viewer.name.split(" ")[1].charAt(0)}.`
+                    : "."
+                }`
+              ) : (
+                <SkeletonTextAnimation />
+              )}
+            </h1>
+            <p className="text-brand_tertiary/70 max-w-lg mx-auto">
+              Organize your thoughts, manage your workspaces, and boost your
+              productivity with Notevo.
+            </p>
+          </div>
         </div>
-      </div>
 
-      {/* Stats Row */}
-      <StatsRow
-        workspaceCount={workspaceCount}
-        notesCount={notesCount}
-        pinnedCount={pinnedCount}
-      />
+        {/* Stats Row */}
+        <StatsRow
+          workspaceCount={workspaceCount}
+          notesCount={notesCount}
+          pinnedCount={pinnedCount}
+        />
 
-      {/* Main Content Tabs */}
-      <Tabs defaultValue="workspaces" className="mt-8">
-        <TabsList className="mb-6 ">
-          <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
-          <TabsTrigger value="recent">Recent Notes</TabsTrigger>
-        </TabsList>
+        {/* Main Content Tabs */}
+        <Tabs defaultValue="workspaces" className="mt-8">
+          <TabsList className="mb-6 ">
+            <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
+            <TabsTrigger value="recent">Recent Notes</TabsTrigger>
+          </TabsList>
 
-        {/* Workspaces Tab */}
-        <TabsContent value="workspaces">
-          <div className="mb-4 flex justify-between items-center">
-            <h2 className="text-brand_tertiary/80 text-lg font-medium">
-              Your Workspaces
-            </h2>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCreateWorkingSpace}
-              disabled={loading}
-              className="border-brand_tertiary/30 text-brand_tertiary px-2"
-            >
-              {loading ? (
-                <LoadingAnimation className="h-3 w-3 mr-2" />
-              ) : (
-                <Plus className="h-4 w-4 mr-2" />
-              )}
-              New Workspace
-            </Button>
-          </div>
-
-          {recentWorkspaces?.length !== 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {recentWorkspaces ? (
-                recentWorkspaces.map((workspace) => (
-                  <WorkspaceCard
-                    key={workspace._id}
-                    workspace={workspace}
-                    handleCreateWorkingSpace={handleCreateWorkingSpace}
-                    loading={loading}
-                  />
-                ))
-              ) : (
-                <WorkspaceCardSkeleton />
-              )}
-              <CreateWorkspaceCard
+          {/* Workspaces Tab */}
+          <TabsContent value="workspaces">
+            <div className="mb-4 flex justify-between items-center">
+              <h2 className="text-brand_tertiary/80 text-lg font-medium">
+                Your Workspaces
+              </h2>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleCreateWorkingSpace}
-                loading={loading}
-              />
+                disabled={loading}
+                className="border-brand_tertiary/30 text-brand_tertiary px-2"
+              >
+                {loading ? (
+                  <LoadingAnimation className="h-3 w-3 mr-2" />
+                ) : (
+                  <Plus className="h-4 w-4 mr-2" />
+                )}
+                New Workspace
+              </Button>
             </div>
-          ) : (
-            <WorkingSpaceNotFound />
-          )}
-        </TabsContent>
 
-        {/* Recent Notes Tab */}
-        <TabsContent value="recent">
-          <div className="mb-4">
-            <h2 className="text-brand_tertiary/80 text-lg font-medium">
-              Recent Notes
-            </h2>
-          </div>
+            {recentWorkspaces?.length !== 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {recentWorkspaces ? (
+                  recentWorkspaces.map((workspace) => (
+                    <WorkspaceCard
+                      key={workspace._id}
+                      workspace={workspace}
+                      handleCreateWorkingSpace={handleCreateWorkingSpace}
+                      loading={loading}
+                    />
+                  ))
+                ) : (
+                  <WorkspaceCardSkeleton />
+                )}
+                <CreateWorkspaceCard
+                  onClick={handleCreateWorkingSpace}
+                  loading={loading}
+                />
+              </div>
+            ) : (
+              <WorkingSpaceNotFound />
+            )}
+          </TabsContent>
 
-          {recentNotes && recentNotes.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {recentNotes.map((note) => (
-                <NoteCard key={note._id} note={note} />
-              ))}
+          {/* Recent Notes Tab */}
+          <TabsContent value="recent">
+            <div className="mb-4">
+              <h2 className="text-brand_tertiary/80 text-lg font-medium">
+                Recent Notes
+              </h2>
             </div>
-          ) : (
-            <Card className="bg-brand_fourthary/30 border-brand_tertiary/20">
-              <CardContent className="pt-6 text-center">
-                <div className="flex flex-col items-center justify-center py-8">
-                  <FileText className="h-12 w-12 text-brand_tertiary/30 mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No notes yet</h3>
-                  <p className="text-brand_tertiary/70 mb-4">
-                    Create your first note to get started
-                  </p>
-                  {/* <Button
+
+            {recentNotes && recentNotes.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {recentNotes.map((note) => (
+                  <NoteCard key={note._id} note={note} />
+                ))}
+              </div>
+            ) : (
+              <Card className="bg-brand_fourthary/30 border-brand_tertiary/20">
+                <CardContent className="pt-6 text-center">
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <FileText className="h-12 w-12 text-brand_tertiary/30 mb-4" />
+                    <h3 className="text-lg font-medium mb-2">No notes yet</h3>
+                    <p className="text-brand_tertiary/70 mb-4">
+                      Create your first note to get started
+                    </p>
+                    {/* <Button
                     variant="outline"
                     className="border-brand_tertiary/30 text-brand_tertiary"
                   >
                     <PenSquare className="h-4 w-4 mr-2" />
                     Create Note
                   </Button> */}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-      </Tabs>
-    </MaxWContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+        </Tabs>
+      </MaxWContainer>
+    </>
   );
 }
 // Workspace Card Component

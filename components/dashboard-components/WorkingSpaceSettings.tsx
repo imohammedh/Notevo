@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,6 +14,7 @@ import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@heroui/tooltip";
 import LoadingAnimation from "../ui/LoadingAnimation";
+import { useRouter } from "next/navigation";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -58,13 +59,16 @@ export default function WorkingSpaceSettings({
   const [isDeleting, setIsDeleting] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const router = useRouter();
 
-  // Query to get tables in the workspace
+  useEffect(() => {
+    setInputValue(workingspaceName);
+  }, [workingspaceName]);
+
   const tables = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId,
   });
 
-  // Query to get notes in the workspace
   const notes = useQuery(api.mutations.notes.getNotesByWorkspaceId, {
     workingSpaceId: workingSpaceId,
   });
@@ -87,24 +91,52 @@ export default function WorkingSpaceSettings({
     }
   };
 
-  const handleBlur = () => {
-    updateWorkingSpace({ _id: workingSpaceId, name: inputValue });
+  const updateURL = (newName: string) => {
+    const urlFriendlyName = newName.toLowerCase().replace(/\s+/g, "-");
+
+    const currentUrl = new URL(window.location.href);
+
+    const pathSegments = currentUrl.pathname.split("/");
+
+    if (pathSegments.length >= 3 && pathSegments[1] === "dashboard") {
+      pathSegments[2] = urlFriendlyName;
+
+      const newPath = pathSegments.join("/");
+      const newUrl = `${newPath}${currentUrl.search}`;
+
+      window.history.pushState({}, "", newUrl);
+    }
+  };
+
+  const handleBlur = async () => {
+    if (inputValue !== workingspaceName) {
+      try {
+        await updateWorkingSpace({ _id: workingSpaceId, name: inputValue });
+
+        updateURL(inputValue);
+      } catch (error) {
+        console.error("Failed to update workspace name:", error);
+        setInputValue(workingspaceName);
+      }
+    }
     setOpen(false);
   };
 
   const initiateDelete = () => {
-    setOpen(false); // Close the dropdown
-    setIsAlertOpen(true); // Open the alert dialog
+    setOpen(false);
+    setIsAlertOpen(true);
   };
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
     setIsDeleting(true);
     try {
       await DeleteWorkingSpace({ _id: workingSpaceId });
+    } catch (error) {
+      console.error("Failed to delete workspace:", error);
     } finally {
       setIsDeleting(false);
-      setIsAlertOpen(false); // Close the alert dialog on completion
+      setIsAlertOpen(false);
     }
   };
 
@@ -120,7 +152,7 @@ export default function WorkingSpaceSettings({
             " rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs",
             Tooltip_className,
           )}
-          content={!Tooltip_content ? "Delete ,rename" : Tooltip_content}
+          content={!Tooltip_content ? "Delete, rename" : Tooltip_content}
           placement={!Tooltip_placement ? "left" : Tooltip_placement}
         >
           <DropdownMenuTrigger asChild>
