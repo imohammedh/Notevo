@@ -17,7 +17,15 @@ export default convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
 });
  
 export const config = {
-  // The following matcher runs middleware on all routes
-  // except static assets.
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!_next/static|_next/image|favicon.ico).*)",
+    "/api/:path*", // Match all API routes (adjust as needed)
+    "/trpc/:path*", // Match all tRPC routes (adjust as needed)
+  ],
 };
