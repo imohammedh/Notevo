@@ -113,9 +113,7 @@ export default function AppSidebar() {
               BETA
             </Badge>
           </div>
-          <SidebarTrigger
-            className={`transition-all duration-200 ease-in-out  opacity-0 group-hover:opacity-100 ${(!open || isMobile) && `opacity-100`}`}
-          />
+          <SidebarTrigger />
         </div>
       </SidebarHeader>
       <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-transparent group-hover:scrollbar-thumb-brand_tertiary">
