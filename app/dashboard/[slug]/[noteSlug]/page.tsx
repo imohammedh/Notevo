@@ -1,7 +1,8 @@
 "use client";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
+import { useQuery } from "convex-helpers/react/cache";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { JSONContent } from "@tiptap/react";

@@ -6,6 +6,7 @@ import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Notevologo from "@/public/Notevo-Logo-png.png";
+import { ConvexQueryCacheProvider } from "convex-helpers/react/cache/provider";
 const lato = Lato({
   weight: ["400"],
   subsets: ["latin"],
@@ -32,17 +33,19 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <ConvexClientProvider>
-        <html lang="en" suppressHydrationWarning>
-          <body
-            className={cn(
-              "bg-brand_primary text-brand_tertiary flex flex-col min-h-screen",
-              lato.className,
-            )}
-          >
-            <Toaster />
-            {children}
-          </body>
-        </html>
+        <ConvexQueryCacheProvider>
+          <html lang="en" suppressHydrationWarning>
+            <body
+              className={cn(
+                "bg-brand_primary text-brand_tertiary flex flex-col min-h-screen",
+                lato.className,
+              )}
+            >
+              <Toaster />
+              {children}
+            </body>
+          </html>
+        </ConvexQueryCacheProvider>
       </ConvexClientProvider>
     </ConvexAuthNextjsServerProvider>
   );
