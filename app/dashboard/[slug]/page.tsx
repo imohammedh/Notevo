@@ -2,7 +2,8 @@
 import { Calendar, FileText, LayoutGrid, List, Search } from "lucide-react";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
+import { useQuery } from "convex-helpers/react/cache";
 import { useSearchParams, usePathname } from "next/navigation"; // Replace useParams with usePathname
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import CreateTableBtn from "@/components/dashboard-components/CreateTableBtn";
