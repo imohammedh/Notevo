@@ -32,21 +32,19 @@ export default function RootLayout({
 }>) {
   return (
     <ConvexAuthNextjsServerProvider>
-      <ConvexClientProvider>
-        <ConvexQueryCacheProvider>
-          <html lang="en" suppressHydrationWarning>
-            <body
-              className={cn(
-                "bg-brand_primary text-brand_tertiary flex flex-col min-h-screen",
-                lato.className,
-              )}
-            >
-              <Toaster />
-              {children}
-            </body>
-          </html>
-        </ConvexQueryCacheProvider>
-      </ConvexClientProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            "bg-brand_primary text-brand_tertiary flex flex-col min-h-screen",
+            lato.className,
+          )}
+        >
+          <Toaster />
+          <ConvexClientProvider>
+            <ConvexQueryCacheProvider>{children}</ConvexQueryCacheProvider>
+          </ConvexClientProvider>
+        </body>
+      </html>
     </ConvexAuthNextjsServerProvider>
   );
 }
