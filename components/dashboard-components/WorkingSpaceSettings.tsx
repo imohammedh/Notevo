@@ -8,7 +8,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
+import { useQuery } from "convex-helpers/react/cache";
+import type { Id } from "@/convex/_generated/dataModel";
+
 import { api } from "@/convex/_generated/api";
 import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
@@ -27,7 +30,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface WorkingSpaceSettings {
-  workingSpaceId: string | any;
+  workingSpaceId: Id<"workingSpaces">;
   className?: string;
   workingspaceName: string | any;
   Tooltip_className?: string;
@@ -91,29 +94,10 @@ export default function WorkingSpaceSettings({
     }
   };
 
-  const updateURL = (newName: string) => {
-    const urlFriendlyName = newName.toLowerCase().replace(/\s+/g, "-");
-
-    const currentUrl = new URL(window.location.href);
-
-    const pathSegments = currentUrl.pathname.split("/");
-
-    if (pathSegments.length >= 3 && pathSegments[1] === "dashboard") {
-      pathSegments[2] = urlFriendlyName;
-
-      const newPath = pathSegments.join("/");
-      const newUrl = `${newPath}${currentUrl.search}`;
-
-      window.history.pushState({}, "", newUrl);
-    }
-  };
-
   const handleBlur = async () => {
     if (inputValue !== workingspaceName) {
       try {
-        await updateWorkingSpace({ _id: workingSpaceId, name: inputValue });
-
-        updateURL(inputValue);
+        updateWorkingSpace({ _id: workingSpaceId, name: inputValue });
       } catch (error) {
         console.error("Failed to update workspace name:", error);
         setInputValue(workingspaceName);
@@ -132,6 +116,7 @@ export default function WorkingSpaceSettings({
     setIsDeleting(true);
     try {
       await DeleteWorkingSpace({ _id: workingSpaceId });
+      router.push("/dashboard");
     } catch (error) {
       console.error("Failed to delete workspace:", error);
     } finally {

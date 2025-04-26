@@ -32,7 +32,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "convex/react";
+import { useQuery } from "convex-helpers/react/cache";
 import { api } from "@/convex/_generated/api";
 
 interface SearchDialogProps {
@@ -182,7 +182,7 @@ export default function SearchDialog({
                         className="flex items-center py-2 px-2"
                         onSelect={() =>
                           handleItemClick(
-                            `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                            `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                           )
                         }
                       >
@@ -193,12 +193,12 @@ export default function SearchDialog({
                             })}
                           </div>
                           <div className="flex-1 overflow-hidden">
-                            <div className="font-medium truncate">
+                            <p className="font-medium truncate">
                               {note.title || "Untitled"}
-                            </div>
-                            <div className="text-xs text-muted-foreground truncate">
+                            </p>
+                            <p className="text-xs text-muted-foreground truncate">
                               {note.workingSpacesSlug || "Personal"}
-                            </div>
+                            </p>
                           </div>
                           <div className="flex items-center text-xs text-muted-foreground">
                             <Clock className="mr-1 h-3 w-3" />
@@ -233,12 +233,12 @@ export default function SearchDialog({
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <div className="font-medium truncate">
+                              <p className="font-medium truncate">
                                 {note.title || "Untitled"}
-                              </div>
-                              <div className="text-xs text-muted-foreground truncate">
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate">
                                 {note.workingSpacesSlug || "Personal"}
-                              </div>
+                              </p>
                             </div>
                             <div className="flex items-center text-xs text-muted-foreground">
                               <Clock className="mr-1 h-3 w-3" />
@@ -272,12 +272,12 @@ export default function SearchDialog({
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <div className="font-medium truncate">
+                              <p className="font-medium truncate">
                                 {note.title || "Untitled"}
-                              </div>
-                              <div className="text-xs text-muted-foreground truncate">
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate">
                                 {note.workingSpacesSlug || "Personal"}
-                              </div>
+                              </p>
                             </div>
                             <div className="flex items-center text-xs text-muted-foreground">
                               <Clock className="mr-1 h-3 w-3" />
@@ -313,12 +313,12 @@ export default function SearchDialog({
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <div className="font-medium truncate">
+                              <p className="font-medium truncate">
                                 {note.title || "Untitled"}
-                              </div>
-                              <div className="text-xs text-muted-foreground truncate">
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate">
                                 {note.workingSpacesSlug || "Personal"}
-                              </div>
+                              </p>
                             </div>
                             <div className="flex items-center text-xs text-muted-foreground">
                               <Calendar className="mr-1 h-3 w-3" />
@@ -354,12 +354,12 @@ export default function SearchDialog({
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <div className="font-medium truncate">
+                              <p className="font-medium truncate">
                                 {note.title || "Untitled"}
-                              </div>
-                              <div className="text-xs text-muted-foreground truncate">
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate">
                                 {note.workingSpacesSlug || "Personal"}
-                              </div>
+                              </p>
                             </div>
                             <div className="flex items-center text-xs text-muted-foreground">
                               <Calendar className="mr-1 h-3 w-3" />

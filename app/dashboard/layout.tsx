@@ -13,7 +13,7 @@ import BreadcrumbWithCustomSeparator from "@/components/dashboard-components/Bre
 function DashboardContent({ children }: { children: ReactNode }) {
   const { open, isMobile } = useSidebar();
   const [isClient, setIsClient] = useState(false);
-  const [shadow, setShadow] = useState(true);
+  const [shadow, setShadow] = useState(false); // Initially show shadow
   const scrollableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
     const handleScroll = () => {
       if (scrollableRef.current) {
         const top = scrollableRef.current.scrollTop;
-        setShadow(top > 0);
+        setShadow(top > 0); // Show shadow if scrolled down, hide if at the top
       }
     };
 
@@ -50,7 +50,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
       >
         <div
           className={`w-full absolute top-0 mx-auto py-2.5 transition-shadow duration-300 ${
-            shadow ? "shadow-xl shadow-brand_tertiary/5" : "shadow-none"
+            shadow ? "shadow-xl shadow-brand_fourthary" : "shadow-none"
           }`}
         >
           <div className="w-full flex items-center justify-start container gap-3">

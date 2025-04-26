@@ -56,7 +56,6 @@ export const createNote = mutation({
             existingNote = await ctx.db.query("notes").withIndex("by_slug", (q) => q.eq("slug", slug)).first();
             counter++;
         }
-        
         const note = {
             userId: userId,
             title,
