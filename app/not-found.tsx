@@ -6,7 +6,7 @@ import Section from "@/components/ui/Section";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 export default function NotFound() {
   return (
-    <Section>
+    <section className="flex min-h-svh flex-col items-center justify-start bg-gradient-to-br from-brand_fourthary via-purple-600/10 to-brand_primary p-6 md:p-10">
       <MaxWContainer className="flex flex-col items-center justify-center gap-4 *:text-center relative px-4 sm:px-6 lg:px-8">
         <div className=" w-full flex justify-center items-center py-5">
           <Image
@@ -31,6 +31,6 @@ export default function NotFound() {
         </Button>
         <div className=" absolute -z-20 bg-gradient-to-t from-purple-900/30 from-15% to-brand_fourthary left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]" />
       </MaxWContainer>
-    </Section>
+    </section>
   );
 }

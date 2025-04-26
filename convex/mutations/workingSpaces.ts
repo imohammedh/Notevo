@@ -158,3 +158,29 @@ export const getRecentWorkingSpaces = query({
         return recentWorkingSpaces;
     }
 });
+
+export const getWorkingSpaceById = query({
+    args: {
+        _id: v.id("workingSpaces"),
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+        if (!userId) {
+            throw new Error("Not authenticated");
+        }
+        
+        const { _id } = args;
+        const workingSpace = await ctx.db.get(_id);
+        
+        if (!workingSpace) {
+            throw new Error("WorkingSpace not found");
+        }
+        
+        // Ensure the workspace belongs to the authenticated user
+        if (workingSpace.userId !== userId) {
+            throw new Error("Not authorized to access this workspace");
+        }
+        
+        return workingSpace;
+    }
+});

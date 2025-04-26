@@ -4,7 +4,7 @@ import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
 import { useQuery } from "convex-helpers/react/cache";
-import { useSearchParams, usePathname } from "next/navigation"; // Replace useParams with usePathname
+import { useParams } from "next/navigation";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import CreateTableBtn from "@/components/dashboard-components/CreateTableBtn";
 import CreateNoteBtn from "@/components/dashboard-components/CreateNoteBtn";
@@ -13,7 +13,6 @@ import NoteSettings from "@/components/dashboard-components/NoteSettings";
 import TablesNotFound from "@/components/dashboard-components/TablesNotFound";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { parseSlug } from "@/lib/parseSlug";
 import {
   extractTextFromTiptap as parseTiptapContentExtractText,
   truncateText as parseTiptapContentTruncateText,
@@ -33,23 +32,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 
 export default function WorkingSpacePage() {
-  const searchParams = useSearchParams();
-  const pathname = usePathname(); // Use usePathname to get the current URL path
-  const workingSpaceId: Id<"workingSpaces"> = searchParams.get(
-    "id",
-  ) as Id<"workingSpaces">;
-
-  // Extract slug from pathname (e.g., /dashboard/my-workspace -> my-workspace)
-  const slug =
-    pathname
-      .split("/")
-      .filter((segment) => segment)
-      .pop() || "";
-  const workspaceNameRef = useRef<string | null>(null);
-  const workspaceNameRefCurrent = (workspaceNameRef.current = parseSlug(slug));
+  const param = useParams();
+  const workingSpaceId: Id<"workingSpaces"> | undefined =
+    param.id as Id<"workingSpaces">;
+  const gitworkingspace = useQuery(
+    api.mutations.workingSpaces.getWorkingSpaceById,
+    { _id: workingSpaceId },
+  );
   const getNoteTable = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId: workingSpaceId,
   });
+
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
   const updateNoteOrder = useMutation(api.mutations.notes.updateNoteOrder);
 
@@ -121,15 +114,19 @@ export default function WorkingSpacePage() {
   };
 
   useEffect(() => {
-    if (workspaceNameRefCurrent) {
+    if (gitworkingspace?.name) {
       // Update document title
-      document.title = `${workspaceNameRefCurrent} - Notevo Workspace`;
+      document.title = `${gitworkingspace.name} - Notevo Workspace`;
 
       // Update meta description
       const metaDescription = document.querySelector(
         'meta[name="description"]',
       );
-      const descriptionContent = `${workspaceNameRefCurrent} workspace with ${getNoteTable?.length || 0} tables and ${notesToRender?.length || 0} notes. Organize your thoughts with Notevo.`;
+      const descriptionContent = `${gitworkingspace.name} workspace with ${
+        getNoteTable?.length || 0
+      } tables and ${
+        notesToRender?.length || 0
+      } notes. Organize your thoughts with Notevo.`;
 
       if (metaDescription) {
         metaDescription.setAttribute("content", descriptionContent);
@@ -140,7 +137,7 @@ export default function WorkingSpacePage() {
         document.head.appendChild(newMeta);
       }
     }
-  }, [workspaceNameRefCurrent, getNoteTable?.length, notesToRender?.length]);
+  }, [gitworkingspace, getNoteTable?.length, notesToRender?.length]);
 
   return (
     <MaxWContainer className="mb-20">
@@ -150,7 +147,7 @@ export default function WorkingSpacePage() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <h1 className="text-2xl md:text-3xl font-bold">
-                  {workspaceNameRefCurrent}
+                  {gitworkingspace?.name}
                 </h1>
               </div>
               <p className="text-brand_tertiary/70 text-sm">
@@ -172,7 +169,11 @@ export default function WorkingSpacePage() {
                 <Button
                   variant="Trigger"
                   size="icon"
-                  className={`h-9 w-9 rounded-none ${viewMode === "grid" ? "bg-brand_tertiary/10" : "bg-transparent"}`}
+                  className={`h-9 w-9 rounded-none ${
+                    viewMode === "grid"
+                      ? "bg-brand_tertiary/10"
+                      : "bg-transparent"
+                  }`}
                   onClick={() => setViewMode("grid")}
                 >
                   <LayoutGrid className="h-4 w-4" />
@@ -181,7 +182,11 @@ export default function WorkingSpacePage() {
                 <Button
                   variant="Trigger"
                   size="icon"
-                  className={`h-9 w-9 rounded-none ${viewMode === "list" ? "bg-brand_tertiary/10" : "bg-transparent"}`}
+                  className={`h-9 w-9 rounded-none ${
+                    viewMode === "list"
+                      ? "bg-brand_tertiary/10"
+                      : "bg-transparent"
+                  }`}
                   onClick={() => setViewMode("list")}
                 >
                   <List className="h-4 w-4" />
@@ -223,7 +228,7 @@ export default function WorkingSpacePage() {
                       </div>
                       <CreateNoteBtn
                         notesTableId={table._id}
-                        workingSpacesSlug={slug} // Use slug instead of params.slug
+                        workingSpacesSlug={gitworkingspace?.slug}
                         workingSpaceId={workingSpaceId}
                       />
                     </div>
@@ -256,7 +261,9 @@ export default function WorkingSpacePage() {
                                   <div
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
-                                    className={`${snapshot.isDragging ? "opacity-80" : ""}`}
+                                    className={`${
+                                      snapshot.isDragging ? "opacity-80" : ""
+                                    }`}
                                   >
                                     {viewMode === "grid" ? (
                                       <Card
@@ -267,7 +274,10 @@ export default function WorkingSpacePage() {
                                           <CardTitle className="text-lg pr-8">
                                             {note.title
                                               ? note.title.length > 20
-                                                ? `${note.title.substring(0, 20)}...`
+                                                ? `${note.title.substring(
+                                                    0,
+                                                    20,
+                                                  )}...`
                                                 : note.title
                                               : "Untitled"}
                                           </CardTitle>
@@ -289,7 +299,9 @@ export default function WorkingSpacePage() {
                                           <div className="flex items-center gap-1">
                                             <Calendar className="h-3.5 w-3.5" />
                                             {typeof window !== "undefined" ? (
-                                              <span>{`${new Date(note.createdAt).toLocaleDateString()}`}</span>
+                                              <span>{`${new Date(
+                                                note.createdAt,
+                                              ).toLocaleDateString()}`}</span>
                                             ) : (
                                               <SkeletonTextAnimation className="w-20" />
                                             )}
@@ -301,7 +313,7 @@ export default function WorkingSpacePage() {
                                             className="h-7 px-2 text-xs"
                                           >
                                             <Link
-                                              href={`/dashboard/${slug}/${note.slug}?id=${note._id}`} // Use slug instead of params.slug
+                                              href={`/dashboard/${gitworkingspace?._id}/${note.slug}?id=${note._id}`}
                                             >
                                               Open
                                             </Link>
@@ -330,7 +342,9 @@ export default function WorkingSpacePage() {
                                           <div className="text-xs text-brand_tertiary/50 flex items-center gap-1">
                                             <Calendar className="h-3.5 w-3.5" />
                                             {typeof window !== "undefined" ? (
-                                              <span>{`${new Date(note.createdAt).toLocaleDateString()}`}</span>
+                                              <span>{`${new Date(
+                                                note.createdAt,
+                                              ).toLocaleDateString()}`}</span>
                                             ) : (
                                               <SkeletonTextAnimation className="w-20" />
                                             )}
@@ -343,7 +357,7 @@ export default function WorkingSpacePage() {
                                               className="h-7 px-2 text-xs"
                                             >
                                               <Link
-                                                href={`/dashboard/${slug}/${note.slug}?id=${note._id}`} // Use slug instead of params.slug
+                                                href={`/dashboard/${gitworkingspace?._id}/${note.slug}?id=${note._id}`} // Use slug instead of params.slug
                                               >
                                                 Open
                                               </Link>
@@ -398,7 +412,7 @@ export default function WorkingSpacePage() {
                                   <span className=" w-full flex justify-center items-center">
                                     <CreateNoteBtn
                                       notesTableId={table._id}
-                                      workingSpacesSlug={slug} // Use slug instead of params.slug
+                                      workingSpacesSlug={gitworkingspace?.slug}
                                       workingSpaceId={workingSpaceId}
                                     />
                                   </span>

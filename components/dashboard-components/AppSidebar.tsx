@@ -34,7 +34,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
+import { useQuery } from "convex-helpers/react/cache";
 import { api } from "@/convex/_generated/api";
 import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -177,7 +178,7 @@ export default function AppSidebar() {
                       onClick={handleNavClick}
                     >
                       <Link
-                        href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`}
+                        href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
                       >
                         <Pin size="16" className="text-amber-400" />
                         {note.title
@@ -237,9 +238,7 @@ export default function AppSidebar() {
                     asChild
                     onClick={handleNavClick}
                   >
-                    <Link
-                      href={`/dashboard/${workingSpace.slug}?id=${workingSpace._id}`}
-                    >
+                    <Link href={`/dashboard/${workingSpace._id}`}>
                       <Notebook size="16" />
                       {workingSpace.name.length > 20
                         ? `${workingSpace.name.substring(0, 20)}...`

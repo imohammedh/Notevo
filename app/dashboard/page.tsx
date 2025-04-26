@@ -34,7 +34,6 @@ import {
   truncateText as parseTiptapContentTruncateText,
 } from "@/lib/parse-tiptap-content";
 import type { Id } from "@/convex/_generated/dataModel";
-import Head from "next/head";
 
 export default function Dashboard() {
   const viewer = useQuery(api.users.viewer);
@@ -261,9 +260,7 @@ function WorkspaceCard({
           )}
         </div>
         <Button variant="ghost" size="sm" asChild className="h-7 px-2 text-xs">
-          <Link href={`/dashboard/${workspace.slug}?id=${workspace._id}`}>
-            Open
-          </Link>
+          <Link href={`/dashboard/${workspace._id}`}>Open</Link>
         </Button>
       </CardFooter>
     </Card>
