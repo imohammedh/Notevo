@@ -41,7 +41,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="flex h-screen w-full bg-gradient-to-br from-brand_fourthary from-15% via-brand_fourthary to-purple-600 overflow-hidden">
+    <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
       {isClient && <AppSidebar />}
       <main
         className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${
@@ -50,7 +50,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
       >
         <div
           className={`w-full absolute top-0 mx-auto py-2.5 transition-shadow duration-300 ${
-            shadow ? "shadow-xl shadow-purple-600/20" : "shadow-none"
+            shadow ? "shadow-xl shadow-brand_fourthary" : "shadow-none"
           }`}
         >
           <div className="w-full flex items-center justify-start container gap-3">
