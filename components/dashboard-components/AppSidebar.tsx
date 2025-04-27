@@ -189,7 +189,7 @@ export default function AppSidebar() {
                         <Link
                           href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
                         >
-                          <Pin size="16" className="text-amber-400" />
+                          <Pin size="16" className="text-purple-500" />
                           {note.title
                             ? note.title.length > 20
                               ? `${note.title.substring(0, 20)}...`
