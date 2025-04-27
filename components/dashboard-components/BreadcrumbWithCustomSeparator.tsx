@@ -29,12 +29,12 @@ export default function BreadcrumbWithCustomSeparator() {
       ? (pathSegments[dashboardIndex + 1] as Id<"workingSpaces">)
       : null;
 
-  const NullWorkingSpacaeId: Id<"workingSpaces"> = "123" as Id<"workingSpaces">;
   // Fetch workspace data
-  const workspaceData = useQuery(
-    api.mutations.workingSpaces.getWorkingSpaceById,
-    { _id: workingSpaceId || NullWorkingSpacaeId },
-  );
+  const workspaceData = workingSpaceId
+    ? useQuery(api.mutations.workingSpaces.getWorkingSpaceById, {
+        _id: workingSpaceId,
+      })
+    : null;
 
   return (
     <div className="bg-transparent py-2">
