@@ -29,11 +29,12 @@ export default function BreadcrumbWithCustomSeparator() {
       ? (pathSegments[dashboardIndex + 1] as Id<"workingSpaces">)
       : null;
 
-  const NullWorkingSpacaeId: Id<"workingSpaces"> = "123" as Id<"workingSpaces">;
-  // Fetch workspace data
+  // Always call useQuery but pass skipQuery option when no ID is available
   const workspaceData = useQuery(
     api.mutations.workingSpaces.getWorkingSpaceById,
-    { _id: workingSpaceId || NullWorkingSpacaeId },
+    workingSpaceId
+      ? { _id: workingSpaceId }
+      : { _id: null as unknown as Id<"workingSpaces"> },
   );
 
   return (
