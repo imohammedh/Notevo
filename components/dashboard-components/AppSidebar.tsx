@@ -51,6 +51,7 @@ import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
 import NoteSettings from "./NoteSettings";
 import { redirect, usePathname } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip } from "@heroui/tooltip";
 
 export default function AppSidebar() {
   const { open, isMobile, setOpenMobile } = useSidebar();
@@ -166,28 +167,37 @@ export default function AppSidebar() {
               favoriteNotes.map((note) => (
                 <SidebarGroupContent
                   className="relative w-full flex justify-between items-center"
-                  key={note._id}
                   onMouseEnter={() => setHoveredNoteId(note._id)}
                   onMouseLeave={() => setHoveredNoteId(null)}
+                  key={note._id}
                 >
                   <div className="flex w-full items-center relative">
-                    <Button
-                      variant="SidebarMenuButton"
-                      className="px-2 h-8 group flex-1"
-                      asChild
-                      onClick={handleNavClick}
+                    <Tooltip
+                      delay={1000}
+                      closeDelay={0}
+                      placement="bottom"
+                      className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+                      content={note.title || "Untitled"}
+                      key={note._id}
                     >
-                      <Link
-                        href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+                      <Button
+                        variant="SidebarMenuButton"
+                        className="px-2 h-8 group flex-1"
+                        asChild
+                        onClick={handleNavClick}
                       >
-                        <Pin size="16" className="text-amber-400" />
-                        {note.title
-                          ? note.title.length > 20
-                            ? `${note.title.substring(0, 20)}...`
-                            : note.title
-                          : "Untitled"}
-                      </Link>
-                    </Button>
+                        <Link
+                          href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+                        >
+                          <Pin size="16" className="text-amber-400" />
+                          {note.title
+                            ? note.title.length > 20
+                              ? `${note.title.substring(0, 20)}...`
+                              : note.title
+                            : "Untitled"}
+                        </Link>
+                      </Button>
+                    </Tooltip>
                     <NoteSettings
                       noteId={note._id}
                       noteTitle={note.title}
@@ -227,24 +237,33 @@ export default function AppSidebar() {
             getWorkingSpaces?.map((workingSpace) => (
               <SidebarGroupContent
                 className="relative w-full flex justify-between items-center"
-                key={workingSpace._id}
                 onMouseEnter={() => setHoveredWorkingSpaceId(workingSpace._id)}
                 onMouseLeave={() => setHoveredWorkingSpaceId(null)}
+                key={workingSpace._id}
               >
                 <div className="flex w-full items-center relative">
-                  <Button
-                    variant="SidebarMenuButton"
-                    className="px-2 h-8 group flex-1"
-                    asChild
-                    onClick={handleNavClick}
+                  <Tooltip
+                    delay={1000}
+                    closeDelay={0}
+                    placement="bottom"
+                    className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+                    content={workingSpace.name || "Untitled"}
+                    key={workingSpace._id}
                   >
-                    <Link href={`/dashboard/${workingSpace._id}`}>
-                      <Notebook size="16" />
-                      {workingSpace.name.length > 20
-                        ? `${workingSpace.name.substring(0, 20)}...`
-                        : workingSpace.name}
-                    </Link>
-                  </Button>
+                    <Button
+                      variant="SidebarMenuButton"
+                      className="px-2 h-8 group flex-1"
+                      asChild
+                      onClick={handleNavClick}
+                    >
+                      <Link href={`/dashboard/${workingSpace._id}`}>
+                        <Notebook size="16" />
+                        {workingSpace.name.length > 20
+                          ? `${workingSpace.name.substring(0, 20)}...`
+                          : workingSpace.name}
+                      </Link>
+                    </Button>
+                  </Tooltip>
                   <WorkingSpaceSettings
                     className={`absolute right-2 transition-opacity duration-200 ${
                       hoveredWorkingSpaceId === workingSpace._id
