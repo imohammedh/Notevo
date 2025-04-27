@@ -17,7 +17,6 @@ import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@heroui/tooltip";
 import LoadingAnimation from "../ui/LoadingAnimation";
-import { useRouter } from "next/navigation";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -62,7 +61,6 @@ export default function WorkingSpaceSettings({
   const [isDeleting, setIsDeleting] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     setInputValue(workingspaceName);
@@ -116,7 +114,6 @@ export default function WorkingSpaceSettings({
     setIsDeleting(true);
     try {
       await DeleteWorkingSpace({ _id: workingSpaceId });
-      redirect("/dashboard");
     } catch (error) {
       console.error("Failed to delete workspace:", error);
     } finally {
