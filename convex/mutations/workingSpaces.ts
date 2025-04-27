@@ -78,19 +78,6 @@ export const updateWorkingSpace = mutation({
     }
 })
 
-export const getWorkingSpaces = query({
-    args: {},
-    handler: async (ctx) => {
-        const userId = await getAuthUserId(ctx);
-        if (!userId) {
-            throw new Error("Not authenticated");
-        }
-        // This function is already secure since it only returns workspaces belonging to the authenticated user
-        const workingSpaces = await ctx.db.query("workingSpaces").withIndex("by_userId", (q) => q.eq("userId", userId)).collect();
-        return workingSpaces;
-    }
-})
-
 export const deleteWorkingSpace = mutation({
   args: {
     _id: v.id("workingSpaces"),

@@ -60,7 +60,7 @@ export default function AppSidebar() {
     api.mutations.workingSpaces.createWorkingSpace,
   );
   const getWorkingSpaces = useQuery(
-    api.mutations.workingSpaces.getWorkingSpaces,
+    api.mutations.workingSpaces.getRecentWorkingSpaces,
   );
   const User = useQuery(api.users.viewer);
   const { signOut } = useAuthActions();

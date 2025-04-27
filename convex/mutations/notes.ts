@@ -248,6 +248,7 @@ export const getNoteByUserId = query({
         });
     }
 });
+
 export const getNotesByNotesTableId = query({
   args: {
     notesTableId: v.id("notesTables"), 
