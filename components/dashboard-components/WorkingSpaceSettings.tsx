@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { useQuery } from "convex-helpers/react/cache";
 import type { Id } from "@/convex/_generated/dataModel";
-
+import { redirect } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
@@ -116,7 +116,7 @@ export default function WorkingSpaceSettings({
     setIsDeleting(true);
     try {
       await DeleteWorkingSpace({ _id: workingSpaceId });
-      router.push("/dashboard");
+      redirect("/dashboard");
     } catch (error) {
       console.error("Failed to delete workspace:", error);
     } finally {
