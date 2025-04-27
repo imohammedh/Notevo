@@ -50,7 +50,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
       >
         <div
           className={`w-full absolute top-0 mx-auto py-2.5 transition-shadow duration-300 ${
-            shadow ? "shadow-xl shadow-brand_fourthary" : "shadow-none"
+            shadow ? "shadow-xl shadow-purple-600/20" : "shadow-none"
           }`}
         >
           <div className="w-full flex items-center justify-start container gap-3">

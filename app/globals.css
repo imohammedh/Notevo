@@ -6,8 +6,8 @@
   or use the "Copy code" button at https://ui.shadcn.com/themes */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    --background: #171717;
+    --foreground: #e5e5e5;
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
@@ -66,8 +66,8 @@
     --font-title: "Cal Sans", sans-serif;
   }
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
+    --background: #171717;
+    --foreground: #e5e5e5;
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
@@ -130,6 +130,20 @@ html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
 }
+*::selection {
+  background: oklch(38.1% 0.176 304.987);
+  color: #e5e5e5;
+}
+
+*::-moz-selection {
+  background: oklch(38.1% 0.176 304.987);
+  color: #e5e5e5;
+}
+
+*::-webkit-selection {
+  background: oklch(38.1% 0.176 304.987);
+  color: #e5e5e5;
+}
 .no-visible-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -141,9 +155,6 @@ html {
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
     @apply bg-background text-foreground;
   }
@@ -297,9 +308,6 @@ html {
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
     @apply bg-background text-foreground;
   }
