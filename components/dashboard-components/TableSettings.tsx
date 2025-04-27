@@ -41,11 +41,6 @@ export default function TableSettings({
   const updateTable = useMutation(api.mutations.notesTables.updateTable);
   const deleteTable = useMutation(api.mutations.notesTables.deleteTable);
 
-  // Query to get notes associated with this table
-  const notes = useQuery(api.mutations.notes.getNotesByNotesTableId, {
-    notesTableId: notesTableId,
-  });
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -77,8 +72,6 @@ export default function TableSettings({
       setIsAlertOpen(false); // Close Alert after deletion
     }
   };
-
-  const hasNotes = notes && notes.length > 0;
 
   return (
     <>
@@ -129,19 +122,8 @@ export default function TableSettings({
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Table Deletion</AlertDialogTitle>
             <AlertDialogDescription className="text-brand_tertiary/70">
-              {hasNotes ? (
-                <>
-                  This table contains{" "}
-                  <span className="font-medium text-brand_tertiary">
-                    {notes ? notes.length : "an unknown number of"}
-                  </span>{" "}
-                  note{notes && notes.length !== 1 ? "s" : ""}. Deleting this
-                  table will permanently remove the table and all associated
-                  notes. Are you sure yous want to proceed?
-                </>
-              ) : (
-                "Are you sure you want to delete this table? This action cannot be undone."
-              )}
+              "Are you sure you want to delete this table? This action cannot be
+              undone."
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

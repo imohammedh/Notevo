@@ -248,27 +248,3 @@ export const getNoteByUserId = query({
         });
     }
 });
-
-export const getNotesByNotesTableId = query({
-  args: {
-    notesTableId: v.id("notesTables"), 
-  },
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) {
-        throw new Error("Not authenticated");
-    }
-
-    const { notesTableId } = args; 
-
-    const notes = await ctx.db
-      .query("notes")
-      .withIndex("by_notesTableId", (q) =>
-        q.eq("notesTableId", notesTableId)
-      )
-      .filter((q) => q.eq(q.field("userId"), userId))  
-      .collect();
-
-    return notes;
-},
-});
