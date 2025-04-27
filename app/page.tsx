@@ -5,13 +5,13 @@ import FeaturesSection from "@/components/landingPage-components/FeaturesSection
 import SignUpToday from "@/components/landingPage-components/SignUpToday";
 import Testimonials from "@/components/landingPage-components/Testimonials";
 import Navbar from "@/components/landingPage-components/Navbar";
-import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
 import Footer from "@/components/landingPage-components/Footer";
 import { useEffect, useState } from "react";
 import MoreAboutMe from "@/components/landingPage-components/MoreAboutMe";
 import PricingSection from "@/components/landingPage-components/pricing-section";
+import { useQuery } from "convex-helpers/react/cache";
 export default function HomePage() {
   const viewer = useQuery(api.auth.isAuthenticated);
   const [isClient, setIsClient] = useState(false);

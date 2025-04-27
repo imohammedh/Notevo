@@ -147,7 +147,11 @@ export default function WorkingSpacePage() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <h1 className="text-2xl md:text-3xl font-bold">
-                  {gitworkingspace?.name}
+                  {gitworkingspace ? (
+                    gitworkingspace.name
+                  ) : (
+                    <SkeletonTextAnimation />
+                  )}
                 </h1>
               </div>
               <p className="text-brand_tertiary/70 text-sm">
