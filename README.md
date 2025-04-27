@@ -6,7 +6,7 @@
  
  [!Done] fix the routing
  
- [] fix the middleware
+ [] fix the middleware 404 on redirect
  
  [] fix the code Highlight in the editer
  
