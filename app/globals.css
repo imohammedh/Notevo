@@ -131,17 +131,17 @@ html {
   scrollbar-width: thin;
 }
 *::selection {
-  background: oklch(38.1% 0.176 304.987);
+  background: oklch(28.2% 0.091 267.935);
   color: #e5e5e5;
 }
 
 *::-moz-selection {
-  background: oklch(38.1% 0.176 304.987);
+  background: oklch(28.2% 0.091 267.935);
   color: #e5e5e5;
 }
 
 *::-webkit-selection {
-  background: oklch(38.1% 0.176 304.987);
+  background: oklch(28.2% 0.091 267.935);
   color: #e5e5e5;
 }
 .no-visible-scrollbar {
