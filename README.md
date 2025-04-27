@@ -4,15 +4,15 @@
  
  ## To Do :
  
- [] fix the routing
+ [!Done] fix the routing
  
  [] fix the middleware
  
  [] fix the code Highlight in the editer
  
- [] fix the caching
+ [!Done] fix the caching
  
- [] change the rename stff in the workingspace route
+ [!Done] change the rename stff in the workingspace route
  
  
  ![Home Page](showCase_imgs/HomePage.png)
