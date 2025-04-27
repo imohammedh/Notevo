@@ -31,11 +31,15 @@ export default function BreadcrumbWithCustomSeparator() {
 
   // Always call useQuery but pass skipQuery option when no ID is available
   const workspaceData = useQuery(
-    api.mutations.workingSpaces.getWorkingSpaceById,
-    workingSpaceId
-      ? { _id: workingSpaceId }
-      : { _id: null as unknown as Id<"workingSpaces"> },
+    api.mutations.workingSpaces.getRecentWorkingSpaces,
   );
+  const workspaceDatafilter =
+    workingSpaceId && workspaceData
+      ? workspaceData.find(
+          (workspaceDatafiltered) =>
+            workspaceDatafiltered._id === workingSpaceId,
+        )
+      : null;
 
   return (
     <div className="bg-transparent py-2">
@@ -60,10 +64,10 @@ export default function BreadcrumbWithCustomSeparator() {
             // If this is the workspace ID segment and we have workspace data
             if (
               index === dashboardIndex + 1 &&
-              workspaceData &&
-              workspaceData.name
+              workspaceDatafilter &&
+              workspaceDatafilter.name
             ) {
-              displayName = workspaceData.name;
+              displayName = workspaceDatafilter.name;
             } else {
               // For other segments, use the parseSlug utility
               displayName = parseSlug(segment);
