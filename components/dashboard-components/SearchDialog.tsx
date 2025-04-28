@@ -34,6 +34,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useQuery } from "convex-helpers/react/cache";
 import { api } from "@/convex/_generated/api";
+import { useHotkeys } from "react-hotkeys-hook";
 
 interface SearchDialogProps {
   variant?: "default" | "SidebarMenuButton";
@@ -114,17 +115,14 @@ export default function SearchDialog({
   const router = useRouter();
   const notes = useQuery(api.mutations.notes.getNoteByUserId);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault();
-        setOpen(true);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  useHotkeys(
+    "ctrl+k",
+    (e: KeyboardEvent) => {
+      e.preventDefault();
+      setOpen(true);
+    },
+    [open],
+  );
 
   const handleItemClick = (href: string) => {
     setOpen(false);
@@ -144,7 +142,11 @@ export default function SearchDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={variant} size="sm" className="px-2 h-8 group b">
+        <Button
+          variant={variant}
+          size="sm"
+          className="px-2 h-8 group outline-none border-none"
+        >
           <Search size={iconSize} className="text-brand_tertiary" />
           {showTitle && (
             <div className="w-full flex items-center justify-between gap-1">

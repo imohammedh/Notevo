@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,22 +24,52 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import type { Id } from "@/convex/_generated/dataModel";
+import { cn } from "@/lib/utils";
+import { Tooltip } from "@heroui/tooltip";
 
 interface TableSettingsProps {
   notesTableId: Id<"notesTables"> | any; // Strongly typed Id
   tableName: string | any;
+  Tooltip_className?: string;
+  Tooltip_content?: string;
+  Tooltip_placement?:
+    | "top"
+    | "bottom"
+    | "right"
+    | "left"
+    | "top-start"
+    | "top-end"
+    | "bottom-start"
+    | "bottom-end"
+    | "left-start"
+    | "left-end"
+    | "right-start"
+    | "right-end";
 }
 
 export default function TableSettings({
   notesTableId,
   tableName,
+  Tooltip_className,
+  Tooltip_content,
+  Tooltip_placement,
 }: TableSettingsProps) {
   const [inputValue, setInputValue] = useState(tableName);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert Dialog State
+  const inputRef = useRef<HTMLInputElement>(null);
   const updateTable = useMutation(api.mutations.notesTables.updateTable);
   const deleteTable = useMutation(api.mutations.notesTables.deleteTable);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }, 10);
+    }
+  }, [open]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -76,11 +106,22 @@ export default function TableSettings({
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="Trigger" className="px-0.5 h-8 mt-0.5 opacity-80">
-            <FaEllipsisVertical size="18" />
-          </Button>
-        </DropdownMenuTrigger>
+        <Tooltip
+          delay={1000}
+          closeDelay={0}
+          className={cn(
+            " rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs",
+            Tooltip_className,
+          )}
+          content={!Tooltip_content ? "Delete, rename" : Tooltip_content}
+          placement={!Tooltip_placement ? "left" : Tooltip_placement}
+        >
+          <DropdownMenuTrigger asChild>
+            <Button variant="Trigger" className="px-0.5 h-8 mt-0.5 opacity-80">
+              <FaEllipsisVertical size="18" />
+            </Button>
+          </DropdownMenuTrigger>
+        </Tooltip>
         <DropdownMenuContent
           side="bottom"
           align="start"
@@ -94,6 +135,7 @@ export default function TableSettings({
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
               className=" text-brand_tertiary border-brand_tertiary/20"
+              ref={inputRef}
             />
           </DropdownMenuGroup>
           <Button

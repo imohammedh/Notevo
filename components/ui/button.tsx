@@ -19,12 +19,13 @@ const buttonVariants = cva(
           "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
         ghost:
           "bg-none border border-solid border-brand_tertiary/50 text-brand_secondary transition-all hover:opacity-80 hover:border-brand_tertiary",
-        Trigger: "bg-none text-brand_secondary/70 hover:text-brand_secondary",
+        Trigger:
+          "bg-none text-brand_secondary/70 hover:text-brand_secondary outline-none border-none",
         link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
         SidebarMenuButton:
-          "flex justify-start items-center gap-2 bg-none w-full text-brand_secondary hover:bg-brand_secondary/10",
+          "flex justify-start items-center gap-2 bg-none w-full text-brand_secondary hover:bg-brand_secondary/10 outline-none border-none",
         SidebarMenuButton_destructive:
-          "flex justify-start items-center gap-2 bg-none w-full text-red-600 hover:bg-red-600/20",
+          "flex justify-start items-center gap-2 bg-none w-full text-red-600 hover:bg-red-600/20 outline-none border-none",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -40,11 +40,11 @@ notes: defineTable({
   updatedAt: v.number(),
   tags: v.optional(v.array(v.id("tags"))), 
   notesTableId: v.id("notesTables"),
-  order: v.optional(v.number()), // Add this field to track position
+  order: v.optional(v.number()), 
 }).index("by_notesTableId", ["notesTableId"]).index("by_workingSpaceId", ["workingSpaceId"]).index("by_slug", ["slug"]).index("by_userId", ["userId"]),
   
-  tags: defineTable({
-    name: v.optional(v.string()),
-    noteId: v.optional(v.id("notes")), 
+tags: defineTable({
+  name: v.optional(v.string()),
+  noteId: v.optional(v.id("notes")), 
   }),
 });
