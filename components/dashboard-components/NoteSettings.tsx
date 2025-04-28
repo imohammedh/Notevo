@@ -72,8 +72,12 @@ export default function NoteSettings({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open && inputRef.current) {
-      inputRef.current.focus();
+    if (open) {
+      // slight delay to ensure the dropdown is rendered
+      setTimeout(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select(); // Select all text
+      }, 10);
     }
   }, [open]);
 

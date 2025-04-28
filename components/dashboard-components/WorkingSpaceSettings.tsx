@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -62,9 +62,20 @@ export default function WorkingSpaceSettings({
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const inputRef = useRef<HTMLInputElement>(null); // Ref for the input
+
   useEffect(() => {
     setInputValue(workingspaceName);
   }, [workingspaceName]);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }, 10);
+    }
+  }, [open]);
 
   const tables = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId,
@@ -161,6 +172,7 @@ export default function WorkingSpaceSettings({
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
               className=" text-brand_tertiary border-brand_tertiary/20"
+              ref={inputRef} // Attach the ref to the Input
             />
           </DropdownMenuGroup>
           <Button
