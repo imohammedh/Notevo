@@ -14,7 +14,7 @@
  
  [] complete the ui for theuser account and settings 
  
- [!Done] fix the caching
+ [!] fix the caching
  
  [!Done] change the rename stff in the workingspace route
  
