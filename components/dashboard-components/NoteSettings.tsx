@@ -130,6 +130,7 @@ export default function NoteSettings({
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <Tooltip
+          delay={1000}
           closeDelay={0}
           className={cn(
             " rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs",
