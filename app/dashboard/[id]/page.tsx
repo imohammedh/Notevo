@@ -527,7 +527,7 @@ function QuickAccessNoteCard({
         </div>
         <Button variant="ghost" size="sm" asChild className="h-7 px-2 text-xs">
           <Link
-            href={`/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`}
+            href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
           >
             Open
           </Link>
