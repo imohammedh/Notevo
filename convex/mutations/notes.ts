@@ -2,11 +2,11 @@ import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { generateSlug } from "../../lib/generateSlug";
-
+import type { Id } from "../_generated/dataModel";
 export const createNote = mutation({
     args: {
         title: v.string(),
-        notesTableId: v.id("notesTables"),
+        notesTableId:  v.optional(v.id("notesTables")),
         workingSpacesSlug: v.string(),
         workingSpaceId: v.id("workingSpaces"),
     },
@@ -19,11 +19,12 @@ export const createNote = mutation({
         const { title, notesTableId, workingSpacesSlug,workingSpaceId } = args;
         
         // Verify the user has access to this table
-        const table = await ctx.db.get(notesTableId);
-        if (!table) {
-            throw new Error("Table not found");
+        if(notesTableId){
+            const table = await ctx.db.get(notesTableId);
+            if (!table) {
+                throw new Error("Table not found");
+            }
         }
-        
         // Get the workspace to verify ownership
         const workspace = await ctx.db.query("workingSpaces")
             .withIndex("by_slug", q => q.eq("slug", workingSpacesSlug))
@@ -37,14 +38,6 @@ export const createNote = mutation({
             throw new Error("Not authorized to create notes in this workspace");
         }
         
-        // Get the current highest order for this table
-        const existingNotes = await ctx.db.query("notes")
-            .withIndex("by_notesTableId", (q) => q.eq("notesTableId", notesTableId))
-            .collect();
-        
-        const highestOrder = existingNotes.reduce((max, note) => {
-            return Math.max(max, note.order ?? -1);
-        }, -1);
 
         const generateSlugName = generateSlug(title);
         // Check if the slug already exists and add incremental number if it does
@@ -59,10 +52,9 @@ export const createNote = mutation({
         const note = {
             userId: userId,
             title,
-            notesTableId,
+           ...(notesTableId ? { notesTableId } : {}),
             workingSpacesSlug,
             slug: slug,
-            order: highestOrder + 1, // Add to the end of the list
             workingSpaceId:workingSpaceId,
             createdAt: Date.now(),
             updatedAt: Date.now(),
@@ -241,8 +233,11 @@ export const getNoteByUserId = query({
         }
         
         return notes.sort((a, b) => {
-            if (a.notesTableId !== b.notesTableId) {
-                return a.notesTableId < b.notesTableId ? -1 : 1;
+            if(a.notesTableId&&b.notesTableId){
+
+                if (a.notesTableId !== b.notesTableId) {
+                    return a.notesTableId < b.notesTableId ? -1 : 1;
+                }
             }
             return (a.order ?? Infinity) - (b.order ?? Infinity);
         });

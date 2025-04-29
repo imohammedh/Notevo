@@ -29,7 +29,6 @@ export default function NotFound() {
         <Button className="w-full sm:w-auto">
           <Link href="/">Return Home</Link>
         </Button>
-        <div className=" absolute -z-20 bg-gradient-to-t from-purple-900/30 from-15% to-brand_fourthary left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]" />
       </MaxWContainer>
     </section>
   );
