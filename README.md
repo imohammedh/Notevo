@@ -2,7 +2,9 @@
  
  **Notevo** is an AI-powered, real-time note-taking SaaS platform designed to help users create, edit, and organize their notes seamlessly. With a Notion-style WYSIWYG editor, users can enjoy a rich-text editing experience and leverage AI to improve productivity through intelligent suggestions and auto-completion.
  
- ## To Do :
+ ![Home Page](showCase_imgs/HomePage.png)
+ 
+ ## if you wanna Contribute here => To Do :
  
  - [x] fix the routing
  - [ ] add the toaster notification 
@@ -16,7 +18,6 @@
  - [x] change the rename stff in the workingspace route
  
  
- ![Home Page](showCase_imgs/HomePage.png)
  
  ## Features
  
