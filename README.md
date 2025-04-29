@@ -4,19 +4,14 @@
  
  ## To Do :
  
- [!Done] fix the routing
- 
- [] fix the middleware 404 on redirect
- 
- [] fix the code Highlight in the editer
- 
- [] add the feedback mewnu item in the user dropdown menu in the sidebar
- 
- [] complete the ui for theuser account and settings 
- 
- [!] fix the caching
- 
- [!Done] change the rename stff in the workingspace route
+ - [!Done] fix the routing
+ - [] fix the middleware 404 on redirect
+ - [] add the shareable Link
+ - [] fix the code Highlight in the editer
+ - [] add the feedback mewnu item in the user dropdown menu in the sidebar
+ - [] complete the ui for theuser account and settings
+ - [!] fix the caching
+ - [!Done] change the rename stff in the workingspace route
  
  
  ![Home Page](showCase_imgs/HomePage.png)
