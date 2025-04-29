@@ -4,7 +4,7 @@
  
  ![Home Page](showCase_imgs/HomePage.png)
  
- ## if you wanna Contribute here => To Do :
+ ## if you wanna contribute here => To Do :
  
  - [x] fix the routing
  - [ ] add the toaster notification 
