@@ -148,8 +148,8 @@ export default function AppSidebar() {
                 </>
               ) : (
                 <>
-                  <LoadingAnimation className=" h-3 w-3 text-brand_fourthary" />
                   Redirecting...
+                  <LoadingAnimation className=" h-3 w-3 text-brand_fourthary" />
                 </>
               )}
             </Button>
