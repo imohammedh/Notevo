@@ -89,6 +89,7 @@ export default function NoteSettings({
     if (event.key === "Enter") {
       event.preventDefault();
       handleBlur();
+      setOpen(false);
     }
   };
 
@@ -100,7 +101,6 @@ export default function NoteSettings({
       order: getNote?.order,
       favorite: getNote?.favorite,
     });
-    setOpen(false);
   };
 
   const initiateDelete = () => {
