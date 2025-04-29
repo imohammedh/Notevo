@@ -42,7 +42,7 @@ export default function CreateTableBtn({
       {loading ? (
         <>
           <LoadingAnimation className=" h-4 w-4" />
-          Create Table...
+          Creating Table...
         </>
       ) : (
         <>

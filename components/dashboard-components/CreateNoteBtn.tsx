@@ -8,9 +8,9 @@ import LoadingAnimation from "../ui/LoadingAnimation";
 import type { Id } from "@/convex/_generated/dataModel";
 
 interface CreateNoteBtnProps {
-  notesTableId: string | any;
+  notesTableId?: Id<"notesTables"> | undefined;
   workingSpacesSlug: string | any;
-  workingSpaceId: Id<"workingSpaces">;
+  workingSpaceId: Id<"workingSpaces"> | any;
   className?: string;
 }
 
@@ -27,7 +27,7 @@ export default function CreateNoteBtn({
     setLoading(true);
     try {
       await createNote({
-        notesTableId: notesTableId,
+        notesTableId: notesTableId as Id<"notesTables"> | undefined,
         workingSpacesSlug: workingSpacesSlug,
         workingSpaceId: workingSpaceId,
         title: "Untitled",

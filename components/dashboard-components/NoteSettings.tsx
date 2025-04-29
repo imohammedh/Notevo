@@ -218,8 +218,8 @@ export default function NoteSettings({
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Note Deletion</AlertDialogTitle>
             <AlertDialogDescription className="text-brand_tertiary/70">
-              Are you sure you want to delete this note? This action cannot be
-              undone.
+              {`Are you sure you want to delete this note? This action cannot be
+              undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

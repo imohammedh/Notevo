@@ -39,7 +39,7 @@ notes: defineTable({
   createdAt: v.number(),
   updatedAt: v.number(),
   tags: v.optional(v.array(v.id("tags"))), 
-  notesTableId: v.id("notesTables"),
+  notesTableId:  v.optional(v.id("notesTables")),
   order: v.optional(v.number()), 
 }).index("by_notesTableId", ["notesTableId"]).index("by_workingSpaceId", ["workingSpaceId"]).index("by_slug", ["slug"]).index("by_userId", ["userId"]),
   
