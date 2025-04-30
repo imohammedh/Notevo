@@ -15,7 +15,12 @@ import { useQuery } from "convex-helpers/react/cache";
 import { api } from "@/convex/_generated/api";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { cn } from "@/lib/utils";
-import { Tooltip } from "@heroui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { Id } from "@/convex/_generated/dataModel";
 import {
   AlertDialog,
@@ -33,30 +38,13 @@ interface NoteSettingsProps {
   noteTitle: string | any;
   IconVariant: "vertical_icon" | "horizontal_icon";
   BtnClassName?: string | any;
-  Tooltip_className?: string;
-  Tooltip_content?: string;
-  Tooltip_placement?:
-    | "top"
-    | "bottom"
-    | "right"
-    | "left"
-    | "top-start"
-    | "top-end"
-    | "bottom-start"
-    | "bottom-end"
-    | "left-start"
-    | "left-end"
-    | "right-start"
-    | "right-end";
 }
+
 export default function NoteSettings({
   noteId,
   noteTitle,
   IconVariant,
   BtnClassName,
-  Tooltip_className,
-  Tooltip_content,
-  Tooltip_placement,
 }: NoteSettingsProps) {
   const [inputValue, setInputValue] = useState(noteTitle);
   const [ishandleDeleteLoading, setIshandleDeleteLoading] = useState(false);
@@ -64,6 +52,7 @@ export default function NoteSettings({
     useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert dialog state
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
@@ -130,39 +119,45 @@ export default function NoteSettings({
     });
     setIshandleFavoritePinLoading(false);
   };
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
-  const handleContentMouseEnter = () => {
+  const handleTooltipMouseEnter = () => {
+    setIsTooltipOpen(true);
+  };
+
+  const handleTooltipMouseLeave = () => {
     setIsTooltipOpen(false);
   };
+
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <Tooltip
-          isOpen={isTooltipOpen}
-          onOpenChange={setIsTooltipOpen}
-          onMouseLeave={handleContentMouseEnter}
-          closeDelay={0}
-          className={cn(
-            "rounded-md bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none",
-            Tooltip_className,
-          )}
-          content={!Tooltip_content ? "Delete ,rename ,unpin" : Tooltip_content}
-          placement={!Tooltip_placement ? "left" : Tooltip_placement}
-        >
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="Trigger"
-              className={cn("px-0.5 h-8 mt-0.5 opacity-80", BtnClassName)}
+        <TooltipProvider>
+          <Tooltip open={isTooltipOpen}>
+            <DropdownMenuTrigger asChild>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="Trigger"
+                  className={cn("px-0.5 h-8 mt-0.5 opacity-80", BtnClassName)}
+                  onMouseEnter={handleTooltipMouseEnter}
+                  onMouseLeave={handleTooltipMouseLeave}
+                >
+                  {IconVariant === "vertical_icon" ? (
+                    <FaEllipsisVertical size="18" />
+                  ) : (
+                    <FaEllipsis size="16" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+            </DropdownMenuTrigger>
+            <TooltipContent
+              side="bottom"
+              className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
             >
-              {IconVariant === "vertical_icon" ? (
-                <FaEllipsisVertical size="18" />
-              ) : (
-                <FaEllipsis size="16" />
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-        </Tooltip>
+              Rename ,Delete, Unpin
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         <DropdownMenuContent
           side="bottom"
           align="start"
@@ -175,7 +170,7 @@ export default function NoteSettings({
               onChange={handleInputChange}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
-              className=" text-brand_tertiary border-brand_tertiary/20"
+              className="text-brand_tertiary border-brand_tertiary/20"
               ref={inputRef} // Attach the ref to the Input
             />
           </DropdownMenuGroup>
@@ -188,7 +183,7 @@ export default function NoteSettings({
             >
               {ishandleFavoritePinLoading ? (
                 <>
-                  <LoadingAnimation className=" h-3 w-3" />{" "}
+                  <LoadingAnimation className="h-3 w-3" />{" "}
                   {getNote?.favorite ? "Unpinning..." : "Pinning..."}
                 </>
               ) : (

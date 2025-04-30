@@ -504,7 +504,6 @@ function QuickAccessNoteCard({
             noteId={note._id}
             noteTitle={note.title || ""}
             IconVariant="vertical_icon"
-            Tooltip_placement="left"
             BtnClassName="opacity-50 group-hover:opacity-100 transition-opacity"
           />
         </CardTitle>
@@ -637,7 +636,6 @@ function GridNoteCard({
             noteId={note._id}
             noteTitle={note.title || ""}
             IconVariant="vertical_icon"
-            Tooltip_placement="left"
           />
         </div>
       </CardHeader>
@@ -716,7 +714,6 @@ function ListNoteCard({
             noteId={note._id}
             noteTitle={note.title || ""}
             IconVariant="vertical_icon"
-            Tooltip_placement="left"
             BtnClassName="opacity-50 group-hover:opacity-100 transition-opacity"
           />
         </div>

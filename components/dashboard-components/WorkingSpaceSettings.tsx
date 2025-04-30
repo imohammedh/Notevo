@@ -15,7 +15,12 @@ import { redirect } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
-import { Tooltip } from "@heroui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import {
   AlertDialog,
@@ -32,30 +37,12 @@ interface WorkingSpaceSettings {
   workingSpaceId: Id<"workingSpaces">;
   className?: string;
   workingspaceName: string | any;
-  Tooltip_className?: string;
-  Tooltip_content?: string;
-  Tooltip_placement?:
-    | "top"
-    | "bottom"
-    | "right"
-    | "left"
-    | "top-start"
-    | "top-end"
-    | "bottom-start"
-    | "bottom-end"
-    | "left-start"
-    | "left-end"
-    | "right-start"
-    | "right-end";
 }
 
 export default function WorkingSpaceSettings({
   className,
   workingSpaceId,
   workingspaceName,
-  Tooltip_className,
-  Tooltip_content,
-  Tooltip_placement,
 }: WorkingSpaceSettings) {
   const [inputValue, setInputValue] = useState(workingspaceName);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -138,33 +125,38 @@ export default function WorkingSpaceSettings({
   const hasContent = tableCount > 0 || noteCount > 0;
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
-  const handleContentMouseEnter = () => {
+  const handleTooltipMouseEnter = () => {
+    setIsTooltipOpen(true);
+  };
+
+  const handleTooltipMouseLeave = () => {
     setIsTooltipOpen(false);
   };
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <Tooltip
-          isOpen={isTooltipOpen}
-          onOpenChange={setIsTooltipOpen}
-          onMouseLeave={handleContentMouseEnter}
-          closeDelay={0}
-          className={cn(
-            "rounded-md bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none",
-            Tooltip_className,
-          )}
-          content={!Tooltip_content ? "Delete, rename" : Tooltip_content}
-          placement={!Tooltip_placement ? "left" : Tooltip_placement}
-        >
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="Trigger"
-              className={cn("px-1.5 h-8 opacity-80", className)}
+        <TooltipProvider>
+          <Tooltip open={isTooltipOpen}>
+            <DropdownMenuTrigger asChild>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="Trigger"
+                  className={cn("px-1.5 h-8 opacity-80", className)}
+                  onMouseEnter={handleTooltipMouseEnter}
+                  onMouseLeave={handleTooltipMouseLeave}
+                >
+                  <FaEllipsis size="16" />
+                </Button>
+              </TooltipTrigger>
+            </DropdownMenuTrigger>
+            <TooltipContent
+              side="bottom"
+              className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
             >
-              <FaEllipsis size="16" />
-            </Button>
-          </DropdownMenuTrigger>
-        </Tooltip>
+              Rename , Delete
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <DropdownMenuContent
           side="bottom"
           align="start"

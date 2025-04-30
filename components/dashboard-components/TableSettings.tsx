@@ -25,34 +25,21 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { Tooltip } from "@heroui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TableSettingsProps {
   notesTableId: Id<"notesTables"> | any; // Strongly typed Id
   tableName: string | any;
-  Tooltip_className?: string;
-  Tooltip_content?: string;
-  Tooltip_placement?:
-    | "top"
-    | "bottom"
-    | "right"
-    | "left"
-    | "top-start"
-    | "top-end"
-    | "bottom-start"
-    | "bottom-end"
-    | "left-start"
-    | "left-end"
-    | "right-start"
-    | "right-end";
 }
 
 export default function TableSettings({
   notesTableId,
   tableName,
-  Tooltip_className,
-  Tooltip_content,
-  Tooltip_placement,
 }: TableSettingsProps) {
   const [inputValue, setInputValue] = useState(tableName);
   const [isLoading, setIsLoading] = useState(false);
@@ -104,65 +91,73 @@ export default function TableSettings({
   };
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
-  const handleContentMouseEnter = () => {
+  const handleTooltipMouseEnter = () => {
+    setIsTooltipOpen(true);
+  };
+
+  const handleTooltipMouseLeave = () => {
     setIsTooltipOpen(false);
   };
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <Tooltip
-          isOpen={isTooltipOpen}
-          onOpenChange={setIsTooltipOpen}
-          onMouseLeave={handleContentMouseEnter}
-          closeDelay={0}
-          className={cn(
-            "rounded-md bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none",
-            Tooltip_className,
-          )}
-          content={!Tooltip_content ? "Delete, rename" : Tooltip_content}
-          placement={!Tooltip_placement ? "left" : Tooltip_placement}
-        >
-          <DropdownMenuTrigger asChild>
-            <Button variant="Trigger" className="px-0.5 h-8 mt-0.5 opacity-80">
-              <FaEllipsisVertical size="18" />
-            </Button>
-          </DropdownMenuTrigger>
-        </Tooltip>
-        <DropdownMenuContent
-          side="bottom"
-          align="start"
-          className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
-        >
-          <DropdownMenuGroup className="relative">
-            <Input
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-              onKeyDown={handleKeyDown}
-              className=" text-brand_tertiary border-brand_tertiary/20"
-              ref={inputRef}
-            />
-          </DropdownMenuGroup>
-          <Button
-            variant="SidebarMenuButton_destructive"
-            className="w-full h-8 px-2 text-sm"
-            onClick={initiateDelete}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <LoadingAnimation className="text-red-600/10 animate-spin fill-red-600 h-3 w-3" />{" "}
-                Deleting...
-              </>
-            ) : (
-              <>
-                <FaRegTrashCan size="14" />
-                Delete
-              </>
-            )}
-          </Button>
-        </DropdownMenuContent>
+        <TooltipProvider>
+          <Tooltip open={isTooltipOpen}>
+            <DropdownMenuTrigger asChild>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="Trigger"
+                  className="px-0.5 h-8 mt-0.5 opacity-80"
+                  onMouseEnter={handleTooltipMouseEnter}
+                  onMouseLeave={handleTooltipMouseLeave}
+                >
+                  <FaEllipsisVertical size="18" />
+                </Button>
+              </TooltipTrigger>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              side="bottom"
+              align="start"
+              className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
+            >
+              <DropdownMenuGroup className="relative">
+                <Input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  onKeyDown={handleKeyDown}
+                  className=" text-brand_tertiary border-brand_tertiary/20"
+                  ref={inputRef}
+                />
+              </DropdownMenuGroup>
+              <Button
+                variant="SidebarMenuButton_destructive"
+                className="w-full h-8 px-2 text-sm"
+                onClick={initiateDelete}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <LoadingAnimation className="text-red-600/10 animate-spin fill-red-600 h-3 w-3" />{" "}
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <FaRegTrashCan size="14" />
+                    Delete
+                  </>
+                )}
+              </Button>
+            </DropdownMenuContent>
+            <TooltipContent
+              side="bottom"
+              className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+            >
+              Rename , Delete
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </DropdownMenu>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
