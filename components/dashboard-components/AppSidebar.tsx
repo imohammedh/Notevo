@@ -317,7 +317,6 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
           noteTitle={note.title}
           IconVariant="horizontal_icon"
           BtnClassName={`absolute right-2 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}
-          Tooltip_placement="right"
         />
       </div>
     </SidebarGroupContent>
@@ -391,7 +390,6 @@ const WorkspaceItem = memo(function WorkspaceItem({
           className={`absolute right-2 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}
           workingSpaceId={workingSpace._id}
           workingspaceName={workingSpace.name}
-          Tooltip_placement="right"
         />
       </div>
     </SidebarGroupContent>
@@ -585,7 +583,7 @@ export default function AppSidebar() {
     try {
       await signOut();
       // Changed redirect to router.push for client components
-      router.push("/");
+      redirect("/");
     } catch (error) {
       console.error("Error signing out:", error);
     } finally {
@@ -605,9 +603,6 @@ export default function AppSidebar() {
         });
 
         if (newNoteId) {
-          // Attempt to find the newly created note in the already fetched list
-          // This relies on Convex reactivity to update getNotesByUserId quickly
-          // A more robust approach might involve a separate query or mutation
           const newNote = getNotesByUserId?.find(
             (note) => note._id === newNoteId,
           );
