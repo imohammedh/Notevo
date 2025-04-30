@@ -136,15 +136,21 @@ export default function WorkingSpaceSettings({
   const tableCount = tables?.length || 0;
   const noteCount = notes?.length || 0;
   const hasContent = tableCount > 0 || noteCount > 0;
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
+  const handleContentMouseEnter = () => {
+    setIsTooltipOpen(false);
+  };
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <Tooltip
-          delay={1000}
+          isOpen={isTooltipOpen}
+          onOpenChange={setIsTooltipOpen}
+          onMouseLeave={handleContentMouseEnter}
           closeDelay={0}
           className={cn(
-            " rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs",
+            "rounded-md bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none",
             Tooltip_className,
           )}
           content={!Tooltip_content ? "Delete, rename" : Tooltip_content}
