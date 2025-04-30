@@ -53,7 +53,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
             shadow ? "shadow-xl shadow-brand_fourthary" : "shadow-none"
           }`}
         >
-          <div className="w-full flex items-center justify-start container gap-3">
+          <div className="w-full flex items-center justify-start px-5 gap-3">
             {(!open || isMobile) && <SidebarTrigger />}
             {isClient && <BreadcrumbWithCustomSeparator />}
           </div>
