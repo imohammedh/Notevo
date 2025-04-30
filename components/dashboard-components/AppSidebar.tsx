@@ -48,7 +48,11 @@ import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
 import NoteSettings from "./NoteSettings";
 import { redirect, usePathname, useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip } from "@heroui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"; // Import necessary parts of Tooltip
 import type { Id } from "@hello-pangea/dnd";
 import {
   formatWorkspaceName,
@@ -56,6 +60,75 @@ import {
   formatUserEmail,
 } from "@/lib/utils";
 import { Doc } from "@/convex/_generated/dataModel";
+
+// --- Skeleton Sidebar Component ---
+
+const SkeletonSidebar = () => {
+  return (
+    <Sidebar variant="inset" className="border-brand_tertiary/20 group">
+      <SidebarHeader className="bg-brand_fourthary text-brand_tertiary/90 border-b border-brand_tertiary/10">
+        <div className=" w-full flex items-center justify-between p-1.5">
+          <div className="flex items-center justify-start gap-2">
+            <SkeletonTextAnimation className="w-20 h-4 mx-0" />
+            <SkeletonTextAnimation className="w-8 h-3 mx-0" />
+          </div>
+          <SkeletonTextAnimation className="w-full mx-0 h-6" />
+        </div>
+        <div className="my-1">
+          <SkeletonTextAnimation className="w-full mx-0 h-8" />
+        </div>
+      </SidebarHeader>
+      <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-transparent group-hover:scrollbar-thumb-brand_tertiary">
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-brand_tertiary/50">
+            <SkeletonTextAnimation className="w-24 h-3" />
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-brand_tertiary/50">
+            <SkeletonTextAnimation className="w-24 h-3" />
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter className="bg-brand_fourthary text-brand_tertiary/90">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <div className="my-2">
+              <div className="border-none w-full h-15 flex items-center justify-between">
+                <SkeletonSmImgAnimation className="h-8 w-8" />
+                <div className="flex flex-col items-start justify-center">
+                  <SkeletonTextAnimation className="w-28 h-4 mx-0" />
+                  <SkeletonTextAnimation className="w-20 h-3 mt-1 mx-0" />
+                </div>
+                <SkeletonTextAndIconAnimation Icon_className="w-6 h-6" />
+              </div>
+            </div>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
+  );
+};
 
 // --- Helper Components (Memoized) ---
 
@@ -66,7 +139,7 @@ interface SidebarHeaderSectionProps {
     workingSpacesSlug: string,
   ) => Promise<void>;
   handleCreateWorkingSpace: () => Promise<void>;
-  loading: boolean;
+  loading: boolean; // Loading state for the create note process
 }
 
 const SidebarHeaderSection = memo(function SidebarHeaderSection({
@@ -125,7 +198,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
                   className="relative flex-1 px-2 py-1.5 data-[highlighted]:bg-brand_tertiary/10 rounded-lg"
                   onSelect={() =>
                     handleCreateNote(
-                      workingSpace._id as Id<"workingSpaces">,
+                      workingSpace._id as any,
                       workingSpace.slug as string,
                     )
                   }
@@ -197,6 +270,60 @@ const SidebarNavigation = memo(function SidebarNavigation({
   );
 });
 
+interface PinnedNoteItemProps {
+  note: Doc<"notes">;
+}
+
+const PinnedNoteItem = memo(function PinnedNoteItem({
+  note,
+}: PinnedNoteItemProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
+  const handleContentMouseEnter = () => {
+    setIsTooltipOpen(false);
+  };
+  return (
+    <SidebarGroupContent
+      className="relative w-full flex justify-between items-center"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="flex w-full items-center relative">
+        <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
+          <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
+            <Button
+              variant="SidebarMenuButton"
+              className="px-2 h-8 group flex-1"
+              asChild
+            >
+              <Link
+                href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+              >
+                <Pin size="16" className="text-purple-500" />
+                {note.title ? formatWorkspaceName(note.title) : "Untitled"}
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent
+            side="bottom"
+            className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+          >
+            {note.title || "Untitled"}
+          </TooltipContent>
+        </Tooltip>
+        <NoteSettings
+          noteId={note._id}
+          noteTitle={note.title}
+          IconVariant="horizontal_icon"
+          BtnClassName={`absolute right-2 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}
+          Tooltip_placement="right"
+        />
+      </div>
+    </SidebarGroupContent>
+  );
+});
+
 interface PinnedNotesListProps {
   favoriteNotes: Doc<"notes">[];
 }
@@ -204,8 +331,6 @@ interface PinnedNotesListProps {
 const PinnedNotesList = memo(function PinnedNotesList({
   favoriteNotes,
 }: PinnedNotesListProps) {
-  const [hoveredNoteId, setHoveredNoteId] = useState<string | null>(null);
-
   if (favoriteNotes.length === 0) {
     return null; // Don't render the section if there are no pinned notes
   }
@@ -216,44 +341,60 @@ const PinnedNotesList = memo(function PinnedNotesList({
         <span>Pinned Notes</span>
       </SidebarGroupLabel>
       {favoriteNotes.map((note) => (
-        <SidebarGroupContent
-          className="relative w-full flex justify-between items-center"
-          key={note._id}
-          onMouseEnter={() => setHoveredNoteId(note._id)}
-          onMouseLeave={() => setHoveredNoteId(null)}
-        >
-          <div className="flex w-full items-center relative">
-            <Tooltip
-              delay={1000}
-              closeDelay={0}
-              placement="bottom"
-              className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
-              content={note.title || "Untitled"}
-            >
-              <Button
-                variant="SidebarMenuButton"
-                className="px-2 h-8 group flex-1"
-                asChild
-              >
-                <Link
-                  href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
-                >
-                  <Pin size="16" className="text-purple-500" />
-                  {note.title ? formatWorkspaceName(note.title) : "Untitled"}
-                </Link>
-              </Button>
-            </Tooltip>
-            <NoteSettings
-              noteId={note._id}
-              noteTitle={note.title}
-              IconVariant="horizontal_icon"
-              BtnClassName={`absolute right-2 transition-opacity duration-200 ${hoveredNoteId === note._id ? "opacity-100" : "opacity-0"}`}
-              Tooltip_placement="right"
-            />
-          </div>
-        </SidebarGroupContent>
+        <PinnedNoteItem key={note._id} note={note} />
       ))}
     </SidebarGroup>
+  );
+});
+
+interface WorkspaceItemProps {
+  workingSpace: Doc<"workingSpaces">;
+}
+
+const WorkspaceItem = memo(function WorkspaceItem({
+  workingSpace,
+}: WorkspaceItemProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
+  const handleContentMouseEnter = () => {
+    setIsTooltipOpen(false);
+  };
+  return (
+    <SidebarGroupContent
+      className="relative w-full flex justify-between items-center"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="flex w-full items-center relative">
+        <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
+          <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
+            <Button
+              variant="SidebarMenuButton"
+              className="px-2 h-8 group flex-1"
+              asChild
+            >
+              <Link href={`/dashboard/${workingSpace._id}`}>
+                <Notebook size="16" />
+                {formatWorkspaceName(workingSpace.name)}
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent
+            side="bottom"
+            className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+          >
+            {workingSpace.name || "Untitled"}
+          </TooltipContent>
+        </Tooltip>
+        <WorkingSpaceSettings
+          className={`absolute right-2 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}
+          workingSpaceId={workingSpace._id}
+          workingspaceName={workingSpace.name}
+          Tooltip_placement="right"
+        />
+      </div>
+    </SidebarGroupContent>
   );
 });
 
@@ -266,10 +407,6 @@ const WorkspacesList = memo(function WorkspacesList({
   getWorkingSpaces,
   handleCreateWorkingSpace,
 }: WorkspacesListProps) {
-  const [hoveredWorkingSpaceId, setHoveredWorkingSpaceId] = useState<
-    string | null
-  >(null);
-
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-brand_tertiary/50 flex items-center justify-between">
@@ -283,39 +420,7 @@ const WorkspacesList = memo(function WorkspacesList({
       </SidebarGroupAction>
       {getWorkingSpaces?.length ? (
         getWorkingSpaces.map((workingSpace) => (
-          <SidebarGroupContent
-            className="relative w-full flex justify-between items-center"
-            key={workingSpace._id}
-            onMouseEnter={() => setHoveredWorkingSpaceId(workingSpace._id)}
-            onMouseLeave={() => setHoveredWorkingSpaceId(null)}
-          >
-            <div className="flex w-full items-center relative">
-              <Tooltip
-                delay={1000}
-                closeDelay={0}
-                placement="bottom"
-                className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
-                content={workingSpace.name || "Untitled"}
-              >
-                <Button
-                  variant="SidebarMenuButton"
-                  className="px-2 h-8 group flex-1"
-                  asChild
-                >
-                  <Link href={`/dashboard/${workingSpace._id}`}>
-                    <Notebook size="16" />
-                    {formatWorkspaceName(workingSpace.name)}
-                  </Link>
-                </Button>
-              </Tooltip>
-              <WorkingSpaceSettings
-                className={`absolute right-2 transition-opacity duration-200 ${hoveredWorkingSpaceId === workingSpace._id ? "opacity-100" : "opacity-0"}`}
-                workingSpaceId={workingSpace._id}
-                workingspaceName={workingSpace.name}
-                Tooltip_placement="right"
-              />
-            </div>
-          </SidebarGroupContent>
+          <WorkspaceItem key={workingSpace._id} workingSpace={workingSpace} />
         ))
       ) : (
         <Button
@@ -383,7 +488,7 @@ const UserAccountSection = memo(function UserAccountSection({
                       {User?.name ? (
                         formatUserName(User.name)
                       ) : (
-                        <SkeletonTextAnimation className="w-28" />
+                        <SkeletonTextAnimation className="w-28 mx-0" />
                       )}
                     </div>
                     <div className="text-xs text-brand_tertiary/60">
@@ -438,25 +543,34 @@ const UserAccountSection = memo(function UserAccountSection({
 // --- Main Component ---
 
 export default function AppSidebar() {
-  const { open, isMobile } = useSidebar(); // setOpenMobile is not used directly here
+  const { open, isMobile } = useSidebar();
   const pathname = usePathname();
   const router = useRouter();
   const createWorkingSpace = useMutation(
     api.mutations.workingSpaces.createWorkingSpace,
   );
   const createNote = useMutation(api.mutations.notes.createNote);
+
+  // Query for working spaces and notes - Check if they are undefined for loading
   const getWorkingSpaces = useQuery(
     api.mutations.workingSpaces.getRecentWorkingSpaces,
   );
   const User = useQuery(api.users.viewer);
   const getNotesByUserId = useQuery(api.mutations.notes.getNoteByUserId);
+
   const { signOut } = useAuthActions();
 
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading for create note redirect
+  const [loading, setLoading] = useState(false); // Loading state for the create note process
 
   const favoriteNotes = getNotesByUserId?.filter((note) => note.favorite) ?? [];
   const isDashboard = pathname === "/dashboard";
+
+  // Determine if the main sidebar content is loading
+  const isSidebarLoading =
+    getWorkingSpaces === undefined ||
+    User === undefined ||
+    getNotesByUserId === undefined;
 
   const handleCreateWorkingSpace = useCallback(async () => {
     try {
@@ -470,35 +584,63 @@ export default function AppSidebar() {
     setIsSigningOut(true);
     try {
       await signOut();
-      // Consider using router.push('/') instead of redirect('/') for consistency
-      // if this is a client component. 'redirect' is typically for server components.
-      // redirect("/"); // This might cause issues in client components
+      // Changed redirect to router.push for client components
       router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);
     } finally {
       setIsSigningOut(false);
     }
-  }, [signOut, router]); // Add router to dependencies
+  }, [signOut, router]);
 
   const handleCreateNote = useCallback(
     async (workingSpaceId: any, workingSpacesSlug: string) => {
       setLoading(true);
       try {
-        await createNote({
+        // Create the note and get its ID
+        const newNoteId = await createNote({
           workingSpacesSlug: workingSpacesSlug,
           workingSpaceId: workingSpaceId,
           title: "New Quick Access Notes",
         });
-      } finally {
-        // Consider waiting for the mutation to complete before navigating
-        // to ensure the new note data is potentially available on the next page.
+
+        if (newNoteId) {
+          // Attempt to find the newly created note in the already fetched list
+          // This relies on Convex reactivity to update getNotesByUserId quickly
+          // A more robust approach might involve a separate query or mutation
+          const newNote = getNotesByUserId?.find(
+            (note) => note._id === newNoteId,
+          );
+
+          if (newNote) {
+            // Navigate to the specific note URL
+            router.push(
+              `/dashboard/${newNote.workingSpaceId}/${newNote.slug}?id=${newNote._id}`,
+            );
+          } else {
+            console.warn(
+              "Newly created note not immediately found in getNotesByUserId. Navigating to workspace.",
+            );
+            // Fallback navigation if the note is not immediately available in the query results
+            router.push(`/dashboard/${workingSpaceId}`);
+          }
+        } else {
+          console.error("Failed to get the ID of the newly created note.");
+          router.push(`/dashboard/${workingSpaceId}`);
+        }
+      } catch (error) {
+        console.error("Error creating note:", error);
         router.push(`/dashboard/${workingSpaceId}`);
+      } finally {
         setLoading(false);
       }
     },
-    [createNote, router], // Add createNote and router to dependencies
+    [createNote, getNotesByUserId, router], // Added getNotesByUserId to dependencies
   );
+
+  if (isSidebarLoading) {
+    return <SkeletonSidebar />;
+  }
 
   return (
     <Sidebar variant="inset" className="border-brand_tertiary/20 group">
