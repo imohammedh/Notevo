@@ -141,7 +141,7 @@ export default function WorkingSpaceSettings({
               <TooltipTrigger asChild>
                 <Button
                   variant="Trigger"
-                  className={cn("px-1.5 h-8 opacity-80", className)}
+                  className={cn("px-1.5 h-8", className)}
                   onMouseEnter={handleTooltipMouseEnter}
                   onMouseLeave={handleTooltipMouseLeave}
                 >
