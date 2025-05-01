@@ -82,7 +82,7 @@ export default function SignInPage() {
             </CardContent>
           </Card>
           <div className="text-balance text-center text-xs text-brand_tertiary/50 [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-brand_tertiary/40">
-            By clicking continue, you agree to our{" "}
+            By sign and continue, you agree to our{" "}
             <Link href="/terms-of-service">Terms of Service</Link> and{" "}
             <Link href="/privacy-policy">Privacy Policy</Link>.
           </div>
