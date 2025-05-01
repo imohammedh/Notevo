@@ -137,7 +137,7 @@ export default function NoteSettings({
               <TooltipTrigger asChild>
                 <Button
                   variant="Trigger"
-                  className={cn("px-0.5 h-8 mt-0.5 opacity-80", BtnClassName)}
+                  className={cn("px-0.5 h-8 mt-0.5", BtnClassName)}
                   onMouseEnter={handleTooltipMouseEnter}
                   onMouseLeave={handleTooltipMouseLeave}
                 >
