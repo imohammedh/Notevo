@@ -136,7 +136,7 @@ export default function WorkingSpaceSettings({
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <TooltipProvider>
-          <Tooltip open={isTooltipOpen}>
+          <Tooltip delayDuration={800} open={isTooltipOpen}>
             <DropdownMenuTrigger asChild>
               <TooltipTrigger asChild>
                 <Button
