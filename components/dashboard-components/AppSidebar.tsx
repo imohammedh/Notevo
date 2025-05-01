@@ -290,7 +290,11 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex w-full items-center relative">
-        <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
+        <Tooltip
+          delayDuration={1000}
+          open={isTooltipOpen}
+          onOpenChange={setIsTooltipOpen}
+        >
           <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
             <Button
               variant="SidebarMenuButton"
@@ -366,7 +370,11 @@ const WorkspaceItem = memo(function WorkspaceItem({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex w-full items-center relative">
-        <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
+        <Tooltip
+          delayDuration={1000}
+          open={isTooltipOpen}
+          onOpenChange={setIsTooltipOpen}
+        >
           <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
             <Button
               variant="SidebarMenuButton"
