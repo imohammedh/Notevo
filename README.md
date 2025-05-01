@@ -66,12 +66,6 @@
  ```
  Then, open [http://localhost:3000](http://localhost:3000) in your browser.
  
- ## Deployment
- Deploy on Vercel:
- ```bash
- vercel deploy
- ```
- 
  ## Contributing
  We appreciate contributions to Notevo! Follow these steps to contribute:
  
