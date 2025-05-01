@@ -7,7 +7,8 @@
  ## if you wanna contribute here => To Do :
  
  - [x] fix the routing
- - [ ] add the toaster notification 
+ - [ ] add the toaster notification
+ - [ ] add Onboarding Flow
  - [ ] fix the middleware 404 on redirect
  - [ ] fix the Tooltip from @heroui and change the close time ciz it causes conflict in the sidebar
  - [ ] add the shareable Link
