@@ -315,14 +315,12 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {isHovered && (
-          <NoteSettings
-            noteId={note._id}
-            noteTitle={note.title}
-            IconVariant="horizontal_icon"
-            BtnClassName="absolute right-2 transition-opacity duration-200 opacity-80"
-          />
-        )}
+        <NoteSettings
+          noteId={note._id}
+          noteTitle={note.title}
+          IconVariant="horizontal_icon"
+          BtnClassName={`absolute right-2 transition-opacity duration-200 opacity-0 ${isHovered && "opacity-80"}`}
+        />
       </div>
     </SidebarGroupContent>
   );
@@ -393,13 +391,11 @@ const WorkspaceItem = memo(function WorkspaceItem({
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {isHovered && (
-          <WorkingSpaceSettings
-            workingSpaceId={workingSpace._id}
-            workingspaceName={workingSpace.name}
-            className="absolute right-2 transition-opacity duration-200 opacity-80"
-          />
-        )}
+        <WorkingSpaceSettings
+          workingSpaceId={workingSpace._id}
+          workingspaceName={workingSpace.name}
+          className={`absolute right-2 transition-opacity duration-200 opacity-0 ${isHovered && "opacity-80"}`}
+        />
       </div>
     </SidebarGroupContent>
   );
