@@ -132,7 +132,7 @@ export default function NoteSettings({
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <TooltipProvider>
-          <Tooltip delayDuration={800} open={isTooltipOpen}>
+          <Tooltip open={isTooltipOpen}>
             <DropdownMenuTrigger asChild>
               <TooltipTrigger asChild>
                 <Button
@@ -153,7 +153,7 @@ export default function NoteSettings({
               side="bottom"
               className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
             >
-              Rename ,Delete, Unpin
+              Options
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

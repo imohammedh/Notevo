@@ -52,6 +52,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
+  TooltipProvider,
 } from "@/components/ui/tooltip"; // Import necessary parts of Tooltip
 import type { Id } from "@hello-pangea/dnd";
 import {
@@ -290,37 +291,35 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex w-full items-center relative">
-        <Tooltip
-          delayDuration={1000}
-          open={isTooltipOpen}
-          onOpenChange={setIsTooltipOpen}
-        >
-          <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
-            <Button
-              variant="SidebarMenuButton"
-              className="px-2 h-8 group flex-1"
-              asChild
-            >
-              <Link
-                href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+        <TooltipProvider>
+          <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
+            <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
+              <Button
+                variant="SidebarMenuButton"
+                className="px-2 h-8 group flex-1"
+                asChild
               >
-                <Pin size="16" className="text-purple-500" />
-                {note.title ? formatWorkspaceName(note.title) : "Untitled"}
-              </Link>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent
-            side="bottom"
-            className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
-          >
-            {note.title || "Untitled"}
-          </TooltipContent>
-        </Tooltip>
+                <Link
+                  href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+                >
+                  <Pin size="16" className="text-purple-500" />
+                  {note.title ? formatWorkspaceName(note.title) : "Untitled"}
+                </Link>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent
+              side="bottom"
+              className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+            >
+              {note.title || "Untitled"}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <NoteSettings
           noteId={note._id}
           noteTitle={note.title}
           IconVariant="horizontal_icon"
-          BtnClassName={`absolute right-2 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"}`}
+          BtnClassName={`absolute right-2 transition-opacity duration-200 opacity-0 ${isHovered && "opacity-100"}`}
         />
       </div>
     </SidebarGroupContent>
