@@ -325,7 +325,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
           noteId={note._id}
           noteTitle={note.title}
           IconVariant="horizontal_icon"
-          BtnClassName={`absolute -right-8 transition-all invisible ${isHovered && "visible right-2"}`}
+          BtnClassName={`absolute right-2 invisible ${isHovered && "visible"}`}
         />
       </SidebarGroupContent>
     </SidebarGroupContent>
@@ -404,7 +404,7 @@ const WorkspaceItem = memo(function WorkspaceItem({
         <WorkingSpaceSettings
           workingSpaceId={workingSpace._id}
           workingspaceName={workingSpace.name}
-          className={`absolute -right-8 transition-all invisible ${isHovered && "visible right-2"}`}
+          className={`absolute right-2 invisible ${isHovered && "visible"}`}
         />
       </SidebarGroupContent>
     </SidebarGroupContent>
