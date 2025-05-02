@@ -165,7 +165,7 @@ export default function SearchDialog({
             className={`flex items-center border-b ${groupedNotes && groupedNotes.today.length > 0 ? `border-brand_tertiary/20` : `border-none`} w-full px-3`}
           >
             <CommandInput
-              placeholder="Search for notes, spaces, or content..."
+              placeholder="Search for notes or content..."
               className="h-11 border-none focus:ring-0 focus-visible:ring-0 placeholder:text-brand_tertiary/50"
               value={query}
               onValueChange={setQuery}

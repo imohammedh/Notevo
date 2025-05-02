@@ -8,7 +8,7 @@ import {
   Plus,
   Search,
 } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useMutation } from "convex/react";
@@ -61,28 +61,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TbSelector } from "react-icons/tb";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
+import { useHotkeys } from "react-hotkeys-hook";
 
 // Types based on the schema
 type ViewMode = "grid" | "list";
-
-interface WorkingSpace {
-  _id: Id<"workingSpaces">;
-  name: string;
-  slug?: string;
-  favorite?: boolean;
-  userId: Id<"users">;
-  createdAt: number;
-  updatedAt: number;
-}
-
-interface NotesTable {
-  _id: Id<"notesTables">;
-  name?: string;
-  slug?: string;
-  workingSpaceId: Id<"workingSpaces">;
-  createdAt: number;
-  updatedAt: number;
-}
 
 interface Note {
   _id: Id<"notes">;
@@ -272,6 +254,17 @@ export default function WorkingSpacePage() {
     }
   };
   const isLoading = !workspace;
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useHotkeys(
+    "ctrl+s",
+    (e: KeyboardEvent) => {
+      e.preventDefault();
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    },
+    [inputRef],
+  );
 
   return (
     <MaxWContainer className="mb-20">
@@ -296,10 +289,11 @@ export default function WorkingSpacePage() {
               <div className="relative w-full md:w-auto">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-brand_tertiary/50" />
                 <Input
-                  placeholder="Search notes..."
+                  placeholder="[⌘+S] Search notes..."
                   className="pl-9 h-9 bg-brand_fourthary/30 border-brand_tertiary/20 text-brand_tertiary w-full md:w-[200px]"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  ref={inputRef}
                 />
               </div>
 
