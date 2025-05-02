@@ -117,7 +117,7 @@ export default function Dashboard() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="workspaces" className="mt-8">
-          {!recentNotes && !recentWorkspaces && (
+          {recentNotes?.length !== 0 && recentWorkspaces?.length !== 0 && (
             <TabsList className="mb-6 ">
               <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
               <TabsTrigger value="recent">Recent Notes</TabsTrigger>
