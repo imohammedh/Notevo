@@ -290,7 +290,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <SidebarGroupContent className="flex w-full items-center relative">
+      <SidebarGroupContent className="flex w-full items-center relative overflow-hidden">
         <SidebarMenu>
           <SidebarMenuItem>
             <TooltipProvider>
@@ -325,7 +325,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
           noteId={note._id}
           noteTitle={note.title}
           IconVariant="horizontal_icon"
-          BtnClassName={`absolute right-2 invisible ${isHovered && "visible"}`}
+          BtnClassName={`absolute -right-8 transition-all invisible ${isHovered && "visible right-2"}`}
         />
       </SidebarGroupContent>
     </SidebarGroupContent>
@@ -374,7 +374,7 @@ const WorkspaceItem = memo(function WorkspaceItem({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <SidebarGroupContent className="flex w-full items-center relative">
+      <SidebarGroupContent className="flex w-full items-center relative overflow-hidden">
         <SidebarMenu>
           <SidebarMenuItem>
             <TooltipProvider>
@@ -404,7 +404,7 @@ const WorkspaceItem = memo(function WorkspaceItem({
         <WorkingSpaceSettings
           workingSpaceId={workingSpace._id}
           workingspaceName={workingSpace.name}
-          className={`absolute right-2  invisible ${isHovered && "visible"}`}
+          className={`absolute -right-8 transition-all invisible ${isHovered && "visible right-2"}`}
         />
       </SidebarGroupContent>
     </SidebarGroupContent>
