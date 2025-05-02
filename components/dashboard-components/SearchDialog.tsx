@@ -172,11 +172,9 @@ export default function SearchDialog({
             />
           </div>
           <CommandList className="max-h-[80vh] scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent overflow-auto p-1">
-            {!groupedNotes && (
-              <CommandEmpty className="py-6 text-center text-sm text-brand_tertiary">
-                No results found.
-              </CommandEmpty>
-            )}
+            <CommandEmpty className="py-6 text-center text-sm text-brand_tertiary">
+              {notes && notes.length === 0 ? null : "No results found."}
+            </CommandEmpty>
 
             {groupedNotes && (
               <>
