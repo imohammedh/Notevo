@@ -117,10 +117,12 @@ export default function Dashboard() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="workspaces" className="mt-8">
-          <TabsList className="mb-6 ">
-            <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
-            <TabsTrigger value="recent">Recent Notes</TabsTrigger>
-          </TabsList>
+          {!recentNotes && !recentWorkspaces && (
+            <TabsList className="mb-6 ">
+              <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
+              <TabsTrigger value="recent">Recent Notes</TabsTrigger>
+            </TabsList>
+          )}
 
           {/* Workspaces Tab */}
           <TabsContent value="workspaces">
