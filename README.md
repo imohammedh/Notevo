@@ -7,6 +7,7 @@
  ## if you wanna contribute here => To Do :
  
  - [x] fix the routing
+ - [ ] Link and fix the AI API
  - [ ] add the toaster notification
  - [ ] add Onboarding Flow
  - [ ] fix the middleware 404 on redirect
