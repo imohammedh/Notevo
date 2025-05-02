@@ -161,7 +161,9 @@ export default function SearchDialog({
       <DialogContent className="p-0 overflow-hidden border border-brand_tertiary/20 bg-brand_fourthary shadow-xl shadow-brand_primary md:min-w-[700px]">
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
         <Command className="bg-brand_fourthary">
-          <div className="flex items-center border-b border-brand_tertiary/20 w-full px-3">
+          <div
+            className={`flex items-center border-b ${groupedNotes && groupedNotes.today.length > 0 ? `border-brand_tertiary/20` : `border-none`} w-full px-3`}
+          >
             <CommandInput
               placeholder="Search for notes, spaces, or content..."
               className="h-11 border-none focus:ring-0 focus-visible:ring-0 placeholder:text-brand_tertiary/50"
