@@ -138,7 +138,6 @@ export default function SearchDialog({
 
   // Group filtered notes by time
   const groupedNotes = filteredNotes ? groupNotesByTime(filteredNotes) : null;
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -226,7 +225,7 @@ export default function SearchDialog({
                           className="flex items-center py-2 px-2"
                           onSelect={() =>
                             handleItemClick(
-                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                              `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                             )
                           }
                         >
@@ -265,7 +264,7 @@ export default function SearchDialog({
                           className="flex items-center py-2 px-2"
                           onSelect={() =>
                             handleItemClick(
-                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                              `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                             )
                           }
                         >
@@ -306,7 +305,7 @@ export default function SearchDialog({
                           className="flex items-center py-2 px-2"
                           onSelect={() =>
                             handleItemClick(
-                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                              `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                             )
                           }
                         >
@@ -347,7 +346,7 @@ export default function SearchDialog({
                           className="flex items-center py-2 px-2"
                           onSelect={() =>
                             handleItemClick(
-                              `/dashboard/${note.workingSpacesSlug}/${note.slug}?id=${note._id}`,
+                              `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                             )
                           }
                         >
