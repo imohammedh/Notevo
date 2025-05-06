@@ -37,7 +37,7 @@ export function StatsRow({
       icon: <TrendingUp className="h-4 w-4 text-brand_tertiary/70" />,
     },
   ];
-  if (workspaceCount && pinnedCount && notesCount > 0) {
+  if (workspaceCount > 0 || pinnedCount > 0 || notesCount > 0) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {stats.map((stat, index) => (
