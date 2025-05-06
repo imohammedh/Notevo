@@ -14,8 +14,9 @@
  - [ ] fix the Tooltip from @heroui and change the close time ciz it causes conflict in the sidebar
  - [ ] add the shareable Link
  - [ ] fix the code Highlight in the editer
- - [ ] add the feedback mewnu item in the user dropdown menu in the sidebar
+ - [ ] add the feedback menu item in the user dropdown menu in the sidebar
  - [ ] complete the ui for theuser account and settings
+ - [ ] Redesigning for the dashboard 
  - [x] fix the caching
  - [x] change the rename stff in the workingspace route
  
