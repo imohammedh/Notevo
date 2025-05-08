@@ -1,27 +1,8 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { useMutation } from "convex/react";
-import { useQuery } from "convex-helpers/react/cache";
-import type { Id } from "@/convex/_generated/dataModel";
-import { redirect } from "next/navigation";
 import { api } from "@/convex/_generated/api";
-import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
-import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import LoadingAnimation from "../ui/LoadingAnimation";
+import type { Id } from "@/convex/_generated/dataModel";
+import { useQuery } from "convex-helpers/react/cache";
+import { useMutation } from "convex/react";
+import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,37 +13,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-interface WorkingSpaceSettings {
+import LoadingAnimation from "../ui/LoadingAnimation";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { X } from "lucide-react";
+interface WorkingSpaceSettingsSidbarProps {
   workingSpaceId: Id<"workingSpaces">;
-  className?: string;
+  ContainerClassName?: string;
   workingspaceName: string | any;
 }
-
-export default function WorkingSpaceSettings({
-  className,
+export default function WorkingSpaceSettingsSidbar({
   workingSpaceId,
+  ContainerClassName,
   workingspaceName,
-}: WorkingSpaceSettings) {
-  const [inputValue, setInputValue] = useState(workingspaceName);
+}: WorkingSpaceSettingsSidbarProps) {
   const [isDeleting, setIsDeleting] = useState(false);
-  const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-
-  const inputRef = useRef<HTMLInputElement>(null); // Ref for the input
-
-  useEffect(() => {
-    setInputValue(workingspaceName);
-  }, [workingspaceName]);
-
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-        inputRef.current?.select();
-      }, 10);
-    }
-  }, [open]);
 
   const tables = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId,
@@ -71,39 +37,11 @@ export default function WorkingSpaceSettings({
   const notes = useQuery(api.mutations.notes.getNotesByWorkspaceId, {
     workingSpaceId: workingSpaceId,
   });
-
-  const updateWorkingSpace = useMutation(
-    api.mutations.workingSpaces.updateWorkingSpace,
-  );
   const DeleteWorkingSpace = useMutation(
     api.mutations.workingSpaces.deleteWorkingSpace,
   );
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleBlur();
-    }
-  };
-
-  const handleBlur = async () => {
-    if (inputValue !== workingspaceName) {
-      try {
-        updateWorkingSpace({ _id: workingSpaceId, name: inputValue });
-      } catch (error) {
-        console.error("Failed to update workspace name:", error);
-        setInputValue(workingspaceName);
-      }
-    }
-    setOpen(false);
-  };
-
   const initiateDelete = () => {
-    setOpen(false);
     setIsAlertOpen(true);
   };
 
@@ -123,50 +61,23 @@ export default function WorkingSpaceSettings({
   const tableCount = tables?.length || 0;
   const noteCount = notes?.length || 0;
   const hasContent = tableCount > 0 || noteCount > 0;
+
   return (
     <>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="Trigger" className={cn("px-1.5 h-8", className)}>
-            <FaEllipsis size="16" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          side="bottom"
-          align="start"
-          className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
+      <div
+        className={cn(
+          "flex justify-end items-center bg-brand_fourthary rounded-l-md px-1",
+          ContainerClassName,
+        )}
+      >
+        <Button
+          onMouseDown={initiateDelete}
+          variant="SidebarMenuButton_destructive"
+          className=" px-2 h-8"
         >
-          <DropdownMenuGroup className="relative">
-            <Input
-              type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-              onKeyDown={handleKeyDown}
-              className=" text-brand_tertiary border-brand_tertiary/20"
-              ref={inputRef} // Attach the ref to the Input
-            />
-          </DropdownMenuGroup>
-          <Button
-            variant="SidebarMenuButton_destructive"
-            className="w-full h-8 px-2 text-sm"
-            onClick={initiateDelete}
-            disabled={isDeleting}
-          >
-            {isDeleting ? (
-              <>
-                <LoadingAnimation className="text-red-600/10 animate-spin fill-red-600 h-3 w-3" />{" "}
-                Deleting...
-              </>
-            ) : (
-              <>
-                <FaRegTrashCan size="14" /> Delete
-              </>
-            )}
-          </Button>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
+          <X size={16} />
+        </Button>
+      </div>
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary">
           <AlertDialogHeader>

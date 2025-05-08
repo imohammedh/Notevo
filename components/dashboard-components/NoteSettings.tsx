@@ -52,8 +52,6 @@ export default function NoteSettings({
     useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert dialog state
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
-
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
@@ -85,9 +83,6 @@ export default function NoteSettings({
   const handleBlur = () => {
     updateNote({
       _id: noteId,
-      title: inputValue,
-      body: getNote?.body,
-      order: getNote?.order,
       favorite: getNote?.favorite,
     });
   };
@@ -120,44 +115,21 @@ export default function NoteSettings({
     setIshandleFavoritePinLoading(false);
   };
 
-  const handleTooltipMouseEnter = () => {
-    setIsTooltipOpen(true);
-  };
-
-  const handleTooltipMouseLeave = () => {
-    setIsTooltipOpen(false);
-  };
-
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <TooltipProvider>
-          <Tooltip open={isTooltipOpen}>
-            <DropdownMenuTrigger asChild>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="Trigger"
-                  className={cn("px-0.5 h-8 mt-0.5", BtnClassName)}
-                  onMouseEnter={handleTooltipMouseEnter}
-                  onMouseLeave={handleTooltipMouseLeave}
-                >
-                  {IconVariant === "vertical_icon" ? (
-                    <FaEllipsisVertical size="18" />
-                  ) : (
-                    <FaEllipsis size="16" />
-                  )}
-                </Button>
-              </TooltipTrigger>
-            </DropdownMenuTrigger>
-            <TooltipContent
-              side="bottom"
-              className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
-            >
-              Options
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="Trigger"
+            className={cn("px-0.5 h-8 mt-0.5", BtnClassName)}
+          >
+            {IconVariant === "vertical_icon" ? (
+              <FaEllipsisVertical size="18" />
+            ) : (
+              <FaEllipsis size="16" />
+            )}
+          </Button>
+        </DropdownMenuTrigger>
         <DropdownMenuContent
           side="bottom"
           align="start"

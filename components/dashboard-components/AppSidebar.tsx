@@ -39,7 +39,7 @@ import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
-import { useState, useCallback, memo, useEffect } from "react";
+import { useState, useCallback, memo, useEffect, useRef } from "react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
@@ -54,7 +54,7 @@ import {
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
-} from "@/components/ui/tooltip"; // Import necessary parts of Tooltip
+} from "@/components/ui/tooltip";
 import type { Id } from "@hello-pangea/dnd";
 import {
   formatWorkspaceName,
@@ -62,7 +62,9 @@ import {
   formatUserEmail,
 } from "@/lib/utils";
 import { Doc } from "@/convex/_generated/dataModel";
-
+import { Input } from "../ui/input";
+import NoteSettingsSidbar from "./NoteSettingsSidbar";
+import WorkingSpaceSettingsSidbar from "./WorkingSpaceSettingsSidbar";
 // --- Skeleton Sidebar Component ---
 
 const SkeletonSidebar = () => {
@@ -229,12 +231,14 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
 });
 
 interface SidebarNavigationProps {
+  pathname: string;
   isDashboard: boolean;
   isMobile: boolean;
   open: boolean;
 }
 
 const SidebarNavigation = memo(function SidebarNavigation({
+  pathname,
   isDashboard,
   isMobile,
   open,
@@ -250,7 +254,9 @@ const SidebarNavigation = memo(function SidebarNavigation({
             <Button
               asChild
               variant="SidebarMenuButton"
-              className={`px-2 h-8 group ${isDashboard ? "bg-brand_tertiary/10" : ""}`}
+              className={`px-2 h-8 group ${
+                pathname === "/dashboard" ? "bg-brand_tertiary/10" : ""
+              }`}
             >
               <Link href="/dashboard">
                 <LayoutDashboard size="16" />
@@ -274,60 +280,117 @@ const SidebarNavigation = memo(function SidebarNavigation({
 
 interface PinnedNoteItemProps {
   note: Doc<"notes">;
+  pathname: string;
 }
 
 const PinnedNoteItem = memo(function PinnedNoteItem({
   note,
+  pathname,
 }: PinnedNoteItemProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(note.title || "Untitled");
+  const updateNote = useMutation(api.mutations.notes.updateNote);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const noteHref = `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`;
+  const isActive = pathname === noteHref;
 
   const handleContentMouseEnter = () => {
-    setIsTooltipOpen(false);
+    setIsHovered(true);
   };
+
+  const handleContentMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+    setEditedTitle(note.title || "Untitled");
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedTitle(e.target.value);
+  };
+
+  const handleInputBlur = async () => {
+    if (editedTitle.trim() !== (note.title || "Untitled")) {
+      try {
+        await updateNote({
+          _id: note._id,
+          title: editedTitle.trim(),
+        });
+      } catch (error) {
+        console.error("Error updating note title:", error);
+        setEditedTitle(note.title || "Untitled");
+      }
+    }
+    setIsEditing(false);
+  };
+
+  const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      inputRef.current?.blur();
+    } else if (e.key === "Escape") {
+      setIsEditing(false);
+      setEditedTitle(note.title || "Untitled");
+    }
+  };
+
   return (
     <SidebarGroupContent
-      className="relative w-full flex justify-between items-center  overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="relative w-full flex justify-between items-center overflow-hidden"
+      onMouseEnter={handleContentMouseEnter}
+      onMouseLeave={handleContentMouseLeave}
     >
       <SidebarMenu>
         <SidebarMenuItem>
-          <TooltipProvider>
-            <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
-              <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
-                <Button
-                  variant="SidebarMenuButton"
-                  className="px-2 h-8 group flex-1"
-                  asChild
-                >
-                  <Link
-                    href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
-                  >
-                    {isHovered ? (
-                      <ChevronRight size="16" className="text-purple-500" />
-                    ) : (
-                      <Pin size="16" className="text-purple-500" />
-                    )}
-                    {note.title ? formatWorkspaceName(note.title) : "Untitled"}
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                side="bottom"
-                className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+          {isEditing ? (
+            <Input
+              ref={inputRef}
+              value={editedTitle}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              onKeyPress={handleInputKeyPress}
+              className="flex-1 h-8 px-2 py-1.5 text-sm bg-brand_fourthary/50 rounded-lg"
+            />
+          ) : (
+            <Button
+              variant="SidebarMenuButton"
+              className={`px-2 h-8 group flex-1 justify-start ${
+                isActive ? "bg-brand_tertiary/10" : ""
+              }`}
+              asChild
+              onDoubleClick={handleDoubleClick}
+            >
+              <Link
+                href={noteHref}
+                className="flex items-center gap-2 flex-grow min-w-0"
               >
-                {note.title || "Untitled"}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+                {isHovered || isActive ? (
+                  <ChevronRight
+                    size="16"
+                    className="text-purple-500 flex-shrink-0"
+                  />
+                ) : (
+                  <Pin size="16" className="text-purple-500 flex-shrink-0" />
+                )}
+                <span className="truncate flex-grow">
+                  {formatWorkspaceName(note.title || "Untitled")}
+                </span>
+              </Link>
+            </Button>
+          )}
         </SidebarMenuItem>
       </SidebarMenu>
-      <NoteSettings
+      <NoteSettingsSidbar
         noteId={note._id}
         noteTitle={note.title}
-        IconVariant="horizontal_icon"
-        BtnClassName={`absolute right-2 invisible ${isHovered && "visible"}`}
+        ContainerClassName={`absolute -right-24 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
       />
     </SidebarGroupContent>
   );
@@ -335,13 +398,15 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
 
 interface PinnedNotesListProps {
   favoriteNotes: Doc<"notes">[];
+  pathname: string;
 }
 
 const PinnedNotesList = memo(function PinnedNotesList({
   favoriteNotes,
+  pathname,
 }: PinnedNotesListProps) {
   if (favoriteNotes.length === 0) {
-    return null; // Don't render the section if there are no pinned notes
+    return null;
   }
 
   return (
@@ -350,7 +415,7 @@ const PinnedNotesList = memo(function PinnedNotesList({
         <span>Pinned Notes</span>
       </SidebarGroupLabel>
       {favoriteNotes.map((note) => (
-        <PinnedNoteItem key={note._id} note={note} />
+        <PinnedNoteItem key={note._id} note={note} pathname={pathname} />
       ))}
     </SidebarGroup>
   );
@@ -358,57 +423,116 @@ const PinnedNotesList = memo(function PinnedNotesList({
 
 interface WorkspaceItemProps {
   workingSpace: Doc<"workingSpaces">;
+  pathname: string;
 }
 
 const WorkspaceItem = memo(function WorkspaceItem({
   workingSpace,
+  pathname,
 }: WorkspaceItemProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(workingSpace.name || "Untitled");
+  const updateWorkingSpace = useMutation(
+    api.mutations.workingSpaces.updateWorkingSpace,
+  );
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const workspaceHref = `/dashboard/${workingSpace._id}`;
+  const isActive = pathname === workspaceHref;
 
   const handleContentMouseEnter = () => {
-    setIsTooltipOpen(false);
+    setIsHovered(true);
   };
+
+  const handleContentMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+    setEditedName(workingSpace.name || "Untitled");
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedName(e.target.value);
+  };
+
+  const handleInputBlur = async () => {
+    if (editedName.trim() !== (workingSpace.name || "Untitled")) {
+      try {
+        await updateWorkingSpace({
+          _id: workingSpace._id,
+          name: editedName.trim(),
+        });
+      } catch (error) {
+        console.error("Error updating workspace name:", error);
+        setEditedName(workingSpace.name || "Untitled");
+      }
+    }
+    setIsEditing(false);
+  };
+
+  const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      inputRef.current?.blur();
+    } else if (e.key === "Escape") {
+      setIsEditing(false);
+      setEditedName(workingSpace.name || "Untitled");
+    }
+  };
+
   return (
     <SidebarGroupContent
-      className="relative w-full flex justify-between items-center overflow-hiddenoverflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="relative w-full flex justify-between items-center overflow-hidden"
+      onMouseEnter={handleContentMouseEnter} // Use custom mouse handlers
+      onMouseLeave={handleContentMouseLeave}
     >
       <SidebarMenu>
         <SidebarMenuItem>
-          <TooltipProvider>
-            <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
-              <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
-                <Button
-                  variant="SidebarMenuButton"
-                  className="px-2 h-8 group flex-1"
-                  asChild
-                >
-                  <Link href={`/dashboard/${workingSpace._id}`}>
-                    {isHovered ? (
-                      <ChevronRight size="16" />
-                    ) : (
-                      <Notebook size="16" />
-                    )}
-                    {formatWorkspaceName(workingSpace.name)}
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                side="bottom"
-                className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+          {isEditing ? (
+            <Input
+              ref={inputRef}
+              value={editedName}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              onKeyPress={handleInputKeyPress}
+              className="flex-1 h-8 px-2 py-1.5 text-sm bg-brand_fourthary/50 rounded-lg"
+            />
+          ) : (
+            <Button
+              variant="SidebarMenuButton"
+              className={`px-2 h-8 group flex-1 justify-start ${
+                isActive ? "bg-brand_tertiary/10" : ""
+              }`}
+              asChild
+              onDoubleClick={handleDoubleClick}
+            >
+              <Link
+                href={workspaceHref}
+                className="flex items-center gap-2 flex-grow min-w-0"
               >
-                {workingSpace.name || "Untitled"}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+                {isHovered || isActive ? (
+                  <ChevronRight size="16" className="flex-shrink-0" />
+                ) : (
+                  <Notebook size="16" className="flex-shrink-0" />
+                )}
+                <span className="truncate flex-grow">
+                  {formatWorkspaceName(workingSpace.name || "Untitled")}
+                </span>
+              </Link>
+            </Button>
+          )}
         </SidebarMenuItem>
       </SidebarMenu>
-      <WorkingSpaceSettings
+      <WorkingSpaceSettingsSidbar
         workingSpaceId={workingSpace._id}
         workingspaceName={workingSpace.name}
-        className={`absolute right-2 invisible ${isHovered && "visible"}`}
+        ContainerClassName={`absolute -right-24 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
       />
     </SidebarGroupContent>
   );
@@ -417,11 +541,13 @@ const WorkspaceItem = memo(function WorkspaceItem({
 interface WorkspacesListProps {
   getWorkingSpaces: Doc<"workingSpaces">[] | undefined;
   handleCreateWorkingSpace: () => Promise<void>;
+  pathname: string;
 }
 
 const WorkspacesList = memo(function WorkspacesList({
   getWorkingSpaces,
   handleCreateWorkingSpace,
+  pathname,
 }: WorkspacesListProps) {
   return (
     <SidebarGroup>
@@ -436,7 +562,11 @@ const WorkspacesList = memo(function WorkspacesList({
       </SidebarGroupAction>
       {getWorkingSpaces?.length ? (
         getWorkingSpaces.map((workingSpace) => (
-          <WorkspaceItem key={workingSpace._id} workingSpace={workingSpace} />
+          <WorkspaceItem
+            key={workingSpace._id}
+            workingSpace={workingSpace}
+            pathname={pathname}
+          />
         ))
       ) : (
         <Button
@@ -457,13 +587,18 @@ interface UserAccountSectionProps {
   User: Doc<"users"> | undefined;
   handleSignOut: () => Promise<void>;
   isSigningOut: boolean;
+  pathname: string;
 }
 
 const UserAccountSection = memo(function UserAccountSection({
   User,
   handleSignOut,
   isSigningOut,
+  pathname,
 }: UserAccountSectionProps) {
+  const settingsHref = "/dashboard/settings/profile";
+  const isSettingsActive = pathname === settingsHref;
+
   return (
     <SidebarFooter className="bg-brand_fourthary text-brand_tertiary/90">
       <SidebarMenu>
@@ -522,11 +657,13 @@ const UserAccountSection = memo(function UserAccountSection({
               <DropdownMenuItem className="w-full">
                 <Button
                   variant="SidebarMenuButton"
-                  className="w-full"
-                  disabled={true} // Assuming settings link is not yet implemented
+                  className={`w-full ${
+                    isSettingsActive ? "bg-brand_tertiary/10" : ""
+                  }`}
+                  disabled={true}
                   asChild
                 >
-                  <Link href="/dashboard/settings/profile">
+                  <Link href={settingsHref}>
                     <CircleUserRound size="16" /> Account & Settings
                   </Link>
                 </Button>
@@ -567,7 +704,6 @@ export default function AppSidebar() {
   );
   const createNote = useMutation(api.mutations.notes.createNote);
 
-  // Query for working spaces and notes - Check if they are undefined for loading
   const getWorkingSpaces = useQuery(
     api.mutations.workingSpaces.getRecentWorkingSpaces,
   );
@@ -577,12 +713,11 @@ export default function AppSidebar() {
   const { signOut } = useAuthActions();
 
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state for the create note process
+  const [loading, setLoading] = useState(false);
 
   const favoriteNotes = getNotesByUserId?.filter((note) => note.favorite) ?? [];
   const isDashboard = pathname === "/dashboard";
 
-  // Determine if the main sidebar content is loading
   const isSidebarLoading =
     getWorkingSpaces === undefined ||
     User === undefined ||
@@ -600,8 +735,7 @@ export default function AppSidebar() {
     setIsSigningOut(true);
     try {
       await signOut();
-      // Changed redirect to router.push for client components
-      redirect("/");
+      router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);
     } finally {
@@ -613,7 +747,6 @@ export default function AppSidebar() {
     async (workingSpaceId: any, workingSpacesSlug: string) => {
       setLoading(true);
       try {
-        // Create the note and get its ID
         const newNoteId = await createNote({
           workingSpacesSlug: workingSpacesSlug,
           workingSpaceId: workingSpaceId,
@@ -621,21 +754,18 @@ export default function AppSidebar() {
         });
 
         if (newNoteId) {
+          const newNoteUrl = `/dashboard/${workingSpaceId}/${workingSpacesSlug}?id=${newNoteId}`;
           const newNote = getNotesByUserId?.find(
             (note) => note._id === newNoteId,
           );
 
           if (newNote) {
-            // Navigate to the specific note URL
-            router.push(
-              `/dashboard/${newNote.workingSpaceId}/${newNote.slug}?id=${newNote._id}`,
-            );
+            router.push(newNoteUrl);
           } else {
             console.warn(
-              "Newly created note not immediately found in getNotesByUserId. Navigating to workspace.",
+              "Newly created note not immediately found in getNotesByUserId. Navigating to the expected URL.",
             );
-            // Fallback navigation if the note is not immediately available in the query results
-            router.push(`/dashboard/${workingSpaceId}`);
+            router.push(newNoteUrl);
           }
         } else {
           console.error("Failed to get the ID of the newly created note.");
@@ -648,7 +778,7 @@ export default function AppSidebar() {
         setLoading(false);
       }
     },
-    [createNote, getNotesByUserId, router], // Added getNotesByUserId to dependencies
+    [createNote, getNotesByUserId, router],
   );
 
   if (isSidebarLoading) {
@@ -657,7 +787,6 @@ export default function AppSidebar() {
 
   return (
     <Sidebar variant="inset" className="border-brand_tertiary/20 group">
-      {/* Header Section */}
       <SidebarHeaderSection
         getWorkingSpaces={getWorkingSpaces}
         handleCreateNote={handleCreateNote}
@@ -666,28 +795,26 @@ export default function AppSidebar() {
       />
 
       <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-transparent group-hover:scrollbar-thumb-brand_tertiary">
-        {/* Navigation Section */}
         <SidebarNavigation
+          pathname={pathname}
           isDashboard={isDashboard}
           isMobile={isMobile}
           open={open}
         />
 
-        {/* Pinned Notes Section */}
-        <PinnedNotesList favoriteNotes={favoriteNotes} />
-
-        {/* Workspaces Section */}
+        <PinnedNotesList favoriteNotes={favoriteNotes} pathname={pathname} />
         <WorkspacesList
           getWorkingSpaces={getWorkingSpaces}
           handleCreateWorkingSpace={handleCreateWorkingSpace}
+          pathname={pathname}
         />
       </SidebarContent>
 
-      {/* User Account Section */}
       <UserAccountSection
         User={User}
         handleSignOut={handleSignOut}
         isSigningOut={isSigningOut}
+        pathname={pathname}
       />
     </Sidebar>
   );
