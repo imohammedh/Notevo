@@ -356,7 +356,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               onKeyPress={handleInputKeyPress}
-              className="flex-1 h-8 px-2 py-1.5 text-sm bg-brand_fourthary/50 rounded-lg"
+              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-brand_tertiary bg-brand_fourthary/50 rounded-lg"
             />
           ) : (
             <Button
@@ -501,7 +501,7 @@ const WorkspaceItem = memo(function WorkspaceItem({
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               onKeyPress={handleInputKeyPress}
-              className="flex-1 h-8 px-2 py-1.5 text-sm bg-brand_fourthary/50 rounded-lg"
+              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-brand_tertiary bg-brand_fourthary/50 rounded-lg"
             />
           ) : (
             <Button
@@ -735,7 +735,7 @@ export default function AppSidebar() {
     setIsSigningOut(true);
     try {
       await signOut();
-      router.push("/");
+      redirect("/");
     } catch (error) {
       console.error("Error signing out:", error);
     } finally {
