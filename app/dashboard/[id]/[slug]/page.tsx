@@ -17,7 +17,9 @@ export default function NotePage() {
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
   const getNote = getNotes?.find((note) => note._id === noteid);
-
+  if (!getNote) {
+    throw new Error("! The Note with this _id can't be found");
+  }
   const initialContent: JSONContent = getNote?.body
     ? JSON.parse(getNote.body)
     : {
@@ -72,10 +74,7 @@ export default function NotePage() {
     (updatedContent: JSONContent) => {
       updateNote({
         _id: noteid,
-        title: getNote?.title,
         body: JSON.stringify(updatedContent),
-        order: getNote?.order,
-        favorite: getNote?.favorite,
       });
     },
     500,

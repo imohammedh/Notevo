@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { generateSlug } from "../../lib/generateSlug";
@@ -10,7 +10,7 @@ export const createWorkingSpace = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         const { name } = args;
         const generateSlugName = generateSlug(name);
@@ -43,17 +43,17 @@ export const updateWorkingSpace = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         const { _id, name } = args;
         const workingSpace = await ctx.db.get(_id);
         if (!workingSpace) {
-            throw new Error("WorkingSpace not found");
+            throw new ConvexError("WorkingSpace not found");
         }
         
         // Authorization check: verify the workspace belongs to the authenticated user
         if (workingSpace.userId !== userId) {
-            throw new Error("Not authorized to update this workspace");
+            throw new ConvexError("Not authorized to update this workspace");
         }
         
         const generateSlugName = generateSlug(name ?? "Untitled");
@@ -85,18 +85,18 @@ export const deleteWorkingSpace = mutation({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
-      throw new Error("Not authenticated");
+      throw new ConvexError("Not authenticated");
     }
     
     const { _id } = args;
     const workingSpace = await ctx.db.get(_id);
     
     if (!workingSpace) {
-      throw new Error("WorkingSpace not found");
+      throw new ConvexError("WorkingSpace not found");
     }
     
     if (workingSpace.userId !== userId) {
-      throw new Error("Not authorized to delete this workspace");
+      throw new ConvexError("Not authorized to delete this workspace");
     }
     
     // Find all tables associated with this workspace
@@ -133,7 +133,7 @@ export const getRecentWorkingSpaces = query({
     handler: async (ctx) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         // This function is already secure since it only returns workspaces belonging to the authenticated user
         // However, I fixed the sorting to be by updatedAt in descending order to get truly recent workspaces
@@ -153,19 +153,19 @@ export const getWorkingSpaceById = query({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         
         const { _id } = args;
         const workingSpace = await ctx.db.get(_id);
         
         if (!workingSpace) {
-            throw new Error("WorkingSpace not found");
+            throw new ConvexError("WorkingSpace not found");
         }
         
         // Ensure the workspace belongs to the authenticated user
         if (workingSpace.userId !== userId) {
-            throw new Error("Not authorized to access this workspace");
+            throw new ConvexError("Not authorized to access this workspace");
         }
         
         return workingSpace;
