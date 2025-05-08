@@ -1,8 +1,7 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { generateSlug } from "../../lib/generateSlug";
-import type { Id } from "../_generated/dataModel";
 export const createNote = mutation({
     args: {
         title: v.string(),
@@ -13,7 +12,7 @@ export const createNote = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         
         const { title, notesTableId, workingSpacesSlug,workingSpaceId } = args;
@@ -22,7 +21,7 @@ export const createNote = mutation({
         if(notesTableId){
             const table = await ctx.db.get(notesTableId);
             if (!table) {
-                throw new Error("Table not found");
+                throw new ConvexError("Table not found");
             }
         }
         // Get the workspace to verify ownership
@@ -31,11 +30,11 @@ export const createNote = mutation({
             .first();
             
         if (!workspace) {
-            throw new Error("Workspace not found");
+            throw new ConvexError("Workspace not found");
         }
         
         if (workspace.userId !== userId) {
-            throw new Error("Not authorized to create notes in this workspace");
+            throw new ConvexError("Not authorized to create notes in this workspace");
         }
         
 
@@ -76,17 +75,17 @@ export const updateNote = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         
         const { _id, title, body, order, favorite } = args;
         const note = await ctx.db.get(_id);
         if (!note) {
-            throw new Error("Note not found");
+            throw new ConvexError("Note not found");
         }
         
         if (note.userId !== userId) {
-            throw new Error("Not authorized to update this note");
+            throw new ConvexError("Not authorized to update this note");
         }
         
         const generateSlugName = generateSlug(title ?? note.title ?? "Untitled");
@@ -122,7 +121,7 @@ export const updateNoteOrder = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         
         const { tableId, noteIds } = args;
@@ -130,28 +129,28 @@ export const updateNoteOrder = mutation({
         // Verify the table belongs to this user's workspace
         const table = await ctx.db.get(tableId);
         if (!table) {
-            throw new Error("Table not found");
+            throw new ConvexError("Table not found");
         }
         
         const workspace = await ctx.db.get(table.workingSpaceId);
         if (!workspace || workspace.userId !== userId) {
-            throw new Error("Not authorized to update note order in this table");
+            throw new ConvexError("Not authorized to update note order in this table");
         }
         
         const updates = await Promise.all(
             noteIds.map(async (noteId, index) => {
                 const note = await ctx.db.get(noteId);
                 if (!note) {
-                    throw new Error(`Note ${noteId} not found`);
+                    throw new ConvexError(`Note ${noteId} not found`);
                 }
                 
                 if (note.notesTableId !== tableId) {
-                    throw new Error(`Note ${noteId} does not belong to table ${tableId}`);
+                    throw new ConvexError(`Note ${noteId} does not belong to table ${tableId}`);
                 }
                 
                 // Verify note belongs to this user
                 if (note.userId !== userId) {
-                    throw new Error(`Not authorized to update note ${noteId}`);
+                    throw new ConvexError(`Not authorized to update note ${noteId}`);
                 }
                 
                 return ctx.db.patch(noteId, {
@@ -172,18 +171,18 @@ export const deleteNote = mutation({
     handler: async (ctx, args) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         
         const { _id } = args;
         const note = await ctx.db.get(_id);
         if (!note) {
-            throw new Error("Note not found");
+            throw new ConvexError("Note not found");
         }
         
         // Verify the note belongs to this user
         if (note.userId !== userId) {
-            throw new Error("Not authorized to delete this note");
+            throw new ConvexError("Not authorized to delete this note");
         }
         
         await ctx.db.delete(_id);
@@ -198,7 +197,7 @@ export const getNotesByWorkspaceId = query({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
-      throw new Error("Not authenticated");
+      throw new ConvexError("Not authenticated");
     }
 
     const { workingSpaceId } = args;
@@ -220,7 +219,7 @@ export const getNoteByUserId = query({
     handler: async (ctx) => {
         const userId = await getAuthUserId(ctx);
         if (!userId) {
-            throw new Error("Not authenticated");
+            throw new ConvexError("Not authenticated");
         }
         
        

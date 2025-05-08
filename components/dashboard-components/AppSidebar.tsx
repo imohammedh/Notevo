@@ -361,7 +361,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
           ) : (
             <Button
               variant="SidebarMenuButton"
-              className={`px-2 h-8 group flex-1 justify-start ${
+              className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
                 isActive ? "bg-brand_tertiary/10" : ""
               }`}
               asChild
@@ -506,7 +506,7 @@ const WorkspaceItem = memo(function WorkspaceItem({
           ) : (
             <Button
               variant="SidebarMenuButton"
-              className={`px-2 h-8 group flex-1 justify-start ${
+              className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
                 isActive ? "bg-brand_tertiary/10" : ""
               }`}
               asChild
