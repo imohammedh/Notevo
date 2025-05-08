@@ -2,18 +2,16 @@ import type { Config } from "tailwindcss";
 const defaultTheme = require("tailwindcss/defaultTheme");
  
 const colors = require("tailwindcss/colors");
+const flowbiteReact = require("flowbite-react/plugin/tailwindcss");
+
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
  
 export default {
   darkMode: ["selector", "class"],
-  content: [
-	"./app/**/*.{js,ts,jsx,tsx}", // Note the addition of the `app` directory.
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: [// Note the addition of the `app` directory.
+  "./app/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}", ".flowbite-react\\class-list.json"],
   safelist: ["dark"],
   theme: {
   	container: {
@@ -148,7 +146,13 @@ export default {
 		typography: ['dark'],
 		},
 	},
-  plugins: [require("tailwindcss-animate"),require('tailwind-scrollbar'),require("@tailwindcss/typography"),addVariablesForColors]
+  plugins: [
+      require("tailwindcss-animate"),
+      require('tailwind-scrollbar'),
+      require("@tailwindcss/typography"),
+      addVariablesForColors,
+      flowbiteReact
+  ]
 } satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {

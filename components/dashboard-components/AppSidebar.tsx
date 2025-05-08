@@ -7,6 +7,7 @@ import {
   CircleUserRound,
   LogOut,
   LayoutDashboard,
+  ChevronRight,
 } from "lucide-react";
 import { TbSelector } from "react-icons/tb";
 import {
@@ -38,7 +39,7 @@ import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, memo, useEffect } from "react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
@@ -286,48 +287,48 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
   };
   return (
     <SidebarGroupContent
-      className="relative w-full flex justify-between items-center"
+      className="relative w-full flex justify-between items-center  overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <SidebarGroupContent className="flex w-full items-center relative overflow-hidden">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <TooltipProvider>
-              <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
-                <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
-                  <Button
-                    variant="SidebarMenuButton"
-                    className="px-2 h-8 group flex-1"
-                    asChild
-                  >
-                    <Link
-                      href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
-                    >
-                      <Pin size="16" className="text-purple-500" />
-                      {note.title
-                        ? formatWorkspaceName(note.title)
-                        : "Untitled"}
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="bottom"
-                  className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <TooltipProvider>
+            <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
+              <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
+                <Button
+                  variant="SidebarMenuButton"
+                  className="px-2 h-8 group flex-1"
+                  asChild
                 >
-                  {note.title || "Untitled"}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </SidebarMenuItem>
-        </SidebarMenu>
-        <NoteSettings
-          noteId={note._id}
-          noteTitle={note.title}
-          IconVariant="horizontal_icon"
-          BtnClassName={`absolute right-2 invisible ${isHovered && "visible"}`}
-        />
-      </SidebarGroupContent>
+                  <Link
+                    href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+                  >
+                    {isHovered ? (
+                      <ChevronRight size="16" className="text-purple-500" />
+                    ) : (
+                      <Pin size="16" className="text-purple-500" />
+                    )}
+                    {note.title ? formatWorkspaceName(note.title) : "Untitled"}
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent
+                side="bottom"
+                className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+              >
+                {note.title || "Untitled"}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </SidebarMenuItem>
+      </SidebarMenu>
+      <NoteSettings
+        noteId={note._id}
+        noteTitle={note.title}
+        IconVariant="horizontal_icon"
+        BtnClassName={`absolute right-2 invisible ${isHovered && "visible"}`}
+      />
     </SidebarGroupContent>
   );
 });
@@ -370,43 +371,45 @@ const WorkspaceItem = memo(function WorkspaceItem({
   };
   return (
     <SidebarGroupContent
-      className="relative w-full flex justify-between items-center"
+      className="relative w-full flex justify-between items-center overflow-hiddenoverflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <SidebarGroupContent className="flex w-full items-center relative overflow-hidden">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <TooltipProvider>
-              <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
-                <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
-                  <Button
-                    variant="SidebarMenuButton"
-                    className="px-2 h-8 group flex-1"
-                    asChild
-                  >
-                    <Link href={`/dashboard/${workingSpace._id}`}>
-                      <Notebook size="16" />
-                      {formatWorkspaceName(workingSpace.name)}
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent
-                  side="bottom"
-                  className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <TooltipProvider>
+            <Tooltip open={isTooltipOpen} onOpenChange={setIsTooltipOpen}>
+              <TooltipTrigger onMouseLeave={handleContentMouseEnter} asChild>
+                <Button
+                  variant="SidebarMenuButton"
+                  className="px-2 h-8 group flex-1"
+                  asChild
                 >
-                  {workingSpace.name || "Untitled"}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </SidebarMenuItem>
-        </SidebarMenu>
-        <WorkingSpaceSettings
-          workingSpaceId={workingSpace._id}
-          workingspaceName={workingSpace.name}
-          className={`absolute right-2 invisible ${isHovered && "visible"}`}
-        />
-      </SidebarGroupContent>
+                  <Link href={`/dashboard/${workingSpace._id}`}>
+                    {isHovered ? (
+                      <ChevronRight size="16" />
+                    ) : (
+                      <Notebook size="16" />
+                    )}
+                    {formatWorkspaceName(workingSpace.name)}
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent
+                side="bottom"
+                className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+              >
+                {workingSpace.name || "Untitled"}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </SidebarMenuItem>
+      </SidebarMenu>
+      <WorkingSpaceSettings
+        workingSpaceId={workingSpace._id}
+        workingspaceName={workingSpace.name}
+        className={`absolute right-2 invisible ${isHovered && "visible"}`}
+      />
     </SidebarGroupContent>
   );
 });
