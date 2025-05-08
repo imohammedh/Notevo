@@ -16,7 +16,7 @@ export default convexAuthNextjsMiddleware(
       return nextjsMiddlewareRedirect(request, "/signin");
     }
   },
-  { cookieConfig: { maxAge: 60 * 60 * 24 * 30 } }, // Set cookie to expire after 30 days
+  { cookieConfig: { maxAge: 60 * 60 * 24 * 30 } },
 );
  
 export const config = {
