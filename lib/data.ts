@@ -17,8 +17,8 @@ export const NavLinks = [
         clicked:false,
     },
     {
-        Name:"Testimonials",
-        path:"/#testimonials",
+        Name:"About",
+        path:"/#about",
         clicked:false,
     },
     {
