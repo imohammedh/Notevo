@@ -14,7 +14,7 @@ import {
 import { LiaQuoteLeftSolid } from "react-icons/lia";
 export default function MoreAboutMe() {
   return (
-    <Section sectionId="more-about-me">
+    <Section sectionId="about">
       <MaxWContainer>
         <Card className="relative bg-gradient-to-br from-brand_fourthary from-15% via-purple-600/10 to-transparent border-brand_tertiary/5 p-5 sm:p-10">
           <span className=" absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-60 text-purple-600">
