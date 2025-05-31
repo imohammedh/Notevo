@@ -17,10 +17,10 @@ export default function MoreAboutMe() {
     <Section sectionId="more-about-me">
       <MaxWContainer>
         <Card className="relative bg-gradient-to-br from-brand_fourthary from-15% via-purple-600/10 to-transparent border-brand_tertiary/5 p-5 sm:p-10">
-          <span className=" absolute -top-10 left-1 -rotate-2 opacity-60 text-purple-600">
+          <span className=" absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-60 text-purple-600">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
-          <span className=" absolute -top-10 left-0 -rotate-2 opacity-60 text-purple-950">
+          <span className=" absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-60 text-purple-950">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
           <CardContent className=" w-full flex flex-col sm:flex-row justify-between items-center">
