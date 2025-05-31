@@ -10,9 +10,9 @@ export default function SignUpToday() {
       <div className="relative flex flex-col gap-6 h-[250px] w-full items-center justify-center overflow-hidden rounded-xl bg-transparent">
         <AnimatedGridPattern
           numSquares={50}
-          maxOpacity={0.5}
-          duration={1.5}
-          repeatDelay={1.5}
+          maxOpacity={0.2}
+          duration={1.2}
+          repeatDelay={1.2}
           className={cn(
             "[mask-image:radial-gradient(400px_circle_at_top,black,transparent)]",
             "inset-x-0 inset-y-[-30%] h-[85%] skew-y-0",
