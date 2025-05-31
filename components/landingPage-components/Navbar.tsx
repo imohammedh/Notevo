@@ -12,7 +12,7 @@ export default function Navbar() {
   const [inView, setInView] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 150) {
+    if (latest > 90) {
       setInView(true);
     } else {
       setInView(false);
@@ -28,10 +28,10 @@ export default function Navbar() {
     >
       <div
         className={cn(
-          " container mx-auto flex justify-between items-center border-solid border border-transparent text-mainColor200 p-4 rounded-xl transition-all",
+          " container mx-auto flex justify-between items-center border-solid border border-transparent text-mainColor200 p-4 rounded-xl transition-all ease-linear",
           inView
-            ? "border-brand_tertiary/10 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)]"
-            : "bg-transparent",
+            ? "border-brand_tertiary/10 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)] scale-[1] shadow-xl"
+            : "bg-transparent scale-[0.95]",
         )}
       >
         <div className=" flex justify-center items-center">

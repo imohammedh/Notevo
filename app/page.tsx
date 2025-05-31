@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import Footer from "@/components/landingPage-components/Footer";
 import { useEffect, useState } from "react";
 import MoreAboutMe from "@/components/landingPage-components/MoreAboutMe";
-import PricingSection from "@/components/landingPage-components/pricing-section";
+import PricingSection from "@/components/landingPage-components/pricingSection";
 import { useQuery } from "convex-helpers/react/cache";
 export default function HomePage() {
   const viewer = useQuery(api.auth.isAuthenticated);
@@ -29,7 +29,7 @@ export default function HomePage() {
           <HowToStartSection />
           <FeaturesSection />
           <MoreAboutMe />
-          <Testimonials />
+          {/* <Testimonials /> */}
           <PricingSection />
           <SignUpToday />
         </div>

@@ -674,7 +674,7 @@ const UserAccountSection = memo(function UserAccountSection({
                   variant="SidebarMenuButton"
                   className="w-full"
                   disabled={isSigningOut}
-                  onClick={handleSignOut}
+                  onMouseDown={handleSignOut}
                 >
                   {isSigningOut ? (
                     "Signing out..."
@@ -754,7 +754,7 @@ export default function AppSidebar() {
         });
 
         if (newNoteId) {
-          const newNoteUrl = `/dashboard/${workingSpaceId}/${workingSpacesSlug}?id=${newNoteId}`;
+          const newNoteUrl = `/dashboard/${workingSpaceId}/${`new-quick-access-notes`}?id=${newNoteId}`;
           const newNote = getNotesByUserId?.find(
             (note) => note._id === newNoteId,
           );
