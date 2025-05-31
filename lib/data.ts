@@ -39,7 +39,7 @@ export const HowToStartSteps =[
         id:"2",
         StepNum:"2",
         Title:"Create Your Workspace",
-        Body:"Whether you're working solo or collaborating with a team, setting up a workspace is simple."
+        Body:"Whether you're working, setting up a workspace is simple."
     },
     {
         id:"3",
