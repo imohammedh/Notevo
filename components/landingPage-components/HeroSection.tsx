@@ -17,7 +17,7 @@ export default function HeroSection() {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ ease: "easeInOut", duration: 0.4, delay: 0.4 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/40 text-red-400 text-xs font-mono font-medium mb-6 border border-red-400/20"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/20 text-red-400 text-xs font-mono font-medium mb-6 border border-red-400/20"
         >
           <span className="w-1.5 h-1.5 font-normal rounded-full bg-red-600 animate-pulse" />
           {`Bug • `} {` we're currently Fixing the AI API`}
@@ -69,7 +69,7 @@ export default function HeroSection() {
           initial={{ y: 90, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ ease: "linear", duration: 0.8, delay: 0.8 }}
-          className=" absolute -z-20 bg-gradient-to-t from-purple-900/40 from-15% to-brand_fourthary left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]"
+          className=" absolute -z-20 bg-gradient-to-t from-purple-900/50 from-15% to-brand_fourthary left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]"
         />
         <motion.div
           initial={{ y: 90, opacity: 0 }}
@@ -92,11 +92,11 @@ export default function HeroSection() {
         >
           <AnimatedGridPattern
             numSquares={50}
-            maxOpacity={0.1}
-            duration={0.5}
-            repeatDelay={1}
+            maxOpacity={0.2}
+            duration={1.2}
+            repeatDelay={1.2}
             className={cn(
-              "[mask-image:radial-gradient(800px_circle_at_top,black,transparent)]",
+              "[mask-image:radial-gradient(900px_circle_at_top,black,transparent)]",
               "inset-x-0 inset-y-[-20%] h-[85%] skew-y-0",
               "-z-50 w-full",
             )}
