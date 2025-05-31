@@ -31,7 +31,7 @@ export default function Navbar() {
           " container mx-auto flex justify-between items-center border-solid border border-transparent text-mainColor200 p-4 rounded-xl transition-all ease-linear",
           inView
             ? "border-brand_tertiary/10 bg-brand_primary/70 backdrop-blur-md [-webkit-backdrop-filter:blur(8px)] [backdrop-filter:blur(8px)] scale-[1] shadow-xl"
-            : "bg-transparent scale-[0.95]",
+            : "bg-transparent scale-[0.99]",
         )}
       >
         <div className=" flex justify-center items-center">

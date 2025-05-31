@@ -11,7 +11,7 @@ import { AnimatedGridPattern } from "../magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 export default function HeroSection() {
   return (
-    <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-32 flex justify-center items-center w-full">
+    <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-28 flex justify-center items-center w-full">
       <MaxWContainer className="flex flex-col items-center justify-center *:text-center relative px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
@@ -88,12 +88,12 @@ export default function HeroSection() {
         <motion.div
           initial={{ y: 90, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "linear", duration: 0.1, delay: 0.1 }}
+          transition={{ ease: "easeInOut", duration: 0.2, delay: 0.2 }}
         >
           <AnimatedGridPattern
             numSquares={50}
             maxOpacity={0.1}
-            duration={1}
+            duration={0.5}
             repeatDelay={1}
             className={cn(
               "[mask-image:radial-gradient(800px_circle_at_top,black,transparent)]",
