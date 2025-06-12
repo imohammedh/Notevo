@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useState, useEffect, useRef } from "react";
+import { type ReactNode, useState, useEffect, useRef, memo } from "react";
 import {
   SidebarProvider,
   SidebarTrigger,
@@ -10,21 +10,27 @@ import {
 import AppSidebar from "@/components/dashboard-components/AppSidebar";
 import BreadcrumbWithCustomSeparator from "@/components/dashboard-components/BreadcrumbWithCustomSeparator";
 
-function DashboardContent({ children }: { children: ReactNode }) {
+const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
   const [isClient, setIsClient] = useState(false);
-  const [shadow, setShadow] = useState(false); // Initially show shadow
+  const [isLoading, setIsLoading] = useState(true);
+  const [shadow, setShadow] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsClient(true);
+    // Add a small delay to ensure smooth transition
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       if (scrollableRef.current) {
         const top = scrollableRef.current.scrollTop;
-        setShadow(top > 0); // Show shadow if scrolled down, hide if at the top
+        setShadow(top > 0);
       }
     };
 
@@ -40,9 +46,25 @@ function DashboardContent({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  if (!isClient || isLoading) {
+    return (
+      <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
+      <div className={`transition-all duration-300 ease-in-out w-[15rem]`}>
+      </div>
+        <main className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${
+          open && !isMobile && `rounded-t-xl border-t border-l mt-3`
+        } rounded-none bg-brand_primary/80`}>
+          <div className="mt-14 flex-1 overflow-auto">
+            {children}
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
-      {isClient && <AppSidebar />}
+        <AppSidebar />
       <main
         className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${
           open && !isMobile && `rounded-t-xl border-t border-l mt-3`
@@ -55,7 +77,7 @@ function DashboardContent({ children }: { children: ReactNode }) {
         >
           <div className="w-full flex items-center justify-start px-5 gap-3">
             {(!open || isMobile) && <SidebarTrigger />}
-            {isClient && <BreadcrumbWithCustomSeparator />}
+            <BreadcrumbWithCustomSeparator />
           </div>
         </div>
         <div
@@ -67,12 +89,18 @@ function DashboardContent({ children }: { children: ReactNode }) {
       </main>
     </div>
   );
-}
+});
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+DashboardContent.displayName = 'DashboardContent';
+
+const DashboardLayout = memo(({ children }: { children: ReactNode }) => {
   return (
     <SidebarProvider>
       <DashboardContent>{children}</DashboardContent>
     </SidebarProvider>
   );
-}
+});
+
+DashboardLayout.displayName = 'DashboardLayout';
+
+export default DashboardLayout;

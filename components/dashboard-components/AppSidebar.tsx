@@ -124,7 +124,6 @@ const SkeletonSidebar = () => {
                   <SkeletonTextAnimation className="w-28 h-4 mx-0" />
                   <SkeletonTextAnimation className="w-20 h-3 mt-1 mx-0" />
                 </div>
-                <SkeletonTextAndIconAnimation Icon_className="w-6 h-6" />
               </div>
             </div>
           </SidebarMenuItem>
