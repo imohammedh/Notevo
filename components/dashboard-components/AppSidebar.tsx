@@ -49,12 +49,6 @@ import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
 import NoteSettings from "./NoteSettings";
 import { redirect, usePathname, useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider,
-} from "@/components/ui/tooltip";
 import type { Id } from "@hello-pangea/dnd";
 import {
   formatWorkspaceName,
@@ -65,6 +59,8 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { Input } from "../ui/input";
 import NoteSettingsSidbar from "./NoteSettingsSidbar";
 import WorkingSpaceSettingsSidbar from "./WorkingSpaceSettingsSidbar";
+import React from "react";
+
 // --- Skeleton Sidebar Component ---
 
 const SkeletonSidebar = () => {
@@ -132,8 +128,6 @@ const SkeletonSidebar = () => {
     </Sidebar>
   );
 };
-
-// --- Helper Components (Memoized) ---
 
 interface SidebarHeaderSectionProps {
   getWorkingSpaces: Doc<"workingSpaces">[] | undefined;
@@ -694,8 +688,8 @@ const UserAccountSection = memo(function UserAccountSection({
 
 // --- Main Component ---
 
-export default function AppSidebar() {
-  const { open, isMobile } = useSidebar();
+const AppSidebar = React.memo(function AppSidebar() {
+  const { open, isMobile, sidebarWidth } = useSidebar();
   const pathname = usePathname();
   const router = useRouter();
   const createWorkingSpace = useMutation(
@@ -714,13 +708,22 @@ export default function AppSidebar() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const favoriteNotes = getNotesByUserId?.filter((note) => note.favorite) ?? [];
-  const isDashboard = pathname === "/dashboard";
+  const favoriteNotes = React.useMemo(() => 
+    getNotesByUserId?.filter((note) => note.favorite) ?? [], 
+    [getNotesByUserId]
+  );
+  
+  const isDashboard = React.useMemo(() => 
+    pathname === "/dashboard",
+    [pathname]
+  );
 
-  const isSidebarLoading =
+  const isSidebarLoading = React.useMemo(() =>
     getWorkingSpaces === undefined ||
     User === undefined ||
-    getNotesByUserId === undefined;
+    getNotesByUserId === undefined,
+    [getWorkingSpaces, User, getNotesByUserId]
+  );
 
   const handleCreateWorkingSpace = useCallback(async () => {
     try {
@@ -785,7 +788,14 @@ export default function AppSidebar() {
   }
 
   return (
-    <Sidebar variant="inset" className="border-brand_tertiary/20 group">
+    <Sidebar 
+      variant="inset" 
+      className="group"
+      style={{ 
+        width: `${sidebarWidth}px`,
+        transition: 'none'
+      }}
+    >
       <SidebarHeaderSection
         getWorkingSpaces={getWorkingSpaces}
         handleCreateNote={handleCreateNote}
@@ -817,4 +827,8 @@ export default function AppSidebar() {
       />
     </Sidebar>
   );
-}
+});
+
+AppSidebar.displayName = 'AppSidebar';
+
+export default AppSidebar;
