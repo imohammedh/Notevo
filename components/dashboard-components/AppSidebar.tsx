@@ -695,7 +695,7 @@ const UserAccountSection = memo(function UserAccountSection({
 // --- Main Component ---
 
 export default function AppSidebar() {
-  const { open, isMobile } = useSidebar();
+  const { open, isMobile, sidebarWidth } = useSidebar();
   const pathname = usePathname();
   const router = useRouter();
   const createWorkingSpace = useMutation(
@@ -785,7 +785,11 @@ export default function AppSidebar() {
   }
 
   return (
-    <Sidebar variant="inset" className="border-brand_tertiary/20 group">
+    <Sidebar 
+      variant="inset" 
+      className="border-brand_tertiary/20 group"
+      style={{ width: `${sidebarWidth}px` }}
+    >
       <SidebarHeaderSection
         getWorkingSpaces={getWorkingSpaces}
         handleCreateNote={handleCreateNote}

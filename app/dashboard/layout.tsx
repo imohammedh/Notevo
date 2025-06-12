@@ -11,7 +11,7 @@ import AppSidebar from "@/components/dashboard-components/AppSidebar";
 import BreadcrumbWithCustomSeparator from "@/components/dashboard-components/BreadcrumbWithCustomSeparator";
 
 const DashboardContent = memo(({ children }: { children: ReactNode }) => {
-  const { open, isMobile } = useSidebar();
+  const { open, isMobile, sidebarWidth } = useSidebar();
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [shadow, setShadow] = useState(false);
@@ -49,8 +49,8 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   if (!isClient || isLoading) {
     return (
       <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
-      <div className={`transition-all duration-300 ease-in-out w-[15rem]`}>
-      </div>
+        <div className={`transition-all duration-300 ease-in-out`} style={{ width: `${sidebarWidth}px` }}>
+        </div>
         <main className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${
           open && !isMobile && `rounded-t-xl border-t border-l mt-3`
         } rounded-none bg-brand_primary/80`}>
@@ -64,7 +64,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
-        <AppSidebar />
+      <AppSidebar />
       <main
         className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${
           open && !isMobile && `rounded-t-xl border-t border-l mt-3`
