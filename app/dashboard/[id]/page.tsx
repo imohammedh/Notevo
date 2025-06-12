@@ -85,6 +85,8 @@ interface Note {
 interface QuickAccessNoteCardProps {
   note: Note;
   workspaceName?: string;
+  viewMode: ViewMode;
+  provided?: DraggableProvided;
 }
 
 interface NotesDroppableContainerProps {
@@ -406,12 +408,16 @@ export default function WorkingSpacePage() {
               Quick Access Notes
             </h2>
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className={viewMode === "grid" 
+            ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+            : "flex flex-col gap-3"
+          }>
             {quickAccessNotes.map((note) => (
               <QuickAccessNoteCard
                 key={note._id}
                 note={note}
                 workspaceName={workspace?.slug}
+                viewMode={viewMode}
               />
             ))}
           </div>
@@ -484,7 +490,62 @@ export default function WorkingSpacePage() {
 function QuickAccessNoteCard({
   note,
   workspaceName,
+  viewMode,
+  provided,
 }: QuickAccessNoteCardProps): JSX.Element {
+  if (viewMode === "list") {
+    return (
+      <div
+        className="flex items-center gap-3 p-3 bg-brand_fourthary/30 border border-brand_tertiary/20 hover:border-brand_tertiary/40 rounded-lg transition-all duration-300 hover:shadow-md group"
+        {...provided?.dragHandleProps}
+      >
+        <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-brand_tertiary/5 text-brand_tertiary/70 flex-shrink-0">
+          <FileText className="h-5 w-5" />
+        </div>
+        <div className="flex-grow min-w-0">
+          <h3 className="font-medium truncate">
+            {note.title ? note.title : "Untitled"}
+          </h3>
+          <p className="text-sm text-brand_tertiary/70 truncate">
+            {getContentPreview(note.body || "", "list")}
+          </p>
+        </div>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="text-xs text-brand_tertiary/50 flex items-center gap-1">
+            <Clock className="h-3.5 w-3.5" />
+            {typeof window !== "undefined" ? (
+              <time dateTime={new Date(note.updatedAt).toISOString()}>
+                {new Date(note.updatedAt).toLocaleDateString()}
+              </time>
+            ) : (
+              <SkeletonTextAnimation className="w-20" />
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="h-7 px-2 text-xs"
+            >
+              <Link
+                href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+              >
+                Open
+              </Link>
+            </Button>
+            <NoteSettings
+              noteId={note._id}
+              noteTitle={note.title || ""}
+              IconVariant="vertical_icon"
+              BtnClassName="opacity-50 group-hover:opacity-100 transition-opacity"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Card className="group relative bg-brand_fourthary/30 border-brand_tertiary/20 hover:border-brand_tertiary/40 transition-all duration-300 hover:shadow-md hover:scale-[1.02]">
       <CardHeader className="pb-2">
