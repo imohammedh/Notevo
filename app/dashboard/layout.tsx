@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/dashboard-components/AppSidebar";
 import BreadcrumbWithCustomSeparator from "@/components/dashboard-components/BreadcrumbWithCustomSeparator";
+import { MobileWarning } from "@/components/ui/mobile-warning";
 
 const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile, sidebarWidth } = useSidebar();
@@ -86,6 +87,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
         >
           {children}
         </div>
+        <MobileWarning />
       </main>
     </div>
   );
