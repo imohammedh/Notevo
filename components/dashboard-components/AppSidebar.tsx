@@ -793,7 +793,6 @@ const AppSidebar = React.memo(function AppSidebar() {
       className="group"
       style={{ 
         width: `${sidebarWidth}px`,
-        transition: 'none'
       }}
     >
       <SidebarHeaderSection
