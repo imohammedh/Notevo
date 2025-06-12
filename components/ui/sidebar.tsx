@@ -4,8 +4,6 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { VariantProps, cva } from "class-variance-authority";
 import {
-  PanelLeft,
-  ChevronsLeft,
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
@@ -75,9 +73,22 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
 
+    // Get initial state from cookie
+    const getInitialState = React.useCallback(() => {
+      if (typeof document === 'undefined') return defaultOpen;
+      const cookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
+      if (cookie) {
+        const value = cookie.split('=')[1];
+        return value === 'true';
+      }
+      return defaultOpen;
+    }, [defaultOpen]);
+
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = React.useState(defaultOpen);
+    const [_open, _setOpen] = React.useState(getInitialState);
     const open = openProp ?? _open;
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
