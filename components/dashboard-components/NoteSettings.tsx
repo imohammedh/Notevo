@@ -58,11 +58,6 @@ export default function NoteSettings({
   const getNote = getNotes?.find((note) => note._id === noteId);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Add loading state check
-  if (!getNotes) {
-    return null; // or a loading spinner
-  }
-
   useEffect(() => {
     if (open) {
       // slight delay to ensure the dropdown is rendered
@@ -72,6 +67,11 @@ export default function NoteSettings({
       }, 10);
     }
   }, [open]);
+
+  // Add loading state check after all hooks
+  if (!getNotes) {
+    return null; // or a loading spinner
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
