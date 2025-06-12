@@ -58,6 +58,11 @@ export default function NoteSettings({
   const getNote = getNotes?.find((note) => note._id === noteId);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Add loading state check
+  if (!getNotes) {
+    return null; // or a loading spinner
+  }
+
   useEffect(() => {
     if (open) {
       // slight delay to ensure the dropdown is rendered
@@ -83,7 +88,7 @@ export default function NoteSettings({
   const handleBlur = () => {
     updateNote({
       _id: noteId,
-      favorite: getNote?.favorite,
+      title: inputValue,
     });
   };
 
@@ -107,8 +112,6 @@ export default function NoteSettings({
     setIshandleFavoritePinLoading(true);
     await updateNote({
       _id: noteId,
-      title: inputValue,
-      body: getNote?.body,
       order: getNote?.order,
       favorite: !getNote?.favorite,
     });
