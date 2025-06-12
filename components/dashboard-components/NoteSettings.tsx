@@ -68,6 +68,11 @@ export default function NoteSettings({
     }
   }, [open]);
 
+  // Add loading state check after all hooks
+  if (!getNotes) {
+    return null; // or a loading spinner
+  }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -83,7 +88,7 @@ export default function NoteSettings({
   const handleBlur = () => {
     updateNote({
       _id: noteId,
-      favorite: getNote?.favorite,
+      title: inputValue,
     });
   };
 
@@ -107,8 +112,6 @@ export default function NoteSettings({
     setIshandleFavoritePinLoading(true);
     await updateNote({
       _id: noteId,
-      title: inputValue,
-      body: getNote?.body,
       order: getNote?.order,
       favorite: !getNote?.favorite,
     });
