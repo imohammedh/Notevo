@@ -16,10 +16,10 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [shadow, setShadow] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsClient(true);
-    // Add a small delay to ensure smooth transition
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 100);
@@ -49,10 +49,9 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   if (!isClient || isLoading) {
     return (
       <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
-        <div className={`transition-all duration-300 ease-in-out`} style={{ width: `${sidebarWidth}px` }}>
-        </div>
-        <main className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${
-          open && !isMobile && `rounded-t-xl border-t border-l mt-3`
+        <div style={{ width: `${sidebarWidth}px` }} />
+        <main className={`relative flex flex-col flex-1 min-h-svh border-brand_tertiary/20 ${
+          open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
         } rounded-none bg-brand_primary/80`}>
           <div className="mt-14 flex-1 overflow-auto">
             {children}
@@ -66,12 +65,13 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
     <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
       <AppSidebar />
       <main
-        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-brand_tertiary/20 ${
-          open && !isMobile && `rounded-t-xl border-t border-l mt-3`
+        ref={mainRef}
+        className={`relative flex flex-col flex-1 min-h-svh border-brand_tertiary/20 ${
+          open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
         } rounded-none bg-brand_primary/80`}
       >
         <div
-          className={`w-full absolute top-0 mx-auto py-2.5 transition-shadow duration-300 ${
+          className={`w-full absolute top-0 mx-auto py-2.5 ${
             shadow ? "shadow-2xl shadow-brand_tertiary/10" : "shadow-none"
           }`}
         >
