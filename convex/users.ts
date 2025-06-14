@@ -18,7 +18,10 @@ export const viewer = query({
 export const users = query({
   args: {},
   handler: async (ctx) => {
-    const user = await ctx.db.query("users").collect();
-    return user;
+    const users = await ctx.db
+      .query("users")
+      .order("desc")
+      .collect();
+    return users;
   },
 });
