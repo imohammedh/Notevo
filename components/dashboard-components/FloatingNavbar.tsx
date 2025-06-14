@@ -32,6 +32,8 @@ import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import type { Id } from "@/convex/_generated/dataModel";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+
 
 export default function FloatingNavbar() {
   const User = useQuery(api.users.viewer);
@@ -70,12 +72,12 @@ export default function FloatingNavbar() {
   };
 
   return (
-    <div className="fixed w-full bottom-0 right-0 h-16 bg-brand_fourthary/70 backdrop-blur border border-solid border-brand_tertiary/5 block sm:hidden ">
+    <div className="fixed w-full bottom-0 right-0 h-16 bg-background/70 backdrop-blur border border-solid border-border block sm:hidden ">
       <div className=" w-full h-full flex justify-center items-center gap-5">
-        <div className=" flex flex-col justify-center items-center text-brand_tertiary/70 text-xs hover:text-brand_tertiary">
+        <div className=" flex flex-col justify-center items-center text-muted-foreground text-xs hover:text-foreground">
           <Button
             variant="Trigger"
-            className="justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+            className="justify-center text-muted-foreground hover:text-foreground"
           >
             <Link href="/dashboard">
               <Home size="24" />
@@ -83,7 +85,7 @@ export default function FloatingNavbar() {
           </Button>
           Home
         </div>
-        <div className=" flex flex-col justify-center items-center text-brand_tertiary/70 text-xs hover:text-brand_tertiary">
+        <div className=" flex flex-col justify-center items-center text-muted-foreground text-xs hover:text-foreground">
           <span className="h-10 px-4 py-2">
             {/* <SearchDialog
               Variant="Trigger"
@@ -93,10 +95,10 @@ export default function FloatingNavbar() {
           </span>
           Search
         </div>
-        <div className=" flex flex-col justify-center items-center text-brand_tertiary/70 text-xs hover:text-brand_tertiary">
+        <div className=" flex flex-col justify-center items-center text-muted-foreground text-xs hover:text-foreground">
           <Button
             variant="Trigger"
-            className="justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+            className="justify-center text-muted-foreground hover:text-foreground"
             onClick={
               searchParams === null
                 ? handleCreateWorkingSpace
@@ -108,14 +110,14 @@ export default function FloatingNavbar() {
           </Button>
           Create
         </div>
-        <div className=" flex flex-col justify-center items-center text-brand_tertiary/70 text-xs hover:text-brand_tertiary">
-          <div className=" text-brand_tertiary/70 text-xs hover:text-brand_tertiary">
+        <div className=" flex flex-col justify-center items-center text-muted-foreground text-xs hover:text-foreground">
+          <div className=" text-muted-foreground text-xs hover:text-foreground">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 {Signoutloading === false ? (
                   <Button
                     variant="Trigger"
-                    className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+                    className=" justify-center text-muted-foreground hover:text-foreground"
                   >
                     <Avatar className="max-w-8 max-h-8 flex items-center justify-center">
                       <AvatarImage
@@ -131,7 +133,7 @@ export default function FloatingNavbar() {
                 ) : (
                   <Button
                     variant="Trigger"
-                    className=" justify-center text-brand_tertiary/50 hover:text-brand_tertiary"
+                    className=" justify-center text-muted-foreground hover:text-foreground"
                     disabled={Signoutloading}
                   >
                     <LoadingAnimation />
@@ -140,7 +142,7 @@ export default function FloatingNavbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className=" rounded-lg m-2 p-2 bg-brand_fourthary backdrop-blur border border-solid border-brand_tertiary/10 w-fit"
+                className=" rounded-lg m-2 p-2 bg-background backdrop-blur border border-solid border-border w-fit"
               >
                 <DropdownMenuItem className=" w-full">
                   <Button

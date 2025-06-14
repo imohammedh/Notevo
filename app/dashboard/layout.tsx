@@ -49,40 +49,40 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
 
   if (!isClient || isLoading) {
     return (
-      <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
+      <div className="flex h-screen w-full bg-accent overflow-hidden">
         <div style={{ width: `${sidebarWidth}px` }} />
-        <main className={`relative flex flex-col flex-1 min-h-svh border-brand_tertiary/20 ${
+        <main className={`relative flex flex-col flex-1 min-h-svh border-border ${
           open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
-        } rounded-none bg-brand_primary/80`}>
+        } rounded-none bg-background`}>
           <div className="mt-14 flex-1 overflow-auto">
             {children}
           </div>
         </main>
-      </div>
+      </div> 
     );
   }
 
   return (
-    <div className="flex h-screen w-full bg-brand_fourthary overflow-hidden">
+    <div className="flex h-screen w-full bg-accent overflow-hidden">
       <AppSidebar />
       <main
         ref={mainRef}
-        className={`relative flex flex-col flex-1 min-h-svh border-brand_tertiary/20 ${
+        className={`relative flex flex-col flex-1 min-h-svh border-primary/30 ${
           open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
-        } rounded-none bg-brand_primary/80`}
+        } rounded-none bg-background`}
       >
         <div
           className={`w-full absolute top-0 mx-auto py-2.5 ${
-            shadow ? "shadow-2xl shadow-brand_tertiary/10" : "shadow-none"
+            shadow ? "shadow-2xl shadow-border/10" : "shadow-none"
           }`}
         >
-          <div className="w-full flex items-center justify-start px-5 gap-3">
-            {(!open || isMobile) && <SidebarTrigger />}
-            <BreadcrumbWithCustomSeparator />
-          </div>
+        <div className="w-full flex items-center justify-start px-5 gap-3">
+          {(!open || isMobile) && <SidebarTrigger />}
+          <BreadcrumbWithCustomSeparator />
+        </div>
         </div>
         <div
-          className="mt-14 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent"
+          className="mt-14 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
           ref={scrollableRef}
         >
           {children}

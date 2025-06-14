@@ -1,11 +1,12 @@
 "use client";
-import { Notebook, Plus } from "lucide-react";
+import { Notebook, Plus, FolderX } from "lucide-react";
 import { Button } from "../ui/button";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState } from "react";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { Card, CardContent } from "../ui/card";
+import Link from "next/link";
 
 export default function WorkingSpaceNotFound() {
   const createWorkingSpace = useMutation(
@@ -27,22 +28,19 @@ export default function WorkingSpaceNotFound() {
   return (
     <Card className="bg-brand_fourthary/30 border-brand_tertiary/20">
       <CardContent className="pt-6 text-center">
-        <div className="flex flex-col items-center justify-center py-8">
-          <Notebook className="h-10 w-10 text-brand_tertiary/40" />
-          <h3 className="text-lg font-medium mb-2">No workspaces yet</h3>
-          <p className="text-brand_tertiary/70 mb-4">
-            Create your first workspace to start organizing your notes and
-            ideas.
-          </p>
-          <Button
-            onClick={handleCreateWorkingSpace}
-            className="flex items-center gap-2"
-            variant="outline"
-            disabled={loading}
-          >
-            {loading ? <LoadingAnimation /> : <Plus className="h-4 w-4" />}
-            {loading ? "Creating..." : "Create Workspace"}
-          </Button>
+        <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center">
+          <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+              <FolderX className="h-10 w-10 text-muted-foreground" />
+            </div>
+            <h3 className="mt-4 text-lg font-semibold text-foreground">Workspace not found</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              The workspace you're looking for doesn't exist or you don't have access to it.
+            </p>
+            <Button className="mt-4" asChild>
+              <Link href="/dashboard">Return to Dashboard</Link>
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

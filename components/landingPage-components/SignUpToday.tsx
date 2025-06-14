@@ -1,38 +1,49 @@
-import MaxWContainer from "../ui/MaxWContainer";
+"use client";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { AnimatedGridPattern } from "../magicui/animated-grid-pattern";
+import { motion } from "framer-motion";
 import Section from "../ui/Section";
+import MaxWContainer from "../ui/MaxWContainer";
+
 export default function SignUpToday() {
   return (
-    <Section>
-      <div className="relative flex flex-col gap-6 h-[250px] w-full items-center justify-center overflow-hidden rounded-xl bg-transparent">
-        <AnimatedGridPattern
-          numSquares={50}
-          maxOpacity={0.2}
-          duration={1.2}
-          repeatDelay={1.2}
-          className={cn(
-            "[mask-image:radial-gradient(400px_circle_at_top,black,transparent)]",
-            "inset-x-0 inset-y-[-30%] h-[85%] skew-y-0",
-          )}
-        />
+    <Section className="relative overflow-hidden">
+      <MaxWContainer>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative flex flex-col items-center justify-center gap-8 py-16 px-6 rounded-2xl border border-border/20 bg-background/50 backdrop-blur-sm"
+        >
+          <div className="text-center space-y-4 max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+              Ready to Experience the Future of Note-Taking?
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Start your journey today and experience the power of AI-powered note-taking.
+            </p>
+          </div>
 
-        <h3 className="text-xl sm:text-2xl md:text-4xl text-center bg-gradient-to-b from-brand_tertiary to-transparent bg-clip-text text-transparent font-semibold leading-relaxed sm:leading-relaxed">
-          Ready to Experience the Future of Note-Taking?{" "}
-          <br className="hidden sm:block" /> Sign Up Today and Start Your Free
-          Trial
-        </h3>
-        <Button className="w-full sm:w-auto">
-          <Link
-            href="/signin"
-            className="text-sm sm:text-base px-6 sm:px-8 lg:px-10"
-          >
-            Sign Up
-          </Link>
-        </Button>
-      </div>
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <Button size="lg" asChild className="w-full sm:w-auto">
+              <Link href="/signup" className="text-base font-medium">
+                Start Free Trial
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
+              <Link href="/#pricing" className="text-base font-medium">
+                View Pricing
+              </Link>
+            </Button>
+          </div>
+
+          {/* Background Pattern */}
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background" />
+          </div>
+        </motion.div>
+      </MaxWContainer>
     </Section>
   );
 }

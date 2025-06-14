@@ -10,22 +10,22 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          " border bg-brand_tertiary text-base text-brand_primary hover:bg-brand_tertiary/80 outline-none border-none",
+          "bg-primary text-primary-foreground hover:bg-primary/70",
         destructive:
-          "bg-red-900 text-brand_tertiary hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90 outline-none border-none",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-solid border-brand_tertiary/20 hover:bg-brand_tertiary/10",
+          "border border-input bg-transparent hover:bg-background hover:text-accent-foreground",
         secondary:
-          "bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80 outline-none border-none",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:
-          "bg-none border border-solid border-brand_tertiary/50 text-brand_secondary transition-all hover:opacity-80 hover:border-brand_tertiary",
+          "hover:bg-accent hover:text-accent-foreground",
         Trigger:
-          "bg-none text-brand_secondary/70 hover:text-brand_secondary outline-none border-none",
-        link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50 outline-none border-none",
+          "bg-none text-foreground/70 hover:text-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
         SidebarMenuButton:
-          "flex justify-start items-center gap-2 bg-none w-full text-brand_secondary hover:bg-brand_tertiary/10 outline-none border-none",
+          "flex justify-start items-center gap-2 bg-none w-full text-foreground hover:bg-foreground/10",
         SidebarMenuButton_destructive:
-          "flex justify-start items-center gap-2 bg-none w-full text-brand_secondary hover:bg-brand_tertiary/10 hover:text-red-600 outline-none border-none",
+          "flex justify-start items-center gap-2 bg-none w-full text-foreground hover:bg-foreground/10 hover:text-destructive",
       },
       size: {
         default: "h-10 px-4 py-2",

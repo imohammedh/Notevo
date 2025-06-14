@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Clock, FileText, FolderPlus, Star } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export function RecentActivityList() {
   const User = useQuery(api.users.viewer);
@@ -85,34 +86,32 @@ export function RecentActivityList() {
   };
 
   return (
-    <div className="space-y-6">
-      {activities.map((activity) => (
-        <div key={activity.id} className="flex items-center">
-          <Avatar className="h-9 w-9 mr-4">
-            <AvatarImage
-              src={User?.image || "/placeholder.svg"}
-              alt={User?.name || "User"}
-            />
-            <AvatarFallback className="bg-brand_tertiary/10 text-brand_tertiary">
-              {User?.name?.charAt(0) || "U"}
-            </AvatarFallback>
-          </Avatar>
-          <div className="space-y-1 flex-1">
-            <p className="text-sm font-medium leading-none">{activity.title}</p>
-            <p className="text-sm text-brand_tertiary/70">
-              {getActivityDescription(activity.type)}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="rounded-full bg-brand_tertiary/10 p-1.5">
-              {getActivityIcon(activity.type)}
+    <Card className="bg-card">
+      <CardHeader>
+        <CardTitle className="text-card-foreground">Recent Activity</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {activities.map((activity, index) => (
+            <div key={index} className="flex items-start gap-4">
+              <div className="rounded-full bg-muted p-2">
+                {getActivityIcon(activity.type)}
+              </div>
+              <div className="flex-1 space-y-1">
+                <p className="text-sm font-medium text-foreground">
+                  {activity.title}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {getActivityDescription(activity.type)}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {formatRelativeTime(activity.timestamp)}
+                </p>
+              </div>
             </div>
-            <span className="text-xs text-brand_tertiary/50">
-              {formatRelativeTime(activity.timestamp)}
-            </span>
-          </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </CardContent>
+    </Card>
   );
 }

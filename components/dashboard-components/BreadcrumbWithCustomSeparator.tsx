@@ -42,9 +42,9 @@ export default function BreadcrumbWithCustomSeparator() {
       : null;
 
   return (
-    <div className="bg-transparent py-2">
+    <div className="bg-background py-2">
       <Breadcrumb>
-        <BreadcrumbList className="flex flex-nowrap overflow-x-hidden whitespace-nowrap">
+        <BreadcrumbList className="flex flex-nowrap overflow-x-hidden whitespace-nowrap text-foreground">
           {pathSegments.map((segment, index) => {
             // Build the path up to this segment
             const pathToSegment =
@@ -88,14 +88,14 @@ export default function BreadcrumbWithCustomSeparator() {
               >
                 <BreadcrumbItem>
                   {isLast ? (
-                    <BreadcrumbPage>{displayName}</BreadcrumbPage>
+                    <BreadcrumbPage className="text-foreground">{displayName}</BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink asChild>
-                      <Link href={fullHref}>{displayName}</Link>
+                      <Link href={fullHref} className="text-muted-foreground hover:text-foreground transition-colors">{displayName}</Link>
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
-                {!isLast && <Slash className="w-3 h-3 mx-1" />}
+                {!isLast && <Slash className="w-3 h-3 mx-1 text-muted-foreground" />}
               </div>
             );
           })}

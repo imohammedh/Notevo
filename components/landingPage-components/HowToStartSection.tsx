@@ -1,44 +1,71 @@
 "use client";
-import { HowToStartSteps } from "../../lib/data";
-import SectionHeading from "./SectionHeading";
-import MaxWContainer from "../ui/MaxWContainer";
-import Section from "../ui/Section";
+import { HowToStartSteps } from "@/lib/data";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+interface Step {
+  id: string;
+  StepNum: string;
+  Title: string;
+  Body: string;
+}
 
 export default function HowToStartSection() {
   return (
-    <Section sectionId="How_To_Start">
-      <MaxWContainer>
-        <SectionHeading
-          SectionTitle="How To Start ?"
-          SectionSubTitle="it has never been easier"
-        />
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
-          {HowToStartSteps.map((step) => (
-            <div
+    <section id="how-to-start" className="relative py-24 overflow-hidden">
+      <div className="container relative z-10 mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+              How To Start
+            </span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Get started with Notevo in just a few simple steps
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {HowToStartSteps.map((step: Step, index: number) => (
+            <motion.div
               key={step.id}
-              className="relative flex justify-center items-start group hover:scale-105 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group relative"
             >
-              <div className="absolute -top-5 left-0 flex items-center gap-2">
-                <div className="w-8 h-8 bg-brand_tertiary/10 rounded-xl flex items-center justify-center group-hover:bg-brand_tertiary/30 transition-all duration-300">
-                  <span className="text-brand_tertiary/50 group-hover:text-brand_tertiary">
-                    {" "}
-                    {step.StepNum}
-                    <div className="absolute top-0 left-0 w-2 h-2 bg-purple-900 rounded-full group-hover:scale-150 group-hover:bg-purple-400 transition-all duration-300" />
-                  </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-primary/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500" />
+                    <div className="relative bg-primary/10 rounded-full p-4">
+                      <span className="text-xl font-semibold text-primary">
+                        {step.StepNum}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-semibold text-foreground">
+                      {step.Title}
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {step.Body}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="py-4 px-3 sm:px-4 w-full max-w-sm transition-all ease-in-out duration-300 group-hover:border-brand_tertiary">
-                <h3 className="py-2 text-lg md:text-xl lg:text-2xl text-brand_tertiary font-semibold group-hover:text-brand_tertiary/90">
-                  {step.Title}
-                </h3>
-                <p className="text-sm md:text-base text-brand_tertiary/50 font-bold group-hover:text-brand_tertiary/70">
-                  {step.Body}
-                </p>
-              </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </MaxWContainer>
-    </Section>
+      </div>
+    </section>
   );
 }

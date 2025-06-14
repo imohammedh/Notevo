@@ -21,15 +21,17 @@ export function StatsCard({
   trend,
 }: StatsCardProps) {
   return (
-    <Card className="bg-brand_fourthary/50 border-brand_tertiary/20 text-brand_tertiary/90">
+    <Card className="bg-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <div className="h-4 w-4 text-muted-foreground">{icon}</div>
+        <CardTitle className="text-sm font-medium text-card-foreground">
+          {title}
+        </CardTitle>
+        {icon}
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="text-2xl font-bold text-foreground">{value}</div>
         <div className="flex items-center justify-between">
-          <p className="text-xs text-brand_tertiary/70">{description}</p>
+          <p className="text-xs text-muted-foreground">{description}</p>
           {change && (
             <div className="flex items-center gap-1">
               {trend === "up" ? (
@@ -41,7 +43,7 @@ export function StatsCard({
                 className={cn("text-xs", {
                   "text-emerald-500": trend === "up",
                   "text-red-500": trend === "down",
-                  "text-brand_tertiary/70": trend === "neutral" || !trend,
+                  "text-muted-foreground": trend === "neutral" || !trend,
                 })}
               >
                 {change}

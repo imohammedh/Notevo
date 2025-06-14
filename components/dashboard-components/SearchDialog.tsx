@@ -142,36 +142,41 @@ export default function SearchDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          variant={variant}
+          variant="SidebarMenuButton"
           size="sm"
           className="px-2 h-8 group outline-none border-none"
         >
-          <Search size={iconSize} className="text-brand_tertiary" />
+          <Search size={iconSize} />
           {showTitle && (
             <div className="w-full flex items-center justify-between gap-1">
-              <span className="text-brand_tertiary">Search</span>
-              <CommandShortcut className="text-xs opacity-70">
-                {sidebaraOpen && sidbarMobile ? "" : "⌘ + K"}
-              </CommandShortcut>
+              Search
+              <span className="inline-flex gap-1">
+              <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                <span className="text-xs">Ctrl</span>
+              </kbd>
+              <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                <span className="text-xs">K</span>
+              </kbd>
+              </span>
             </div>
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-0 overflow-hidden border border-brand_tertiary/20 bg-brand_fourthary shadow-xl shadow-brand_primary md:min-w-[700px]">
+      <DialogContent className="p-0 overflow-hidden border border-border bg-background shadow-xl shadow-border/10 md:min-w-[700px]">
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
-        <Command className="bg-brand_fourthary">
+        <Command className="bg-background">
           <div
-            className={`flex items-center border-b ${groupedNotes && groupedNotes.today.length > 0 ? `border-brand_tertiary/20` : `border-none`} w-full px-3`}
+            className={`flex items-center border-b ${groupedNotes && groupedNotes.today.length > 0 ? `border-border` : `border-none`} w-full px-3`}
           >
             <CommandInput
               placeholder="Search for notes or content..."
-              className="h-11 border-none focus:ring-0 focus-visible:ring-0 placeholder:text-brand_tertiary/50"
+              className="h-11 border-none focus:ring-0 focus-visible:ring-0 placeholder:text-muted-foreground"
               value={query}
               onValueChange={setQuery}
             />
           </div>
-          <CommandList className="max-h-[80vh] scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent overflow-auto p-1">
-            <CommandEmpty className="py-6 text-center text-sm text-brand_tertiary">
+          <CommandList className="max-h-[80vh] scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent overflow-auto p-1">
+            <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
               {notes && notes.length === 0 ? null : "No results found."}
             </CommandEmpty>
 
@@ -190,13 +195,13 @@ export default function SearchDialog({
                         }
                       >
                         <div className="flex w-full items-center">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
                             {React.createElement(getNoteIcon(note), {
                               size: 16,
                             })}
                           </div>
                           <div className="flex-1 overflow-hidden">
-                            <p className="font-medium truncate">
+                            <p className="font-medium truncate text-foreground">
                               {note.title || "Untitled"}
                             </p>
                             <p className="text-xs text-muted-foreground truncate">
@@ -230,13 +235,13 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <p className="font-medium truncate">
+                              <p className="font-medium truncate text-foreground">
                                 {note.title || "Untitled"}
                               </p>
                               <p className="text-xs text-muted-foreground truncate">
@@ -269,13 +274,13 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <p className="font-medium truncate">
+                              <p className="font-medium truncate text-foreground">
                                 {note.title || "Untitled"}
                               </p>
                               <p className="text-xs text-muted-foreground truncate">
@@ -310,13 +315,13 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <p className="font-medium truncate">
+                              <p className="font-medium truncate text-foreground">
                                 {note.title || "Untitled"}
                               </p>
                               <p className="text-xs text-muted-foreground truncate">
@@ -324,7 +329,7 @@ export default function SearchDialog({
                               </p>
                             </div>
                             <div className="flex items-center text-xs text-muted-foreground">
-                              <Calendar className="mr-1 h-3 w-3" />
+                              <Clock className="mr-1 h-3 w-3" />
                               <span>
                                 {new Date(note.createdAt).toLocaleDateString()}
                               </span>
@@ -351,13 +356,13 @@ export default function SearchDialog({
                           }
                         >
                           <div className="flex w-full items-center">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-brand_tertiary/20 mr-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
                               {React.createElement(getNoteIcon(note), {
                                 size: 16,
                               })}
                             </div>
                             <div className="flex-1 overflow-hidden">
-                              <p className="font-medium truncate">
+                              <p className="font-medium truncate text-foreground">
                                 {note.title || "Untitled"}
                               </p>
                               <p className="text-xs text-muted-foreground truncate">
@@ -365,7 +370,7 @@ export default function SearchDialog({
                               </p>
                             </div>
                             <div className="flex items-center text-xs text-muted-foreground">
-                              <Calendar className="mr-1 h-3 w-3" />
+                              <Clock className="mr-1 h-3 w-3" />
                               <span>
                                 {new Date(note.createdAt).toLocaleDateString()}
                               </span>

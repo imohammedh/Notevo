@@ -9,6 +9,7 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 const data = [
   {
@@ -65,38 +66,49 @@ export function OverviewChart() {
   const { theme } = useTheme();
 
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
-        <XAxis
-          dataKey="name"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value: any) => `${value}`}
-        />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "rgba(17, 17, 17, 0.8)",
-            borderRadius: "8px",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            color: "#f8f8f8",
-          }}
-          cursor={{ fill: "rgba(255, 255, 255, 0.05)" }}
-        />
-        <Bar
-          dataKey="total"
-          fill="rgba(145, 126, 232, 0.7)"
-          radius={[4, 4, 0, 0]}
-          className="fill-brand_primary hover:fill-brand_primary/80"
-        />
-      </BarChart>
-    </ResponsiveContainer>
+    <Card className="bg-card">
+      <CardHeader>
+        <CardTitle className="text-card-foreground">Overview</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data}>
+              <defs>
+                <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="hsl(var(--chart-1))" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="hsl(var(--chart-1))" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis
+                dataKey="name"
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => `${value}`}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "var(--radius)",
+                }}
+              />
+              <Bar
+                dataKey="total"
+                fill="url(#color)"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

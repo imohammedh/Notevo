@@ -31,11 +31,11 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import WorkingSpaceSettings from "./WorkingSpaceSettings";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
@@ -46,7 +46,6 @@ import LoadingAnimation from "../ui/LoadingAnimation";
 import SkeletonTextAnimation from "../ui/SkeletonTextAnimation";
 import SkeletonSmImgAnimation from "../ui/SkeletonSmImgAnimation";
 import SkeletonTextAndIconAnimation from "../ui/SkeletonTextAndIconAnimation";
-import NoteSettings from "./NoteSettings";
 import { redirect, usePathname, useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import type { Id } from "@hello-pangea/dnd";
@@ -60,13 +59,17 @@ import { Input } from "../ui/input";
 import NoteSettingsSidbar from "./NoteSettingsSidbar";
 import WorkingSpaceSettingsSidbar from "./WorkingSpaceSettingsSidbar";
 import React from "react";
+import { ThemeToggle } from "../ThemeToggle";
+import { UserIcon } from "lucide-react";
+import Image from "next/image";
+import { FolderIcon } from "lucide-react";
 
 // --- Skeleton Sidebar Component ---
 
 const SkeletonSidebar = () => {
   return (
-    <Sidebar variant="inset" className="border-brand_tertiary/20 group">
-      <SidebarHeader className="bg-brand_fourthary text-brand_tertiary/90 border-b border-brand_tertiary/10">
+    <Sidebar variant="inset" className="border-border group">
+      <SidebarHeader className=" text-foreground border-b border-border">
         <div className=" w-full flex items-center justify-between p-1.5">
           <div className="flex items-center justify-start gap-2">
             <SkeletonTextAnimation className="w-20 h-4 mx-0" />
@@ -78,9 +81,9 @@ const SkeletonSidebar = () => {
           <SkeletonTextAnimation className="w-full mx-0 h-8" />
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-transparent group-hover:scrollbar-thumb-brand_tertiary">
+      <SidebarContent className="text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-background scrollbar-track-transparent group-hover:scrollbar-thumb-foreground">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-brand_tertiary/50">
+          <SidebarGroupLabel className="text-muted-foreground">
             <SkeletonTextAnimation className="w-24 h-3" />
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -95,7 +98,7 @@ const SkeletonSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-brand_tertiary/50">
+          <SidebarGroupLabel className="text-muted-foreground">
             <SkeletonTextAnimation className="w-24 h-3" />
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -110,7 +113,7 @@ const SkeletonSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-brand_fourthary text-brand_tertiary/90">
+      <SidebarFooter className="text-foreground">
         <SidebarMenu>
           <SidebarMenuItem>
             <div className="my-2">
@@ -146,13 +149,13 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
   loading,
 }: SidebarHeaderSectionProps) {
   return (
-    <SidebarHeader className="bg-brand_fourthary text-brand_tertiary/90 border-b border-brand_tertiary/10">
+    <SidebarHeader className=" text-foreground border-b border-border">
       <div className="flex items-center justify-between p-1.5">
         <div className="flex items-center gap-2">
-          <span className="font-semibold text-brand_tertiary/90">Notevo</span>
+          <span className="font-semibold text-foreground">Notevo</span>
           <Badge
             variant="secondary"
-            className="text-[0.6rem] bg-brand_tertiary/5 border-brand_tertiary/20 text-brand_tertiary"
+            className="text-[0.6rem]"
           >
             BETA
           </Badge>
@@ -173,14 +176,14 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
             ) : (
               <>
                 Redirecting...
-                <LoadingAnimation className=" h-3 w-3 text-brand_fourthary" />
+                <LoadingAnimation className=" h-3 w-3 text-foreground" />
               </>
             )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           side="bottom"
-          className="rounded-xl m-2 p-1.5 bg-brand_fourthary/90 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
+          className="rounded-xl m-2 p-1.5 bg-background/90 backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
         >
           <DropdownMenuLabel className="px-2 py-1 text-sm font-medium opacity-50">
             {getWorkingSpaces?.length
@@ -192,7 +195,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
               getWorkingSpaces.map((workingSpace) => (
                 <DropdownMenuItem
                   key={workingSpace._id}
-                  className="relative flex-1 px-2 py-1.5 data-[highlighted]:bg-brand_tertiary/10 rounded-lg"
+                  className="relative flex-1 px-2 py-1.5 data-[highlighted]:bg-foreground rounded-lg"
                   onSelect={() =>
                     handleCreateNote(
                       workingSpace._id as any,
@@ -238,7 +241,7 @@ const SidebarNavigation = memo(function SidebarNavigation({
 }: SidebarNavigationProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-brand_tertiary/50">
+      <SidebarGroupLabel>
         Navigation
       </SidebarGroupLabel>
       <SidebarGroupContent>
@@ -248,7 +251,7 @@ const SidebarNavigation = memo(function SidebarNavigation({
               asChild
               variant="SidebarMenuButton"
               className={`px-2 h-8 group ${
-                pathname === "/dashboard" ? "bg-brand_tertiary/10" : ""
+                pathname === "/dashboard" ? "bg-foreground/10" : ""
               }`}
             >
               <Link href="/dashboard">
@@ -349,13 +352,13 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               onKeyPress={handleInputKeyPress}
-              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-brand_tertiary bg-brand_fourthary/50 rounded-lg"
+              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground rounded-lg"
             />
           ) : (
             <Button
               variant="SidebarMenuButton"
               className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                isActive ? "bg-brand_tertiary/10" : ""
+                isActive ? "bg-foreground" : ""
               }`}
               asChild
               onDoubleClick={handleDoubleClick}
@@ -404,7 +407,7 @@ const PinnedNotesList = memo(function PinnedNotesList({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-brand_tertiary/50 flex items-center justify-between">
+      <SidebarGroupLabel className="text-muted-foreground flex items-center justify-between">
         <span>Pinned Notes</span>
       </SidebarGroupLabel>
       {favoriteNotes.map((note) => (
@@ -494,13 +497,13 @@ const WorkspaceItem = memo(function WorkspaceItem({
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               onKeyPress={handleInputKeyPress}
-              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-brand_tertiary bg-brand_fourthary/50 rounded-lg"
+              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground  rounded-lg"
             />
           ) : (
             <Button
               variant="SidebarMenuButton"
               className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                isActive ? "bg-brand_tertiary/10" : ""
+                isActive ? "bg-foreground/10" : ""
               }`}
               asChild
               onDoubleClick={handleDoubleClick}
@@ -544,7 +547,7 @@ const WorkspacesList = memo(function WorkspacesList({
 }: WorkspacesListProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-brand_tertiary/50 flex items-center justify-between">
+      <SidebarGroupLabel className="text-muted-foreground flex items-center justify-between">
         <span>Workspaces</span>
       </SidebarGroupLabel>
       <SidebarGroupAction
@@ -593,7 +596,7 @@ const UserAccountSection = memo(function UserAccountSection({
   const isSettingsActive = pathname === settingsHref;
 
   return (
-    <SidebarFooter className="bg-brand_fourthary text-brand_tertiary/90">
+    <SidebarFooter className=" text-foreground">
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
@@ -619,7 +622,7 @@ const UserAccountSection = memo(function UserAccountSection({
                       className="rounded-full"
                       alt={User ? User.name?.charAt(0) : "..."}
                     />
-                    <AvatarFallback className="bg-brand_tertiary/10 text-brand_tertiary">
+                    <AvatarFallback className="bg-foreground text-foreground">
                       {User?.name ? (
                         User.name.charAt(0)
                       ) : (
@@ -635,7 +638,7 @@ const UserAccountSection = memo(function UserAccountSection({
                         <SkeletonTextAnimation className="w-28 mx-0" />
                       )}
                     </div>
-                    <div className="text-xs text-brand_tertiary/60">
+                    <div className="text-xs text-foreground/60">
                       {formatUserEmail(User?.email)}
                     </div>
                   </div>
@@ -645,38 +648,24 @@ const UserAccountSection = memo(function UserAccountSection({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               side="top"
-              className="rounded-xl m-2 p-1.5 bg-brand_fourthary/90 backdrop-blur border border-solid border-brand_tertiary/20 w-[--radix-popper-anchor-width]"
+              className="rounded-xl m-2 p-1.5 bg-background backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
             >
-              <DropdownMenuItem className="w-full">
-                <Button
-                  variant="SidebarMenuButton"
-                  className={`w-full ${
-                    isSettingsActive ? "bg-brand_tertiary/10" : ""
-                  }`}
-                  disabled={true}
-                  asChild
-                >
-                  <Link href={settingsHref}>
-                    <CircleUserRound size="16" /> Account & Settings
-                  </Link>
-                </Button>
+              <DropdownMenuItem asChild>
+                <Link href="/settings">
+                  <UserIcon className="mr-2 h-4 w-4" />
+                  Account & Settings
+                </Link>
               </DropdownMenuItem>
-              <SidebarSeparator className="opacity-30 my-2" />
-              <DropdownMenuItem className="w-full">
-                <Button
-                  variant="SidebarMenuButton"
-                  className="w-full"
-                  disabled={isSigningOut}
-                  onMouseDown={handleSignOut}
-                >
-                  {isSigningOut ? (
-                    "Signing out..."
-                  ) : (
-                    <>
-                      <LogOut size="16" /> Sign out
-                    </>
-                  )}
-                </Button>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="p-0">
+                <div className="w-full p-2">
+                  <ThemeToggle />
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut}>
+                <LogOut size="16" className="mr-2 h-4 w-4" />
+                Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -790,7 +779,7 @@ const AppSidebar = React.memo(function AppSidebar() {
   return (
     <Sidebar 
       variant="inset" 
-      className="group"
+      className="group bg-accent"
       style={{ 
         width: `${sidebarWidth}px`,
       }}
@@ -802,13 +791,13 @@ const AppSidebar = React.memo(function AppSidebar() {
         loading={loading}
       />
 
-      <SidebarContent className="bg-brand_fourthary text-brand_tertiary/90 transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-brand_fourthary scrollbar-track-transparent group-hover:scrollbar-thumb-brand_tertiary">
+      <SidebarContent className=" text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-background scrollbar-track-transparent group-hover:scrollbar-thumb-foreground">
         <SidebarNavigation
           pathname={pathname}
           isDashboard={isDashboard}
           isMobile={isMobile}
           open={open}
-        />
+        />  
 
         <PinnedNotesList favoriteNotes={favoriteNotes} pathname={pathname} />
         <WorkspacesList

@@ -1,108 +1,208 @@
 "use client";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import MaxWContainer from "../ui/MaxWContainer";
-import Image from "next/image";
-import heroImg from "../../public/AIChatBot.svg";
 import { motion } from "framer-motion";
-import { TypingAnimation } from "../magicui/typing-animation";
-import { Particles } from "../magicui/particles";
-import { AnimatedGridPattern } from "../magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
+import { useQuery } from "convex-helpers/react/cache";
+import { api } from "@/convex/_generated/api";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 export default function HeroSection() {
+  const getusers = useQuery(api.users.users);
   return (
-    <section className="min-h-[85vh] lg:min-h-[80vh] mt-1 lg:mt-28 flex justify-center items-center w-full">
-      <MaxWContainer className="flex flex-col items-center justify-center *:text-center relative px-4 sm:px-6 lg:px-8">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/95" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-600/50 dark:from-purple-600/30 via-transparent to-transparent opacity-50" />
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
+      
+      {/* Animated Gradient Orbs */}
+      <motion.div
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 dark:bg-purple-600/40 rounded-full filter blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.2, 0.3],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-900/50 dark:bg-purple-600/40 rounded-full filter blur-3xl"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.2, 0.3, 0.2],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <div className="container relative z-10 mx-auto px-4 py-32 text-center">
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.4, delay: 0.4 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/20 text-red-400 text-xs font-mono font-medium mb-6 border border-red-400/20"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="space-y-8"
         >
-          <span className="w-1.5 h-1.5 font-normal rounded-full bg-red-600 animate-pulse" />
-          {`Bug • `} {` we're currently Fixing the AI API`}
-        </motion.div>
-        <motion.h1
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.5, delay: 0.5 }}
-          className="text-2xl sm:text-4xl lg:text-7xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary to-transparent bg-clip-text text-transparent font-semibold"
-        >
-          Simple, Structured Note-Taking. <br className="hidden sm:block" />
-          <span className="bg-gradient-to-l from-purple-900 from-15% to-purple-600 text-transparent bg-clip-text font-extrabold">
-            Supercharged
-          </span>{" "}
-          by AI
-        </motion.h1>
-        <motion.p
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.6, delay: 0.6 }}
-          className=" text-brand_secondary/70 text-sm sm:text-lg lg:text-xl font-medium lg:font-medium px-2"
-        >
-          Notevo helps you capture your thoughts, organize them effortlessly{" "}
-          <br className="hidden sm:block" />
-          and interact with your notes using AI all in one clean, modern
-          interface.
-        </motion.p>
-        <motion.span
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.7, delay: 0.7 }}
-          className="w-full flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 py-6 sm:py-8 lg:py-10"
-        >
-          <Button className="w-full sm:w-auto">
-            <Link href="/signin" className="text-sm sm:text-base font-medium">
-              Start Taking Notes
-            </Link>
-          </Button>
-          <Button className="w-full sm:w-auto" variant="ghost">
-            <Link
-              href="/#features"
-              className="text-sm sm:text-base font-medium"
+          <motion.h1 
+            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+            Simple Note-Taking.
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-purple-600 dark:from-purple-600 to-purple-900 dark:to-purple-600 bg-clip-text text-transparent">
+            Supercharged by AI
+            </span>
+          </motion.h1>
+
+          <motion.p
+            className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            Notevo helps you capture your thoughts, organize them effortlessly 
+            and interact with your notes using AI all in one clean, modern interface. {" "}
+            Start Taking Notes Explore Features
+          </motion.p>
+
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <Button
+              asChild
+              size="lg"
+              className="relative group overflow-hidden"
             >
-              Explore Features
-            </Link>
-          </Button>
-        </motion.span>
+              <Link href="/signup">
+                <span className="relative z-10">Get Started for Free</span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              asChild
+              className="relative group"
+            >
+              <Link href="#features">
+                <span className="relative z-10">Learn More</span>
+                <motion.span
+                  className="absolute inset-0 rounded-md bg-primary/10"
+                  initial={{ scale: 0 }}
+                  whileHover={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </Link>
+            </Button>
+          </motion.div>
+          <motion.div
+            className="flex items-center justify-center gap-8 pt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <div className="flex -space-x-4">
+              {!getusers ? (
+                // Loading state
+                Array.from({ length: 4 }).map((_, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.8 + index * 0.1 }}
+                  >
+                    <Avatar className="w-10 h-10 border-2 border-background">
+                      <AvatarFallback className="bg-primary/20 animate-pulse" />
+                    </Avatar>
+                  </motion.div>
+                ))
+              ) : (
+                <>
+                  {getusers.slice(0, 4).map((user, indx) => (
+                    <motion.div
+                      key={user._id}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.8 + indx * 0.1 }}
+                    >
+                      <Avatar className="w-10 h-10 border-2 border-background">
+                        <AvatarImage
+                          src={user.image || "/placeholder.svg"}
+                          alt={user.name || "User"}
+                          className="rounded-full"
+                        />
+                        <AvatarFallback className="bg-primary/20">
+                          {user.name ? user.name.charAt(0) : "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                    </motion.div>
+                  ))}
+                  {getusers.length > 4 && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1.2 }}
+                    >
+                      <Avatar className="w-10 h-10 border-2 border-background bg-primary/10">
+                        <AvatarFallback className="text-sm font-medium">
+                          +{getusers.length - 4}
+                        </AvatarFallback>
+                      </Avatar>
+                    </motion.div>
+                  )}
+                </>
+              )}
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Join <span className="font-semibold text-foreground">
+                {!getusers ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  `${getusers.length}+`
+                )}
+              </span>{" "}
+              Active users
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+      >
         <motion.div
-          initial={{ y: 90, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "linear", duration: 0.8, delay: 0.8 }}
-          className=" absolute -z-20 bg-gradient-to-t from-purple-900/50 from-15% to-brand_fourthary left-0 top-5 sm:top-16 h-[20rem] w-full rounded-xl blur-[6rem]"
-        />
-        <motion.div
-          initial={{ y: 90, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "linear", duration: 0.9, delay: 0.9 }}
-          className="w-full p-2 sm:p-4 lg:p-5 rounded-xl bg-gradient-to-t from-transparent to-brand_tertiary/5 backdrop-blur-xl"
+          className="w-6 h-10 border-2 border-primary/50 rounded-full p-1"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
         >
-          <Image
-            src={heroImg}
-            alt="hero img"
-            priority
-            quality={100}
-            className="opacity-70 mask-image-gradient"
+          <motion.div
+            className="w-1.5 h-1.5 bg-primary/50 rounded-full mx-auto"
+            animate={{ y: [0, 16, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
           />
         </motion.div>
-        <motion.div
-          initial={{ y: 90, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ ease: "easeInOut", duration: 0.2, delay: 0.2 }}
-        >
-          <AnimatedGridPattern
-            numSquares={50}
-            maxOpacity={0.2}
-            duration={1.2}
-            repeatDelay={1.2}
-            className={cn(
-              "[mask-image:radial-gradient(900px_circle_at_top,black,transparent)]",
-              "inset-x-0 inset-y-[-20%] h-[85%] skew-y-0",
-              "-z-50 w-full",
-            )}
-          />
-        </motion.div>
-      </MaxWContainer>
+      </motion.div>
     </section>
   );
 }

@@ -65,7 +65,7 @@ export default function NoteSettingsSidbar({
     <>
       <div
         className={cn(
-          "flex justify-end items-center bg-brand_fourthary rounded-l-md px-1",
+          "flex justify-end items-center bg-accent rounded-l-md px-1",
           ContainerClassName,
         )}
       >
@@ -74,7 +74,7 @@ export default function NoteSettingsSidbar({
           variant="SidebarMenuButton"
           className=" px-2 h-8"
         >
-          <PinOff size={16} className="text-purple-500" />
+          <PinOff size={16} className="text-purple-500"/>
         </Button>
         <Button
           onMouseDown={initiateDelete}
@@ -85,21 +85,21 @@ export default function NoteSettingsSidbar({
         </Button>
       </div>
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary">
+        <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Note Deletion</AlertDialogTitle>
-            <AlertDialogDescription className="text-brand_tertiary/70">
+            <AlertDialogDescription className="text-muted-foreground">
               {`Are you sure you want to delete this note? This action cannot be
               undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border border-solid border-brand_tertiary/20 hover:bg-brand_tertiary/5">
+            <AlertDialogCancel className="bg-transparent border border-border hover:bg-accent">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-900 hover:bg-red-600 border-none text-brand_tertiary"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
               disabled={ishandleDeleteLoading}
             >
               {ishandleDeleteLoading ? (

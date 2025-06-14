@@ -32,7 +32,7 @@ export default function CreateTableBtn({
   return (
     <Button
       className={cn(
-        "lg:flex items-center justify-between gap-2 hidden",
+        "lg:flex items-center justify-between gap-2 hidden border-border text-foreground",
         className,
       )}
       variant="outline"
@@ -41,13 +41,13 @@ export default function CreateTableBtn({
     >
       {loading ? (
         <>
-          <LoadingAnimation className=" h-4 w-4" />
-          Creating Table...
+          <LoadingAnimation className="h-4 w-4 text-muted-foreground" />
+          <span className="text-muted-foreground">Creating Table...</span>
         </>
       ) : (
         <>
-          <Plus size={20} className="hidden sm:block" />{" "}
-          <p className="hidden sm:block">Create Table</p>{" "}
+          <Plus size={20} className="hidden sm:block text-muted-foreground" />
+          <p className="hidden sm:block text-muted-foreground">Create Table</p>
         </>
       )}
     </Button>

@@ -12,36 +12,38 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { LiaQuoteLeftSolid } from "react-icons/lia";
+
 export default function MoreAboutMe() {
   return (
     <Section sectionId="about">
       <MaxWContainer>
-        <Card className="relative bg-gradient-to-br from-brand_fourthary from-15% via-purple-600/10 to-transparent border-brand_tertiary/5 p-5 sm:p-10">
-          <span className=" absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-60 text-purple-600">
+        <Card className="relative bg-gradient-to-br from-primary/10 via-secondary/10 to-transparent border-border/20 p-5 sm:p-10">
+          <span className="absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-60 text-primary">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
-          <span className=" absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-60 text-purple-950">
+          <span className="absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-60 text-secondary">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
-          <CardContent className=" w-full flex flex-col sm:flex-row justify-between items-center">
-            <div className=" p-2 rounded-xl flex-shrink-0">
+          <CardContent className="w-full flex flex-col sm:flex-row justify-between items-center">
+            <div className="p-2 rounded-xl flex-shrink-0 relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur-xl" />
               <Image
                 src={IMGSrc}
                 alt="Mohammed"
                 width={300}
                 height={300}
-                className="mask-image-gradient rounded-xl"
+                className="relative rounded-xl"
               />
             </div>
-            <div className=" h-full flex justify-between items-center flex-col gap-3 w-full sm:w-2/3">
-              <h1 className=" text-start text-lg sm:text-xl lg:text-2xl pb-3 lg:pb-5 bg-gradient-to-b from-brand_secondary from-15% to-transparent bg-clip-text text-transparent sm:text-left">
-                {`I’ve been looking for a note-taking app that’s simpler than Notion but more organized than Google Keep. 
-                Something clean, structured, with a rich text editor—and a little AI to help. 
-                That’s what Notevo’s trying to be: a minimal, structured, AI-powered note-taking app`}
+            <div className="h-full flex justify-between items-center flex-col gap-3 w-full sm:w-2/3">
+              <h1 className="text-start text-lg sm:text-xl lg:text-2xl pb-3 lg:pb-5 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent sm:text-left">
+                {`I've been looking for a note-taking app that's simpler than Notion but more organized than Google Keep. 
+                Something clean, structured, with a rich text editor. 
+                That's what Notevo's trying to be: a minimal, structured, AI-powered note-taking app`}
               </h1>
-              <span className=" w-full flex justify-center items-start flex-col gap-2 text-brand_tertiary/50">
-                <p className=" font-semibold text-base">Mohammed H </p>
-                <p className="font-light text-sm">Founder Of Notevo </p>
+              <span className="w-full flex justify-center items-start flex-col gap-2 text-muted-foreground">
+                <p className="font-semibold text-base">Mohammed H</p>
+                <p className="font-light text-sm">Founder Of Notevo</p>
               </span>
             </div>
           </CardContent>

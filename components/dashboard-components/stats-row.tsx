@@ -1,5 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Notebook, FileText, Pin, TrendingUp } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Notebook, FileText, Pin, TrendingUp, Tag } from "lucide-react";
+import { Table } from "../ui/table";
 
 interface StatsRowProps {
   workspaceCount: number;
@@ -39,23 +40,63 @@ export function StatsRow({
   ];
   if (workspaceCount > 0 || pinnedCount > 0 || notesCount > 0) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        {stats.map((stat, index) => (
-          <Card
-            key={index}
-            className="bg-brand_fourthary/30 border-brand_tertiary/20"
-          >
-            <CardContent className="p-4 flex flex-col">
-              <div className="flex items-center gap-2 mb-1">
-                {stat.icon}
-                <span className="text-sm text-brand_tertiary/70">
-                  {stat.title}
-                </span>
-              </div>
-              <div className="text-2xl font-bold">{stat.value}</div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="bg-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-card-foreground">
+              Total Notes
+            </CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <p className="text-xs text-muted-foreground">
+              {notesCount === 1 ? "Note" : "Notes"} in total
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="bg-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-card-foreground">
+              Total Pages
+            </CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <p className="text-xs text-muted-foreground">
+              {notesCount === 1 ? "Page" : "Pages"} in total
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="bg-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-card-foreground">
+              Total Tables
+            </CardTitle>
+            <Table className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <p className="text-xs text-muted-foreground">
+              {notesCount === 1 ? "Table" : "Tables"} in total
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="bg-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-card-foreground">
+              Total Tags
+            </CardTitle>
+            <Tag className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <p className="text-xs text-muted-foreground">
+              {notesCount === 1 ? "Tag" : "Tags"} in total
+            </p>
+          </CardContent>
+        </Card>
       </div>
     );
   } else {

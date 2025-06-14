@@ -15,12 +15,6 @@ import { redirect } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import { FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import {
   AlertDialog,
@@ -134,7 +128,7 @@ export default function WorkingSpaceSettings({
         <DropdownMenuContent
           side="bottom"
           align="start"
-          className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
+          className="w-48 p-1.5 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
         >
           <DropdownMenuGroup className="relative">
             <Input
@@ -143,8 +137,8 @@ export default function WorkingSpaceSettings({
               onChange={handleInputChange}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
-              className=" text-brand_tertiary border-brand_tertiary/20"
-              ref={inputRef} // Attach the ref to the Input
+              className="text-foreground border-border"
+              ref={inputRef}
             />
           </DropdownMenuGroup>
           <Button
@@ -155,7 +149,7 @@ export default function WorkingSpaceSettings({
           >
             {isDeleting ? (
               <>
-                <LoadingAnimation className="text-red-600/10 animate-spin fill-red-600 h-3 w-3" />{" "}
+                <LoadingAnimation className="text-destructive/10 animate-spin fill-destructive h-3 w-3" />{" "}
                 Deleting...
               </>
             ) : (
@@ -168,17 +162,17 @@ export default function WorkingSpaceSettings({
       </DropdownMenu>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary">
+        <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Workspace Deletion</AlertDialogTitle>
-            <AlertDialogDescription className="text-brand_tertiary/70">
+            <AlertDialogDescription className="text-muted-foreground">
               {hasContent ? (
                 <>
                   This workspace contains:
                   <div className="mt-2 space-y-1">
                     {tableCount > 0 && (
                       <span>
-                        <span className="font-medium text-brand_tertiary">
+                        <span className="font-medium text-foreground">
                           {tableCount}
                         </span>{" "}
                         table{tableCount !== 1 ? "s" : ""}
@@ -186,7 +180,7 @@ export default function WorkingSpaceSettings({
                     )}
                     {noteCount > 0 && (
                       <span>
-                        <span className="font-medium text-brand_tertiary">
+                        <span className="font-medium text-foreground">
                           {noteCount}
                         </span>{" "}
                         note{noteCount !== 1 ? "s" : ""}
@@ -204,12 +198,12 @@ export default function WorkingSpaceSettings({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border border-solid border-brand_tertiary/20 hover:bg-brand_tertiary/5">
+            <AlertDialogCancel className="bg-transparent border border-border hover:bg-accent">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-900 hover:bg-red-600 border-none text-brand_tertiary"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
               disabled={isDeleting}
             >
               {isDeleting ? (
