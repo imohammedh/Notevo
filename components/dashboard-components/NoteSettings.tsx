@@ -136,7 +136,7 @@ export default function NoteSettings({
         <DropdownMenuContent
           side="bottom"
           align="start"
-          className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
+          className="w-48 p-1.5 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
         >
           <DropdownMenuGroup className="relative">
             <Input
@@ -145,8 +145,8 @@ export default function NoteSettings({
               onChange={handleInputChange}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
-              className="text-brand_tertiary border-brand_tertiary/20"
-              ref={inputRef} // Attach the ref to the Input
+              className="text-foreground border-border"
+              ref={inputRef}
             />
           </DropdownMenuGroup>
           <DropdownMenuGroup>
@@ -176,7 +176,7 @@ export default function NoteSettings({
             >
               {ishandleDeleteLoading ? (
                 <>
-                  <LoadingAnimation className="text-red-600/10 animate-spin fill-red-600 h-3 w-3" />{" "}
+                  <LoadingAnimation className="text-destructive/10 animate-spin fill-destructive h-3 w-3" />{" "}
                   Deleting...
                 </>
               ) : (
@@ -191,21 +191,21 @@ export default function NoteSettings({
       </DropdownMenu>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary">
+        <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Note Deletion</AlertDialogTitle>
-            <AlertDialogDescription className="text-brand_tertiary/70">
+            <AlertDialogDescription className="text-muted-foreground">
               {`Are you sure you want to delete this note? This action cannot be
               undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border border-solid border-brand_tertiary/20 hover:bg-brand_tertiary/5">
+            <AlertDialogCancel className="bg-transparent border border-border hover:bg-accent">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-900 hover:bg-red-600 border-none text-brand_tertiary"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
               disabled={ishandleDeleteLoading}
             >
               {ishandleDeleteLoading ? (

@@ -40,7 +40,7 @@ export default function CreateNoteBtn({
   return (
     <Button
       className={cn(
-        " flex items-center justify-between gap-2 h-9 px-2 ",
+        "flex items-center justify-between gap-2 h-9 px-2 border-border text-foreground",
         className,
       )}
       variant="outline"
@@ -49,12 +49,13 @@ export default function CreateNoteBtn({
     >
       {loading ? (
         <>
-          <LoadingAnimation className=" h-3 w-3" />
-          <p className=" hidden sm:block">New Note...</p>
+          <LoadingAnimation className="h-3 w-3 text-muted-foreground" />
+          <p className="hidden sm:block text-muted-foreground">New Note...</p>
         </>
       ) : (
         <>
-          <Plus size="20" /> <p className=" hidden sm:block">New Note</p>
+          <Plus size="20" className="text-muted-foreground" /> 
+          <p className="hidden sm:block text-muted-foreground">New Note</p>
         </>
       )}
     </Button>

@@ -31,7 +31,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 interface TableSettingsProps {
   notesTableId: Id<"notesTables"> | any; // Strongly typed Id
   tableName: string | any;
@@ -118,7 +124,7 @@ export default function TableSettings({
             <DropdownMenuContent
               side="bottom"
               align="start"
-              className="w-48 p-1.5 space-y-4 text-brand_tertiary/50 bg-brand_fourthary border border-solid border-brand_tertiary/20 rounded-xl"
+              className="w-48 p-1.5 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
             >
               <DropdownMenuGroup className="relative">
                 <Input
@@ -127,7 +133,7 @@ export default function TableSettings({
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   onKeyDown={handleKeyDown}
-                  className=" text-brand_tertiary border-brand_tertiary/20"
+                  className="text-foreground border-border"
                   ref={inputRef}
                 />
               </DropdownMenuGroup>
@@ -139,7 +145,7 @@ export default function TableSettings({
               >
                 {isLoading ? (
                   <>
-                    <LoadingAnimation className="text-red-600/10 animate-spin fill-red-600 h-3 w-3" />{" "}
+                    <LoadingAnimation className="text-destructive/10 animate-spin fill-destructive h-3 w-3" />{" "}
                     Deleting...
                   </>
                 ) : (
@@ -152,7 +158,7 @@ export default function TableSettings({
             </DropdownMenuContent>
             <TooltipContent
               side="bottom"
-              className="rounded-lg bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary text-xs pointer-events-none select-none"
+              className="rounded-lg bg-card border border-border text-foreground text-xs pointer-events-none select-none"
             >
               Rename , Delete
             </TooltipContent>
@@ -161,21 +167,21 @@ export default function TableSettings({
       </DropdownMenu>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary">
+        <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Table Deletion</AlertDialogTitle>
-            <AlertDialogDescription className="text-brand_tertiary/70">
+            <AlertDialogDescription className="text-muted-foreground">
               "Are you sure you want to delete this table? This action cannot be
               undone."
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border border-solid border-brand_tertiary/20 hover:bg-brand_tertiary/5">
+            <AlertDialogCancel className="bg-transparent border border-border hover:bg-accent">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-900 hover:bg-red-600 border-none text-brand_tertiary"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
               disabled={isLoading}
             >
               {isLoading ? (

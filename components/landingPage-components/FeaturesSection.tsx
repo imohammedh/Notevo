@@ -1,118 +1,126 @@
-import MaxWContainer from "../ui/MaxWContainer";
-import SectionHeading from "./SectionHeading";
-import { features } from "@/lib/data";
-import Section from "../ui/Section";
-import Image from "next/image";
-import { WobbleCard } from "../ui/wobble-card";
-import AIPoweredimg from "@/public/AI-Powered.svg";
-import RichTextEditorimg from "@/public/Rich Text Editor.svg";
+"use client";
+import { Features } from "@/lib/data";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 import Organize from "@/public/Organize.svg";
-import Activities from "@/public/Activities.svg";
+import TalkNote from "@/public/AI-Powered.svg";
+import Categorization from "@/public/Activities.svg";
+import TextEditor from "@/public/Rich Text Editor.svg";
+import Sync from "@/public/sync_note.png";
+import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
+
+const featureImages = {
+  "AI-Powered": TalkNote,
+  "Sync Across Devices": Sync,
+  "Rich Text Editor": TextEditor,
+  "Smart Organization": Organize,
+  "Activity Tracking": Categorization,
+};
 
 export default function FeaturesSection() {
+  const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
   return (
-    <Section
-      sectionId="features"
-      className="relative px-0 sm:px-0 md:px-0 pt-2 sm:pt-2 md:pt-2 lg:pt-2 bg-gradient-to-t from-transparent from-15% via-purple-900/20 to-brand_fourthary"
-    >
-      <svg
-        viewBox="0 0 1440 58"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        width="100hv"
-        className="absolute top-0 bg-transparent"
-      >
-        <path
-          d="M-100 58C-100 58 218.416 36.3297 693.5 36.3297C1168.58 36.3297 1487 58 1487 58V-3.8147e-06H-100V58Z"
-          fill="#0a0a0a"
-        ></path>
-      </svg>
-      <MaxWContainer>
-        <SectionHeading
-          SectionTitle="Features"
-          SectionSubTitle="Dive deeper into how our AI-powered note-taking platform can revolutionize your productivity and idea management."
-        />
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full">
-          <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-gradient-to-br from-brand_fourthary from-15% via-purple-600/10 to-brand_tertiary/20 min-h-[500px] lg:min-h-[300px]">
-            <div className="max-w-xs">
-              <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-brand_tertiary">
-                AI-Powered
-              </h2>
-              <p className="mt-4 text-left  text-base/6 text-neutral-200">
-                Our advanced AI allows you to interact with your notes
-                naturally, Ask questions, get summaries, and explore insights
-                seamlessly.
-              </p>
-            </div>
-            <Image
-              src={AIPoweredimg}
-              width={500}
-              height={500}
-              alt="linear demo image"
-              className="absolute -right-4 lg:-right-[20%] grayscale filter -bottom-10 object-contain rounded-2xl"
-            />
-          </WobbleCard>
-          <WobbleCard containerClassName="col-span-1 min-h-[300px] bg-gradient-to-br from-brand_fourthary from-15% to-brand_tertiary/20">
-            <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-brand_tertiary">
-              Sync Across Devices
-            </h2>
-            <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-              Access your notes from anywhere with seamless syncing across all
-              your devices.
-            </p>
-          </WobbleCard>
-          <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-gradient-to-br from-brand_fourthary from-15% via-green-600/10 to-brand_tertiary/20 min-h-[500px] lg:min-h-[600px] xl:min-h-[300px]">
-            <div className="max-w-sm">
-              <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-brand_tertiary">
-                Rich Text Editor
-              </h2>
-              <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-                Create and edit notes with a Notion-style WYSIWYG editor,
-                powered by Novel. Enjoy AI-powered autocompletion and rich text
-                formatting.
-              </p>
-            </div>
-            <Image
-              src={RichTextEditorimg}
-              width={500}
-              height={500}
-              alt="linear demo image"
-              className="absolute right-10 md:-right-[40%] lg:-right-[10%] -bottom-10 object-contain rounded-2xl"
-            />
-          </WobbleCard>
-          <WobbleCard containerClassName="col-span-1 lg:col-span-2 h-full bg-gradient-to-br from-brand_fourthary from-15% to-brand_tertiary/20 min-h-[500px] lg:min-h-[300px]">
-            <div className="max-w-xs">
-              <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-brand_tertiary">
-                Organize your thoughts
-              </h2>
-              <p className="mt-4 text-left  text-base/6 text-neutral-200">
-                manage your workspaces, and boost your productivity with Notevo.
-              </p>
-            </div>
-            <Image
-              src={Organize}
-              width={500}
-              height={500}
-              alt="linear demo image"
-              className="absolute -right-4 lg:-right-[20%] grayscale filter -bottom-10 object-contain rounded-2xl"
-            />
-          </WobbleCard>
-          <WobbleCard containerClassName="col-span-1 min-h-[300px] bg-gradient-to-br from-brand_fourthary from-15% via-purple-600/10 to-brand_tertiary/20">
-            <div className="max-w-sm">
-              <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-brand_tertiary">
-                Track Daily Activities
-              </h2>
-            </div>
-            <Image
-              src={Activities}
-              width={500}
-              height={500}
-              alt="linear demo image"
-              className="absolute right-10 md:-right-[40%] lg:-right-[10%] -bottom-10 object-contain rounded-2xl"
-            />
-          </WobbleCard>
+    <section id="features" className="relative py-24 overflow-hidden">
+      {/* Background Elements */}
+
+      <div className="container relative z-10 mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+              Features you'll love
+            </span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Everything you need to take your note-taking to the next level
+          </p>
+        </motion.div>
+
+        <div 
+          ref={containerRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative"
+          onMouseMove={handleMouseMove}
+        >
+          {Features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group relative"
+              onMouseEnter={() => setHoveredFeature(feature.title)}
+              onMouseLeave={() => setHoveredFeature(null)}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
+                <div className="flex items-start gap-4">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-primary/20 rounded-lg blur-lg group-hover:blur-xl transition-all duration-500" />
+                    <div className="relative bg-primary/10 rounded-lg p-3">
+                      <feature.icon className="w-6 h-6 text-primary" />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold mb-2 text-foreground">
+                      {feature.title}
+                    </h3>
+                    <p className="text-muted-foreground">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Floating Feature Image */}
+          {hoveredFeature && featureImages[hoveredFeature as keyof typeof featureImages] && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="fixed pointer-events-none z-50"
+              style={{
+                left: mousePosition.x,
+                top: mousePosition.y,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-xl" />
+                <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-4">
+                  <Image
+                    src={featureImages[hoveredFeature as keyof typeof featureImages]}
+                    alt={`${hoveredFeature} demo`}
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
-      </MaxWContainer>
-    </Section>
+      </div>
+    </section>
   );
 }

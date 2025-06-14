@@ -5,7 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState } from "react";
 import type { Id } from "@/convex/_generated/dataModel";
-import { FileText, Plus } from "lucide-react";
+import { FileText, Plus, Table } from "lucide-react";
 import LoadingAnimation from "../ui/LoadingAnimation";
 
 interface TablesNotFoundProps {
@@ -33,24 +33,20 @@ export default function TablesNotFound({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-      <div className="h-16 w-16 rounded-full bg-brand_tertiary/5 flex items-center justify-center mb-4">
-        <FileText className="h-8 w-8 text-brand_tertiary/40" />
+    <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center">
+      <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+          <Table className="h-10 w-10 text-muted-foreground" />
+        </div>
+        <h3 className="mt-4 text-lg font-semibold text-foreground">No tables found</h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Create your first table to start organizing your data.
+        </p>
+        <Button className="mt-4" onClick={handleCreateTable}>
+          {loading ? <LoadingAnimation /> : <Plus className="h-4 w-4" />}
+          Create Table
+        </Button>
       </div>
-      <h2 className="text-xl font-medium mb-2">No tables found</h2>
-      <p className="text-brand_tertiary/70 max-w-md mb-6">
-        Create your first table to start organizing your notes in this
-        workspace.
-      </p>
-      <Button
-        onClick={handleCreateTable}
-        disabled={loading}
-        variant="outline"
-        className="flex items-center gap-2"
-      >
-        {loading ? <LoadingAnimation /> : <Plus className="h-4 w-4" />}
-        Create First Table
-      </Button>
     </div>
   );
 }

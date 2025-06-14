@@ -4,6 +4,7 @@ import imgSrc_TextEditor from "../public/content-creator_note.png"
 import imgSrc_Sync from "../public/sync_note.png"
 import { IoLogoVercel } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
+import { Brain, Cloud, FileText, LayoutGrid, Activity } from "lucide-react";
 
 export const NavLinks = [
     {
@@ -39,7 +40,7 @@ export const HowToStartSteps =[
         id:"2",
         StepNum:"2",
         Title:"Create Your Workspace",
-        Body:"Whether you're working, setting up a workspace is simple."
+        Body:"if you're working, setting up a workspace is simple."
     },
     {
         id:"3",
@@ -125,3 +126,62 @@ export const testimonials2 = [
     title: "A Dream Within a Dream",
   },
 ]as const;
+
+export const pricingPlans = {
+  free: {
+    name: "Free",
+    description: "Perfect for getting started with basic features",
+    price: 0,
+    features: [
+      { name: "Up to 1 workspace", included: true },
+      { name: "Up to 2 Tables", included: true },
+      { name: "Basic note editor", included: true },
+      { name: "20 notes", included: true },
+      { name: "Unlimited workspaces", included: false },
+      { name: "Unlimited notes", included: false },
+      { name: "Priority support", included: false },
+    ],
+  },
+  pro: {
+    name: "Pro",
+    description: "Everything you need for unlimited productivity",
+    price: 6,
+    features: [
+      { name: "Unlimited workspaces", included: true },
+      { name: "Unlimited Tables", included: true },
+      { name: "Advanced note editor", included: true },
+      { name: "Unlimited notes", included: true },
+      { name: "Custom templates", included: true },
+      { name: "Collaboration features", included: true },
+      { name: "Priority support", included: true },
+    ],
+  },
+};
+
+export const Features = [
+  {
+    title: "AI-Powered",
+    description: "Our advanced AI allows you to interact with your notes naturally, ask questions, get summaries, and explore insights seamlessly.",
+    icon: Brain,
+  },
+  {
+    title: "Sync Across Devices",
+    description: "Access your notes from anywhere with seamless syncing across all your devices.",
+    icon: Cloud,
+  },
+  {
+    title: "Rich Text Editor",
+    description: "Create and edit notes with a Notion-style WYSIWYG editor, powered by Novel. Enjoy AI-powered autocompletion and rich text formatting.",
+    icon: FileText,
+  },
+  {
+    title: "Smart Organization",
+    description: "Organize your thoughts, manage your workspaces, and boost your productivity with Notevo's intuitive organization system.",
+    icon: LayoutGrid,
+  },
+  {
+    title: "Activity Tracking",
+    description: "Keep track of your daily tasks and activities with our intuitive interface and powerful analytics.",
+    icon: Activity,
+  },
+] as const;

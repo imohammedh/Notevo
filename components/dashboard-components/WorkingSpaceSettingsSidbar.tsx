@@ -17,11 +17,14 @@ import LoadingAnimation from "../ui/LoadingAnimation";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
+import { Settings, Users, Trash2 } from "lucide-react";
+
 interface WorkingSpaceSettingsSidbarProps {
   workingSpaceId: Id<"workingSpaces">;
   ContainerClassName?: string;
   workingspaceName: string | any;
 }
+
 export default function WorkingSpaceSettingsSidbar({
   workingSpaceId,
   ContainerClassName,
@@ -29,6 +32,7 @@ export default function WorkingSpaceSettingsSidbar({
 }: WorkingSpaceSettingsSidbarProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("general");
 
   const tables = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId,
@@ -66,7 +70,7 @@ export default function WorkingSpaceSettingsSidbar({
     <>
       <div
         className={cn(
-          "flex justify-end items-center bg-brand_fourthary rounded-l-md px-1",
+          "flex justify-end items-center bg-accent rounded-l-md px-1",
           ContainerClassName,
         )}
       >
@@ -79,17 +83,17 @@ export default function WorkingSpaceSettingsSidbar({
         </Button>
       </div>
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-brand_fourthary border border-solid border-brand_tertiary/20 text-brand_tertiary">
+        <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Workspace Deletion</AlertDialogTitle>
-            <AlertDialogDescription className="text-brand_tertiary/70">
+            <AlertDialogDescription className="text-muted-foreground">
               {hasContent ? (
                 <>
                   This workspace contains:
                   <div className="mt-2 space-y-1">
                     {tableCount > 0 && (
                       <span>
-                        <span className="font-medium text-brand_tertiary">
+                        <span className="font-medium text-foreground">
                           {tableCount}
                         </span>{" "}
                         table{tableCount !== 1 ? "s" : ""}
@@ -97,7 +101,7 @@ export default function WorkingSpaceSettingsSidbar({
                     )}
                     {noteCount > 0 && (
                       <span>
-                        <span className="font-medium text-brand_tertiary">
+                        <span className="font-medium text-foreground">
                           {noteCount}
                         </span>{" "}
                         note{noteCount !== 1 ? "s" : ""}
@@ -115,12 +119,12 @@ export default function WorkingSpaceSettingsSidbar({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border border-solid border-brand_tertiary/20 hover:bg-brand_tertiary/5">
+            <AlertDialogCancel className="bg-transparent border border-border hover:bg-accent">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-900 hover:bg-red-600 border-none text-brand_tertiary"
+              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
               disabled={isDeleting}
             >
               {isDeleting ? (

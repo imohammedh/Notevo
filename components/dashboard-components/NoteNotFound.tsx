@@ -2,6 +2,9 @@ import { NotepadText } from "lucide-react";
 import CreateNoteBtn from "./CreateNoteBtn";
 import MaxWContainer from "../ui/MaxWContainer";
 import type { Id } from "@/convex/_generated/dataModel";
+import { FileX } from "lucide-react";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface NoteNotFoundProps {
   notesTableId: string | any;
@@ -15,19 +18,18 @@ export default function NoteNotFound({
 }: NoteNotFoundProps) {
   return (
     <MaxWContainer>
-      <div className="w-full text-center py-14">
-        <div className="flex flex-col items-center justify-center gap-3">
-          <NotepadText size="50" />
-          <h1 className=" text-3xl font-bold text-center">
-            Your table looks empty{" "}
-          </h1>
-        </div>
-        <div className="w-full flex items-center justify-center mt-5">
-          <CreateNoteBtn
-            notesTableId={notesTableId}
-            workingSpacesSlug={workingSpacesSlug}
-            workingSpaceId={workingSpaceId}
-          />
+      <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center">
+        <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+            <FileX className="h-10 w-10 text-muted-foreground" />
+          </div>
+          <h3 className="mt-4 text-lg font-semibold text-foreground">Note not found</h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The note you're looking for doesn't exist or you don't have access to it.
+          </p>
+          <Button className="mt-4" asChild>
+            <Link href="/dashboard">Return to Dashboard</Link>
+          </Button>
         </div>
       </div>
     </MaxWContainer>

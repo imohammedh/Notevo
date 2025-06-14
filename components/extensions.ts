@@ -129,4 +129,3 @@ export const defaultExtensions = [
   aiHighlight,
   customCodeBlock
 ];
-

@@ -8,7 +8,7 @@ export default function SkeletonTextAnimation({
   return (
     <div className="animate-pulse">
       <div
-        className={cn("h-7 bg-brand_tertiary/5 rounded mx-3 w-36", className)}
+        className={cn("h-7 bg-muted rounded mx-3 w-36", className)}
       ></div>
     </div>
   );
