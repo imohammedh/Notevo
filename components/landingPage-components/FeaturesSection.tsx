@@ -35,8 +35,6 @@ export default function FeaturesSection() {
 
   return (
     <section id="features" className="relative py-24 overflow-hidden">
-      {/* Background Elements */}
-
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -71,7 +69,7 @@ export default function FeaturesSection() {
               onMouseEnter={() => setHoveredFeature(feature.title)}
               onMouseLeave={() => setHoveredFeature(null)}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
               <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
                 <div className="flex items-start gap-4">
                   <div className="relative">
@@ -108,7 +106,7 @@ export default function FeaturesSection() {
               }}
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-xl" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl blur-xl" />
                 <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-4">
                   <Image
                     src={featureImages[hoveredFeature as keyof typeof featureImages]}
