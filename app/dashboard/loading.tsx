@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Notebook, Sparkles } from "lucide-react";
+import { Clock, Notebook, Plus, Sparkles } from "lucide-react";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import SkeletonTextAnimation from "@/components/ui/SkeletonTextAnimation";
 import {
@@ -8,8 +8,10 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardSkeleton() {
   return (
@@ -20,7 +22,9 @@ export default function DashboardSkeleton() {
           <h1 className="text-2xl sm:text-3xl font-bold mb-3 flex justify-center items-center gap-2">
             Welcome to Notevo, <SkeletonTextAnimation className="w-24" />
           </h1>
-          <div className="h-5 w-3/4 max-w-lg mx-auto bg-brand_tertiary/10 rounded animate-pulse"></div>
+          <p className="text-muted-foreground max-w-lg mx-auto">
+            <SkeletonTextAnimation />
+          </p>
         </div>
       </div>
 
@@ -51,8 +55,18 @@ export default function DashboardSkeleton() {
         {/* Workspaces Tab */}
         <TabsContent value="workspaces">
           <div className="mb-4 flex justify-between items-center">
-            <div className="h-6 w-40 bg-brand_tertiary/10 rounded animate-pulse"></div>
-            <div className="h-9 w-36 bg-brand_tertiary/10 rounded animate-pulse"></div>
+            <h2 className="text-foreground/80 text-lg font-medium">
+              Your Workspaces
+            </h2>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled
+              className="border-border text-foreground px-2"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New Workspace
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -62,11 +76,13 @@ export default function DashboardSkeleton() {
                 className="bg-brand_fourthary/30 border-brand_tertiary/20"
               >
                 <CardHeader className="pb-2">
-                  <div className="h-6 w-3/4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  <CardTitle className="text-lg text-foreground">
+                    <div className="h-6 w-3/4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pb-2">
                   <div className="h-16 flex items-center justify-center">
-                    <Notebook className="h-10 w-10 text-brand_tertiary/10" />
+                    <Notebook className="h-10 w-10 text-brand_tertiary/20" />
                   </div>
                 </CardContent>
                 <CardFooter className="pt-2 flex justify-between items-center">
@@ -78,13 +94,24 @@ export default function DashboardSkeleton() {
                 </CardFooter>
               </Card>
             ))}
+            {/* Create Workspace Card */}
+            <Card className="bg-brand_fourthary/20 border-dashed border-brand_tertiary/20">
+              <CardContent className="flex flex-col items-center justify-center h-[176px]">
+                <div className="h-12 w-12 rounded-full bg-brand_tertiary/10 flex items-center justify-center mb-3">
+                  <Plus className="h-6 w-6 text-brand_tertiary/20" />
+                </div>
+                <div className="h-4 w-32 bg-brand_tertiary/10 rounded animate-pulse"></div>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
 
         {/* Recent Notes Tab */}
         <TabsContent value="recent">
           <div className="mb-4">
-            <div className="h-6 w-32 bg-brand_tertiary/10 rounded animate-pulse"></div>
+            <h2 className="text-foreground/80 text-lg font-medium">
+              Recent Notes
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -94,7 +121,9 @@ export default function DashboardSkeleton() {
                 className="bg-brand_fourthary/30 border-brand_tertiary/20"
               >
                 <CardHeader className="pb-2">
-                  <div className="h-6 w-3/4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  <CardTitle className="text-lg text-foreground">
+                    <div className="h-6 w-3/4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  </CardTitle>
                   <div className="h-4 w-1/2 bg-brand_tertiary/10 rounded animate-pulse mt-2"></div>
                 </CardHeader>
                 <CardContent className="pb-2">

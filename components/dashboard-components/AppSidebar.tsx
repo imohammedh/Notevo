@@ -68,47 +68,74 @@ import { FolderIcon } from "lucide-react";
 
 const SkeletonSidebar = () => {
   return (
-    <Sidebar variant="inset" className="border-border group">
-      <SidebarHeader className=" text-foreground border-b border-border">
-        <div className=" w-full flex items-center justify-between p-1.5">
-          <div className="flex items-center justify-start gap-2">
-            <SkeletonTextAnimation className="w-20 h-4 mx-0" />
-            <SkeletonTextAnimation className="w-8 h-3 mx-0" />
+    <Sidebar variant="inset" className="border-border group bg-accent">
+      <SidebarHeader className="text-foreground border-b border-border">
+        <div className="w-full flex items-center justify-between p-1.5">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-foreground">Notevo</span>
+            <div className="h-4 w-12 bg-brand_tertiary/10 rounded animate-pulse"></div>
           </div>
-          <SkeletonTextAnimation className="w-full mx-0 h-6" />
+          <div className="h-6 w-6 bg-brand_tertiary/10 rounded animate-pulse"></div>
         </div>
         <div className="my-1">
-          <SkeletonTextAnimation className="w-full mx-0 h-8" />
+          <div className="h-9 w-full bg-brand_tertiary/10 rounded animate-pulse"></div>
         </div>
       </SidebarHeader>
       <SidebarContent className="text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-background scrollbar-track-transparent group-hover:scrollbar-thumb-foreground">
         <SidebarGroup>
           <SidebarGroupLabel className="text-muted-foreground">
-            <SkeletonTextAnimation className="w-24 h-3" />
+            <div className="h-4 w-20 bg-brand_tertiary/10 rounded animate-pulse"></div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
+                <div className="flex items-center gap-2 px-2 h-8">
+                  <div className="h-4 w-4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  <div className="h-4 w-24 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                </div>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
+                <div className="flex items-center gap-2 px-2 h-8">
+                  <div className="h-4 w-4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  <div className="h-4 w-24 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                </div>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
         <SidebarGroup>
           <SidebarGroupLabel className="text-muted-foreground">
-            <SkeletonTextAnimation className="w-24 h-3" />
+            <div className="h-4 w-24 bg-brand_tertiary/10 rounded animate-pulse"></div>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SkeletonTextAndIconAnimation text_className="w-full h-5" />
-              </SidebarMenuItem>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <SidebarMenuItem key={index}>
+                  <div className="flex items-center gap-2 px-2 h-8">
+                    <div className="h-4 w-4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                    <div className="h-4 w-32 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  </div>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-muted-foreground">
+            <div className="h-4 w-24 bg-brand_tertiary/10 rounded animate-pulse"></div>
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <SidebarMenuItem key={index}>
+                  <div className="flex items-center gap-2 px-2 h-8">
+                    <div className="h-4 w-4 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                    <div className="h-4 w-32 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  </div>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -118,11 +145,12 @@ const SkeletonSidebar = () => {
           <SidebarMenuItem>
             <div className="my-2">
               <div className="border-none w-full h-15 flex items-center justify-between">
-                <SkeletonSmImgAnimation className="h-8 w-8" />
+                <div className="h-8 w-8 rounded-full bg-brand_tertiary/10 animate-pulse"></div>
                 <div className="flex flex-col items-start justify-center">
-                  <SkeletonTextAnimation className="w-28 h-4 mx-0" />
-                  <SkeletonTextAnimation className="w-20 h-3 mt-1 mx-0" />
+                  <div className="h-4 w-28 bg-brand_tertiary/10 rounded animate-pulse"></div>
+                  <div className="h-3 w-20 bg-brand_tertiary/10 rounded animate-pulse mt-1"></div>
                 </div>
+                <div className="h-4 w-4 bg-brand_tertiary/10 rounded animate-pulse"></div>
               </div>
             </div>
           </SidebarMenuItem>
