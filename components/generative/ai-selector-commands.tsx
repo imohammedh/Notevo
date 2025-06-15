@@ -42,7 +42,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
     <>
       <CommandGroup
         heading="Edit or review selection"
-        className="bg-brand_fourthary"
+        className="bg-popover"
       >
         {options.map((option) => (
           <CommandItem
@@ -53,17 +53,17 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
               );
               onSelect(text, value);
             }}
-            className="flex gap-2 px-4"
+            className="flex gap-2 px-4 text-foreground hover:bg-accent hover:text-accent-foreground"
             key={option.value}
             value={option.value}
           >
-            <option.icon className="h-4 w-4 text-purple-500" />
+            <option.icon className="h-4 w-4 text-primary" />
             {option.label}
           </CommandItem>
         ))}
       </CommandGroup>
       <CommandSeparator />
-      <CommandGroup heading="Use AI to do more">
+      <CommandGroup heading="Use AI to do more" className="text-foreground">
         <CommandItem
           onSelect={() => {
             if (editor) {
@@ -73,9 +73,9 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
             }
           }}
           value="continue"
-          className="gap-2 px-4"
+          className="gap-2 px-4 text-foreground hover:bg-accent hover:text-accent-foreground"
         >
-          <StepForward className="h-4 w-4 text-purple-500" />
+          <StepForward className="h-4 w-4 text-primary" />
           Continue writing
         </CommandItem>
       </CommandGroup>

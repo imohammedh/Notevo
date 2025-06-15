@@ -42,11 +42,11 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
   const hasCompletion = completion.length > 0;
 
   return (
-    <Command className="w-[350px] bg-brand_fourthary">
+    <Command className="w-[350px] bg-popover">
       {hasCompletion && (
         <div className="flex max-h-[400px]">
           <ScrollArea>
-            <div className="prose p-2 px-4 prose-sm">
+            <div className="prose p-2 px-4 prose-sm text-foreground">
               <Markdown>{completion}</Markdown>
             </div>
           </ScrollArea>
@@ -54,8 +54,8 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
       )}
 
       {isLoading && (
-        <div className="flex h-12 w-full items-center px-4 text-sm font-medium text-muted-foreground text-purple-500">
-          <Magic className="mr-2 h-4 w-4 shrink-0  text-brand_tertiary" />
+        <div className="flex h-12 w-full items-center px-4 text-sm font-medium text-muted-foreground">
+          <Magic className="mr-2 h-4 w-4 shrink-0 text-primary" />
           AI is thinking
           <div className="ml-2 mt-1">
             <CrazySpinner />
@@ -75,10 +75,11 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
                   : "Ask AI to edit or generate..."
               }
               onFocus={() => editor && addAIHighlight(editor)}
+              className="text-foreground placeholder:text-muted-foreground"
             />
             <Button
               size="icon"
-              className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 rounded-full border-none bg-purple-500 hover:bg-purple-900"
+              className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 rounded-full border-none bg-primary text-primary-foreground hover:bg-primary/90"
               onClick={() => {
                 if (completion)
                   return complete(completion, {
