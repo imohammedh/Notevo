@@ -129,14 +129,14 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       </PopoverTrigger>
       <PopoverContent
         sideOffset={5}
-        className="my-1 rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl "
+        className="my-1 rounded-lg border border-border bg-popover px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl"
         align="start"
       >
         <div className="flex flex-col">
-          <div className="my-1 px-2 text-sm font-semibold text-brand_tertiary">
+          <div className="my-1 px-2 text-sm font-semibold text-foreground">
             Color
           </div>
-          <div className=" w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
+          <div className="w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
             {TEXT_COLORS.map(({ name, color }) => (
               <EditorBubbleItem
                 key={name}
@@ -144,10 +144,10 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                   editor.commands.setColor(color);
                   onOpenChange(false);
                 }}
-                className="cursor-pointer flex items-center justify-center px-2 py-1 text-sm rounded-lg hover:bg-brand_tertiary/5"
+                className="cursor-pointer flex items-center justify-center px-2 py-1 text-sm rounded-lg hover:bg-accent hover:text-accent-foreground"
               >
                 <div
-                  className="rounded-sm border text-base border-brand_tertiary/5 px-2 py-px font-medium"
+                  className="rounded-sm border text-base border-border px-2 py-px font-medium"
                   style={{ color }}
                 >
                   A
@@ -157,27 +157,24 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
           </div>
         </div>
         <div>
-          <div className="my-1 px-2 text-sm font-semibold text-brand_tertiary">
+          <div className="my-1 px-2 text-sm font-semibold text-foreground">
             Background
           </div>
-          <div className=" w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
+          <div className="w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
             {HIGHLIGHT_COLORS.map(({ name, color }) => (
               <EditorBubbleItem
                 key={name}
                 onSelect={() => {
                   editor.commands.setHighlight({ color });
                 }}
-                className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm rounded-lg hover:bg-brand_tertiary/10"
+                className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm rounded-lg hover:bg-accent hover:text-accent-foreground"
               >
                 <div
-                  className="rounded-sm border text-base border-brand_tertiary/5 px-2 py-px font-medium"
-                  style={{ backgroundColor: color }}
+                  className="rounded-sm border text-base border-border px-2 py-px font-medium"
+                  style={{backgroundColor: color}}
                 >
                   A
                 </div>
-                {editor.isActive("highlight", { color }) && (
-                  <Check className="h-4 w-4" />
-                )}
               </EditorBubbleItem>
             ))}
           </div>

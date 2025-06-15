@@ -61,7 +61,6 @@ const DragHandleIndicator = ({ editor }: { editor: EditorInstance }) => {
     const editorElement = editor.view.dom;
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Skip if inside drag handle itself
       if (
         dragRef.current &&
         e.target instanceof Node &&
@@ -70,7 +69,6 @@ const DragHandleIndicator = ({ editor }: { editor: EditorInstance }) => {
         return;
       }
 
-      // Find the closest paragraph, heading, or list item node
       let targetElement = e.target as HTMLElement | null;
       let nodeElement: HTMLElement | null = null;
 
@@ -87,13 +85,12 @@ const DragHandleIndicator = ({ editor }: { editor: EditorInstance }) => {
       }
 
       if (nodeElement) {
-        // Get position for the drag handle
         const rect = nodeElement.getBoundingClientRect();
         const editorRect = editorElement.getBoundingClientRect();
 
         setPosition({
-          top: rect.top - editorRect.top, // Center vertically
-          left: 0, // Position to the left of the node
+          top: rect.top - editorRect.top,
+          left: 0,
         });
 
         setVisible(true);
@@ -132,7 +129,7 @@ const DragHandleIndicator = ({ editor }: { editor: EditorInstance }) => {
       }}
     >
       <div
-        className="p-1 rounded text-brand_tertiary/70  cursor-grab"
+        className="p-1 rounded text-muted-foreground cursor-grab"
         title="Drag to move"
       >
         <svg
@@ -192,7 +189,7 @@ const TailwindAdvancedEditor = ({
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
-          className="relative w-full bg-transparent text-brand_secondary placeholder"
+          className="relative w-full bg-transparent text-foreground placeholder"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -203,7 +200,7 @@ const TailwindAdvancedEditor = ({
               handleImageDrop(view, event, moved, uploadFn),
             attributes: {
               class:
-                "text-brand_secondary py-10 prose-stone prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none w-full",
+                "text-foreground py-10 prose-stone prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none w-full",
             },
           }}
           onUpdate={({ editor }) => {
@@ -214,8 +211,8 @@ const TailwindAdvancedEditor = ({
           }}
           slotAfter={<ImageResizer />}
         >
-          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-lg border border-brand_tertiary/20 bg-brand_fourthary px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-brand_tertiary scrollbar-track-transparent">
-            <EditorCommandEmpty className="px-2 text-brand_tertiary">
+          <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-lg border border-border bg-popover px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-muted-foreground scrollbar-track-transparent">
+            <EditorCommandEmpty className="px-2 text-muted-foreground">
               No results
             </EditorCommandEmpty>
             <EditorCommandList>
@@ -223,15 +220,15 @@ const TailwindAdvancedEditor = ({
                 <EditorCommandItem
                   value={item.title}
                   onCommand={(val) => item.command(val)}
-                  className="flex w-full items-center space-x-2 rounded-lg px-2 py-1 text-left text-sm hover:bg-brand_tertiary/5 aria-selected:bg-brand_tertiary/5"
+                  className="flex w-full items-center space-x-2 rounded-lg px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
                   key={item.title}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-brand_tertiary/20 bg-brand_fourthary">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background">
                     {item.icon}
                   </div>
                   <div>
-                    <p className="font-medium">{item.title}</p>
-                    <p className="text-xs text-brand_tertiary/50">
+                    <p className="font-medium text-foreground">{item.title}</p>
+                    <p className="text-xs text-muted-foreground">
                       {item.description}
                     </p>
                   </div>

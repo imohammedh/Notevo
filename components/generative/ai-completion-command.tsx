@@ -12,9 +12,9 @@ const AICompletionCommands = ({
   const { editor } = useEditor();
   return (
     <>
-      <CommandGroup className="bg-brand_fourthary">
+      <CommandGroup className="bg-popover">
         <CommandItem
-          className="gap-2 px-4"
+          className="gap-2 px-4 text-foreground hover:bg-accent hover:text-accent-foreground"
           value="replace"
           onSelect={() => {
             const selection = editor?.view.state.selection;
@@ -32,11 +32,11 @@ const AICompletionCommands = ({
               .run();
           }}
         >
-          <Check className="h-4 w-4 text-brand_tertiary" />
+          <Check className="h-4 w-4 text-primary" />
           Replace selection
         </CommandItem>
         <CommandItem
-          className="gap-2 px-4"
+          className="gap-2 px-4 text-foreground hover:bg-accent hover:text-accent-foreground"
           value="insert"
           onSelect={() => {
             const selection = editor?.view.state.selection;
@@ -49,15 +49,15 @@ const AICompletionCommands = ({
             }
           }}
         >
-          <TextQuote className="h-4 w-4 text-brand_tertiary" />
+          <TextQuote className="h-4 w-4 text-primary" />
           Insert below
         </CommandItem>
       </CommandGroup>
       <CommandSeparator />
 
       <CommandGroup>
-        <CommandItem onSelect={onDiscard} value="thrash" className="gap-2 px-4">
-          <TrashIcon className="h-4 w-4 text-brand_tertiary" />
+        <CommandItem onSelect={onDiscard} value="thrash" className="gap-2 px-4 text-destructive hover:bg-destructive/10">
+          <TrashIcon className="h-4 w-4" />
           Discard
         </CommandItem>
       </CommandGroup>

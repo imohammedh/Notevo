@@ -102,7 +102,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
           <ChevronDown className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent sideOffset={5} align="start" className="w-48 p-1 border border-brand_tertiary/20 bg-brand_fourthary">
+      <PopoverContent sideOffset={5} align="start" className="w-48 p-1 border border-border bg-popover">
         {items.map((item) => (
           <EditorBubbleItem
             key={item.name}
@@ -110,15 +110,13 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
               item.command(editor);
               onOpenChange(false);
             }}
-            className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-brand_tertiary/5"
+            className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-accent hover:text-accent-foreground"
           >
-            <div className="flex items-center *:text-brand_tertiary space-x-2">
-              <div className="rounded-sm border border-brand_tertiary/20 p-1">
-                <item.icon className="h-3 w-3" />
-              </div>
+            <div className="flex items-center *:text-foreground space-x-2">
+              <item.icon className="h-4 w-4" />
               <span>{item.name}</span>
             </div>
-            {activeItem.name === item.name && <Check className="h-4 w-4 text-brand_tertiary" />}
+            {activeItem.name === item.name && <Check className="h-4 w-4 text-primary" />}
           </EditorBubbleItem>
         ))}
       </PopoverContent>

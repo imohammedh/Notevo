@@ -22,8 +22,8 @@
     --accent-foreground: 0 0% 4%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
     --ring: 0 0% 4%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -40,8 +40,8 @@
     --sidebar-border: 0 0% 90%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    --novel-white: rgb(255 255 255);
-    --novel-black: rgb(25 25 25);
+    --novel-white: rgb(25 25 25);
+    --novel-black: rgb(255 255 255);
     --novel-stone-50: rgb(35 35 34);
     --novel-stone-100: rgb(41 37 36);
     --novel-stone-200: rgb(66 69 71);
@@ -64,6 +64,16 @@
     --novel-highlight-gray: #3a3a3a;
   
     --font-title: "Cal Sans", sans-serif;
+
+    /* Editor specific colors */
+    --editor-background: 0 0% 100%;
+    --editor-foreground: 0 0% 4%;
+    --editor-muted: 0 0% 96%;
+    --editor-muted-foreground: 0 0% 45%;
+    --editor-accent: 0 0% 92%;
+    --editor-accent-foreground: 0 0% 4%;
+    --editor-border: 0 0% 90%;
+    --editor-ring: 0 0% 4%;
   }
   .dark {
     --background: 0 0% 4%;
@@ -123,6 +133,16 @@
     --novel-highlight-gray: #3a3a3a;
   
     --font-title: "Cal Sans", sans-serif;
+
+    /* Editor specific colors for dark mode */
+    --editor-background: 0 0% 4%;
+    --editor-foreground: 0 0% 98%;
+    --editor-muted: 0 0% 15%;
+    --editor-muted-foreground: 0 0% 65%;
+    --editor-accent: 0 0% 12%;
+    --editor-accent-foreground: 0 0% 98%;
+    --editor-border: 0 0% 15%;
+    --editor-ring: 0 0% 83.9%;
   }
 }
 html {
@@ -131,18 +151,18 @@ html {
   scrollbar-width: thin;
 }
 *::selection {
-  background: oklch(28.2% 0.091 267.935);
-  color: #e5e5e5;
+  background: hsl(0 0% 85%);
+  color: hsl(0 0% 20%);
 }
 
 *::-moz-selection {
-  background: oklch(28.2% 0.091 267.935);
-  color: #e5e5e5;
+  background: hsl(0 0% 85%);
+  color: hsl(0 0% 20%);
 }
 
 *::-webkit-selection {
-  background: oklch(28.2% 0.091 267.935);
-  color: #e5e5e5;
+  background: hsl(0 0% 85%);
+  color: hsl(0 0% 20%);
 }
 .no-visible-scrollbar {
   scrollbar-width: none;
@@ -226,9 +246,10 @@ html {
 .code-block-wrapper {
   position: relative;
   margin: 1em 0;
-  background-color: #171717;
-  border-radius: 6px;
+  background-color: hsl(var(--card));
+  border-radius: var(--radius);
   overflow: hidden;
+  border: 1px solid hsl(var(--border));
 }
 
 .code-block-wrapper pre {
@@ -239,6 +260,7 @@ html {
   font-size: 14px;
   line-height: 1.5;
   tab-size: 2;
+  color: hsl(var(--foreground));
 }
 
 .code-block-wrapper code {
@@ -248,7 +270,6 @@ html {
   font-size: inherit;
 }
 
-/* Add a "copy" button */
 .code-block-wrapper::after {
   content: "Copy";
   position: absolute;
@@ -256,9 +277,9 @@ html {
   right: 8px;
   padding: 4px 8px;
   font-size: 12px;
-  color: #0a0a0a;
-  background: #e5e5e5;
-  border-radius: 4px;
+  color: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
+  border-radius: var(--radius);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -280,8 +301,9 @@ html {
 .code-block {
   position: relative;
   margin: 1rem 0;
-  background-color: #1e1e1e;
-  border-radius: 0.5rem;
+  background-color: hsl(var(--card));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
 }
 
 .code-block-header {
@@ -289,19 +311,18 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: #252525;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  border-bottom: 1px solid #333;
+  background-color: hsl(var(--muted));
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  border-bottom: 1px solid hsl(var(--border));
   font-family: "JetBrains Mono", monospace;
   font-size: 0.8rem;
-  color: #999;
+  color: hsl(var(--muted-foreground));
 }
 
 .ProseMirror .placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: hsl(var(--muted-foreground));
   font-size: 0.5rem;
-  /* Adjust for dark/light themes */
 }
 
 .mask-image-gradient {
