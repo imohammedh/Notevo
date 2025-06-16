@@ -4,6 +4,8 @@ import React from "react";
 
 import {
   Calendar,
+  ArrowDownUp,
+  Undo2,
   Clock,
   Code,
   FileText,
@@ -28,6 +30,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -162,7 +165,7 @@ export default function SearchDialog({
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-0 overflow-hidden border border-border bg-background shadow-xl shadow-border/10 md:min-w-[700px]">
+      <DialogContent className="p-2 overflow-hidden border border-border bg-accent shadow-xl shadow-border/10 md:min-w-[800px]">
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
         <Command className="bg-background">
           <div
@@ -187,7 +190,7 @@ export default function SearchDialog({
                     {groupedNotes.today.map((note) => (
                       <CommandItem
                         key={note._id}
-                        className="flex items-center py-2 px-2"
+                        className="flex items-center py-2 px-2 group"
                         onSelect={() =>
                           handleItemClick(
                             `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
@@ -213,6 +216,7 @@ export default function SearchDialog({
                             <span>
                               {getRelativeTime(new Date(note.createdAt))}
                             </span>
+                            <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                           </div>
                         </div>
                       </CommandItem>
@@ -227,7 +231,7 @@ export default function SearchDialog({
                       {groupedNotes.yesterday.map((note) => (
                         <CommandItem
                           key={note._id}
-                          className="flex items-center py-2 px-2"
+                          className="flex items-center py-2 px-2 group"
                           onSelect={() =>
                             handleItemClick(
                               `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
@@ -251,6 +255,7 @@ export default function SearchDialog({
                             <div className="flex items-center text-xs text-muted-foreground">
                               <Clock className="mr-1 h-3 w-3" />
                               <span>Yesterday</span>
+                              <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
                           </div>
                         </CommandItem>
@@ -266,7 +271,7 @@ export default function SearchDialog({
                       {groupedNotes.pastWeek.map((note) => (
                         <CommandItem
                           key={note._id}
-                          className="flex items-center py-2 px-2"
+                          className="flex items-center py-2 px-2 group"
                           onSelect={() =>
                             handleItemClick(
                               `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
@@ -292,6 +297,7 @@ export default function SearchDialog({
                               <span>
                                 {getRelativeTime(new Date(note.createdAt))}
                               </span>
+                              <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
                           </div>
                         </CommandItem>
@@ -307,7 +313,7 @@ export default function SearchDialog({
                       {groupedNotes.pastMonth.map((note) => (
                         <CommandItem
                           key={note._id}
-                          className="flex items-center py-2 px-2"
+                          className="flex items-center py-2 px-2 group"
                           onSelect={() =>
                             handleItemClick(
                               `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
@@ -333,6 +339,7 @@ export default function SearchDialog({
                               <span>
                                 {new Date(note.createdAt).toLocaleDateString()}
                               </span>
+                              <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
                           </div>
                         </CommandItem>
@@ -348,7 +355,7 @@ export default function SearchDialog({
                       {groupedNotes.older.map((note) => (
                         <CommandItem
                           key={note._id}
-                          className="flex items-center py-2 px-2"
+                          className="flex items-center py-2 px-2 group"
                           onSelect={() =>
                             handleItemClick(
                               `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
@@ -374,6 +381,7 @@ export default function SearchDialog({
                               <span>
                                 {new Date(note.createdAt).toLocaleDateString()}
                               </span>
+                              <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
                           </div>
                         </CommandItem>
@@ -393,6 +401,16 @@ export default function SearchDialog({
             ) : null}
           </CommandList>
         </Command>
+        <DialogFooter className=" w-full flex items-center justify-center">
+        <span className="inline-flex gap-1">
+          <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+            <ArrowDownUp size={16}/> Select
+          </kbd>
+          <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+            <Undo2 size={16}/>  open
+          </kbd>
+        </span>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
