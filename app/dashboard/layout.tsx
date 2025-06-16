@@ -67,7 +67,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
       <AppSidebar />
       <main
         ref={mainRef}
-        className={`relative flex flex-col flex-1 min-h-svh border-primary/30 ${
+        className={`relative flex flex-col flex-1 min-h-svh border-primary/20 ${
           open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
         } rounded-none bg-background`}
       >
