@@ -11,7 +11,6 @@
  - [ ] add the toaster notification
  - [ ] add Onboarding Flow
  - [ ] fix the middleware 404 on redirect
- - [ ] fix the Tooltip from @heroui and change the close time ciz it causes conflict in the sidebar
  - [ ] add the shareable Link
  - [ ] fix the code Highlight in the editer
  - [ ] add the feedback menu item in the user dropdown menu in the sidebar
