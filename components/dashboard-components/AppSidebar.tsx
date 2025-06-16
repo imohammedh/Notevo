@@ -685,12 +685,13 @@ const AppSidebar = React.memo(function AppSidebar() {
     api.mutations.workingSpaces.createWorkingSpace,
   );
   const createNote = useMutation(api.mutations.notes.createNote);
-
+  
   const getWorkingSpaces = useQuery(
     api.mutations.workingSpaces.getRecentWorkingSpaces,
   );
   const User = useQuery(api.users.viewer);
   const getNotesByUserId = useQuery(api.mutations.notes.getNoteByUserId);
+  const createTable = useMutation(api.mutations.notesTables.createTable);
 
   const { signOut } = useAuthActions();
 
@@ -704,7 +705,7 @@ const AppSidebar = React.memo(function AppSidebar() {
   
   const isDashboard = React.useMemo(() => 
     pathname === "/dashboard",
-    [pathname]
+    [pathname]  
   );
 
   const isSidebarLoading = React.useMemo(() =>
@@ -722,26 +723,24 @@ const AppSidebar = React.memo(function AppSidebar() {
     }
   }, [createWorkingSpace]);
 
-  const handleSignOut = useCallback(async () => {
-    setIsSigningOut(true);
-    try {
-      await signOut();
-      redirect("/");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    } finally {
-      setIsSigningOut(false);
-    }
-  }, [signOut, router]);
-
-  const handleCreateNote = useCallback(
+  const handleCreateNote = useCallback( 
     async (workingSpaceId: any, workingSpacesSlug: string) => {
       setLoading(true);
       try {
+        const tableName = "New Quick Access Notes";
+        
+        // Create or get existing table
+        const tableId = await createTable({
+          name: tableName,
+          workingSpaceId: workingSpaceId,
+        });
+
+        // Create note with the table ID
         const newNoteId = await createNote({
           workingSpacesSlug: workingSpacesSlug,
           workingSpaceId: workingSpaceId,
-          title: "New Quick Access Notes",
+          title: tableName,
+          notesTableId: tableId,
         });
 
         if (newNoteId) {
@@ -769,8 +768,19 @@ const AppSidebar = React.memo(function AppSidebar() {
         setLoading(false);
       }
     },
-    [createNote, getNotesByUserId, router],
+    [createNote, createTable, getNotesByUserId, router],
   );
+  const handleSignOut = useCallback(async () => {
+    setIsSigningOut(true);
+    try {
+      await signOut();
+      redirect("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    } finally {
+      setIsSigningOut(false);
+    }
+  }, [signOut, router]);
 
   if (isSidebarLoading) {
     return <SkeletonSidebar />;

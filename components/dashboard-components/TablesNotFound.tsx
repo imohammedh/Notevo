@@ -33,7 +33,7 @@ export default function TablesNotFound({
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center">
+    <div className="flex my-10 flex-col items-center justify-center">
       <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
           <Table className="h-10 w-10 text-muted-foreground" />

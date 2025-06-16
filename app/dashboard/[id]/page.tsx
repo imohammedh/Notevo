@@ -100,6 +100,7 @@ interface NotesDroppableContainerProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   tables: any[];
+  setViewMode: (mode: ViewMode) => void;
 }
 
 interface NoteCardProps {
@@ -288,76 +289,11 @@ export default function WorkingSpacePage() {
               </p>
             </div>
             <div className="flex items-center gap-2 self-end md:self-auto">
-              <div className="relative w-full md:w-auto">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search notes..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-[200px] pl-9 text-foreground border-border"
-                />
-              </div>
-              <div className="flex items-center border border-border rounded-lg overflow-hidden">
-                <Button
-                  variant="Trigger"
-                  size="icon"
-                  className={cn(
-                    "h-9 w-9 rounded-none",
-                    viewMode === "grid" && "bg-background"
-                  )}
-                  onClick={() => setViewMode("grid")}
-                >
-                  <LayoutGrid className="h-4 w-4 text-muted-foreground" />
-                </Button>
-                <Button
-                  variant="Trigger"
-                  size="icon"
-                  className={cn(
-                    "h-9 w-9 rounded-none",
-                    viewMode === "list" && "bg-background"
-                  )}
-                  onClick={() => setViewMode("list")}
-                >
-                  <List className="h-4 w-4 text-muted-foreground" />
-                </Button>
-              </div>
               <CreateTableBtn workingSpaceId={workingSpaceId} />
-              <CreateNoteBtn
-                workingSpaceId={workingSpaceId}
-                workingSpacesSlug={workingSpacesSlug}
-              />
             </div>
           </div>
         </div>
       </header>
-
-      {/* Quick Access Notes Section */}
-      {quickAccessNotes.length > 0 && (
-        <section aria-labelledby="quick-access-title">
-          <header className="w-full py-2 px-1">
-            <h2
-              id="quick-access-title"
-              className="text-base text-foreground font-bold"
-            >
-              Quick Access Notes
-            </h2>
-          </header>
-          <div className={viewMode === "grid" 
-            ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-            : "flex flex-col gap-3"
-          }>
-            {quickAccessNotes.map((note) => (
-              <QuickAccessNoteCard
-                key={note._id}
-                note={note}
-                workspaceName={workspace?.slug}
-                viewMode={viewMode}
-              />
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* Tables and Notes Content */}
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -390,6 +326,7 @@ export default function WorkingSpacePage() {
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}
                   tables={tables}
+                  setViewMode={setViewMode}
                 />
               </TabsContent>
             ))}
@@ -434,6 +371,7 @@ function NotesDroppableContainer({
   searchQuery,
   setSearchQuery,
   tables,
+  setViewMode,
 }: NotesDroppableContainerProps): JSX.Element {
   return (
     <div className="py-2">
@@ -447,12 +385,46 @@ function NotesDroppableContainer({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <TableSettings notesTableId={tableId} tableName={tables?.find(t => t._id === tableId)?.name} />
+          <div className="relative w-[200px]">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 text-foreground border-border"
+            />
+          </div>
+          <div className="flex items-center border border-border rounded-lg overflow-hidden">
+            <Button
+              variant="Trigger"
+              size="icon"
+              className={cn(
+                "h-9 w-9 rounded-none",
+                viewMode === "grid" && "bg-muted"
+              )}
+              onClick={() => setViewMode("grid")}
+            >
+              <LayoutGrid className="h-4 w-4 text-muted-foreground" />
+            </Button>
+            <Button
+              variant="Trigger"
+              size="icon"
+              className={cn(
+                "h-9 w-9 rounded-none",
+                viewMode === "list" && "bg-muted"
+              )}
+              onClick={() => setViewMode("list")}
+            >
+              <List className="h-4 w-4 text-muted-foreground" />
+            </Button>
+          </div>
           <CreateNoteBtn
             workingSpaceId={workspaceId}
             workingSpacesSlug={workspaceSlug}
             notesTableId={tableId}
           />
+          <TableSettings notesTableId={tableId} tableName={tables?.find(t => t._id === tableId)?.name} />
         </div>
       </div>
 
