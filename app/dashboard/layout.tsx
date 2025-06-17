@@ -51,7 +51,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
     return (
       <div className="flex h-screen w-full bg-accent overflow-hidden">
         <div style={{ width: `${sidebarWidth}px` }} />
-        <main className={`relative flex flex-col flex-1 min-h-svh border-border ${
+        <main className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-border ${
           open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
         } rounded-none bg-background`}>
           <div className="mt-14 flex-1 overflow-auto">
@@ -67,7 +67,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
       <AppSidebar />
       <main
         ref={mainRef}
-        className={`relative flex flex-col flex-1 min-h-svh border-primary/20 ${
+        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-primary/20 ${
           open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
         } rounded-none bg-background`}
       >

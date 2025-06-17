@@ -115,4 +115,4 @@ export default function DashboardSkeleton() {
       </Tabs>
     </MaxWContainer>
   );
-}
+} 
