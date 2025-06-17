@@ -157,7 +157,7 @@ export default function Navbar() {
               ))}
               <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-border/20">
                 <Button variant="ghost" asChild className="w-full justify-center">
-                  <Link href="/signin" className="text-sm font-medium">
+                  <Link href="/signup" className="text-sm font-medium">
                     Sign In
                   </Link>
                 </Button>
