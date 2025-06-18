@@ -1,10 +1,9 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-const MAX_NAME_LENGTH = 20;
+const MAX_NAME_LENGTH = 50;
 const EMAIL_DISPLAY_REGEX = /(.{3}).*?(@.{3}).*/;
 export const formatWorkspaceName = (name: string) =>
     name.length > MAX_NAME_LENGTH
