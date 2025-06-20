@@ -184,8 +184,6 @@ const TailwindAdvancedEditor = ({
   return (
     <EditorRoot>
       <div className="relative w-full">
-        {editorInstance && <DragHandleIndicator editor={editorInstance} />}
-
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
