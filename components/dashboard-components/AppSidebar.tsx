@@ -657,16 +657,14 @@ const UserAccountSection = memo(function UserAccountSection({
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="p-0">
-                <div className="w-full p-2">
-                  <ThemeToggle />
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleSignOut}>
                 <LogOut size="16" className="mr-2 h-4 w-4" />
                 Sign out
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+                <div className="w-full p-2">
+                  <ThemeToggle />
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarMenuItem>
