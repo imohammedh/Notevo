@@ -10,7 +10,7 @@
  - [ ] Link and fix the AI API
  - [ ] add the toaster notification
  - [ ] add Onboarding Flow
- - [ ] fix the middleware 404 on redirect
+ - [x] fix the middleware 404 on redirect
  - [ ] add the shareable Link
  - [ ] fix the code Highlight in the editer
  - [ ] add the feedback menu item in the user dropdown menu in the sidebar
