@@ -4,17 +4,28 @@ import {
   nextjsMiddlewareRedirect,
 } from "@convex-dev/auth/nextjs/server";
  
-const isSignInPage = createRouteMatcher(["/signin","/"]);
+const isSignInPage = createRouteMatcher(["/signup","/"]);
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
  
 export default convexAuthNextjsMiddleware(
   async (request, { convexAuth }) => {
-    if (isSignInPage(request) && (await convexAuth.isAuthenticated())) {
+    const authenticated = await convexAuth.isAuthenticated();
+    // Debug logging
+    console.log("[middleware]", {
+      url: request.nextUrl.pathname,
+      authenticated,
+      cookies: request.cookies.getAll(),
+    });
+
+    if (isSignInPage(request) && authenticated) {
       return nextjsMiddlewareRedirect(request, "/dashboard");
     }
-    if (isProtectedRoute(request) && !(await convexAuth.isAuthenticated())) {
-      return nextjsMiddlewareRedirect(request, "/signin");
+    if (isProtectedRoute(request) && !authenticated) {
+      // Always redirect unauthenticated users to /signin
+      return nextjsMiddlewareRedirect(request, "/signup");
     }
+    // Optionally, handle the case where a protected route is accessed without a valid session
+    // by redirecting to /signin instead of letting it fall through to a 404
   },
   { cookieConfig: { maxAge: 60 * 60 * 24 * 30 } },
 );
