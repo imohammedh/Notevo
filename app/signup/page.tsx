@@ -13,6 +13,86 @@ import Link from "next/link";
 import Image from "next/image";
 import ImgSrc from "@/public/AIChatBotLogin.svg";
 import ImgSrcNotevoLogo from "@/public/Notevo-logo.svg";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { z } from "zod"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+
+function SignInWithMagicLink({
+  handleLinkSent,
+}: {
+  handleLinkSent: () => void;
+}) {
+  const { signIn } = useAuthActions();
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  // Zod schema for email
+  const emailSchema = z.object({
+    email: z.string().email({ message: "Please enter a valid email address." }),
+  });
+
+  const form = useForm<z.infer<typeof emailSchema>>({
+    resolver: zodResolver(emailSchema),
+    defaultValues: { email: "" },
+  });
+
+  async function onSubmit(values: z.infer<typeof emailSchema>) {
+    setLoading(true);
+    const formData = new FormData();
+    formData.set("email", values.email);
+    formData.set("redirectTo", "/dashboard");
+    try {
+      await signIn("resend", formData);
+      handleLinkSent();
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Invalid Email or Password",
+        description: "Example for a valid email : example@mail.com",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <Form {...form}>
+      <form
+        className="flex flex-col"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-foreground">Email</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  autoComplete="email"
+                  disabled={loading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" disabled={loading} className="hover:scale-105 transition-transform duration-200 mt-2">
+          {loading ? (
+            <>
+              <LoadingAnimation className="mx-2 w-4 h-4" /> Sending...
+            </>
+          ) : (
+            "Send sign-in link"
+          )}
+        </Button>
+      </form>
+    </Form>
+  );
+}
 
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
@@ -155,55 +235,5 @@ function SignInWithGoogle() {
         </>
       )}
     </Button>
-  );
-}
-
-function SignInWithMagicLink({
-  handleLinkSent,
-}: {
-  handleLinkSent: () => void;
-}) {
-  const { signIn } = useAuthActions();
-  const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
-
-  return (
-    <form
-      className="flex flex-col"
-      onSubmit={(event) => {
-        event.preventDefault();
-        setLoading(true);
-        const formData = new FormData(event.currentTarget);
-        formData.set("redirectTo", "/dashboard");
-        signIn("resend", formData)
-          .then(handleLinkSent)
-          .catch(() => {
-            toast({
-              variant: "destructive",
-              title: "Invalid Email or Password",
-              description: "Example for a valied email : example@mail.com",
-            });
-          })
-          .finally(() => setLoading(false));
-      }}
-    >
-      <label htmlFor="email" className="text-foreground">Email</label>
-      <Input
-        name="email"
-        id="email"
-        className="mb-4"
-        autoComplete="email"
-        disabled={loading}
-      />
-      <Button type="submit" disabled={loading} className="hover:scale-105 transition-transform duration-200">
-        {loading ? (
-          <>
-            <LoadingAnimation className="mx-2 w-4 h-4" /> Sending...
-          </>
-        ) : (
-          "Send sign-in link"
-        )}
-      </Button>
-    </form>
   );
 }
