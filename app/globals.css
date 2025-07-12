@@ -320,11 +320,13 @@ html {
   color: hsl(var(--muted-foreground));
 }
 
-.ProseMirror .placeholder {
-  color:#000000;
-  font-size: 0.5rem;
+p[data-placeholder="Write something or Press '/' for commands"].is-empty::before {
+  content: attr(data-placeholder);
+  color: var(--novel-stone-400) !important; 
+  position: absolute; 
+  pointer-events: none;
+  font-size: 1rem;
 }
-
 .mask-image-gradient {
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }

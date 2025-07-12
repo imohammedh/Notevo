@@ -1,7 +1,6 @@
 "use client";
 import {
   Calendar,
-  Clock,
   FileText,
   LayoutGrid,
   List,
@@ -18,8 +17,6 @@ import {
   Draggable,
   DropResult,
   DraggableProvided,
-  DraggableStateSnapshot,
-  DroppableProvided,
 } from "@hello-pangea/dnd";
 
 // Import types from the Convex data model
@@ -39,7 +36,6 @@ import SkeletonTextAnimation from "@/components/ui/SkeletonTextAnimation";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -47,21 +43,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { PenSquare } from "lucide-react";
+
 
 // Utils
 import { getContentPreview } from "@/lib/getContentPreview";
 import { JSX } from "react/jsx-runtime";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { TbSelector } from "react-icons/tb";
-import LoadingAnimation from "@/components/ui/LoadingAnimation";
 import { useHotkeys } from "react-hotkeys-hook";
 import { cn } from "@/lib/utils";
 
