@@ -83,7 +83,7 @@ export default function Dashboard() {
     <>
       <MaxWContainer className="relative mb-20">
         {/* Hero Section */}
-        <div className="w-full py-10 my-5 bg-gradient-to-r from-accent via-transparent to-accent rounded-xl">
+        <div className="w-full py-10 my-5 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-xl">
           <header className="max-w-3xl mx-auto px-4 text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-3 flex justify-center items-center gap-2 text-foreground">
               Welcome to Notevo,{" "}
@@ -360,15 +360,15 @@ function WorkspaceCardSkeleton() {
   return (
     <Card className="bg-card/30 border-border">
       <CardHeader className="pb-2">
-        <div className="h-6 w-3/4 bg-muted rounded animate-pulse"></div>
+        <div className="h-6 w-3/4 bg-primary/20 rounded animate-pulse"></div>
       </CardHeader>
       <CardContent className="pb-2">
         <div className="h-16 flex items-center justify-center">
-          <div className="h-10 w-10 bg-muted rounded-full animate-pulse"></div>
+          <div className="h-10 w-10 bg-primary/20 rounded-full animate-pulse"></div>
         </div>
       </CardContent>
       <CardFooter className="pt-2">
-        <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
+        <div className="h-4 w-24 bg-primary/20 rounded animate-pulse"></div>
       </CardFooter>
     </Card>
   );

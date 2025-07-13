@@ -628,17 +628,17 @@ function TablesSkeleton(): JSX.Element {
       {Array.from({ length: 8 }).map((_, index) => (
         <Card key={index} className="bg-card/30 border-border">
           <CardHeader className="pb-2">
-            <div className="h-6 w-3/4 bg-muted rounded animate-pulse" />
+            <div className="h-6 w-3/4 bg-primary/20 rounded animate-pulse" />
           </CardHeader>
           <CardContent className="pb-2">
             <div className="h-16 flex items-center justify-center">
-              <div className="h-10 w-10 bg-muted rounded-full animate-pulse" />
+              <div className="h-10 w-10 bg-primary/20 rounded-full animate-pulse" />
             </div>
           </CardContent>
           <CardFooter className="pt-2">
-            <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+            <div className="h-4 w-24 bg-primary/20 rounded animate-pulse" />
           </CardFooter>
-        </Card>
+        </Card> 
       ))}
     </div>
   );
