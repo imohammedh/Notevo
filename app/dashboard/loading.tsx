@@ -9,7 +9,7 @@ export default function DashboardSkeleton() {
   return (
     <MaxWContainer className="relative mb-20">
       {/* Hero Section Skeleton */}
-      <div className="w-full py-10 my-5 bg-gradient-to-r from-accent via-transparent to-accent rounded-xl">
+      <div className="w-full py-10 my-5 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-xl">
         <header className="max-w-3xl mx-auto px-4 text-center">
           <div className="flex justify-center items-center gap-2 mb-3">
             <SkeletonTextAnimation className="h-8 w-64" />

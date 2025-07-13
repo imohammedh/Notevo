@@ -83,7 +83,7 @@ const SkeletonSidebar = () => {
       </SidebarHeader>
       <SidebarContent className="text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-background scrollbar-track-transparent group-hover:scrollbar-thumb-foreground">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-muted-foreground">
+          <SidebarGroupLabel className="text-primary/20">
             <SkeletonTextAnimation className="w-24 h-3" />
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -98,7 +98,7 @@ const SkeletonSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-muted-foreground">
+          <SidebarGroupLabel className="text-primary/20">
             <SkeletonTextAnimation className="w-24 h-3" />
           </SidebarGroupLabel>
           <SidebarGroupContent>

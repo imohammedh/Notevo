@@ -64,7 +64,7 @@ const Skeleton = ({ className = "", ...props }: { className?: string; [key: stri
 function WorkspaceHeaderSkeleton(): JSX.Element {
   return (
     <header className="py-6">
-      <div className="w-full p-6 bg-gradient-to-r from-accent via-transparent via-15% to-accent rounded-xl">
+      <div className="w-full p-6 bg-gradient-to-r from-primary/20 via-transparent via-15% to-primary/20 rounded-xl">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -101,7 +101,7 @@ function NotesContainerHeaderSkeleton(): JSX.Element {
   return (
     <div className="w-full flex items-center justify-between border-b border-border py-3 mb-5">
       <div className="flex items-center gap-2">
-        <div className="h-5 w-5 bg-accent rounded-full flex items-center justify-center">
+        <div className="h-5 w-5 bg-primary/20 rounded-full flex items-center justify-center">
           <TbSelector className="h-3 w-3 text-muted-foreground" />
         </div>
         <Skeleton className="h-5 w-16" />
@@ -158,7 +158,7 @@ function ListNoteCardSkeleton(): JSX.Element {
     <Card className="group bg-card/30 border-border">
       <CardContent className="p-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center">
+          <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
             <FileText className="h-5 w-5 text-muted-foreground" />
           </div>
           <div className="space-y-2">
@@ -452,7 +452,7 @@ export default function WorkingSpacePage() {
     <MaxWContainer className="mb-20">
       {/* Workspace Header */}
       <header className="py-6">
-        <div className="w-full p-6 bg-gradient-to-r from-accent via-transparent via-15% to-accent rounded-xl">
+        <div className="w-full p-6 bg-gradient-to-r from-primary/20 via-transparent via-15% to-primary/20 rounded-xl">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
