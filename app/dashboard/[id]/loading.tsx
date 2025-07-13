@@ -54,7 +54,7 @@ import { cn } from "@/lib/utils";
 const Skeleton = ({ className = "", ...props }: { className?: string; [key: string]: any }) => {
   return (
     <div
-      className={`animate-pulse bg-muted rounded-md ${className}`}
+      className={`animate-pulse bg-primary/20 rounded-md ${className}`}
       {...props}
     />
   );
