@@ -28,8 +28,9 @@ const SIDEBAR_WIDTH = "15rem";
 const SIDEBAR_WIDTH_MOBILE = "16rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
-const MIN_SIDEBAR_WIDTH = 200; // Minimum width in pixels
-const MAX_SIDEBAR_WIDTH = 400; // Maximum width in pixels
+const MIN_SIDEBAR_WIDTH = 200; 
+const MAX_SIDEBAR_WIDTH = 400; 
+const SIDEBAR_WIDTH_COOKIE_NAME = "sidebar:width";
 
 type SidebarContext = {
   state: "expanded" | "collapsed";
@@ -76,7 +77,24 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
-    const [sidebarWidth, setSidebarWidth] = React.useState(240); // Default width in pixels
+    const [sidebarWidth, setSidebarWidthState] = React.useState<number | null>(null);
+
+    // On mount, set the width from the cookie
+    React.useEffect(() => {
+      if (typeof document !== 'undefined') {
+        const cookie = document.cookie
+          .split('; ')
+          .find(row => row.startsWith(`${SIDEBAR_WIDTH_COOKIE_NAME}=`));
+        if (cookie) {
+          const value = parseInt(cookie.split('=')[1], 10);
+          if (!isNaN(value)) {
+            setSidebarWidthState(value);
+            return;
+          }
+        }
+        setSidebarWidthState(240); // fallback default
+      }
+    }, []);
 
     // Get initial state from cookie
     const getInitialState = React.useCallback(() => {
@@ -109,6 +127,11 @@ const SidebarProvider = React.forwardRef<
       },
       [setOpenProp, open],
     );
+
+    const setSidebarWidth = React.useCallback((width: number) => {
+      setSidebarWidthState(width);
+      document.cookie = `${SIDEBAR_WIDTH_COOKIE_NAME}=${width}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+    }, []);
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
@@ -146,7 +169,7 @@ const SidebarProvider = React.forwardRef<
         openMobile,
         setOpenMobile,
         toggleSidebar,
-        sidebarWidth,
+        sidebarWidth: sidebarWidth ?? 0,
         setSidebarWidth,
       }),
       [
@@ -161,6 +184,11 @@ const SidebarProvider = React.forwardRef<
         setSidebarWidth,
       ],
     );
+
+    if (sidebarWidth === null) {
+      // Optionally, render a loading skeleton or nothing
+      return null;
+    }
 
     return (
       <SidebarContext.Provider value={contextValue}>
