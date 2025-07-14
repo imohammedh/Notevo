@@ -61,14 +61,11 @@ import WorkingSpaceSettingsSidbar from "./WorkingSpaceSettingsSidbar";
 import React from "react";
 import { ThemeToggle } from "../ThemeToggle";
 import { UserIcon } from "lucide-react";
-import Image from "next/image";
-import { FolderIcon } from "lucide-react";
 
 // --- Skeleton Sidebar Component ---
-
 const SkeletonSidebar = () => {
   return (
-    <Sidebar variant="inset" className="border-border group">
+    <Sidebar className="border-border group">
       <SidebarHeader className=" text-foreground border-b border-border">
         <div className=" w-full flex items-center justify-between p-1.5">
           <div className="flex items-center justify-start gap-2">
