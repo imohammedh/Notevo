@@ -111,11 +111,13 @@ const SidebarProvider = React.forwardRef<
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
-    const [_open, _setOpen] = React.useState(getInitialState);
+    const [_open, _setOpen] = React.useState<boolean | null>(null);
     const open = openProp ?? _open;
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
-        const openState = typeof value === "function" ? value(open) : value;
+        // Ensure 'open' is always boolean for the updater function
+        const currentOpen = open ?? false;
+        const openState = typeof value === "function" ? value(currentOpen) : value;
         if (setOpenProp) {
           setOpenProp(openState);
         } else {
@@ -156,6 +158,21 @@ const SidebarProvider = React.forwardRef<
       return () => window.removeEventListener("keydown", handleKeyDown);
     }, [toggleSidebar]);
 
+    // On mount, set the open state from the cookie
+    React.useEffect(() => {
+      if (typeof document !== 'undefined') {
+        const cookie = document.cookie
+          .split('; ')
+          .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
+        if (cookie) {
+          const value = cookie.split('=')[1];
+          _setOpen(value === 'true');
+          return;
+        }
+        _setOpen(defaultOpen); // fallback default
+      }
+    }, [defaultOpen]);
+
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? "expanded" : "collapsed";
@@ -163,7 +180,7 @@ const SidebarProvider = React.forwardRef<
     const contextValue = React.useMemo<SidebarContext>(
       () => ({
         state,
-        open,
+        open: open ?? false,
         setOpen,
         isMobile,
         openMobile,
@@ -185,7 +202,7 @@ const SidebarProvider = React.forwardRef<
       ],
     );
 
-    if (sidebarWidth === null) {
+    if (sidebarWidth === null || open === null) {
       // Optionally, render a loading skeleton or nothing
       return null;
     }

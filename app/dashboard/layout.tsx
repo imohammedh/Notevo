@@ -19,7 +19,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
       <main
         className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-primary/20 ${
           open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
-        } rounded-none bg-background`}
+        } rounded-none bg-background `}
       >
 
         <div className="w-full flex items-center justify-start px-5 gap-3  mx-auto py-2.5">
