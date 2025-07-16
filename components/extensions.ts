@@ -22,7 +22,6 @@ import {
 import { UploadImagesPlugin } from "novel";
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
-import javascript from 'highlight.js/lib/languages/javascript'
 import typescript from 'highlight.js/lib/languages/typescript';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 
