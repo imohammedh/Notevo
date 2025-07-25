@@ -62,6 +62,7 @@ import WorkingSpaceSettingsSidbar from "./WorkingSpaceSettingsSidbar";
 import React from "react";
 import { ThemeToggle } from "../ThemeToggle";
 import { UserIcon } from "lucide-react";
+import Feedback from "./Feedback";
 
 // --- Skeleton Sidebar Component ---
 const SkeletonSidebar = () => {
@@ -654,15 +655,16 @@ const UserAccountSection = memo(function UserAccountSection({
                   Account & Settings
                 </Link>
               </DropdownMenuItem>
+                <Feedback />
+              <DropdownMenuSeparator />
+                <div className="w-full p-2">
+                  <ThemeToggle />
+              </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleSignOut}>
                 <LogOut size="16" className="mr-2 h-4 w-4" />
                 Sign out
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-                <div className="w-full p-2">
-                  <ThemeToggle />
-              </div>
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarMenuItem>
