@@ -28,7 +28,7 @@ const formSchema = z.object({
     message: "Feedback must be at least 5 characters.",
   }),
   name: z.string().optional(),
-  email: z.string().email({ message: "Invalid email address." }).optional(),
+  email: z.string().email({ message: "Invalid email address." }).optional().or(z.literal("")),
 });
 
 export default function Feedback() {
