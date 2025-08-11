@@ -799,7 +799,7 @@ const AppSidebar = React.memo(function AppSidebar() {
         loading={loading}
       />
 
-      <SidebarContent className=" text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-accent scrollbar-track-transparent group-hover:scrollbar-thumb-foreground">
+      <SidebarContent className=" text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-muted-foreground">
         <SidebarNavigation
           pathname={pathname}
           isDashboard={isDashboard}
