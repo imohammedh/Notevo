@@ -26,9 +26,9 @@ export default function WorkingSpaceNotFound() {
   };
 
   return (
-    <Card className="bg-accent border-border">
+    <Card className="bg-background border-none  ">
       <CardContent className="pt-6 text-center">
-        <div className="flex h-[calc(100vh-25rem)] flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
               <FolderX className="h-10 w-10 text-muted-foreground" />
