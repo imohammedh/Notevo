@@ -18,27 +18,9 @@ export default function HeroSection() {
       {/* Animated Gradient Orbs */}
       <motion.div
         className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 dark:bg-purple-600/40 rounded-full filter blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.2, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
       />
       <motion.div
         className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-900/50 dark:bg-purple-600/40 rounded-full filter blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.3, 0.2],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
       />
 
       <div className="container relative z-10 mx-auto px-4 py-32 text-center">
