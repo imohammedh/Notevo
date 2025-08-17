@@ -26,19 +26,19 @@ export default function WorkingSpaceNotFound() {
   };
 
   return (
-    <Card className="bg-brand_fourthary/30 border-brand_tertiary/20">
+    <Card className="bg-accent border-border">
       <CardContent className="pt-6 text-center">
-        <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center">
+        <div className="flex h-[calc(100vh-25rem)] flex-col items-center justify-center">
           <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
               <FolderX className="h-10 w-10 text-muted-foreground" />
             </div>
-            <h3 className="mt-4 text-lg font-semibold text-foreground">Workspace not found</h3>
+              <h3 className="mt-4 text-lg font-semibold text-foreground">Workspace not found</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              The workspace you're looking for doesn't exist or you don't have access to it.
+              You don't have any workspaces yet.
             </p>
-            <Button className="mt-4" asChild>
-              <Link href="/dashboard">Return to Dashboard</Link>
+            <Button className="mt-4" onClick={handleCreateWorkingSpace}>
+              Create a new workspace
             </Button>
           </div>
         </div>
