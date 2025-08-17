@@ -83,7 +83,7 @@ export default function Dashboard() {
     <>
       <MaxWContainer className="relative mb-20">
         {/* Hero Section */}
-        <div className="w-full py-10 my-5 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-xl">
+        <div className="w-full py-10 my-5 bg-gradient-to-r from-accent via-transparent to-accent rounded-xl">
           <header className="max-w-3xl mx-auto px-4 text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-3 flex justify-center items-center gap-2 text-foreground">
               Welcome to Notevo,{" "}
