@@ -263,7 +263,7 @@ export default function WorkingSpacePage() {
     <MaxWContainer className="mb-20">
       {/* Workspace Header */}
       <header className="py-6">
-        <div className="w-full p-6 bg-gradient-to-r from-accent via-transparent via-15% to-accent rounded-xl">
+        <div className="w-full p-6 bg-gradient-to-l from-accent via-transparent via-15% to-accent rounded-xl">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
