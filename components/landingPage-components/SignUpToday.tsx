@@ -14,7 +14,7 @@ export default function SignUpToday() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="relative flex flex-col items-center justify-center gap-8 py-16 px-6 rounded-2xl border border-border/20 bg-background/50 backdrop-blur-sm"
+          className="relative flex flex-col items-center justify-center gap-8 py-16 px-6"
         >
           <div className="text-center space-y-4 max-w-3xl">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
