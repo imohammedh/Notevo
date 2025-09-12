@@ -41,11 +41,11 @@ export default function HowToStartSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl" />
               <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
                 <div className="flex flex-col items-center text-center space-y-4">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-primary/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-500" />
+                    <div className="absolute inset-0 bg-primary/20 rounded-full" />
                     <div className="relative bg-primary/10 rounded-full p-4">
                       <span className="text-xl font-semibold text-primary">
                         {step.StepNum}

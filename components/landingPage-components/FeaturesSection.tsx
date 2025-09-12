@@ -69,11 +69,11 @@ export default function FeaturesSection() {
               onMouseEnter={() => setHoveredFeature(feature.title)}
               onMouseLeave={() => setHoveredFeature(null)}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl" />
               <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
                 <div className="flex items-start gap-4">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-primary/20 rounded-lg blur-lg group-hover:blur-xl transition-all duration-500" />
+                    <div className="absolute inset-0 bg-primary/20 rounded-lg" />
                     <div className="relative bg-primary/10 rounded-lg p-3">
                       <feature.icon className="w-6 h-6 text-primary" />
                     </div>
@@ -106,7 +106,7 @@ export default function FeaturesSection() {
               }}
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl blur-xl" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl" />
                 <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-4">
                   <Image
                     src={featureImages[hoveredFeature as keyof typeof featureImages]}
