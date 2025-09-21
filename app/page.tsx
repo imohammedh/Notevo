@@ -30,7 +30,7 @@ export default function HomePage() {
           <FeaturesSection />
           <MoreAboutMe />
           {/* <Testimonials /> */}
-          <PricingSection />
+          {/* <PricingSection /> */}
           <SignUpToday />
         </div>
         {isClient && <Footer />}
