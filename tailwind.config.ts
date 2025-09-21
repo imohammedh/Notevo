@@ -2,7 +2,6 @@ import type { Config } from "tailwindcss";
 const defaultTheme = require("tailwindcss/defaultTheme");
  
 const colors = require("tailwindcss/colors");
-const flowbiteReact = require("flowbite-react/plugin/tailwindcss");
 
 const {
   default: flattenColorPalette,
@@ -11,7 +10,7 @@ const {
 export default {
   darkMode: ["selector", "class"],
   content: [// Note the addition of the `app` directory.
-  "./app/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}", ".flowbite-react\\class-list.json"],
+  "./app/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}"],
   safelist: ["dark"],
   theme: {
   	container: {
@@ -151,7 +150,6 @@ export default {
       require('tailwind-scrollbar'),
       require("@tailwindcss/typography"),
       addVariablesForColors,
-      flowbiteReact
   ]
 } satisfies Config;
 

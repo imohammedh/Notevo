@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "flowbite-react patch"
+    "postinstall": "echo 'Post-install complete'"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.1.9",
@@ -56,8 +56,6 @@
     "cobe": "^0.6.3",
     "convex": "^1.20.0",
     "convex-helpers": "^0.1.79",
-    "flowbite": "^3.1.2",
-    "flowbite-react": "^0.11.7",
     "framer-motion": "^12.0.5",
     "highlight.js": "^11.11.1",
     "html-react-parser": "^5.2.2",

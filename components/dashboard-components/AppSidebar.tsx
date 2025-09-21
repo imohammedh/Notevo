@@ -148,7 +148,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
   loading,
 }: SidebarHeaderSectionProps) {
   return (
-    <SidebarHeader className=" text-foreground border-b border-border">
+    <SidebarHeader className=" text-foreground border-b border-primary/10">
       <div className="flex items-center justify-between p-1.5">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-foreground">Notevo</span>
@@ -599,7 +599,7 @@ const UserAccountSection = memo(function UserAccountSection({
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild className="my-2">
+            <DropdownMenuTrigger asChild>
               {isSigningOut ? (
                 <Button
                   variant="SidebarMenuButton"
@@ -612,7 +612,7 @@ const UserAccountSection = memo(function UserAccountSection({
               ) : (
                 <Button
                   variant="SidebarMenuButton"
-                  className="border-none w-full h-15 flex items-center justify-between"
+                  className="border-t border-primary/10 w-full h-15 flex items-center justify-between"
                   disabled={isSigningOut}
                 >
                   <Avatar className="h-8 w-8">
@@ -649,18 +649,11 @@ const UserAccountSection = memo(function UserAccountSection({
               side="top"
               className="rounded-xl m-2 p-1.5 bg-background backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
             >
-              <DropdownMenuItem asChild>
-                <Link href="/settings">
-                  <UserIcon className="mr-2 h-4 w-4" />
-                  Account & Settings
-                </Link>
-              </DropdownMenuItem>
-                <Feedback />
-              <DropdownMenuSeparator />
                 <div className="w-full p-2">
                   <ThemeToggle />
               </div>
               <DropdownMenuSeparator />
+                <Feedback />
               <DropdownMenuItem onClick={handleSignOut}>
                 <LogOut size="16" className="mr-2 h-4 w-4" />
                 Sign out
@@ -799,7 +792,7 @@ const AppSidebar = React.memo(function AppSidebar() {
         loading={loading}
       />
 
-      <SidebarContent className=" text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-muted-foreground">
+      <SidebarContent className=" relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-muted-foreground">
         <SidebarNavigation
           pathname={pathname}
           isDashboard={isDashboard}
@@ -814,7 +807,6 @@ const AppSidebar = React.memo(function AppSidebar() {
           pathname={pathname}
         />
       </SidebarContent>
-
       <UserAccountSection
         User={User}
         handleSignOut={handleSignOut}
