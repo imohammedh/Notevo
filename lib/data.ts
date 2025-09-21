@@ -22,11 +22,11 @@ export const NavLinks = [
         path:"/#about",
         clicked:false,
     },
-    {
-        Name:"Pricing",
-        path:"/#pricing",
-        clicked:false,
-    },
+    // {
+    //     Name:"Pricing",
+    //     path:"/#pricing",
+    //     clicked:false,
+    // },
 ] as const
 
 export const HowToStartSteps =[
