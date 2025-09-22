@@ -12,7 +12,7 @@
  - [x] fix the middleware 404 on redirect
  - [ ] add the shareable Link
  - [x] fix the code Highlight in the editer
- - [ ] add the feedback menu item in the user dropdown menu in the sidebar
+ - [X] add the feedback menu item in the user dropdown menu in the sidebar
  - [ ] complete the ui for theuser account and settings
  - [x] Redesigning for the dashboard 
  - [x] fix the caching
