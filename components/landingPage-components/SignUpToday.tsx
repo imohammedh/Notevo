@@ -28,14 +28,14 @@ export default function SignUpToday() {
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <Button size="lg" asChild className="w-full sm:w-auto">
               <Link href="/signup" className="text-base font-medium">
-                Start Free Trial
+                Start Free
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
+            {/* <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
               <Link href="/#pricing" className="text-base font-medium">
                 View Pricing
               </Link>
-            </Button>
+            </Button> */}
           </div>
 
           {/* Background Pattern */}
