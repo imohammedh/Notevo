@@ -121,10 +121,6 @@ export default function WorkingSpacePage() {
     workingSpaceId,
   });
 
-  const workspaceNotes = useQuery(api.mutations.notes.getNotesByWorkspaceId, {
-    workingSpaceId,
-  });
-
   const allNotes = useQuery(api.mutations.notes.getNoteByUserId);
 
   const updateNoteOrder = useMutation(api.mutations.notes.updateNoteOrder);
@@ -213,51 +209,9 @@ export default function WorkingSpacePage() {
     }
   }, [workspace, tables?.length, filteredNotes?.length]);
 
-  const quickAccessNotes = useMemo<Note[]>(() => {
-    return workspaceNotes?.filter((note) => !note.notesTableId) || [];
-  }, [workspaceNotes]);
 
-  const [CreateQuickAccessNoteLoading, setCreateQuickAccessNoteLoading] =
-    useState(false);
-  const [CreateTableLoading, setCreateTableLoading] = useState(false);
-
-  const CreateQuickAccessNote = useMutation(api.mutations.notes.createNote);
-  const createTable = useMutation(api.mutations.notesTables.createTable);
-  const handleCreateTable = async () => {
-    setCreateTableLoading(true);
-    try {
-      await createTable({ workingSpaceId: workingSpaceId, name: "Untitled" });
-    } finally {
-      setCreateTableLoading(false);
-    }
-  };
-  const handleCreateQuickAccessNote = async (
-    workingSpaceId: Id<"workingSpaces">,
-    workingSpacesSlug: string | undefined,
-  ) => {
-    setCreateQuickAccessNoteLoading(true);
-    try {
-      await CreateQuickAccessNote({
-        workingSpacesSlug: workingSpacesSlug as string,
-        workingSpaceId: workingSpaceId as Id<"workingSpaces">,
-        title: "New Quick Access Notes",
-      });
-    } finally {
-      setCreateQuickAccessNoteLoading(false);
-    }
-  };
   const isLoading = !workspace;
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useHotkeys(
-    "ctrl+s",
-    (e: KeyboardEvent) => {
-      e.preventDefault();
-      inputRef.current?.focus();
-      inputRef.current?.select();
-    },
-    [inputRef],
-  );
+  const filterNoteByworkingspaceId = filteredNotes?.filter((note) => note.workingSpaceId === workingSpaceId);
 
   return (
     <MaxWContainer className="mb-20">
@@ -272,7 +226,7 @@ export default function WorkingSpacePage() {
                 </h1>
               </div>
               <p className="text-sm text-muted-foreground">
-                {tables?.length || 0} tables • {filteredNotes?.length || 0} notes
+                {tables?.length || 0} tables • {filterNoteByworkingspaceId?.length || 0} notes
               </p>
             </div>
             <div className="flex items-center gap-2 self-end md:self-auto">
