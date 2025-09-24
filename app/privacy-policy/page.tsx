@@ -1,12 +1,8 @@
 import React from "react";
 import MaxWContainer from "@/components/ui/MaxWContainer";
-import ADiv from "@/components/dashboard-components/ADiv";
-import Section from "@/components/ui/Section";
-import Navbar from "@/components/landingPage-components/Navbar";
-import Footer from "@/components/landingPage-components/Footer";
 export default function page() {
   return (
-    <div className="bg-brand_primary text-brand_tertiary flex flex-col min-h-screen">
+    <div className="bg-background text-foreground flex flex-col min-h-screen">
       <div className="flex-grow">
         <MaxWContainer>
           <section className="py-20 px-5">
