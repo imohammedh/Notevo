@@ -42,8 +42,8 @@ export default function TablesNotFound({
         <p className="mt-2 text-sm text-muted-foreground">
           Create your first table to start organizing your data.
         </p>
-        <Button className="mt-4" onClick={handleCreateTable}>
-          {loading ? <LoadingAnimation /> : <Plus className="h-4 w-4" />}
+        <Button className="mt-4 gap-1" onClick={handleCreateTable} disabled={loading}>
+          {loading ? <LoadingAnimation className=" w-4 h-4" /> : <Plus className="h-4 w-4" />}
           Create Table
         </Button>
       </div>
