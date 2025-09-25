@@ -13,7 +13,6 @@
  - [ ] add the shareable Link
  - [x] fix the code Highlight in the editer
  - [X] add the feedback menu item in the user dropdown menu in the sidebar
- - [ ] complete the ui for theuser account and settings
  - [x] Redesigning for the dashboard 
  - [x] fix the caching
  - [x] change the rename stff in the workingspace route
