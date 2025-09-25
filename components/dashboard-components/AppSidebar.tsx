@@ -148,7 +148,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
   loading,
 }: SidebarHeaderSectionProps) {
   return (
-    <SidebarHeader className=" text-foreground border-b border-primary/10">
+    <SidebarHeader className=" text-foreground rounded-b-lg border-b border-primary/20">
       <div className="flex items-center justify-between p-1.5">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-foreground">Notevo</span>
@@ -603,7 +603,7 @@ const UserAccountSection = memo(function UserAccountSection({
               {isSigningOut ? (
                 <Button
                   variant="SidebarMenuButton"
-                  className="border-none w-full flex items-center justify-center gap-2"
+                  className="border-t border-primary/20 w-full flex items-center justify-center gap-2"
                   disabled={isSigningOut}
                 >
                   <LoadingAnimation />
@@ -612,7 +612,7 @@ const UserAccountSection = memo(function UserAccountSection({
               ) : (
                 <Button
                   variant="SidebarMenuButton"
-                  className="border-t border-primary/10 w-full h-15 flex items-center justify-between"
+                  className="border-t border-primary/20 w-full h-15 flex items-center justify-between"
                   disabled={isSigningOut}
                 >
                   <Avatar className="h-8 w-8">
