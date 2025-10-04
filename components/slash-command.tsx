@@ -10,6 +10,8 @@ import {
   MessageSquarePlus,
   Text,
   TextQuote,
+  Youtube,
+  Twitter
 } from "lucide-react";
 import { createSuggestionItems } from "novel";
 import { Command, renderItems } from "novel";
@@ -141,7 +143,43 @@ export const suggestionItems = createSuggestionItems([
       };
       input.click();
     },
+    
   },
+  {
+    title: "Twitter",
+    description: "Embed a tweet",
+    searchTerms: ["twitter", "tweet", "x", "embed"],
+    icon: <Twitter className="w-5 h-5" />,
+    command: ({ editor, range }: any) => {
+      const url = prompt("Enter Twitter/X URL:");
+      if (url) {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setTweet({ src: url })
+          .run();
+      }
+    },
+  },
+  {
+    title: "YouTube",
+    description: "Embed a YouTube video",
+    searchTerms: ["youtube", "video", "embed"],
+    icon: <Youtube className="w-5 h-5" />,
+    command: ({ editor, range }: any) => {
+      const url = prompt("Enter YouTube URL:");
+      if (url) {
+        editor
+          .chain()
+          .focus()
+          .deleteRange(range)
+          .setYoutubeVideo({ src: url })
+          .run();
+      }
+    },
+  },
+  
 ]);
 
 export const slashCommand = Command.configure({

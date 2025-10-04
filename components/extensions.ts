@@ -25,7 +25,6 @@ import { common, createLowlight } from "lowlight";
 import typescript from 'highlight.js/lib/languages/typescript';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 
-//TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
 const aiHighlight = AIHighlight;
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
@@ -61,6 +60,7 @@ const taskList = TaskList.configure({
     class: cx("not-prose pl-2 "),
   },
 });
+
 const taskItem = TaskItem.configure({
   HTMLAttributes: {
     class: cx("flex gap-2 items-start my-4"),
@@ -109,14 +109,33 @@ const starterKit = StarterKit.configure({
   },
   gapcursor: false,
 });
+
 const lowlight = createLowlight(common);
 lowlight.register('typescript', typescript);
+
 const customCodeBlock = CodeBlockLowlight.configure({
   lowlight,
   HTMLAttributes: {
     class: 'code-block-wrapper',
   },
-})
+});
+
+const twitter = Twitter.configure({
+  HTMLAttributes: {
+    class: cx("rounded-lg border border-muted my-4"),
+  },
+  inline: false,
+});
+
+const youtube = Youtube.configure({
+  HTMLAttributes: {
+    class: cx("rounded-lg border border-muted my-4"),
+  },
+  inline: false,
+  width: 640,
+  height: 480,
+});
+
 export const defaultExtensions = [
   starterKit,
   tiptapLink,
@@ -126,5 +145,7 @@ export const defaultExtensions = [
   taskItem,
   horizontalRule,
   aiHighlight,
-  customCodeBlock
+  customCodeBlock,
+  twitter,
+  youtube,
 ];
