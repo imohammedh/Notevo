@@ -240,7 +240,7 @@ export default function WorkingSpacePage() {
       <header className="py-4 md:py-6">
         <div className="w-full p-4 md:p-6 bg-gradient-to-l from-accent via-transparent via-15% to-accent rounded-xl">
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex flex-row sm:items-center sm:justify-between gap-3">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
                   <h1 className="text-xl sm:text-2xl font-semibold text-foreground truncate">
