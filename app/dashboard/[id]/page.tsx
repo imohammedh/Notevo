@@ -195,7 +195,7 @@ export default function WorkingSpacePage() {
     document.title = `${workspace.name} - Notevo Workspace`;
   
     // Update meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
+    const metaDescription = document.querySelector('meta[name="description"]');
     const descriptionContent = `${workspace.name} workspace with ${
       tables?.length || 0
     } tables and ${
