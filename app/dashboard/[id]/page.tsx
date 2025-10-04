@@ -237,21 +237,23 @@ export default function WorkingSpacePage() {
   return (
     <MaxWContainer className="mb-20">
       {/* Workspace Header */}
-      <header className="py-6">
-        <div className="w-full p-6 bg-gradient-to-l from-accent via-transparent via-15% to-accent rounded-xl">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <h1 className="text-2xl font-semibold text-foreground">
-                  {isLoading ? <SkeletonTextAnimation /> : workspace.name}
-                </h1>
+      <header className="py-4 md:py-6">
+        <div className="w-full p-4 md:p-6 bg-gradient-to-l from-accent via-transparent via-15% to-accent rounded-xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <h1 className="text-xl sm:text-2xl font-semibold text-foreground truncate">
+                    {isLoading ? <SkeletonTextAnimation /> : workspace.name}
+                  </h1>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {tables?.length || 0} tables • {filterNoteByworkingspaceId?.length || 0} notes
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {tables?.length || 0} tables • {filterNoteByworkingspaceId?.length || 0} notes
-              </p>
-            </div>
-            <div className="flex items-center gap-2 self-end md:self-auto">
-              <CreateTableBtn workingSpaceId={workingSpaceId} />
+              <div className="flex items-center gap-2 self-start sm:self-auto">
+                <CreateTableBtn workingSpaceId={workingSpaceId} />
+              </div>
             </div>
           </div>
         </div>
@@ -260,16 +262,18 @@ export default function WorkingSpacePage() {
       {/* Tables and Notes Content */}
       <DragDropContext onDragEnd={handleDragEnd}>
         {tables?.length ? (
-          <Tabs  defaultValue={tables[0]._id} className="mt-4">
-            <div className="overflow-x-auto py-1">
-              <TabsList className="text-card-foreground justify-start w-fit flex-wrap h-fit gap-3">
+          <Tabs defaultValue={tables[0]._id} className="mt-4">
+            <div className="overflow-x-auto py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+              <TabsList className="text-card-foreground justify-start w-fit min-w-full sm:min-w-fit flex-wrap h-fit gap-2 sm:gap-3">
                 {tables.map((table) => (
                   <TabsTrigger
                     key={table._id}
                     value={table._id}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 whitespace-nowrap text-sm"
                   >
-                    {table.name}
+                    <span className="truncate max-w-[120px] sm:max-w-none">
+                      {table.name}
+                    </span>
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -317,56 +321,65 @@ function NotesDroppableContainer({
 }: NotesDroppableContainerProps): JSX.Element {
   return (
     <div className="py-2">
-      <div className="w-full flex items-center justify-between border-b border-border py-3 mb-5">
-        <div className="flex items-center gap-2">
-          <div className="h-5 w-5 bg-accent rounded-full flex items-center justify-center">
-            <TbSelector className="h-3 w-3 text-muted-foreground" />
+      <div className="w-full border-b border-border py-3 mb-5">
+        <div className="flex flex-col gap-4">
+          {/* Top row - Notes count and Create button */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="h-5 w-5 bg-accent rounded-full flex items-center justify-center">
+                <TbSelector className="h-3 w-3 text-muted-foreground" />
+              </div>
+              <div className="text-foreground font-medium">
+                {notes.length} Notes
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <CreateNoteBtn
+                workingSpaceId={workspaceId}
+                workingSpacesSlug={workspaceSlug}
+                notesTableId={tableId}
+              />
+              <TableSettings notesTableId={tableId} tableName={tables?.find(t => t._id === tableId)?.name} />
+            </div>
           </div>
-          <div className="text-foreground font-medium">
-            {notes.length} Notes
+          
+          {/* Bottom row - Search and View controls */}
+          <div className="flex flex-row items-center gap-3">
+            <div className="relative flex-1 min-w-0">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search notes..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 text-foreground border-border"
+              />
+            </div>
+            <div className="flex items-center border border-border rounded-lg overflow-hidden self-start">
+              <Button
+                variant="Trigger"
+                size="icon"
+                className={cn(
+                  "h-9 w-9 rounded-none",
+                  viewMode === "grid" && "bg-muted"
+                )}
+                onClick={() => setViewMode("grid")}
+              >
+                <LayoutGrid className="h-4 w-4 text-muted-foreground" />
+              </Button>
+              <Button
+                variant="Trigger"
+                size="icon"
+                className={cn(
+                  "h-9 w-9 rounded-none",
+                  viewMode === "list" && "bg-muted"
+                )}
+                onClick={() => setViewMode("list")}
+              >
+                <List className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="relative w-[200px]">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search notes..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 text-foreground border-border"
-            />
-          </div>
-          <div className="flex items-center border border-border rounded-lg overflow-hidden">
-            <Button
-              variant="Trigger"
-              size="icon"
-              className={cn(
-                "h-9 w-9 rounded-none",
-                viewMode === "grid" && "bg-muted"
-              )}
-              onClick={() => setViewMode("grid")}
-            >
-              <LayoutGrid className="h-4 w-4 text-muted-foreground" />
-            </Button>
-            <Button
-              variant="Trigger"
-              size="icon"
-              className={cn(
-                "h-9 w-9 rounded-none",
-                viewMode === "list" && "bg-muted"
-              )}
-              onClick={() => setViewMode("list")}
-            >
-              <List className="h-4 w-4 text-muted-foreground" />
-            </Button>
-          </div>
-          <CreateNoteBtn
-            workingSpaceId={workspaceId}
-            workingSpacesSlug={workspaceSlug}
-            notesTableId={tableId}
-          />
-          <TableSettings notesTableId={tableId} tableName={tables?.find(t => t._id === tableId)?.name} />
         </div>
       </div>
 
@@ -389,7 +402,7 @@ function NotesDroppableContainer({
               {...provided.droppableProps}
               className={
                 viewMode === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                  ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4"
                   : "flex flex-col gap-3"
               }
             >
@@ -431,35 +444,35 @@ function GridNoteCard({
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
-      className="group bg-card/30 border-border hover:border-border/40 transition-all duration-300 hover:shadow-md hover:scale-[1.02]"
+      className="group bg-card/30 border-border hover:border-border/40 transition-all duration-300 hover:shadow-md hover:scale-[1.02] h-fit"
     >
       <CardHeader className="pb-2 relative">
-        <CardTitle className="text-lg text-foreground">
+        <CardTitle className="text-sm sm:text-base lg:text-lg text-foreground leading-tight">
           {note.title
             ? note.title.length > 20
               ? `${note.title.substring(0, 20)}...`
               : note.title
             : "Untitled"}
         </CardTitle>
-        <div className="absolute top-3 right-3 opacity-50 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 opacity-50 group-hover:opacity-100 transition-opacity">
           <NoteSettings noteId={note._id} noteTitle={note.title} IconVariant="vertical_icon" />
         </div>
       </CardHeader>
       <CardContent className="pb-2">
-        <p className="text-sm text-muted-foreground line-clamp-2">
+        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
           {getContentPreview(note.body)}
         </p>
       </CardContent>
-      <CardFooter className="pt-2 flex justify-between items-center text-xs text-muted-foreground">
-        <div className="flex items-center gap-1">
-          <Calendar className="h-3.5 w-3.5" />
+      <CardFooter className="pt-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1 text-xs">
+          <Calendar className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           {typeof window !== "undefined" ? (
-            <span>{`${new Date(note.updatedAt).toLocaleDateString()}`}</span>
+            <span className="text-xs">{`${new Date(note.updatedAt).toLocaleDateString()}`}</span>
           ) : (
-            <SkeletonTextAnimation className="w-20" />
+            <SkeletonTextAnimation className="w-16 sm:w-20" />
           )}
         </div>
-        <Button variant="ghost" size="sm" asChild className="h-7 px-2 text-xs">
+        <Button variant="ghost" size="sm" asChild className="h-6 sm:h-7 px-2 text-xs self-start sm:self-auto">
           <Link
             href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}
           >
@@ -483,38 +496,40 @@ function ListNoteCard({
       {...provided.dragHandleProps}
       className="group bg-card/30 border-border hover:border-border/40 transition-all duration-300 hover:shadow-md"
     >
-      <CardContent className="p-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center">
-            <FileText className="h-5 w-5 text-muted-foreground" />
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 min-w-0">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+              <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm sm:text-base text-foreground font-medium truncate">
+                {note.title || "Untitled"}
+              </h3>
+              <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mt-1">
+                {getContentPreview(note.body)}
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-foreground font-medium">
-              {note.title || "Untitled"}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              {getContentPreview(note.body)}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5" />
-            {typeof window !== "undefined" ? (
-              <span>{`${new Date(note.updatedAt).toLocaleDateString()}`}</span>
-            ) : (
-              <SkeletonTextAnimation className="w-20" />
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            <NoteSettings noteId={note._id} noteTitle={note.title} IconVariant="vertical_icon" />
-            <Button variant="ghost" size="sm" asChild className="h-7 px-2 text-xs">
-              <Link
-                href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}
-              >
-                Open
-              </Link>
-            </Button>
+          <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Calendar className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+              {typeof window !== "undefined" ? (
+                <span className="text-xs">{`${new Date(note.updatedAt).toLocaleDateString()}`}</span>
+              ) : (
+                <SkeletonTextAnimation className="w-16 sm:w-20" />
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <NoteSettings noteId={note._id} noteTitle={note.title} IconVariant="vertical_icon" />
+              <Button variant="ghost" size="sm" asChild className="h-6 sm:h-7 px-2 text-xs">
+                <Link
+                  href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}
+                >
+                  Open
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </CardContent>
@@ -579,7 +594,7 @@ function EmptyTableState({
 
 function TablesSkeleton(): JSX.Element {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
       {Array.from({ length: 8 }).map((_, index) => (
         <Card key={index} className="bg-card/30 border-border">
           <CardHeader className="pb-2">

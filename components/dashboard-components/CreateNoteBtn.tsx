@@ -50,12 +50,12 @@ export default function CreateNoteBtn({
       {loading ? (
         <>
           <LoadingAnimation className="h-3 w-3 text-muted-foreground" />
-          <p className="hidden sm:block text-muted-foreground">New Note...</p>
+          <p className=" text-muted-foreground">New Note...</p>
         </>
       ) : (
         <>
           <Plus size="20" className="text-muted-foreground" /> 
-          <p className="hidden sm:block text-muted-foreground">New Note</p>
+          <p className=" text-muted-foreground">New Note</p>
         </>
       )}
     </Button>
