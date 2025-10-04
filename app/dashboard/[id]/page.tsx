@@ -325,26 +325,12 @@ function NotesDroppableContainer({
         <div className="flex flex-col gap-4">
           {/* Top row - Notes count and Create button */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-5 w-5 bg-accent rounded-full flex items-center justify-center">
-                <TbSelector className="h-3 w-3 text-muted-foreground" />
-              </div>
+            <div className="hidden sm:block flex items-center gap-2">
               <div className="text-foreground font-medium">
-                {notes.length} Notes
+                {tables?.find(t => t._id === tableId)?.name}
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <CreateNoteBtn
-                workingSpaceId={workspaceId}
-                workingSpacesSlug={workspaceSlug}
-                notesTableId={tableId}
-              />
-              <TableSettings notesTableId={tableId} tableName={tables?.find(t => t._id === tableId)?.name} />
-            </div>
-          </div>
-          
-          {/* Bottom row - Search and View controls */}
-          <div className="flex flex-row items-center gap-3">
+          <div className="flex flex-row items-center justify-center gap-3">
             <div className="relative flex-1 min-w-0">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
@@ -355,12 +341,12 @@ function NotesDroppableContainer({
                 className="w-full pl-9 text-foreground border-border"
               />
             </div>
-            <div className="flex items-center border border-border rounded-lg overflow-hidden self-start">
+            <div className="flex items-center justify-center border border-border rounded-lg overflow-hidden ">
               <Button
                 variant="Trigger"
                 size="icon"
                 className={cn(
-                  "h-9 w-9 rounded-none",
+                  "h-8 w-8 rounded-md",
                   viewMode === "grid" && "bg-muted"
                 )}
                 onClick={() => setViewMode("grid")}
@@ -371,7 +357,7 @@ function NotesDroppableContainer({
                 variant="Trigger"
                 size="icon"
                 className={cn(
-                  "h-9 w-9 rounded-none",
+                  "h-8 w-8 rounded-md",
                   viewMode === "list" && "bg-muted"
                 )}
                 onClick={() => setViewMode("list")}
@@ -379,7 +365,18 @@ function NotesDroppableContainer({
                 <List className="h-4 w-4 text-muted-foreground" />
               </Button>
             </div>
+            <div className="flex items-center gap-2">
+              <CreateNoteBtn
+                workingSpaceId={workspaceId}
+                workingSpacesSlug={workspaceSlug}
+                notesTableId={tableId}
+              />
+              <TableSettings notesTableId={tableId} tableName={tables?.find(t => t._id === tableId)?.name} />
+            </div>
           </div>
+          </div>
+          
+          {/* Bottom row - Search and View controls */}
         </div>
       </div>
 
