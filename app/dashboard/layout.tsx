@@ -9,7 +9,10 @@ import {
 import AppSidebar from "@/components/dashboard-components/AppSidebar";
 import BreadcrumbWithCustomSeparator from "@/components/dashboard-components/BreadcrumbWithCustomSeparator";
 import { MobileWarning } from "@/components/ui/mobile-warning";
-
+import NoteSettings from "@/components/dashboard-components/NoteSettings";
+import { usePathname, useSearchParams } from "next/navigation";
+import type { Id } from "@/convex/_generated/dataModel";
+import {parseSlug} from "@/lib/parseSlug"
 const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -33,6 +36,11 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
       scrollContainer.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const pathSegments = pathname.split("/").filter((segment) => segment);
+  const noteid: Id<"notes"> = searchParams.get("id") as Id<"notes">;
+  const noteTitle = parseSlug(`${pathSegments[2]}`)
 
   return (
     <div className="flex h-screen w-full bg-accent overflow-hidden">
@@ -47,8 +55,17 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
             showShadow ? 'shadow-xl shadow-primary/10' : ''
           }`}
         >
-          {(!open || isMobile) && <SidebarTrigger />}
-          <BreadcrumbWithCustomSeparator />
+          <div className="flex justify-between items-center w-full">
+            <div className=" flex justify-start items-center gap-3">
+              {(!open || isMobile) && <SidebarTrigger />}
+              <BreadcrumbWithCustomSeparator />
+            </div>
+            <div>
+              {
+                noteid && noteTitle && <NoteSettings noteId={noteid} noteTitle={noteTitle} IconVariant="horizontal_icon" /> 
+              }
+            </div>
+          </div>
         </div>
         <div
           ref={scrollContainerRef}
