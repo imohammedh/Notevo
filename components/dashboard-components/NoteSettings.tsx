@@ -1,5 +1,7 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,12 +17,6 @@ import { useQuery } from "convex-helpers/react/cache";
 import { api } from "@/convex/_generated/api";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import type { Id } from "@/convex/_generated/dataModel";
 import {
   AlertDialog,
@@ -32,12 +28,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
+import {generateSlug} from "@/lib/generateSlug"
 interface NoteSettingsProps {
-  noteId: Id<"notes"> | any; // Strongly typed Id
+  noteId: Id<"notes">;
   noteTitle: string | any;
   IconVariant: "vertical_icon" | "horizontal_icon";
-  BtnClassName?: string | any;
+  BtnClassName?: string;
 }
 
 export default function NoteSettings({
@@ -46,17 +42,24 @@ export default function NoteSettings({
   IconVariant,
   BtnClassName,
 }: NoteSettingsProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [inputValue, setInputValue] = useState(noteTitle);
-  const [ishandleDeleteLoading, setIshandleDeleteLoading] = useState(false);
-  const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
-    useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [isFavoritePinLoading, setIsFavoritePinLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert dialog state
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
   const getNote = getNotes?.find((note) => note._id === noteId);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Update inputValue when noteTitle changes (when navigating to different notes)
+  useEffect(() => {
+    setInputValue(noteTitle);
+  }, [noteTitle]);
 
   useEffect(() => {
     if (open) {
@@ -83,37 +86,55 @@ export default function NoteSettings({
     }
   };
 
-  const handleBlur = () => {
-    updateNote({
-      _id: noteId,
-      title: inputValue,
-    });
+  const handleBlur = async () => {
+    const trimmedValue = inputValue.trim();
+    
+    if (trimmedValue && trimmedValue !== noteTitle) {
+      await updateNote({
+        _id: noteId,
+        title: trimmedValue,
+      });
+      
+      // Update URL slug
+      const newSlug = generateSlug(trimmedValue);
+      const pathSegments = pathname.split("/");
+      pathSegments[pathSegments.length - 1] = newSlug;
+      const newPath = pathSegments.join("/");
+      router.push(`${newPath}?id=${noteId}`);
+    }
   };
 
   const initiateDelete = () => {
-    setOpen(false); 
-    setIsAlertOpen(true); 
+    setOpen(false);
+    setIsAlertOpen(true);
   };
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setIshandleDeleteLoading(true);
+    setIsDeleteLoading(true);
     try {
       await deleteNote({ _id: noteId });
+      // Navigate to dashboard after successful deletion
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Failed to delete note:", error);
     } finally {
-      setIshandleDeleteLoading(false);
-      setIsAlertOpen(false); 
+      setIsDeleteLoading(false);
+      setIsAlertOpen(false);
     }
   };
 
   const handleFavoritePin = async () => {
-    setIshandleFavoritePinLoading(true);
-    await updateNote({
-      _id: noteId,
-      order: getNote?.order,
-      favorite: !getNote?.favorite,
-    });
-    setIshandleFavoritePinLoading(false);
+    setIsFavoritePinLoading(true);
+    try {
+      await updateNote({
+        _id: noteId,
+        order: getNote?.order,
+        favorite: !getNote?.favorite,
+      });
+    } finally {
+      setIsFavoritePinLoading(false);
+    }
   };
 
   return (
@@ -125,9 +146,9 @@ export default function NoteSettings({
             className={cn("px-0.5 h-8 mt-0.5", BtnClassName)}
           >
             {IconVariant === "vertical_icon" ? (
-              <FaEllipsisVertical size="18" />
+              <FaEllipsisVertical size={18} />
             ) : (
-              <FaEllipsis size="16" />
+              <FaEllipsis size={22} />
             )}
           </Button>
         </DropdownMenuTrigger>
@@ -152,16 +173,16 @@ export default function NoteSettings({
               variant="SidebarMenuButton"
               className="w-full h-8 px-2 text-sm"
               onClick={handleFavoritePin}
-              disabled={ishandleFavoritePinLoading}
+              disabled={isFavoritePinLoading}
             >
-              {ishandleFavoritePinLoading ? (
+              {isFavoritePinLoading ? (
                 <>
-                  <LoadingAnimation className="h-3 w-3" />{" "}
+                  <LoadingAnimation className="h-3 w-3" />
                   {getNote?.favorite ? "Unpinning..." : "Pinning..."}
                 </>
               ) : (
                 <>
-                  <Pin size="14" />
+                  <Pin size={14} />
                   {getNote?.favorite ? "Unpin Note" : "Pin Note"}
                 </>
               )}
@@ -170,16 +191,16 @@ export default function NoteSettings({
               variant="SidebarMenuButton_destructive"
               className="w-full h-8 px-2 text-sm"
               onClick={initiateDelete}
-              disabled={ishandleDeleteLoading}
+              disabled={isDeleteLoading}
             >
-              {ishandleDeleteLoading ? (
+              {isDeleteLoading ? (
                 <>
-                  <LoadingAnimation className="text-destructive/10 animate-spin fill-destructive h-3 w-3" />{" "}
+                  <LoadingAnimation className="text-destructive/10 animate-spin fill-destructive h-3 w-3" />
                   Deleting...
                 </>
               ) : (
                 <>
-                  <FaRegTrashCan size="14" />
+                  <FaRegTrashCan size={14} />
                   Delete
                 </>
               )}
@@ -193,8 +214,7 @@ export default function NoteSettings({
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Note Deletion</AlertDialogTitle>
             <AlertDialogDescription className="text-muted-foreground">
-              {`Are you sure you want to delete this note? This action cannot be
-              undone.`}
+              Are you sure you want to delete this note? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -204,9 +224,9 @@ export default function NoteSettings({
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
-              disabled={ishandleDeleteLoading}
+              disabled={isDeleteLoading}
             >
-              {ishandleDeleteLoading ? (
+              {isDeleteLoading ? (
                 <>
                   <LoadingAnimation className="h-3 w-3 mr-2" />
                   Deleting...
