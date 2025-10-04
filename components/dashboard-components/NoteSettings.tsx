@@ -60,17 +60,15 @@ export default function NoteSettings({
 
   useEffect(() => {
     if (open) {
-      // slight delay to ensure the dropdown is rendered
       setTimeout(() => {
         inputRef.current?.focus();
-        inputRef.current?.select(); // Select all text
+        inputRef.current?.select();
       }, 10);
     }
   }, [open]);
 
-  // Add loading state check after all hooks
   if (!getNotes) {
-    return null; // or a loading spinner
+    return null;
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,8 +91,8 @@ export default function NoteSettings({
   };
 
   const initiateDelete = () => {
-    setOpen(false); // Close the dropdown
-    setIsAlertOpen(true); // Open the alert dialog
+    setOpen(false); 
+    setIsAlertOpen(true); 
   };
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -104,7 +102,7 @@ export default function NoteSettings({
       await deleteNote({ _id: noteId });
     } finally {
       setIshandleDeleteLoading(false);
-      setIsAlertOpen(false); // Close the alert dialog after deletion
+      setIsAlertOpen(false); 
     }
   };
 
