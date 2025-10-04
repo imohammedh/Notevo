@@ -43,27 +43,49 @@ export default function NotePage() {
           { type: "paragraph" },
         ],
       };
-  const [content, setContent] = useState<JSONContent>(initialContent);
-  useEffect(() => {
-    if (getNote?.title) {
-      // Update document title
-      document.title = `${getNote.title} - Notevo`;
+      const [content, setContent] = useState<JSONContent>(initialContent);
 
-      // Update meta description
-      const metaDescription = document.querySelector(
-        'meta[name="description"]',
-      );
-      if (metaDescription) {
-        metaDescription.setAttribute("content", `${getNote.title}'s Notevo`);
-      } else {
-        // Create meta description if it doesn't exist
-        const newMeta = document.createElement("meta");
-        newMeta.name = "description";
-        newMeta.content = `${getNote.title}'s Notevo`;
-        document.head.appendChild(newMeta);
-      }
-    }
-  }, [getNote?.title]);
+      useEffect(() => {
+        if (!getNote?.title) return;
+      
+        // Store original values
+        const originalTitle = document.title;
+        
+        // Update document title
+        document.title = `${getNote.title} - Notevo`;
+      
+        // Update meta description
+        let metaDescription = document.querySelector('meta[name="description"]');
+        const originalContent = metaDescription?.getAttribute('content');
+        
+        // Create better description from note content or title
+        const descriptionText = getNote.body 
+          ? `${getNote.title}: ${getNote.body.substring(0, 150)}...` 
+          : `View and edit "${getNote.title}" on Notevo`;
+      
+        let createdMeta = false;
+      
+        if (metaDescription) {
+          metaDescription.setAttribute("content", descriptionText);
+        } else {
+          const newMeta = document.createElement("meta");
+          newMeta.name = "description";
+          newMeta.content = descriptionText;
+          document.head.appendChild(newMeta);
+          createdMeta = true;
+          metaDescription = newMeta;
+        }
+      
+        // Cleanup function
+        return () => {
+          document.title = originalTitle;
+          if (createdMeta && metaDescription) {
+            metaDescription.remove();
+          } else if (originalContent && metaDescription) {
+            metaDescription.setAttribute('content', originalContent);
+          }
+        };
+      }, [getNote?.title, getNote?.body]);
   useEffect(() => {
     if (getNote?.body) {
       setContent(JSON.parse(getNote.body));

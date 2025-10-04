@@ -187,10 +187,13 @@ export default function WorkingSpacePage() {
 
   useEffect(() => {
     if (!workspace?.name) return;
-
+  
+    // Store original title to restore later
+    const originalTitle = document.title;
+    
     // Update document title
     document.title = `${workspace.name} - Notevo Workspace`;
-
+  
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     const descriptionContent = `${workspace.name} workspace with ${
@@ -198,18 +201,36 @@ export default function WorkingSpacePage() {
     } tables and ${
       filteredNotes?.length || 0
     } notes. Organize your thoughts with Notevo.`;
-
+  
+    let createdMeta = false;
+  
     if (metaDescription) {
+      const originalContent = metaDescription.getAttribute('content');
       metaDescription.setAttribute("content", descriptionContent);
+      
+      // Cleanup function
+      return () => {
+        document.title = originalTitle;
+        if (originalContent) {
+          metaDescription?.setAttribute('content', originalContent);
+        }
+      };
     } else {
       const newMeta = document.createElement("meta");
       newMeta.name = "description";
       newMeta.content = descriptionContent;
       document.head.appendChild(newMeta);
+      createdMeta = true;
+  
+      // Cleanup function
+      return () => {
+        document.title = originalTitle;
+        if (createdMeta) {
+          newMeta.remove();
+        }
+      };
     }
-  }, [workspace, tables?.length, filteredNotes?.length]);
-
-
+  }, [workspace?.name, tables?.length, filteredNotes?.length]);
   const isLoading = !workspace;
   const filterNoteByworkingspaceId = filteredNotes?.filter((note) => note.workingSpaceId === workingSpaceId);
 
@@ -282,26 +303,6 @@ export default function WorkingSpacePage() {
   );
 }
 
-function QuickAccessNoteCard({
-  note,
-  workspaceName,
-  viewMode,
-  provided,
-}: QuickAccessNoteCardProps): JSX.Element {
-  return viewMode === "grid" ? (
-    <GridNoteCard
-      note={note}
-      provided={provided || {} as DraggableProvided}
-      workspaceId={note.workingSpaceId}
-    />
-  ) : (
-    <ListNoteCard
-      note={note}
-      provided={provided || {} as DraggableProvided}
-      workspaceId={note.workingSpaceId}
-    />
-  );
-}
 
 function NotesDroppableContainer({
   tableId,
