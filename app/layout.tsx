@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
   // Add these for better social sharing
   openGraph: {
-    title: "Notevo - AI-Powered Note-Taking",
+    title: "Notevo -  Simple, Structured Note-Taking App.",
     description: "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly with powerful AI.",
     url: "https://notevo.vercel.app",
     siteName: "Notevo",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         url: "/og-image.png", // Create a 1200x630px image
         width: 1200,
         height: 630,
-        alt: "Notevo - Simple, Structured Note-Taking",
+        alt: "Notevo - Simple, Structured Note-Taking App.",
       },
     ],
     locale: "en_US",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Notevo - AI-Powered Note-Taking",
+    title: "Notevo - Simple, Structured Note-Taking App.",
     description: "Organize, Discuss, and Enhance Your Ideas Seamlessly with AI-powered note-taking.",
     images: ["/og-image.png"],
   },
