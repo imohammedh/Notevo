@@ -288,8 +288,12 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const noteHref = `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`;
-  const isActive = pathname === noteHref;
+  // Build the path without query parameters
+  const notePath = `/dashboard/${note.workingSpaceId}/${note.slug}`;
+  const noteHref = `${notePath}?id=${note._id}`;
+  
+  // Compare only the path part
+  const isActive = pathname === notePath;
 
   const handleContentMouseEnter = () => {
     setIsHovered(true);
@@ -357,7 +361,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
             <Button
               variant="SidebarMenuButton"
               className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                isActive ? "bg-foreground" : ""
+                isActive ? "bg-foreground/10" : ""
               }`}
               asChild
               onDoubleClick={handleDoubleClick}
@@ -415,7 +419,6 @@ const PinnedNotesList = memo(function PinnedNotesList({
     </SidebarGroup>
   );
 });
-
 interface WorkspaceItemProps {
   workingSpace: Doc<"workingSpaces">;
   pathname: string;
