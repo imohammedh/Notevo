@@ -1,7 +1,7 @@
 "use client";
 
 import { Slash } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   Breadcrumb,
@@ -17,7 +17,6 @@ import type { Id } from "@/convex/_generated/dataModel";
 
 export default function BreadcrumbWithCustomSeparator() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const pathSegments = pathname.split("/").filter((segment) => segment);
 
   // Find the workspace ID segment (assuming it's always the segment after "dashboard")
@@ -29,7 +28,7 @@ export default function BreadcrumbWithCustomSeparator() {
       ? (pathSegments[dashboardIndex + 1] as Id<"workingSpaces">)
       : null;
 
-  // Always call useQuery but pass skipQuery option when no ID is available
+  // Fetch workspace data
   const workspaceData = useQuery(
     api.mutations.workingSpaces.getRecentWorkingSpaces,
   );
@@ -49,12 +48,6 @@ export default function BreadcrumbWithCustomSeparator() {
             // Build the path up to this segment
             const pathToSegment =
               "/" + pathSegments.slice(0, index + 1).join("/");
-
-            // Add the current query parameters to all links
-            const queryString = searchParams.toString();
-            const fullHref = queryString
-              ? `${pathToSegment}?${queryString}`
-              : pathToSegment;
 
             const isLast = index === pathSegments.length - 1;
 
@@ -88,14 +81,23 @@ export default function BreadcrumbWithCustomSeparator() {
               >
                 <BreadcrumbItem>
                   {isLast ? (
-                    <BreadcrumbPage className="text-foreground">{displayName}</BreadcrumbPage>
+                    <BreadcrumbPage className="text-foreground">
+                      {displayName}
+                    </BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink asChild>
-                      <Link href={fullHref} className="text-muted-foreground hover:text-foreground transition-colors">{displayName}</Link>
+                      <Link
+                        href={pathToSegment}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {displayName}
+                      </Link>
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
-                {!isLast && <Slash className="w-3 h-3 mx-1 text-muted-foreground" />}
+                {!isLast && (
+                  <Slash className="w-3 h-3 mx-1 text-muted-foreground" />
+                )}
               </div>
             );
           })}
