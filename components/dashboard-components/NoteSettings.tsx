@@ -29,12 +29,19 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { generateSlug } from "@/lib/generateSlug";
-
+import { Label } from "../ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 interface NoteSettingsProps {
   noteId: Id<"notes">;
   noteTitle: string | any;
   IconVariant: "vertical_icon" | "horizontal_icon";
   BtnClassName?: string;
+  DropdownMenuContentAlign: "end" | "start" ;
 }
 
 export default function NoteSettings({
@@ -42,6 +49,7 @@ export default function NoteSettings({
   noteTitle,
   IconVariant,
   BtnClassName,
+  DropdownMenuContentAlign,
 }: NoteSettingsProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -172,7 +180,8 @@ export default function NoteSettings({
         </DropdownMenuTrigger>
         <DropdownMenuContent
           side="bottom"
-          align="start"
+          align={DropdownMenuContentAlign}
+          alignOffset={1}
           className="w-48 p-1.5 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
         >
           <DropdownMenuGroup className="relative">
