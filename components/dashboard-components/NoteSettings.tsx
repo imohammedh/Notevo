@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,7 +28,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {generateSlug} from "@/lib/generateSlug"
+import { generateSlug } from "@/lib/generateSlug";
+
 interface NoteSettingsProps {
   noteId: Id<"notes">;
   noteTitle: string | any;
@@ -44,17 +45,22 @@ export default function NoteSettings({
 }: NoteSettingsProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [inputValue, setInputValue] = useState(noteTitle);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [isFavoritePinLoading, setIsFavoritePinLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  
+
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
   const getNote = getNotes?.find((note) => note._id === noteId);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Check if we're currently viewing this specific note
+  const currentNoteId = searchParams.get("id");
+  const isViewingThisNote = currentNoteId === noteId;
 
   // Update inputValue when noteTitle changes (when navigating to different notes)
   useEffect(() => {
@@ -88,19 +94,23 @@ export default function NoteSettings({
 
   const handleBlur = async () => {
     const trimmedValue = inputValue.trim();
-    
-    if (trimmedValue && trimmedValue !== noteTitle) {
+
+    if (trimmedValue && trimmedValue !== noteTitle && getNote) {
       await updateNote({
         _id: noteId,
         title: trimmedValue,
       });
-      
-      // Update URL slug
-      const newSlug = generateSlug(trimmedValue);
-      const pathSegments = pathname.split("/");
-      pathSegments[pathSegments.length - 1] = newSlug;
-      const newPath = pathSegments.join("/");
-      router.push(`${newPath}?id=${noteId}`);
+
+      // Only update the URL if the user is currently viewing this note
+      if (isViewingThisNote) {
+        const newSlug = generateSlug(trimmedValue);
+        const pathSegments = pathname.split("/");
+        pathSegments[pathSegments.length - 1] = newSlug;
+        const newPath = pathSegments.join("/");
+        
+        // Keep the id query parameter
+        router.replace(`${newPath}?id=${noteId}`);
+      }
     }
   };
 
@@ -111,11 +121,17 @@ export default function NoteSettings({
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    if (!getNote) return;
+
     setIsDeleteLoading(true);
     try {
       await deleteNote({ _id: noteId });
-      // Navigate to dashboard after successful deletion
-      router.push("/dashboard");
+      
+      // Only navigate if we're currently viewing this note
+      if (isViewingThisNote) {
+        router.push(`/dashboard/${getNote.workingSpaceId}`);
+      }
     } catch (error) {
       console.error("Failed to delete note:", error);
     } finally {
@@ -125,12 +141,14 @@ export default function NoteSettings({
   };
 
   const handleFavoritePin = async () => {
+    if (!getNote) return;
+
     setIsFavoritePinLoading(true);
     try {
       await updateNote({
         _id: noteId,
-        order: getNote?.order,
-        favorite: !getNote?.favorite,
+        order: getNote.order,
+        favorite: !getNote.favorite,
       });
     } finally {
       setIsFavoritePinLoading(false);
