@@ -185,52 +185,38 @@ export default function WorkingSpacePage() {
     );
   }, [optimisticNotes, allNotes, searchQuery]);
 
-  useEffect(() => {
-    if (!workspace?.name) return;
-  
-    // Store original title to restore later
-    const originalTitle = document.title;
-    
-    // Update document title
-    document.title = `${workspace.name} - Notevo Workspace`;
-  
-    // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    const descriptionContent = `${workspace.name} workspace with ${
-      tables?.length || 0
-    } tables and ${
-      filteredNotes?.length || 0
-    } notes. Organize your thoughts with Notevo.`;
-  
-    let createdMeta = false;
-  
-    if (metaDescription) {
-      const originalContent = metaDescription.getAttribute('content');
-      metaDescription.setAttribute("content", descriptionContent);
-      
-      // Cleanup function
-      return () => {
-        document.title = originalTitle;
-        if (originalContent) {
-          metaDescription?.setAttribute('content', originalContent);
-        }
-      };
-    } else {
-      const newMeta = document.createElement("meta");
-      newMeta.name = "description";
-      newMeta.content = descriptionContent;
-      document.head.appendChild(newMeta);
-      createdMeta = true;
-  
-      // Cleanup function
-      return () => {
-        document.title = originalTitle;
-        if (createdMeta) {
-          newMeta.remove();
-        }
-      };
+useEffect(() => {
+  if (!workspace?.name) return;
+
+  const originalTitle = document.title;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  const originalContent = metaDescription?.getAttribute('content');
+
+  // Update title
+  document.title = `${workspace.name} - Notevo Workspace`;
+
+  // Update or create meta description
+  const descriptionContent = `${workspace.name} workspace with ${tables?.length || 0} tables and ${filteredNotes?.length || 0} notes. `;
+
+  if (metaDescription) {
+    metaDescription.setAttribute('content', descriptionContent);
+  } else {
+    const newMeta = document.createElement('meta');
+    newMeta.name = 'description';
+    newMeta.content = descriptionContent;
+    document.head.appendChild(newMeta);
+  }
+
+  // Cleanup
+  return () => {
+    document.title = originalTitle;
+    if (metaDescription && originalContent) {
+      metaDescription.setAttribute('content', originalContent);
+    } else if (!metaDescription) {
+      document.querySelector('meta[name="description"]')?.remove();
     }
-  }, [workspace?.name, tables?.length, filteredNotes?.length]);
+  };
+}, [workspace?.name, tables?.length, filteredNotes?.length]);
   const isLoading = !workspace;
   const filterNoteByworkingspaceId = filteredNotes?.filter((note) => note.workingSpaceId === workingSpaceId);
 
