@@ -62,7 +62,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
             </div>
             <div>
               {
-                noteid && noteTitle && <NoteSettings noteId={noteid} noteTitle={noteTitle} IconVariant="horizontal_icon" DropdownMenuContentAlign="end" /> 
+                noteid && noteTitle && <NoteSettings noteId={noteid} noteTitle={noteTitle} IconVariant="horizontal_icon" DropdownMenuContentAlign="end" TooltipContentAlign="end" /> 
               }
             </div>
           </div>
