@@ -70,14 +70,14 @@ export default function WorkingSpaceSettingsSidbar({
     <>
       <div
         className={cn(
-          "flex justify-end items-center bg-accent rounded-l-md px-1",
+          "flex justify-end items-center px-1",
           ContainerClassName,
         )}
       >
         <Button
           onMouseDown={initiateDelete}
           variant="SidebarMenuButton_destructive"
-          className=" px-2 h-8"
+          className=" px-2 h-7"
         >
           <X size={16} />
         </Button>
