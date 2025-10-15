@@ -29,19 +29,20 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { generateSlug } from "@/lib/generateSlug";
-import { Label } from "../ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
 interface NoteSettingsProps {
   noteId: Id<"notes">;
   noteTitle: string | any;
   IconVariant: "vertical_icon" | "horizontal_icon";
   BtnClassName?: string;
-  DropdownMenuContentAlign: "end" | "start" ;
+  DropdownMenuContentAlign: "end" | "start";
+  TooltipContentAlign: "end" | "start";
 }
 
 export default function NoteSettings({
@@ -50,6 +51,7 @@ export default function NoteSettings({
   IconVariant,
   BtnClassName,
   DropdownMenuContentAlign,
+  TooltipContentAlign,
 }: NoteSettingsProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -59,6 +61,7 @@ export default function NoteSettings({
   const [isFavoritePinLoading, setIsFavoritePinLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
@@ -66,11 +69,9 @@ export default function NoteSettings({
   const getNote = getNotes?.find((note) => note._id === noteId);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Check if we're currently viewing this specific note
   const currentNoteId = searchParams.get("id");
   const isViewingThisNote = currentNoteId === noteId;
 
-  // Update inputValue when noteTitle changes (when navigating to different notes)
   useEffect(() => {
     setInputValue(noteTitle);
   }, [noteTitle]);
@@ -84,9 +85,7 @@ export default function NoteSettings({
     }
   }, [open]);
 
-  if (!getNotes) {
-    return null;
-  }
+  if (!getNotes) return null;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -102,21 +101,14 @@ export default function NoteSettings({
 
   const handleBlur = async () => {
     const trimmedValue = inputValue.trim();
-
     if (trimmedValue && trimmedValue !== noteTitle && getNote) {
-      await updateNote({
-        _id: noteId,
-        title: trimmedValue,
-      });
+      await updateNote({ _id: noteId, title: trimmedValue });
 
-      // Only update the URL if the user is currently viewing this note
       if (isViewingThisNote) {
         const newSlug = generateSlug(trimmedValue);
         const pathSegments = pathname.split("/");
         pathSegments[pathSegments.length - 1] = newSlug;
         const newPath = pathSegments.join("/");
-        
-        // Keep the id query parameter
         router.replace(`${newPath}?id=${noteId}`);
       }
     }
@@ -129,14 +121,11 @@ export default function NoteSettings({
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
     if (!getNote) return;
 
     setIsDeleteLoading(true);
     try {
       await deleteNote({ _id: noteId });
-      
-      // Only navigate if we're currently viewing this note
       if (isViewingThisNote) {
         router.push(`/dashboard/${getNote.workingSpaceId}`);
       }
@@ -163,21 +152,40 @@ export default function NoteSettings({
     }
   };
 
+  const handleTooltipMouseEnter = () => setIsTooltipOpen(true);
+  const handleTooltipMouseLeave = () => setIsTooltipOpen(false);
+
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="Trigger"
-            className={cn("px-0.5 h-8 mt-0.5", BtnClassName)}
-          >
-            {IconVariant === "vertical_icon" ? (
-              <FaEllipsisVertical size={18} />
-            ) : (
-              <FaEllipsis size={22} />
-            )}
-          </Button>
-        </DropdownMenuTrigger>
+        <TooltipProvider>
+          <Tooltip open={isTooltipOpen}>
+            <DropdownMenuTrigger asChild>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="Trigger"
+                  className={cn("px-0.5 h-8 mt-0.5", BtnClassName)}
+                  onMouseEnter={handleTooltipMouseEnter}
+                  onMouseLeave={handleTooltipMouseLeave}
+                >
+                  {IconVariant === "vertical_icon" ? (
+                    <FaEllipsisVertical size={18} />
+                  ) : (
+                    <FaEllipsis size={22} />
+                  )}
+                </Button>
+              </TooltipTrigger>
+            </DropdownMenuTrigger>
+            <TooltipContent
+              side="bottom"
+              align={TooltipContentAlign}
+              className="rounded-lg bg-card border border-border text-foreground text-xs pointer-events-none select-none"
+            >
+              Rename, Pin, Delete
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         <DropdownMenuContent
           side="bottom"
           align={DropdownMenuContentAlign}

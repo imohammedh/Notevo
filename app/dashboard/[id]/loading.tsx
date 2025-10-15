@@ -659,7 +659,7 @@ function GridNoteCard({
             : "Untitled"}
         </CardTitle>
         <div className="absolute top-3 right-3 opacity-50 group-hover:opacity-100 transition-opacity">
-          <NoteSettings noteId={note._id} noteTitle={note.title} IconVariant="vertical_icon" DropdownMenuContentAlign="start" />
+          <NoteSettings noteId={note._id} noteTitle={note.title} IconVariant="vertical_icon" DropdownMenuContentAlign="start" TooltipContentAlign="start" />
         </div>
       </CardHeader>
       <CardContent className="pb-2">
@@ -719,7 +719,7 @@ function ListNoteCard({
             )}
           </div>
           <div className="flex items-center gap-2">
-            <NoteSettings noteId={note._id} noteTitle={note.title} IconVariant="vertical_icon" DropdownMenuContentAlign="start" />
+            <NoteSettings noteId={note._id} noteTitle={note.title} IconVariant="vertical_icon" DropdownMenuContentAlign="start" TooltipContentAlign="start"/>
             <Button variant="ghost" size="sm" asChild className="h-7 px-2 text-xs">
               <Link
                 href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}
