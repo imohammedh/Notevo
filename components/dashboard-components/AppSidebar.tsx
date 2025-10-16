@@ -378,7 +378,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
                 ) : (
                   <Pin size="16" className="text-purple-500 flex-shrink-0" />
                 )}
-                <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-30% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
+                <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
                   {formatWorkspaceName(note.title || "Untitled")}
                 </span>
               </Link>
@@ -519,7 +519,7 @@ const WorkspaceItem = memo(function WorkspaceItem({
                 ) : (
                   <Notebook size="16" className="flex-shrink-0" />
                 )}
-                <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-10% via-transparent via-70% to-transparent to-90% text-transparent bg-clip-text`}`}>
+                <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
                   {formatWorkspaceName(workingSpace.name || "Untitled")}
                 </span>
               </Link>
