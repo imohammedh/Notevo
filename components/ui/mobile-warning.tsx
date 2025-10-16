@@ -24,20 +24,19 @@ export function MobileWarning() {
   if (!showWarning) return null;
 
   return (
-    <div className="fixed top-4 left-4 right-4 z-50 bg-brand_primary/50 backdrop-blur-md p-4 rounded-lg border border-brand_tertiary/20 shadow-lg">
+    <div className="fixed top-4 left-4 right-4 z-50 bg-background/50 backdrop-blur-md p-4 rounded-lg border border-border/20 shadow-lg">
       <div className="flex items-start gap-3">
         <AlertTriangle className="h-5 w-5 text-yellow-500 mt-0.5" />
         <div className="flex-1">
-          <h3 className="font-semibold text-brand_tertiary">Mobile View Warning</h3>
-          <p className="text-sm text-brand_tertiary/70 mt-1">
+          <h3 className="font-semibold text-primary">Mobile View Warning</h3>
+          <p className="text-sm text-primary/70 mt-1">
             We do NOT support mobile yet. Use with caution.
           </p>
         </div>
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
           onClick={handleDismiss}
-          className="text-brand_tertiary border-brand_tertiary/20 hover:text-brand_tertiary/80 hover:bg-brand_tertiary/10"
         >
           OK
         </Button>
