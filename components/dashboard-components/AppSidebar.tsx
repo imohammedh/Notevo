@@ -63,6 +63,7 @@ import React from "react";
 import { ThemeToggle } from "../ThemeToggle";
 import { UserIcon } from "lucide-react";
 import Feedback from "./Feedback";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 // --- Skeleton Sidebar Component ---
 const SkeletonSidebar = () => {
@@ -358,31 +359,40 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
               className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground rounded-lg"
             />
           ) : (
-            <Button
-              variant="SidebarMenuButton"
-              className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                isActive ? "bg-foreground/10" : ""
-              }`}
-              asChild
-              onDoubleClick={handleDoubleClick}
-            >
-              <Link
-                href={noteHref}
-                className="flex items-center gap-2 flex-grow min-w-0"
-              >
-                {isHovered || isActive ? (
-                  <ChevronRight
-                    size="16"
-                    className="text-purple-500 flex-shrink-0"
-                  />
-                ) : (
-                  <Pin size="16" className="text-purple-500 flex-shrink-0" />
-                )}
-                <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
-                  {formatWorkspaceName(note.title || "Untitled")}
-                </span>
-              </Link>
-            </Button>
+            <TooltipProvider delayDuration={300}>
+              <Tooltip disableHoverableContent>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="SidebarMenuButton"
+                    className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
+                      isActive ? "bg-foreground/10" : ""
+                    }`}
+                    asChild
+                    onDoubleClick={handleDoubleClick}
+                  >
+                    <Link
+                      href={noteHref}
+                      className="flex items-center gap-2 flex-grow min-w-0"
+                    >
+                      {isHovered || isActive ? (
+                        <ChevronRight
+                          size="16"
+                          className="text-purple-500 flex-shrink-0"
+                        />
+                      ) : (
+                        <Pin size="16" className="text-purple-500 flex-shrink-0" />
+                      )}
+                      <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
+                        {formatWorkspaceName(note.title || "Untitled")}
+                      </span>
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                  <TooltipContent side="bottom" className="font-medium">
+                    {note.title || "Untitled"}
+                  </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </SidebarMenuItem>
       </SidebarMenu>
@@ -502,28 +512,37 @@ const WorkspaceItem = memo(function WorkspaceItem({
               className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground  rounded-lg"
             />
           ) : (
-            <Button
-              variant="SidebarMenuButton"
-              className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                isActive ? "bg-foreground/10" : ""
-              }`}
-              asChild
-              onDoubleClick={handleDoubleClick}
-            >
-              <Link
-                href={workspaceHref}
-                className="flex items-center gap-2 flex-grow min-w-0"
-              >
-                {isHovered || isActive ? (
-                  <ChevronRight size="16" className="flex-shrink-0" />
-                ) : (
-                  <Notebook size="16" className="flex-shrink-0" />
-                )}
-                <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
-                  {formatWorkspaceName(workingSpace.name || "Untitled")}
-                </span>
-              </Link>
-            </Button>
+            <TooltipProvider >
+              <Tooltip disableHoverableContent>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="SidebarMenuButton"
+                    className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
+                      isActive ? "bg-foreground/10" : ""
+                    }`}
+                    asChild
+                    onDoubleClick={handleDoubleClick}
+                  >
+                    <Link
+                      href={workspaceHref}
+                      className="flex items-center gap-2 flex-grow min-w-0"
+                    >
+                      {isHovered || isActive ? (
+                        <ChevronRight size="16" className="flex-shrink-0" />
+                      ) : (
+                        <Notebook size="16" className="flex-shrink-0" />
+                      )}
+                      <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
+                        {formatWorkspaceName(workingSpace.name || "Untitled")}
+                      </span>
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                  <TooltipContent side="bottom" className="font-medium">
+                    {workingSpace.name || "Untitled"}
+                  </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </SidebarMenuItem>
       </SidebarMenu>
