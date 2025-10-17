@@ -343,8 +343,6 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
   return (
     <SidebarGroupContent
       className="relative w-full flex justify-between items-center overflow-hidden"
-      onMouseEnter={handleContentMouseEnter}
-      onMouseLeave={handleContentMouseLeave}
     >
       <SidebarMenu>
         <SidebarMenuItem>
@@ -365,6 +363,8 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
               }`}
               asChild
               onDoubleClick={handleDoubleClick}
+              onMouseEnter={handleContentMouseEnter}
+              onMouseLeave={handleContentMouseLeave}
             >
               <Link
                 href={noteHref}
@@ -487,11 +487,9 @@ const WorkspaceItem = memo(function WorkspaceItem({
   return (
     <SidebarGroupContent
       className="relative w-full flex justify-between items-center overflow-hidden"
-      onMouseEnter={handleContentMouseEnter} // Use custom mouse handlers
-      onMouseLeave={handleContentMouseLeave}
     >
-      <SidebarMenu>
-        <SidebarMenuItem>
+    <SidebarMenu>
+      <SidebarMenuItem>
           {isEditing ? (
             <Input
               ref={inputRef}
@@ -509,6 +507,8 @@ const WorkspaceItem = memo(function WorkspaceItem({
               }`}
               asChild
               onDoubleClick={handleDoubleClick}
+              onMouseEnter={handleContentMouseEnter}
+              onMouseLeave={handleContentMouseLeave}
             >
               <Link
                 href={workspaceHref}
