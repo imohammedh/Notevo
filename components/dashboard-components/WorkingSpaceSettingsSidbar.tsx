@@ -13,6 +13,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -74,14 +80,24 @@ export default function WorkingSpaceSettingsSidbar({
           ContainerClassName,
         )}
       >
-        <Button
-          onMouseDown={initiateDelete}
-          variant="SidebarMenuButton_destructive"
-          className=" px-2 h-7"
-        >
-          <X size={16} />
-        </Button>
+        <TooltipProvider delayDuration={300}>
+          <Tooltip disableHoverableContent>
+            <TooltipTrigger asChild>
+              <Button
+                onMouseDown={initiateDelete}
+                variant="SidebarMenuButton_destructive"
+                className="px-2 h-7"
+              >
+                <X size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="font-medium">
+              Delete workspace
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
+      
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>

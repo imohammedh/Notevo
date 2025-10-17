@@ -9,6 +9,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -18,11 +24,13 @@ import { Button } from "@/components/ui/button";
 
 import { SquarePen, X, Pin, PinOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+
 interface NoteSettingsSidbarProps {
   noteId: Id<"notes"> | any;
   noteTitle: string | any;
   ContainerClassName?: string | any;
 }
+
 export default function NoteSettingsSidbar({
   noteId,
   noteTitle,
@@ -31,7 +39,7 @@ export default function NoteSettingsSidbar({
   const [ishandleDeleteLoading, setIshandleDeleteLoading] = useState(false);
   const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
     useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert dialog state
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
@@ -48,7 +56,7 @@ export default function NoteSettingsSidbar({
       await deleteNote({ _id: noteId });
     } finally {
       setIshandleDeleteLoading(false);
-      setIsAlertOpen(false); // Close the alert dialog after deletion
+      setIsAlertOpen(false);
     }
   };
 
@@ -69,21 +77,48 @@ export default function NoteSettingsSidbar({
           ContainerClassName,
         )}
       >
-        <Button
-          onClick={handleFavoritePin}
-          variant="SidebarMenuButton"
-          className=" px-2 h-7"
-        >
-          <PinOff size={16} className="text-purple-500"/>
-        </Button>
-        <Button
-          onMouseDown={initiateDelete}
-          variant="SidebarMenuButton_destructive"
-          className=" px-2 h-7"
-        >
-          <X size={16} />
-        </Button>
+        <TooltipProvider >
+          <Tooltip disableHoverableContent>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={handleFavoritePin}
+                variant="SidebarMenuButton"
+                className="px-2 h-7"
+                disabled={ishandleFavoritePinLoading}
+              >
+                {ishandleFavoritePinLoading ? (
+                  <LoadingAnimation className="h-4 w-4 text-purple-500" />
+                ) : getNote?.favorite ? (
+                  <PinOff size={16} className="text-purple-500" />
+                ) : (
+                  <Pin size={16} className="text-purple-500" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="font-medium">
+              Unpin note
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider >
+          <Tooltip disableHoverableContent>
+            <TooltipTrigger asChild>
+              <Button
+                onMouseDown={initiateDelete}
+                variant="SidebarMenuButton_destructive"
+                className="px-2 h-7"
+              >
+                <X size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="font-medium">
+              Delete note
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
+      
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>
