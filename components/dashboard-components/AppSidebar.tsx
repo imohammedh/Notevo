@@ -343,6 +343,8 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
   return (
     <SidebarGroupContent
       className="relative w-full flex justify-between items-center overflow-hidden"
+      onMouseEnter={handleContentMouseEnter}
+      onMouseLeave={handleContentMouseLeave}
     >
       <SidebarMenu>
         <SidebarMenuItem>
@@ -363,8 +365,6 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
               }`}
               asChild
               onDoubleClick={handleDoubleClick}
-              onMouseEnter={handleContentMouseEnter}
-              onMouseLeave={handleContentMouseLeave}
             >
               <Link
                 href={noteHref}
@@ -389,7 +389,7 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
       <NoteSettingsSidbar
         noteId={note._id}
         noteTitle={note.title}
-        ContainerClassName={`absolute -right-24 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
+        ContainerClassName={`absolute -right-20 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
       />
     </SidebarGroupContent>
   );
@@ -487,9 +487,11 @@ const WorkspaceItem = memo(function WorkspaceItem({
   return (
     <SidebarGroupContent
       className="relative w-full flex justify-between items-center overflow-hidden"
+      onMouseEnter={handleContentMouseEnter} // Use custom mouse handlers
+      onMouseLeave={handleContentMouseLeave}
     >
-    <SidebarMenu>
-      <SidebarMenuItem>
+      <SidebarMenu>
+        <SidebarMenuItem>
           {isEditing ? (
             <Input
               ref={inputRef}
@@ -507,8 +509,6 @@ const WorkspaceItem = memo(function WorkspaceItem({
               }`}
               asChild
               onDoubleClick={handleDoubleClick}
-              onMouseEnter={handleContentMouseEnter}
-              onMouseLeave={handleContentMouseLeave}
             >
               <Link
                 href={workspaceHref}
@@ -530,7 +530,7 @@ const WorkspaceItem = memo(function WorkspaceItem({
       <WorkingSpaceSettingsSidbar
         workingSpaceId={workingSpace._id}
         workingspaceName={workingSpace.name}
-        ContainerClassName={`absolute -right-24 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
+        ContainerClassName={`absolute -right-20 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
       />
     </SidebarGroupContent>
   );
