@@ -74,13 +74,13 @@ export default function WorkingSpaceSettingsSidbar({
 
   return (
     <>
-      <div
-        className={cn(
-          "flex justify-end items-center px-1",
-          ContainerClassName,
-        )}
-      >
-        <TooltipProvider delayDuration={300}>
+      <TooltipProvider delayDuration={200} skipDelayDuration={0}>
+        <div
+          className={cn(
+            "flex justify-end items-center px-1",
+            ContainerClassName,
+          )}
+        >
           <Tooltip disableHoverableContent>
             <TooltipTrigger asChild>
               <Button
@@ -91,12 +91,12 @@ export default function WorkingSpaceSettingsSidbar({
                 <X size={16} />
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="right" className="font-medium">
+            <TooltipContent side="right" className="font-medium" sideOffset={5}>
               Delete workspace
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-      </div>
+        </div>
+      </TooltipProvider>
       
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-card border border-border text-card-foreground">

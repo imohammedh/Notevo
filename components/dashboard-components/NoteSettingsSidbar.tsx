@@ -40,6 +40,7 @@ export default function NoteSettingsSidbar({
   const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
     useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
   const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
@@ -71,13 +72,13 @@ export default function NoteSettingsSidbar({
 
   return (
     <>
-      <div
-        className={cn(
-          "flex justify-end items-center px-1",
-          ContainerClassName,
-        )}
-      >
-        <TooltipProvider >
+      <TooltipProvider delayDuration={200} skipDelayDuration={0}>
+        <div
+          className={cn(
+            "flex justify-end items-center px-1",
+            ContainerClassName,
+          )}
+        >
           <Tooltip disableHoverableContent>
             <TooltipTrigger asChild>
               <Button
@@ -95,13 +96,11 @@ export default function NoteSettingsSidbar({
                 )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="right" className="font-medium">
-              Unpin note
+            <TooltipContent side="right" className="font-medium" sideOffset={5}>
+              {getNote?.favorite ? "Unpin note" : "Pin note"}
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
 
-        <TooltipProvider >
           <Tooltip disableHoverableContent>
             <TooltipTrigger asChild>
               <Button
@@ -112,12 +111,12 @@ export default function NoteSettingsSidbar({
                 <X size={16} />
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="right" className="font-medium">
+            <TooltipContent side="right" className="font-medium" sideOffset={5}>
               Delete note
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-      </div>
+        </div>
+      </TooltipProvider>
       
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-card border border-border text-card-foreground">
