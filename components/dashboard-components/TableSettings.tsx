@@ -123,7 +123,7 @@ export default function TableSettings({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               side="bottom"
-              align="start"
+              align="end"
               className="w-48 p-1.5 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
             >
               <DropdownMenuGroup className="relative">
@@ -158,7 +158,7 @@ export default function TableSettings({
             </DropdownMenuContent>
             <TooltipContent
               side="bottom"
-              className="rounded-lg bg-card border border-border text-foreground text-xs pointer-events-none select-none"
+              align= "end"
             >
               Rename , Delete
             </TooltipContent>
