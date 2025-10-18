@@ -139,7 +139,7 @@ interface SidebarHeaderSectionProps {
     workingSpacesSlug: string,
   ) => Promise<void>;
   handleCreateWorkingSpace: () => Promise<void>;
-  loading: boolean; // Loading state for the create note process
+  loading: boolean;
 }
 
 const SidebarHeaderSection = memo(function SidebarHeaderSection({
@@ -277,11 +277,13 @@ const SidebarNavigation = memo(function SidebarNavigation({
 interface PinnedNoteItemProps {
   note: Doc<"notes">;
   pathname: string;
+  open: boolean;
 }
 
 const PinnedNoteItem = memo(function PinnedNoteItem({
   note,
   pathname,
+  open,
 }: PinnedNoteItemProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -289,35 +291,32 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Build the path without query parameters
   const notePath = `/dashboard/${note.workingSpaceId}/${note.slug}`;
   const noteHref = `${notePath}?id=${note._id}`;
-  
-  // Compare only the path part
   const isActive = pathname === notePath;
 
-  const handleContentMouseEnter = () => {
+  const handleContentMouseEnter = useCallback(() => {
     setIsHovered(true);
-  };
+  }, []);
 
-  const handleContentMouseLeave = () => {
+  const handleContentMouseLeave = useCallback(() => {
     setIsHovered(false);
-  };
+  }, []);
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = useCallback(() => {
     setIsEditing(true);
     setEditedTitle(note.title || "Untitled");
     requestAnimationFrame(() => {
       inputRef.current?.focus();
       inputRef.current?.select();
     });
-  };
+  }, [note.title]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedTitle(e.target.value);
-  };
+  }, []);
 
-  const handleInputBlur = async () => {
+  const handleInputBlur = useCallback(async () => {
     if (editedTitle.trim() !== (note.title || "Untitled")) {
       try {
         await updateNote({
@@ -330,24 +329,28 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
       }
     }
     setIsEditing(false);
-  };
+  }, [editedTitle, note.title, note._id, updateNote]);
 
-  const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       inputRef.current?.blur();
     } else if (e.key === "Escape") {
       setIsEditing(false);
       setEditedTitle(note.title || "Untitled");
     }
-  };
+  }, [note.title]);
+
+  const textClassName = isHovered 
+    ? 'truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text' 
+    : 'truncate flex-grow';
 
   return (
     <SidebarGroupContent
-      className="relative w-full flex justify-between items-center overflow-hidden"
+      className="relative w-full flex justify-between items-center overflow-hidden group/item"
       onMouseEnter={handleContentMouseEnter}
       onMouseLeave={handleContentMouseLeave}
     >
-      <SidebarMenu>
+      <SidebarMenu className="flex-1">
         <SidebarMenuItem>
           {isEditing ? (
             <Input
@@ -355,11 +358,11 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
               value={editedTitle}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              onKeyPress={handleInputKeyPress}
+              onKeyDown={handleInputKeyPress}
               className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground rounded-lg"
             />
           ) : (
-            <TooltipProvider delayDuration={300}>
+            <TooltipProvider delayDuration={200} skipDelayDuration={0}>
               <Tooltip disableHoverableContent>
                 <TooltipTrigger asChild>
                   <Button
@@ -382,13 +385,13 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
                       ) : (
                         <Pin size="16" className="text-purple-500 flex-shrink-0" />
                       )}
-                      <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
+                      <span className={textClassName}>
                         {formatWorkspaceName(note.title || "Untitled")}
                       </span>
                     </Link>
                   </Button>
                 </TooltipTrigger>
-                  <TooltipContent side="bottom" className="font-medium">
+                  <TooltipContent side="right" className="font-medium" sideOffset={5}>
                     {note.title || "Untitled"}
                   </TooltipContent>
               </Tooltip>
@@ -396,23 +399,35 @@ const PinnedNoteItem = memo(function PinnedNoteItem({
           )}
         </SidebarMenuItem>
       </SidebarMenu>
-      <NoteSettingsSidbar
-        noteId={note._id}
-        noteTitle={note.title}
-        ContainerClassName={`absolute -right-20 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
-      />
+      <div className={`absolute right-0 transition-all duration-200 ease-in-out ${isHovered && !isEditing ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2 pointer-events-none'}`}>
+        <NoteSettingsSidbar
+          noteId={note._id}
+          noteTitle={note.title}
+          ContainerClassName=""
+        />
+      </div>
     </SidebarGroupContent>
+  );
+}, (prevProps, nextProps) => {
+  return (
+    prevProps.note._id === nextProps.note._id &&
+    prevProps.note.title === nextProps.note.title &&
+    prevProps.note.favorite === nextProps.note.favorite &&
+    prevProps.pathname === nextProps.pathname &&
+    prevProps.open === nextProps.open
   );
 });
 
 interface PinnedNotesListProps {
   favoriteNotes: Doc<"notes">[];
   pathname: string;
+  open: boolean;
 }
 
 const PinnedNotesList = memo(function PinnedNotesList({
   favoriteNotes,
   pathname,
+  open,
 }: PinnedNotesListProps) {
   if (favoriteNotes.length === 0) {
     return null;
@@ -424,19 +439,22 @@ const PinnedNotesList = memo(function PinnedNotesList({
         <span>Pinned Notes</span>
       </SidebarGroupLabel>
       {favoriteNotes.map((note) => (
-        <PinnedNoteItem key={note._id} note={note} pathname={pathname} />
+        <PinnedNoteItem key={note._id} note={note} pathname={pathname} open={open} />
       ))}
     </SidebarGroup>
   );
 });
+
 interface WorkspaceItemProps {
   workingSpace: Doc<"workingSpaces">;
   pathname: string;
+  open: boolean;
 }
 
 const WorkspaceItem = memo(function WorkspaceItem({
   workingSpace,
   pathname,
+  open,
 }: WorkspaceItemProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -449,28 +467,28 @@ const WorkspaceItem = memo(function WorkspaceItem({
   const workspaceHref = `/dashboard/${workingSpace._id}`;
   const isActive = pathname === workspaceHref;
 
-  const handleContentMouseEnter = () => {
+  const handleContentMouseEnter = useCallback(() => {
     setIsHovered(true);
-  };
+  }, []);
 
-  const handleContentMouseLeave = () => {
+  const handleContentMouseLeave = useCallback(() => {
     setIsHovered(false);
-  };
+  }, []);
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = useCallback(() => {
     setIsEditing(true);
     setEditedName(workingSpace.name || "Untitled");
     requestAnimationFrame(() => {
       inputRef.current?.focus();
       inputRef.current?.select();
     });
-  };
+  }, [workingSpace.name]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedName(e.target.value);
-  };
+  }, []);
 
-  const handleInputBlur = async () => {
+  const handleInputBlur = useCallback(async () => {
     if (editedName.trim() !== (workingSpace.name || "Untitled")) {
       try {
         await updateWorkingSpace({
@@ -483,24 +501,28 @@ const WorkspaceItem = memo(function WorkspaceItem({
       }
     }
     setIsEditing(false);
-  };
+  }, [editedName, workingSpace.name, workingSpace._id, updateWorkingSpace]);
 
-  const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       inputRef.current?.blur();
     } else if (e.key === "Escape") {
       setIsEditing(false);
       setEditedName(workingSpace.name || "Untitled");
     }
-  };
+  }, [workingSpace.name]);
+
+  const textClassName = isHovered 
+    ? 'truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text' 
+    : 'truncate flex-grow';
 
   return (
     <SidebarGroupContent
-      className="relative w-full flex justify-between items-center overflow-hidden"
-      onMouseEnter={handleContentMouseEnter} // Use custom mouse handlers
+      className="relative w-full flex justify-between items-center overflow-hidden group/item"
+      onMouseEnter={handleContentMouseEnter}
       onMouseLeave={handleContentMouseLeave}
     >
-      <SidebarMenu>
+      <SidebarMenu className="flex-1">
         <SidebarMenuItem>
           {isEditing ? (
             <Input
@@ -508,11 +530,11 @@ const WorkspaceItem = memo(function WorkspaceItem({
               value={editedName}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              onKeyPress={handleInputKeyPress}
+              onKeyDown={handleInputKeyPress}
               className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground  rounded-lg"
             />
           ) : (
-            <TooltipProvider >
+            <TooltipProvider delayDuration={200} skipDelayDuration={0}>
               <Tooltip disableHoverableContent>
                 <TooltipTrigger asChild>
                   <Button
@@ -532,13 +554,13 @@ const WorkspaceItem = memo(function WorkspaceItem({
                       ) : (
                         <Notebook size="16" className="flex-shrink-0" />
                       )}
-                      <span className={`truncate flex-grow ${isHovered && `bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text`}`}>
+                      <span className={textClassName}>
                         {formatWorkspaceName(workingSpace.name || "Untitled")}
                       </span>
                     </Link>
                   </Button>
                 </TooltipTrigger>
-                  <TooltipContent side="bottom" className="font-medium">
+                  <TooltipContent side="right" className="font-medium" sideOffset={5}>
                     {workingSpace.name || "Untitled"}
                   </TooltipContent>
               </Tooltip>
@@ -546,12 +568,21 @@ const WorkspaceItem = memo(function WorkspaceItem({
           )}
         </SidebarMenuItem>
       </SidebarMenu>
-      <WorkingSpaceSettingsSidbar
-        workingSpaceId={workingSpace._id}
-        workingspaceName={workingSpace.name}
-        ContainerClassName={`absolute -right-20 transition-all duration-200 ease-in-out invisible ${isHovered && !isEditing && "visible right-0"}`}
-      />
+      <div className={`absolute right-0 transition-opacity duration-150 ${isHovered && !isEditing ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <WorkingSpaceSettingsSidbar
+          workingSpaceId={workingSpace._id}
+          workingspaceName={workingSpace.name}
+          ContainerClassName=""
+        />
+      </div>
     </SidebarGroupContent>
+  );
+}, (prevProps, nextProps) => {
+  return (
+    prevProps.workingSpace._id === nextProps.workingSpace._id &&
+    prevProps.workingSpace.name === nextProps.workingSpace.name &&
+    prevProps.pathname === nextProps.pathname &&
+    prevProps.open === nextProps.open
   );
 });
 
@@ -559,12 +590,14 @@ interface WorkspacesListProps {
   getWorkingSpaces: Doc<"workingSpaces">[] | undefined;
   handleCreateWorkingSpace: () => Promise<void>;
   pathname: string;
+  open: boolean;
 }
 
 const WorkspacesList = memo(function WorkspacesList({
   getWorkingSpaces,
   handleCreateWorkingSpace,
   pathname,
+  open,
 }: WorkspacesListProps) {
   return (
     <SidebarGroup>
@@ -583,6 +616,7 @@ const WorkspacesList = memo(function WorkspacesList({
             key={workingSpace._id}
             workingSpace={workingSpace}
             pathname={pathname}
+            open={open}
           />
         ))
       ) : (
@@ -742,13 +776,11 @@ const AppSidebar = React.memo(function AppSidebar() {
       try {
         const tableName = "New Quick Access Notes";
         
-        // Create or get existing table
         const tableId = await createTable({
           name: tableName,
           workingSpaceId: workingSpaceId,
         });
 
-        // Create note with the table ID
         const newNoteId = await createNote({
           workingSpacesSlug: workingSpacesSlug,
           workingSpaceId: workingSpaceId,
@@ -783,6 +815,7 @@ const AppSidebar = React.memo(function AppSidebar() {
     },
     [createNote, createTable, getNotesByUserId, router],
   );
+  
   const handleSignOut = useCallback(async () => {
     setIsSigningOut(true);
     try {
@@ -793,7 +826,7 @@ const AppSidebar = React.memo(function AppSidebar() {
     } finally {
       setIsSigningOut(false);
     }
-  }, [signOut, router]);
+  }, [signOut]);
 
   if (isSidebarLoading) {
     return <SkeletonSidebar />;
@@ -814,7 +847,7 @@ const AppSidebar = React.memo(function AppSidebar() {
         loading={loading}
       />
 
-      <SidebarContent className=" relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-muted-foreground">
+      <SidebarContent className="relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-muted-foreground">
         <SidebarNavigation
           pathname={pathname}
           isDashboard={isDashboard}
@@ -822,11 +855,12 @@ const AppSidebar = React.memo(function AppSidebar() {
           open={open}
         />  
 
-        <PinnedNotesList favoriteNotes={favoriteNotes} pathname={pathname} />
+        <PinnedNotesList favoriteNotes={favoriteNotes} pathname={pathname} open={open} />
         <WorkspacesList
           getWorkingSpaces={getWorkingSpaces}
           handleCreateWorkingSpace={handleCreateWorkingSpace}
           pathname={pathname}
+          open={open}
         />
       </SidebarContent>
       <UserAccountSection
