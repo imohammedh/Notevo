@@ -179,7 +179,6 @@ export default function NoteSettings({
             <TooltipContent
               side="bottom"
               align={TooltipContentAlign}
-              className="rounded-lg bg-card border border-border text-foreground text-xs pointer-events-none select-none"
             >
               Rename, Pin, Delete
             </TooltipContent>
