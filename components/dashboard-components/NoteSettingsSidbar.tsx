@@ -117,7 +117,7 @@ export default function NoteSettingsSidbar({
           </Tooltip>
         </div>
       </TooltipProvider>
-      
+
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>

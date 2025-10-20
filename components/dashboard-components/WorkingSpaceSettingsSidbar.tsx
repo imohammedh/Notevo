@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { Settings, Users, Trash2 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 interface WorkingSpaceSettingsSidbarProps {
   workingSpaceId: Id<"workingSpaces">;
@@ -38,8 +39,9 @@ export default function WorkingSpaceSettingsSidbar({
 }: WorkingSpaceSettingsSidbarProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("general");
-
+  const router = useRouter();
+  const workspaceHref = `/dashboard/${workingSpaceId}`;
+  const PathName = usePathname()
   const tables = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId,
   });
@@ -59,7 +61,13 @@ export default function WorkingSpaceSettingsSidbar({
     event.preventDefault();
     setIsDeleting(true);
     try {
-      await DeleteWorkingSpace({ _id: workingSpaceId });
+      if (PathName === workspaceHref) {
+        router.push(`/dashboard`);
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        await DeleteWorkingSpace({ _id: workingSpaceId });
+      } else {
+        await DeleteWorkingSpace({ _id: workingSpaceId });
+      }
     } catch (error) {
       console.error("Failed to delete workspace:", error);
     } finally {
@@ -97,7 +105,7 @@ export default function WorkingSpaceSettingsSidbar({
           </Tooltip>
         </div>
       </TooltipProvider>
-      
+
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-card border border-border text-card-foreground">
           <AlertDialogHeader>
