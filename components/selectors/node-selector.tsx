@@ -28,58 +28,58 @@ const items: SelectorItem[] = [
   {
     name: "Text",
     icon: TextIcon,
-    command: (editor:any) => editor.chain().focus().clearNodes().run(),
+    command: (editor: any) => editor.chain().focus().clearNodes().run(),
     // I feel like there has to be a more efficient way to do this – feel free to PR if you know how!
-    isActive: (editor:any) =>
+    isActive: (editor: any) =>
       editor.isActive("paragraph") && !editor.isActive("bulletList") && !editor.isActive("orderedList"),
   },
   {
     name: "Heading 1",
     icon: Heading1,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
-    isActive: (editor:any) => editor.isActive("heading", { level: 1 }),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
+    isActive: (editor: any) => editor.isActive("heading", { level: 1 }),
   },
   {
     name: "Heading 2",
     icon: Heading2,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
-    isActive: (editor:any) => editor.isActive("heading", { level: 2 }),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
+    isActive: (editor: any) => editor.isActive("heading", { level: 2 }),
   },
   {
     name: "Heading 3",
     icon: Heading3,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
-    isActive: (editor:any) => editor.isActive("heading", { level: 3 }),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
+    isActive: (editor: any) => editor.isActive("heading", { level: 3 }),
   },
   {
     name: "To-do List",
     icon: CheckSquare,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleTaskList().run(),
-    isActive: (editor:any) => editor.isActive("taskItem"),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleTaskList().run(),
+    isActive: (editor: any) => editor.isActive("taskItem"),
   },
   {
     name: "Bullet List",
     icon: ListOrdered,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleBulletList().run(),
-    isActive: (editor:any) => editor.isActive("bulletList"),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleBulletList().run(),
+    isActive: (editor: any) => editor.isActive("bulletList"),
   },
   {
     name: "Numbered List",
     icon: ListOrdered,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleOrderedList().run(),
-    isActive: (editor:any) => editor.isActive("orderedList"),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleOrderedList().run(),
+    isActive: (editor: any) => editor.isActive("orderedList"),
   },
   {
     name: "Quote",
     icon: TextQuote,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleBlockquote().run(),
-    isActive: (editor:any) => editor.isActive("blockquote"),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleBlockquote().run(),
+    isActive: (editor: any) => editor.isActive("blockquote"),
   },
   {
     name: "Code",
     icon: Code,
-    command: (editor:any) => editor.chain().focus().clearNodes().toggleCodeBlock().run(),
-    isActive: (editor:any) => editor.isActive("codeBlock"),
+    command: (editor: any) => editor.chain().focus().clearNodes().toggleCodeBlock().run(),
+    isActive: (editor: any) => editor.isActive("codeBlock"),
   },
 ];
 interface NodeSelectorProps {
@@ -97,12 +97,12 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
   return (
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild >
-        <Button size="sm" variant="ghost" className="gap-2 border-none">
+        <Button size="sm" variant="SidebarMenuButton" className="gap-2 border-none">
           <span className="whitespace-nowrap text-sm">{activeItem.name}</span>
           <ChevronDown className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent sideOffset={5} align="start" className="w-48 p-1 border border-border bg-popover">
+      <PopoverContent sideOffset={5} align="start" className="w-48 p-1 border border-border bg-accent">
         {items.map((item) => (
           <EditorBubbleItem
             key={item.name}
@@ -110,7 +110,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
               item.command(editor);
               onOpenChange(false);
             }}
-            className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-accent hover:text-accent-foreground"
+            className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm text-foreground hover:bg-foreground/10"
           >
             <div className="flex items-center *:text-foreground space-x-2">
               <item.icon className="h-4 w-4" />
