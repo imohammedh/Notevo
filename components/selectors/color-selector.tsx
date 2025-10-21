@@ -19,35 +19,35 @@ const TEXT_COLORS: BubbleColorMenuItem[] = [
   },
   {
     name: "Purple",
-    color: "#9333EA",
+    color: "var(--novel-text-purple)",
   },
   {
     name: "Red",
-    color: "#E00000",
+    color: "var(--novel-text-red)",
   },
   {
     name: "Yellow",
-    color: "#EAB308",
+    color: "var(--novel-text-yellow)",
   },
   {
     name: "Blue",
-    color: "#2563EB",
+    color: "var(--novel-text-blue)",
   },
   {
     name: "Green",
-    color: "#008A00",
+    color: "var(--novel-text-green)",
   },
   {
     name: "Orange",
-    color: "#FFA500",
+    color: "var(--novel-text-orange)",
   },
   {
     name: "Pink",
-    color: "#BA4081",
+    color: "var(--novel-text-pink)",
   },
   {
     name: "Gray",
-    color: "#A8A29E",
+    color: "var(--novel-text-gray)",
   },
 ];
 
@@ -113,7 +113,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
         <Button
           size="sm"
           className="gap-2 rounded-none border-none"
-          variant="ghost"
+          variant="SidebarMenuButton"
         >
           <span
             className="rounded-sm px-1"
@@ -129,12 +129,12 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       </PopoverTrigger>
       <PopoverContent
         sideOffset={5}
-        className="my-1 rounded-lg border border-border bg-popover px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl"
+        className="my-1 rounded-lg border border-border bg-accent px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl"
         align="start"
       >
         <div className="flex flex-col">
           <div className="my-1 px-2 text-sm font-semibold text-foreground">
-            Color
+            Color :
           </div>
           <div className="w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
             {TEXT_COLORS.map(({ name, color }) => (
@@ -144,7 +144,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                   editor.commands.setColor(color);
                   onOpenChange(false);
                 }}
-                className="cursor-pointer flex items-center justify-center px-2 py-1 text-sm rounded-lg hover:bg-accent hover:text-accent-foreground"
+                className="cursor-pointer flex items-center justify-center px-2 py-1 text-md rounded-sm text-foreground hover:bg-foreground/10"
               >
                 <div
                   className="rounded-sm border text-base border-border px-2 py-px font-medium"
@@ -158,7 +158,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
         </div>
         <div>
           <div className="my-1 px-2 text-sm font-semibold text-foreground">
-            Background
+            Background :
           </div>
           <div className="w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
             {HIGHLIGHT_COLORS.map(({ name, color }) => (
@@ -167,11 +167,11 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                 onSelect={() => {
                   editor.commands.setHighlight({ color });
                 }}
-                className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm rounded-lg hover:bg-accent hover:text-accent-foreground"
+                className="flex cursor-pointer items-center justify-between px-2 py-1 text-md rounded-sm text-foreground hover:bg-foreground/10"
               >
                 <div
-                  className="rounded-sm border text-base border-border px-2 py-px font-medium"
-                  style={{backgroundColor: color}}
+                  className="rounded-sm border text-secondary-foreground border-border px-2 py-px font-medium"
+                  style={{ backgroundColor: color }}
                 >
                   A
                 </div>

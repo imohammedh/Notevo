@@ -56,8 +56,8 @@ export const TextButtons = () => {
         >
           <Button
             size="sm"
-            className="rounded-lg border-none"
-            variant="ghost"
+            className="border-none"
+            variant="SidebarMenuButton"
             type="button"
           >
             <item.icon

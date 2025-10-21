@@ -20,7 +20,8 @@
     --muted-foreground: 0 0% 45%;
     --accent: 0 0% 92%;
     --accent-foreground: 0 0% 4%;
-    --destructive: 0 62.8% 30.6%;; 
+    --destructive: 0 62.8% 30.6%;
+    ;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 80%;
     --input: 0 0% 80%;
@@ -52,17 +53,27 @@
     --novel-stone-700: rgb(229 232 235);
     --novel-stone-800: rgb(232 234 235);
     --novel-stone-900: rgb(240, 240, 241);
-  
-    --novel-highlight-default: none;
-    --novel-highlight-purple: #3f2c4b;
-    --novel-highlight-red: #5c1a1a;
-    --novel-highlight-yellow: #5c4b1a;
-    --novel-highlight-blue: #1a3d5c;
-    --novel-highlight-green: #1a5c20;
-    --novel-highlight-orange: #5c3a1a;
-    --novel-highlight-pink: #5c1a3a;
-    --novel-highlight-gray: #3a3a3a;
-  
+
+    --novel-highlight-default: 0 0% 4%;
+    --novel-highlight-purple: #d3c0dc;
+    --novel-highlight-red: #e6b3b3;
+    --novel-highlight-yellow: #e6dbb3;
+    --novel-highlight-blue: #b3cde6;
+    --novel-highlight-green: #b3e6ba;
+    --novel-highlight-orange: #e6c7b3;
+    --novel-highlight-pink: #e6b3c7;
+    --novel-highlight-gray: #cccccc;
+
+    --novel-text-purple: #7e22ce;
+    --novel-text-red: #dc2626;
+    --novel-text-yellow: #ca8a04;
+    --novel-text-blue: #2563eb;
+    --novel-text-green: #15803d;
+    --novel-text-orange: #ea580c;
+    --novel-text-pink: #db2777;
+    --novel-text-gray: #525252;
+
+
     --font-title: "Cal Sans", sans-serif;
 
     /* Editor specific colors */
@@ -75,6 +86,7 @@
     --editor-border: 0 0% 90%;
     --editor-ring: 0 0% 4%;
   }
+
   .dark {
     --background: 0 0% 4%;
     --foreground: 0 0% 98%;
@@ -121,8 +133,8 @@
     --novel-stone-700: rgb(229 232 235);
     --novel-stone-800: rgb(232 234 235);
     --novel-stone-900: rgb(240, 240, 241);
-  
-    --novel-highlight-default: #000000;
+
+    --novel-highlight-default: 0 0% 98%;
     --novel-highlight-purple: #3f2c4b;
     --novel-highlight-red: #5c1a1a;
     --novel-highlight-yellow: #5c4b1a;
@@ -131,7 +143,16 @@
     --novel-highlight-orange: #5c3a1a;
     --novel-highlight-pink: #5c1a3a;
     --novel-highlight-gray: #3a3a3a;
-  
+
+    --novel-text-purple: #c084fc;
+    --novel-text-red: #f87171;
+    --novel-text-yellow: #facc15;
+    --novel-text-blue: #60a5fa;
+    --novel-text-green: #4ade80;
+    --novel-text-orange: #fdba74;
+    --novel-text-pink: #f472b6;
+    --novel-text-gray: #d4d4d4;
+
     --font-title: "Cal Sans", sans-serif;
 
     /* Editor specific colors for dark mode */
@@ -145,11 +166,13 @@
     --editor-ring: 0 0% 83.9%;
   }
 }
+
 html {
   scroll-padding-top: 100px;
   scroll-behavior: smooth;
   scrollbar-width: thin;
 }
+
 *::selection {
   background: hsl(0 0% 85%);
   color: hsl(0 0% 20%);
@@ -164,6 +187,7 @@ html {
   background: hsl(0 0% 85%);
   color: hsl(0 0% 20%);
 }
+
 .no-visible-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -242,6 +266,7 @@ html {
   pointer-events: none;
   height: 0;
 }
+
 /* Additionally, you might want to style the code block container */
 .code-block-wrapper {
   position: relative;
@@ -298,6 +323,7 @@ html {
   color: #ccc;
   background: #171717;
 }
+
 .code-block {
   position: relative;
   margin: 1rem 0;
@@ -322,14 +348,16 @@ html {
 
 p[data-placeholder="Write something or Press '/' for commands"].is-empty::before {
   content: attr(data-placeholder);
-  color: var(--novel-stone-400) !important; 
-  position: absolute; 
+  color: var(--novel-stone-400) !important;
+  position: absolute;
   pointer-events: none;
   font-size: 1rem;
 }
+
 .mask-image-gradient {
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
+
 @layer base {
   body {
     @apply bg-background text-foreground;
