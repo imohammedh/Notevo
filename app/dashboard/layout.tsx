@@ -12,7 +12,7 @@ import { MobileWarning } from "@/components/ui/mobile-warning";
 import NoteSettings from "@/components/dashboard-components/NoteSettings";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { Id } from "@/convex/_generated/dataModel";
-import {parseSlug} from "@/lib/parseSlug"
+import { parseSlug } from "@/lib/parseSlug"
 const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +28,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
     };
 
     scrollContainer.addEventListener('scroll', handleScroll);
-    
+
     // Check initial scroll position
     handleScroll();
 
@@ -46,14 +46,12 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
     <div className="flex h-screen w-full bg-accent overflow-hidden">
       <AppSidebar />
       <main
-        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-primary/20 ${
-          open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
-        } rounded-none bg-background `}
+        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-primary/20 ${open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ''
+          } rounded-none bg-background `}
       >
-        <div 
-          className={`w-full flex items-center justify-start px-5 gap-3 mx-auto rounded-t-xl border-t border-l border-none py-2.5 bg-background transition-shadow duration-200 ${
-            showShadow ? 'shadow-xl shadow-primary/10' : ''
-          }`}
+        <div
+          className={`w-full flex items-center justify-start px-5 gap-3 mx-auto rounded-t-xl border-t border-l border-none py-2.5 bg-background transition-shadow duration-200 ${showShadow ? 'shadow-xl shadow-primary/5' : ''
+            }`}
         >
           <div className="flex justify-between items-center w-full">
             <div className=" flex justify-start items-center gap-3">
@@ -62,7 +60,7 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
             </div>
             <div>
               {
-                noteid && noteTitle && <NoteSettings noteId={noteid} noteTitle={noteTitle} IconVariant="horizontal_icon" DropdownMenuContentAlign="end" TooltipContentAlign="end" /> 
+                noteid && noteTitle && <NoteSettings noteId={noteid} noteTitle={noteTitle} IconVariant="horizontal_icon" DropdownMenuContentAlign="end" TooltipContentAlign="end" />
               }
             </div>
           </div>

@@ -122,7 +122,7 @@ export default function WorkingSpaceSettings({
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="Trigger" className={cn("px-1.5 h-8", className)}>
-            <FaEllipsis size="16" />
+            <FaEllipsis size={22} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
