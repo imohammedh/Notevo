@@ -32,22 +32,22 @@ export default function CreateTableBtn({
   return (
     <Button
       className={cn(
-        "flex items-center justify-between gap-2 border-border text-foreground",
+        "flex items-center justify-between gap-2 ",
         className,
       )}
-      variant="outline"
+      variant="default"
       onClick={handleCreateTable}
       disabled={loading}
     >
       {loading ? (
         <>
-          <LoadingAnimation className="h-4 w-4 text-muted-foreground" />
-          <span className="text-muted-foreground">Creating Table...</span>
+          <LoadingAnimation className="h-4 w-4 " />
+          <span className="hidden sm:block">Creating Table...</span>
         </>
       ) : (
         <>
-          <Plus size={20} className=" text-muted-foreground" />
-          <p className="  text-muted-foreground">Create Table</p>
+          <Plus size={20} />
+          <p className="hidden sm:block ">Create Table</p>
         </>
       )}
     </Button>
