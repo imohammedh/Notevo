@@ -113,7 +113,7 @@ export default function Dashboard() {
         {/* Main Content Tabs */}
         <Tabs defaultValue="workspaces" className="mt-8">
           {recentNotes?.length !== 0 && recentWorkspaces?.length !== 0 && (
-            <TabsList className="mb-6 bg-card/90 backdrop-blur-sm p-1 rounded-xl border border-border/50">
+            <TabsList className="mb-6 bg-card/90 backdrop-blur-sm p-1 rounded-xl border border-border">
               <TabsTrigger
                 value="workspaces"
               >
