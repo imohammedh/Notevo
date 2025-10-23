@@ -4,7 +4,7 @@
  
  ![Home Page](showCase_imgs/HomePage.png)
  
- ## if you wanna contribute here => To Do :
+ ## To Do :
  
  - [x] fix the routing
  - [ ] Link and fix the AI API
