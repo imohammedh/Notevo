@@ -1,6 +1,6 @@
 # Notevo
  
- **Notevo** is an AI-powered, real-time note-taking SaaS platform designed to help users create, edit, and organize their notes seamlessly. With a Notion-style WYSIWYG editor, users can enjoy a rich-text editing experience and leverage AI to improve productivity through intelligent suggestions and auto-completion.
+I've been looking for a note-taking app that's simpler than Notion but more organized than Google Keep. Something clean, structured, with a rich text editor. That's what Notevo's trying to be: a minimal, structured, AI-powered note-taking app
  
  ![Home Page](showCase_imgs/HomePage.png)
  
