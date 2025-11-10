@@ -5,8 +5,8 @@ import { cn } from "../lib/utils";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { ConvexQueryCacheProvider } from "convex-helpers/react/cache/provider";
 import { Providers } from "./providers";
+import { ConvexQueryCacheProvider } from "@/cache/provider";
 const lato = Lato({
   weight: ["400"],
   subsets: ["latin"],
@@ -64,24 +64,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "bg-background text-foreground flex flex-col min-h-screen",
-          lato.className,
-        )}
-      >
+      <body className={cn("bg-background text-foreground flex flex-col min-h-screen", lato.className)}>
         <Toaster />
         <Providers>
           <ConvexAuthNextjsServerProvider>
             <ConvexClientProvider>
-              <ConvexQueryCacheProvider>{children}</ConvexQueryCacheProvider>
+              <ConvexQueryCacheProvider expiration={2 * 60 * 60 * 1000}>
+                {children}
+              </ConvexQueryCacheProvider>
             </ConvexClientProvider>
           </ConvexAuthNextjsServerProvider>
         </Providers>
@@ -89,3 +82,4 @@ export default function RootLayout({
     </html>
   );
 }
+

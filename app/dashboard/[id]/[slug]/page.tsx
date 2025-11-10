@@ -2,7 +2,7 @@
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { JSONContent } from "@tiptap/react";

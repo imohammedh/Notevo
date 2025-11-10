@@ -11,7 +11,7 @@ import Footer from "@/components/landingPage-components/Footer";
 import { useEffect, useState } from "react";
 import MoreAboutMe from "@/components/landingPage-components/MoreAboutMe";
 import PricingSection from "@/components/landingPage-components/pricingSection";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 export default function HomePage() {
   const viewer = useQuery(api.auth.isAuthenticated);
   const [isClient, setIsClient] = useState(false);

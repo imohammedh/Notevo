@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import type { Id } from "@/convex/_generated/dataModel";
 import { redirect } from "next/navigation";
 import { api } from "@/convex/_generated/api";
