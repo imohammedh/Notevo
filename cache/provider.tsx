@@ -1,6 +1,6 @@
 "use client";
 import { useConvex } from "convex/react";
-import { createContext, FC, PropsWithChildren } from "react";
+import { createContext, FC, PropsWithChildren, useMemo } from "react";
 import { CacheRegistry, ConvexQueryCacheOptions } from "./core";
 
 export const ConvexQueryCacheContext = createContext({
@@ -15,18 +15,19 @@ export const ConvexQueryCacheContext = createContext({
  * @param {ConvexQueryCacheOptions} props.options - Options for the query cache
  * @returns {Element}
  */
-export const ConvexQueryCacheProvider: FC<
-  PropsWithChildren<ConvexQueryCacheOptions>
-> = ({ children, ...options }) => {
+export const ConvexQueryCacheProvider: FC<PropsWithChildren<ConvexQueryCacheOptions>> = ({
+  children,
+  ...options
+}) => {
   const convex = useConvex();
-  if (convex === undefined) {
+  if (!convex) {
     throw new Error(
-      "Could not find Convex client! `ConvexQueryCacheProvider` must be used in the React component " +
-        "tree under `ConvexProvider`. Did you forget it? " +
-        "See https://docs.convex.dev/quick-start#set-up-convex-in-your-react-app"
+      "Could not find Convex client! `ConvexQueryCacheProvider` must be used under `ConvexProvider`."
     );
   }
-  const registry = new CacheRegistry(convex, options);
+
+  const registry = useMemo(() => new CacheRegistry(convex, options), [convex, options.expiration, options.maxIdleEntries, options.debug]);
+
   return (
     <ConvexQueryCacheContext.Provider value={{ registry }}>
       {children}
