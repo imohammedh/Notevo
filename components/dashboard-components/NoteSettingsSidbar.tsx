@@ -18,7 +18,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { Button } from "@/components/ui/button";
 

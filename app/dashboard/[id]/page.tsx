@@ -10,7 +10,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useMutation } from "convex/react";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import {
   DragDropContext,
   Droppable,

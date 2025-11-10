@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 export default function HeroSection() {

@@ -11,7 +11,7 @@ import {
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
 import { parseSlug } from "@/lib/parseSlug";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 

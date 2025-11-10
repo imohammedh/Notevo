@@ -10,7 +10,7 @@ import {
 import { FaEllipsisVertical, FaRegTrashCan } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import {

@@ -1,4 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+"use client";
 import { ConvexProvider, OptionalRestArgsOrSkip } from "convex/react";
 import { FunctionReference, FunctionReturnType } from "convex/server";
 import { useContext, useEffect, useMemo, useState } from "react";
