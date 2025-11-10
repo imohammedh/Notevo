@@ -81,7 +81,7 @@ export default function RootLayout({
         <Providers>
           <ConvexAuthNextjsServerProvider>
             <ConvexClientProvider>
-              <ConvexQueryCacheProvider>{children}</ConvexQueryCacheProvider>
+              <ConvexQueryCacheProvider expiration={2 * 60 * 60 * 1000}>{children}</ConvexQueryCacheProvider>
             </ConvexClientProvider>
           </ConvexAuthNextjsServerProvider>
         </Providers>
