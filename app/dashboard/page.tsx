@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useMutation } from "convex/react";
-import { useQuery } from "convex-helpers/react/cache";
+import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
 import MaxWContainer from "@/components/ui/MaxWContainer";
