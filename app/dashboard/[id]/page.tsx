@@ -103,7 +103,9 @@ export default function WorkingSpacePage() {
     workingSpaceId,
   });
 
-  const allNotes = useQuery(api.mutations.notes.getNoteByUserId);
+  const allNotes = useQuery(api.mutations.notes.getNotesByWorkspaceId, {
+    workingSpaceId,
+  });
 
   const updateNoteOrder = useMutation(api.mutations.notes.updateNoteOrder);
 
@@ -195,9 +197,6 @@ export default function WorkingSpacePage() {
     };
   }, [workspace?.name, tables?.length, filteredNotes?.length]);
 
-  const isLoading = !workspace;
-  const filterNoteByworkingspaceId = filteredNotes?.filter((note) => note.workingSpaceId === workingSpaceId);
-
   return (
     <MaxWContainer className="mb-20">
       {/* Modern Gradient Header */}
@@ -207,7 +206,7 @@ export default function WorkingSpacePage() {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <h1 className="text-3xl md:text-4xl font-bold  mb-2 drop-shadow-lg">
-                  {isLoading ? <SkeletonTextAnimation /> : workspace.name}
+                  {workspace?.name}
                 </h1>
                 <div className="flex items-center gap-4 text-sm">
                   <span className="flex items-center gap-2 px-3 py-1 rounded-full backdrop-blur-sm">
@@ -216,7 +215,7 @@ export default function WorkingSpacePage() {
                   </span>
                   <span className="flex items-center gap-2 px-3 py-1 rounded-full backdrop-blur-sm">
                     <FileText className="h-4 w-4" />
-                    {filterNoteByworkingspaceId?.length || 0} notes
+                    {filteredNotes?.length || 0} notes
                   </span>
                 </div>
               </div>

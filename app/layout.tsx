@@ -72,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <ConvexAuthNextjsServerProvider>
             <ConvexClientProvider>
-              <ConvexQueryCacheProvider expiration={2 * 60 * 60 * 1000}>
+              <ConvexQueryCacheProvider expiration={1000000}>
                 {children}
               </ConvexQueryCacheProvider>
             </ConvexClientProvider>
@@ -82,4 +82,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
+  
