@@ -37,7 +37,6 @@ export const createNote = mutation({
             throw new ConvexError("Not authorized to create notes in this workspace");
         }
         
-
         const generateSlugName = generateSlug(title);
         // Check if the slug already exists and add incremental number if it does
         let slug = generateSlugName;
@@ -206,9 +205,7 @@ export const getNotesByWorkspaceId = query({
     const notes = await ctx.db.query("notes")
       .withIndex("by_workingSpaceId", (q) =>
         q.eq("workingSpaceId", workingSpaceId)
-      )
-      .filter((q) => q.eq(q.field("userId"), userId))
-      .collect();
+      ).collect();
 
     return notes;
   }
@@ -221,24 +218,34 @@ export const getNoteByUserId = query({
         if (!userId) {
             throw new ConvexError("Not authenticated");
         }
-        
-       
         const notes = await ctx.db.query("notes")
             .withIndex("by_userId", (q) => q.eq("userId", userId))
-            .collect();
-        
+            .order("desc")
+            .take(100);
         if (!notes) {
             return []; 
         }
-        
-        return notes.sort((a, b) => {
-            if(a.notesTableId&&b.notesTableId){
-
-                if (a.notesTableId !== b.notesTableId) {
-                    return a.notesTableId < b.notesTableId ? -1 : 1;
-                }
-            }
-            return (a.order ?? Infinity) - (b.order ?? Infinity);
-        });
+        return notes;
     }
 });
+
+export const getNoteById = query({
+    args:{
+        _id: v.id("notes"),
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+        if (!userId) {
+            throw new ConvexError("Not authenticated");
+        }
+        const { _id } = args;
+        const note = await ctx.db.query("notes").withIndex("by_id", (q) => q.eq("_id", _id)).first();
+        if (!note) {
+            throw new ConvexError("Note not found");
+        }
+        if (note.userId !== userId && _id !== note._id) {
+            throw new ConvexError("You are not authorized to access this note");
+        }
+        return note;
+    }
+})
