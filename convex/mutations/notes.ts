@@ -220,6 +220,7 @@ export const getNoteByUserId = query({
         }
         const notes = await ctx.db.query("notes")
             .withIndex("by_userId", (q) => q.eq("userId", userId))
+            .filter(q => q.eq(q.field("title"), "active"))
             .order("desc")
             .take(100);
         if (!notes) {

@@ -201,11 +201,11 @@ export default function WorkingSpacePage() {
     <MaxWContainer className="mb-20">
       {/* Modern Gradient Header */}
       <header className=" pb-5" >
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 shadow-2xl shadow-primary/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8">
           <div className="relative flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <h1 className="text-3xl md:text-4xl font-bold  mb-2 drop-shadow-lg">
+                <h1 className="text-3xl md:text-4xl font-bold  mb-2">
                   {workspace?.name}
                 </h1>
                 <div className="flex items-center gap-4 text-sm">
