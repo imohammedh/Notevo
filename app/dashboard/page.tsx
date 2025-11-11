@@ -83,10 +83,10 @@ export default function Dashboard() {
     <>
       <MaxWContainer className="relative mb-20">
         {/* Enhanced Hero Section with Gradient */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 shadow-2xl shadow-primary/10 mb-8">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
 
           <header className="relative max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary drop-shadow-lg">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">
               {viewer?.name ? (
                 <>
                   Hello,{" "}
