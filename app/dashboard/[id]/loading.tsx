@@ -7,7 +7,7 @@ export default function WorkingSpaceSkeleton() {
     <MaxWContainer className="mb-20 space-y-6">
       {/* HEADER SKELETON */}
       <header className="pb-5">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 shadow-2xl shadow-primary/10">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8">
           <div className="relative flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex-1 space-y-3">
