@@ -63,7 +63,12 @@ import React from "react";
 import { ThemeToggle } from "../ThemeToggle";
 import { UserIcon } from "lucide-react";
 import Feedback from "./Feedback";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 // --- Skeleton Sidebar Component ---
 const SkeletonSidebar = () => {
@@ -153,10 +158,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
       <div className="flex items-center justify-between p-1.5">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-foreground">Notevo</span>
-          <Badge
-            variant="secondary"
-            className="text-[0.6rem]"
-          >
+          <Badge variant="secondary" className="text-[0.6rem]">
             BETA
           </Badge>
         </div>
@@ -241,9 +243,7 @@ const SidebarNavigation = memo(function SidebarNavigation({
 }: SidebarNavigationProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>
-        Navigation
-      </SidebarGroupLabel>
+      <SidebarGroupLabel>Navigation</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -280,143 +280,157 @@ interface PinnedNoteItemProps {
   open: boolean;
 }
 
-const PinnedNoteItem = memo(function PinnedNoteItem({
-  note,
-  pathname,
-  open,
-}: PinnedNoteItemProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(note.title || "Untitled");
-  const updateNote = useMutation(api.mutations.notes.updateNote);
-  const inputRef = useRef<HTMLInputElement>(null);
+const PinnedNoteItem = memo(
+  function PinnedNoteItem({ note, pathname, open }: PinnedNoteItemProps) {
+    const [isHovered, setIsHovered] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(note.title || "Untitled");
+    const updateNote = useMutation(api.mutations.notes.updateNote);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  const notePath = `/dashboard/${note.workingSpaceId}/${note.slug}`;
-  const noteHref = `${notePath}?id=${note._id}`;
-  const isActive = pathname === notePath;
+    const notePath = `/dashboard/${note.workingSpaceId}/${note.slug}`;
+    const noteHref = `${notePath}?id=${note._id}`;
+    const isActive = pathname === notePath;
 
-  const handleContentMouseEnter = useCallback(() => {
-    setIsHovered(true);
-  }, []);
+    const handleContentMouseEnter = useCallback(() => {
+      setIsHovered(true);
+    }, []);
 
-  const handleContentMouseLeave = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+    const handleContentMouseLeave = useCallback(() => {
+      setIsHovered(false);
+    }, []);
 
-  const handleDoubleClick = useCallback(() => {
-    setIsEditing(true);
-    setEditedTitle(note.title || "Untitled");
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-      inputRef.current?.select();
-    });
-  }, [note.title]);
-
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedTitle(e.target.value);
-  }, []);
-
-  const handleInputBlur = useCallback(async () => {
-    if (editedTitle.trim() !== (note.title || "Untitled")) {
-      try {
-        await updateNote({
-          _id: note._id,
-          title: editedTitle.trim(),
-        });
-      } catch (error) {
-        console.error("Error updating note title:", error);
-        setEditedTitle(note.title || "Untitled");
-      }
-    }
-    setIsEditing(false);
-  }, [editedTitle, note.title, note._id, updateNote]);
-
-  const handleInputKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      inputRef.current?.blur();
-    } else if (e.key === "Escape") {
-      setIsEditing(false);
+    const handleDoubleClick = useCallback(() => {
+      setIsEditing(true);
       setEditedTitle(note.title || "Untitled");
-    }
-  }, [note.title]);
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      });
+    }, [note.title]);
 
-  const textClassName = isHovered 
-    ? 'truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text' 
-    : 'truncate flex-grow';
+    const handleInputChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEditedTitle(e.target.value);
+      },
+      [],
+    );
 
-  return (
-    <SidebarGroupContent
-      className="relative w-full flex justify-between items-center overflow-hidden group/item"
-      onMouseEnter={handleContentMouseEnter}
-      onMouseLeave={handleContentMouseLeave}
-    >
-      <SidebarMenu className="flex-1">
-        <SidebarMenuItem>
-          {isEditing ? (
-            <Input
-              ref={inputRef}
-              value={editedTitle}
-              onChange={handleInputChange}
-              onBlur={handleInputBlur}
-              onKeyDown={handleInputKeyPress}
-              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground rounded-lg"
-            />
-          ) : (
-            <TooltipProvider delayDuration={200} skipDelayDuration={0}>
-              <Tooltip disableHoverableContent>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="SidebarMenuButton"
-                    className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                      isActive ? "bg-foreground/10" : ""
-                    }`}
-                    asChild
-                    onDoubleClick={handleDoubleClick}
-                  >
-                    <Link
-                      href={noteHref}
-                      className="flex items-center gap-2 flex-grow min-w-0"
+    const handleInputBlur = useCallback(async () => {
+      if (editedTitle.trim() !== (note.title || "Untitled")) {
+        try {
+          await updateNote({
+            _id: note._id,
+            title: editedTitle.trim(),
+          });
+        } catch (error) {
+          console.error("Error updating note title:", error);
+          setEditedTitle(note.title || "Untitled");
+        }
+      }
+      setIsEditing(false);
+    }, [editedTitle, note.title, note._id, updateNote]);
+
+    const handleInputKeyPress = useCallback(
+      (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+          inputRef.current?.blur();
+        } else if (e.key === "Escape") {
+          setIsEditing(false);
+          setEditedTitle(note.title || "Untitled");
+        }
+      },
+      [note.title],
+    );
+
+    const textClassName = isHovered
+      ? "truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text"
+      : "truncate flex-grow";
+
+    return (
+      <SidebarGroupContent
+        className="relative w-full flex justify-between items-center overflow-hidden group/item"
+        onMouseEnter={handleContentMouseEnter}
+        onMouseLeave={handleContentMouseLeave}
+      >
+        <SidebarMenu className="flex-1">
+          <SidebarMenuItem>
+            {isEditing ? (
+              <Input
+                ref={inputRef}
+                value={editedTitle}
+                onChange={handleInputChange}
+                onBlur={handleInputBlur}
+                onKeyDown={handleInputKeyPress}
+                className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground rounded-lg"
+              />
+            ) : (
+              <TooltipProvider delayDuration={200} skipDelayDuration={0}>
+                <Tooltip disableHoverableContent>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="SidebarMenuButton"
+                      className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
+                        isActive ? "bg-foreground/10" : ""
+                      }`}
+                      asChild
+                      onDoubleClick={handleDoubleClick}
                     >
-                      {isHovered || isActive ? (
-                        <ChevronRight
-                          size="16"
-                          className="text-purple-500 flex-shrink-0"
-                        />
-                      ) : (
-                        <Pin size="16" className="text-purple-500 flex-shrink-0" />
-                      )}
-                      <span className={textClassName}>
-                        {formatWorkspaceName(note.title || "Untitled")}
-                      </span>
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                  <TooltipContent side="right" className="font-medium" sideOffset={5}>
+                      <Link
+                        href={noteHref}
+                        className="flex items-center gap-2 flex-grow min-w-0"
+                      >
+                        {isHovered || isActive ? (
+                          <ChevronRight
+                            size="16"
+                            className="text-purple-500 flex-shrink-0"
+                          />
+                        ) : (
+                          <Pin
+                            size="16"
+                            className="text-purple-500 flex-shrink-0"
+                          />
+                        )}
+                        <span className={textClassName}>
+                          {formatWorkspaceName(note.title || "Untitled")}
+                        </span>
+                      </Link>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side="right"
+                    className="font-medium"
+                    sideOffset={5}
+                  >
                     {note.title || "Untitled"}
                   </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </SidebarMenuItem>
-      </SidebarMenu>
-      <div className={`absolute right-0 transition-all duration-200 ease-in-out ${isHovered && !isEditing ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2 pointer-events-none'}`}>
-        <NoteSettingsSidbar
-          noteId={note._id}
-          noteTitle={note.title}
-          ContainerClassName=""
-        />
-      </div>
-    </SidebarGroupContent>
-  );
-}, (prevProps, nextProps) => {
-  return (
-    prevProps.note._id === nextProps.note._id &&
-    prevProps.note.title === nextProps.note.title &&
-    prevProps.note.favorite === nextProps.note.favorite &&
-    prevProps.pathname === nextProps.pathname &&
-    prevProps.open === nextProps.open
-  );
-});
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <div
+          className={`absolute right-0 transition-all duration-200 ease-in-out ${isHovered && !isEditing ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2 pointer-events-none"}`}
+        >
+          <NoteSettingsSidbar
+            noteId={note._id}
+            noteTitle={note.title}
+            ContainerClassName=""
+          />
+        </div>
+      </SidebarGroupContent>
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.note._id === nextProps.note._id &&
+      prevProps.note.title === nextProps.note.title &&
+      prevProps.note.favorite === nextProps.note.favorite &&
+      prevProps.pathname === nextProps.pathname &&
+      prevProps.open === nextProps.open
+    );
+  },
+);
 
 interface PinnedNotesListProps {
   favoriteNotes: Doc<"notes">[];
@@ -439,7 +453,12 @@ const PinnedNotesList = memo(function PinnedNotesList({
         <span>Pinned Notes</span>
       </SidebarGroupLabel>
       {favoriteNotes.map((note) => (
-        <PinnedNoteItem key={note._id} note={note} pathname={pathname} open={open} />
+        <PinnedNoteItem
+          key={note._id}
+          note={note}
+          pathname={pathname}
+          open={open}
+        />
       ))}
     </SidebarGroup>
   );
@@ -451,140 +470,153 @@ interface WorkspaceItemProps {
   open: boolean;
 }
 
-const WorkspaceItem = memo(function WorkspaceItem({
-  workingSpace,
-  pathname,
-  open,
-}: WorkspaceItemProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedName, setEditedName] = useState(workingSpace.name || "Untitled");
-  const updateWorkingSpace = useMutation(
-    api.mutations.workingSpaces.updateWorkingSpace,
-  );
-  const inputRef = useRef<HTMLInputElement>(null);
+const WorkspaceItem = memo(
+  function WorkspaceItem({ workingSpace, pathname, open }: WorkspaceItemProps) {
+    const [isHovered, setIsHovered] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedName, setEditedName] = useState(
+      workingSpace.name || "Untitled",
+    );
+    const updateWorkingSpace = useMutation(
+      api.mutations.workingSpaces.updateWorkingSpace,
+    );
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  const workspaceHref = `/dashboard/${workingSpace._id}`;
-  const isActive = pathname === workspaceHref;
+    const workspaceHref = `/dashboard/${workingSpace._id}`;
+    const isActive = pathname === workspaceHref;
 
-  const handleContentMouseEnter = useCallback(() => {
-    setIsHovered(true);
-  }, []);
+    const handleContentMouseEnter = useCallback(() => {
+      setIsHovered(true);
+    }, []);
 
-  const handleContentMouseLeave = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+    const handleContentMouseLeave = useCallback(() => {
+      setIsHovered(false);
+    }, []);
 
-  const handleDoubleClick = useCallback(() => {
-    setIsEditing(true);
-    setEditedName(workingSpace.name || "Untitled");
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-      inputRef.current?.select();
-    });
-  }, [workingSpace.name]);
-
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedName(e.target.value);
-  }, []);
-
-  const handleInputBlur = useCallback(async () => {
-    if (editedName.trim() !== (workingSpace.name || "Untitled")) {
-      try {
-        await updateWorkingSpace({
-          _id: workingSpace._id,
-          name: editedName.trim(),
-        });
-      } catch (error) {
-        console.error("Error updating workspace name:", error);
-        setEditedName(workingSpace.name || "Untitled");
-      }
-    }
-    setIsEditing(false);
-  }, [editedName, workingSpace.name, workingSpace._id, updateWorkingSpace]);
-
-  const handleInputKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      inputRef.current?.blur();
-    } else if (e.key === "Escape") {
-      setIsEditing(false);
+    const handleDoubleClick = useCallback(() => {
+      setIsEditing(true);
       setEditedName(workingSpace.name || "Untitled");
-    }
-  }, [workingSpace.name]);
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      });
+    }, [workingSpace.name]);
 
-  const textClassName = isHovered 
-    ? 'truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text' 
-    : 'truncate flex-grow';
+    const handleInputChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEditedName(e.target.value);
+      },
+      [],
+    );
 
-  return (
-    <SidebarGroupContent
-      className="relative w-full flex justify-between items-center overflow-hidden group/item"
-      onMouseEnter={handleContentMouseEnter}
-      onMouseLeave={handleContentMouseLeave}
-    >
-      <SidebarMenu className="flex-1">
-        <SidebarMenuItem>
-          {isEditing ? (
-            <Input
-              ref={inputRef}
-              value={editedName}
-              onChange={handleInputChange}
-              onBlur={handleInputBlur}
-              onKeyDown={handleInputKeyPress}
-              className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground  rounded-lg"
-            />
-          ) : (
-            <TooltipProvider delayDuration={200} skipDelayDuration={0}>
-              <Tooltip disableHoverableContent>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="SidebarMenuButton"
-                    className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                      isActive ? "bg-foreground/10" : ""
-                    }`}
-                    asChild
-                    onDoubleClick={handleDoubleClick}
-                  >
-                    <Link
-                      href={workspaceHref}
-                      className="flex items-center gap-2 flex-grow min-w-0"
+    const handleInputBlur = useCallback(async () => {
+      if (editedName.trim() !== (workingSpace.name || "Untitled")) {
+        try {
+          await updateWorkingSpace({
+            _id: workingSpace._id,
+            name: editedName.trim(),
+          });
+        } catch (error) {
+          console.error("Error updating workspace name:", error);
+          setEditedName(workingSpace.name || "Untitled");
+        }
+      }
+      setIsEditing(false);
+    }, [editedName, workingSpace.name, workingSpace._id, updateWorkingSpace]);
+
+    const handleInputKeyPress = useCallback(
+      (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+          inputRef.current?.blur();
+        } else if (e.key === "Escape") {
+          setIsEditing(false);
+          setEditedName(workingSpace.name || "Untitled");
+        }
+      },
+      [workingSpace.name],
+    );
+
+    const textClassName = isHovered
+      ? "truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-65% to-transparent to-90% text-transparent bg-clip-text"
+      : "truncate flex-grow";
+
+    return (
+      <SidebarGroupContent
+        className="relative w-full flex justify-between items-center overflow-hidden group/item"
+        onMouseEnter={handleContentMouseEnter}
+        onMouseLeave={handleContentMouseLeave}
+      >
+        <SidebarMenu className="flex-1">
+          <SidebarMenuItem>
+            {isEditing ? (
+              <Input
+                ref={inputRef}
+                value={editedName}
+                onChange={handleInputChange}
+                onBlur={handleInputBlur}
+                onKeyDown={handleInputKeyPress}
+                className="flex-1 h-8 px-2 py-1.5 text-sm focus:outline-none focus:ring-0 focus:border-foreground  rounded-lg"
+              />
+            ) : (
+              <TooltipProvider delayDuration={200} skipDelayDuration={0}>
+                <Tooltip disableHoverableContent>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="SidebarMenuButton"
+                      className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
+                        isActive ? "bg-foreground/10" : ""
+                      }`}
+                      asChild
+                      onDoubleClick={handleDoubleClick}
                     >
-                      {isHovered || isActive ? (
-                        <ChevronRight size="16" className="flex-shrink-0" />
-                      ) : (
-                        <Notebook size="16" className="flex-shrink-0" />
-                      )}
-                      <span className={textClassName}>
-                        {formatWorkspaceName(workingSpace.name || "Untitled")}
-                      </span>
-                    </Link>
-                  </Button>
-                </TooltipTrigger>
-                  <TooltipContent side="right" className="font-medium" sideOffset={5}>
+                      <Link
+                        href={workspaceHref}
+                        className="flex items-center gap-2 flex-grow min-w-0"
+                      >
+                        {isHovered || isActive ? (
+                          <ChevronRight size="16" className="flex-shrink-0" />
+                        ) : (
+                          <Notebook size="16" className="flex-shrink-0" />
+                        )}
+                        <span className={textClassName}>
+                          {formatWorkspaceName(workingSpace.name || "Untitled")}
+                        </span>
+                      </Link>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side="right"
+                    className="font-medium"
+                    sideOffset={5}
+                  >
                     {workingSpace.name || "Untitled"}
                   </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </SidebarMenuItem>
-      </SidebarMenu>
-      <div className={`absolute right-0 transition-opacity duration-150 ${isHovered && !isEditing ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <WorkingSpaceSettingsSidbar
-          workingSpaceId={workingSpace._id}
-          workingspaceName={workingSpace.name}
-          ContainerClassName=""
-        />
-      </div>
-    </SidebarGroupContent>
-  );
-}, (prevProps, nextProps) => {
-  return (
-    prevProps.workingSpace._id === nextProps.workingSpace._id &&
-    prevProps.workingSpace.name === nextProps.workingSpace.name &&
-    prevProps.pathname === nextProps.pathname &&
-    prevProps.open === nextProps.open
-  );
-});
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <div
+          className={`absolute right-0 transition-opacity duration-150 ${isHovered && !isEditing ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        >
+          <WorkingSpaceSettingsSidbar
+            workingSpaceId={workingSpace._id}
+            workingspaceName={workingSpace.name}
+            ContainerClassName=""
+          />
+        </div>
+      </SidebarGroupContent>
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.workingSpace._id === nextProps.workingSpace._id &&
+      prevProps.workingSpace.name === nextProps.workingSpace.name &&
+      prevProps.pathname === nextProps.pathname &&
+      prevProps.open === nextProps.open
+    );
+  },
+);
 
 interface WorkspacesListProps {
   getWorkingSpaces: Doc<"workingSpaces">[] | undefined;
@@ -705,11 +737,11 @@ const UserAccountSection = memo(function UserAccountSection({
               side="top"
               className="rounded-xl m-2 p-1.5 bg-background backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
             >
-                <div className="w-full p-2">
-                  <ThemeToggle />
+              <div className="w-full p-2">
+                <ThemeToggle />
               </div>
               <DropdownMenuSeparator />
-                <Feedback />
+              <Feedback />
               <DropdownMenuItem onClick={handleSignOut}>
                 <LogOut size="16" className="mr-2 h-4 w-4" />
                 Sign out
@@ -732,7 +764,7 @@ const AppSidebar = React.memo(function AppSidebar() {
     api.mutations.workingSpaces.createWorkingSpace,
   );
   const createNote = useMutation(api.mutations.notes.createNote);
-  
+
   const getWorkingSpaces = useQuery(
     api.mutations.workingSpaces.getRecentWorkingSpaces,
   );
@@ -745,21 +777,22 @@ const AppSidebar = React.memo(function AppSidebar() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const favoriteNotes = React.useMemo(() => 
-    getNotesByUserId?.filter((note) => note.favorite) ?? [], 
-    [getNotesByUserId]
-  );
-  
-  const isDashboard = React.useMemo(() => 
-    pathname === "/dashboard",
-    [pathname]  
+  const favoriteNotes = React.useMemo(
+    () => getNotesByUserId?.filter((note) => note.favorite) ?? [],
+    [getNotesByUserId],
   );
 
-  const isSidebarLoading = React.useMemo(() =>
-    getWorkingSpaces === undefined ||
-    User === undefined ||
-    getNotesByUserId === undefined,
-    [getWorkingSpaces, User, getNotesByUserId]
+  const isDashboard = React.useMemo(
+    () => pathname === "/dashboard",
+    [pathname],
+  );
+
+  const isSidebarLoading = React.useMemo(
+    () =>
+      getWorkingSpaces === undefined ||
+      User === undefined ||
+      getNotesByUserId === undefined,
+    [getWorkingSpaces, User, getNotesByUserId],
   );
 
   const handleCreateWorkingSpace = useCallback(async () => {
@@ -770,12 +803,12 @@ const AppSidebar = React.memo(function AppSidebar() {
     }
   }, [createWorkingSpace]);
 
-  const handleCreateNote = useCallback( 
+  const handleCreateNote = useCallback(
     async (workingSpaceId: any, workingSpacesSlug: string) => {
       setLoading(true);
       try {
         const tableName = "New Quick Access Notes";
-        
+
         const tableId = await createTable({
           name: tableName,
           workingSpaceId: workingSpaceId,
@@ -815,7 +848,7 @@ const AppSidebar = React.memo(function AppSidebar() {
     },
     [createNote, createTable, getNotesByUserId, router],
   );
-  
+
   const handleSignOut = useCallback(async () => {
     setIsSigningOut(true);
     try {
@@ -833,10 +866,10 @@ const AppSidebar = React.memo(function AppSidebar() {
   }
 
   return (
-    <Sidebar 
-      variant="inset" 
+    <Sidebar
+      variant="inset"
       className="group bg-accent"
-      style={{ 
+      style={{
         width: `${sidebarWidth}px`,
       }}
     >
@@ -853,9 +886,13 @@ const AppSidebar = React.memo(function AppSidebar() {
           isDashboard={isDashboard}
           isMobile={isMobile}
           open={open}
-        />  
+        />
 
-        <PinnedNotesList favoriteNotes={favoriteNotes} pathname={pathname} open={open} />
+        <PinnedNotesList
+          favoriteNotes={favoriteNotes}
+          pathname={pathname}
+          open={open}
+        />
         <WorkspacesList
           getWorkingSpaces={getWorkingSpaces}
           handleCreateWorkingSpace={handleCreateWorkingSpace}
@@ -873,6 +910,6 @@ const AppSidebar = React.memo(function AppSidebar() {
   );
 });
 
-AppSidebar.displayName = 'AppSidebar';
+AppSidebar.displayName = "AppSidebar";
 
 export default AppSidebar;
