@@ -2,10 +2,10 @@
 
 import { Skeleton } from "@/components/ui/skeleton"; // Ensure you have a reusable Skeleton component or use Tailwind directly
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-
+import MaxWContainer from "@/components/ui/MaxWContainer";
 export default function DashboardSkeleton() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 mt-10">
+    <MaxWContainer className="mb-20 space-y-6">
       {/* Hero / Header */}
       <div className="rounded-2xl bg-muted/50 p-8 mb-10 animate-pulse">
         <div className="h-8 w-1/2 bg-muted rounded mb-4" />
@@ -42,6 +42,6 @@ export default function DashboardSkeleton() {
           </Card>
         ))}
       </div>
-    </div>
+    </MaxWContainer>
   );
 }
