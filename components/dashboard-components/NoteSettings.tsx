@@ -65,8 +65,7 @@ export default function NoteSettings({
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
-  const getNotes = useQuery(api.mutations.notes.getNoteByUserId);
-  const getNote = getNotes?.find((note) => note._id === noteId);
+  const getNote = useQuery(api.mutations.notes.getNoteById,{_id:noteId});
   const inputRef = useRef<HTMLInputElement>(null);
 
   const currentNoteId = searchParams.get("id");
@@ -85,7 +84,7 @@ export default function NoteSettings({
     }
   }, [open]);
 
-  if (!getNotes) return null;
+  if (!getNote) return null;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -144,7 +143,6 @@ export default function NoteSettings({
     try {
       await updateNote({
         _id: noteId,
-        order: getNote.order,
         favorite: !getNote.favorite,
       });
     } finally {
