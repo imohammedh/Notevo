@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-
+import MaxWContainer from "@/components/ui/MaxWContainer";
 export default function DashboardSkeleton() {
   return (
     <MaxWContainer className="mb-20 space-y-6">
