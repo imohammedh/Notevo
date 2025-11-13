@@ -10,9 +10,9 @@ import {
 
 export default function DashboardSkeleton() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 mt-10">
+    <MaxWContainer className="mb-20 space-y-6">
       {/* Hero / Header */}
-      <div className="rounded-2xl bg-muted/50 p-8 mb-10 animate-pulse">
+      <div className="rounded-2xl flex flex-col justify-center items-center bg-muted/50 p-8 mb-10 animate-pulse">
         <div className="h-8 w-1/2 bg-muted rounded mb-4" />
         <div className="h-4 w-3/4 bg-muted rounded" />
       </div>
@@ -50,6 +50,6 @@ export default function DashboardSkeleton() {
           </Card>
         ))}
       </div>
-    </div>
+    </MaxWContainer>
   );
 }
