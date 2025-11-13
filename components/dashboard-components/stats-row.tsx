@@ -49,7 +49,9 @@ export function StatsRow({
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <div className="text-2xl font-bold text-foreground">
+              {notesCount}
+            </div>
             <p className="text-xs text-muted-foreground">
               {notesCount === 1 ? "Note" : "Notes"} in total
             </p>
@@ -63,7 +65,9 @@ export function StatsRow({
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <div className="text-2xl font-bold text-foreground">
+              {notesCount}
+            </div>
             <p className="text-xs text-muted-foreground">
               {notesCount === 1 ? "Page" : "Pages"} in total
             </p>
@@ -77,7 +81,9 @@ export function StatsRow({
             <Table className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <div className="text-2xl font-bold text-foreground">
+              {notesCount}
+            </div>
             <p className="text-xs text-muted-foreground">
               {notesCount === 1 ? "Table" : "Tables"} in total
             </p>
@@ -91,7 +97,9 @@ export function StatsRow({
             <Tag className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground">{notesCount}</div>
+            <div className="text-2xl font-bold text-foreground">
+              {notesCount}
+            </div>
             <p className="text-xs text-muted-foreground">
               {notesCount === 1 ? "Tag" : "Tags"} in total
             </p>

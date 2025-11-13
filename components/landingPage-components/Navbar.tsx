@@ -33,14 +33,14 @@ export default function Navbar() {
           "container mx-auto flex justify-between items-center border-solid border p-4 my-2 rounded-2xl transition-all duration-300",
           inView
             ? "border-border bg-background/80 backdrop-blur-xl shadow-lg"
-            : "border-transparent bg-transparent"
+            : "border-transparent bg-transparent",
         )}
         animate={{
           scale: !inView ? 0.99 : 1,
         }}
         transition={{
           duration: 0.1,
-          ease: "easeInOut"
+          ease: "easeInOut",
         }}
       >
         <div className="flex justify-center items-center gap-4">
@@ -156,7 +156,11 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-border/20">
-                <Button variant="ghost" asChild className="w-full justify-center">
+                <Button
+                  variant="ghost"
+                  asChild
+                  className="w-full justify-center"
+                >
                   <Link href="/signup" className="text-sm font-medium">
                     Sign In
                   </Link>

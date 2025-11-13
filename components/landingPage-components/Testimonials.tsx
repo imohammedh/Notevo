@@ -16,7 +16,7 @@ export default function Testimonials() {
   return (
     <div className="relative h-[20rem] rounded-lg flex flex-col antialiased bg-transparent items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background" />
-      
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

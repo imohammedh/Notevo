@@ -154,12 +154,12 @@ export default function SearchDialog({
             <div className="w-full flex items-center justify-between gap-1">
               Search
               <span className="inline-flex gap-1">
-              <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                <span className="text-xs">Ctrl</span>
-              </kbd>
-              <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                <span className="text-xs">K</span>
-              </kbd>
+                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                  <span className="text-xs">Ctrl</span>
+                </kbd>
+                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                  <span className="text-xs">K</span>
+                </kbd>
               </span>
             </div>
           )}
@@ -401,15 +401,15 @@ export default function SearchDialog({
             ) : null}
           </CommandList>
         </Command>
-        <DialogFooter >
-        <span className="inline-flex gap-1">
-          <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md border border-border bg-background px-1.5 font-mono text-xs font-medium text-muted-foreground">
-            <ArrowDownUp size={16}/> Select
-          </kbd>
-          <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md border border-border bg-background px-1.5 font-mono text-xs font-medium text-muted-foreground">
-            <Undo2 size={16}/>  open
-          </kbd>
-        </span>
+        <DialogFooter>
+          <span className="inline-flex gap-1">
+            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md border border-border bg-background px-1.5 font-mono text-xs font-medium text-muted-foreground">
+              <ArrowDownUp size={16} /> Select
+            </kbd>
+            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md border border-border bg-background px-1.5 font-mono text-xs font-medium text-muted-foreground">
+              <Undo2 size={16} /> open
+            </kbd>
+          </span>
         </DialogFooter>
       </DialogContent>
     </Dialog>

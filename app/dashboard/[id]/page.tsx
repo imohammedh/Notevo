@@ -1,11 +1,5 @@
 "use client";
-import {
-  Calendar,
-  FileText,
-  LayoutGrid,
-  List,
-  Search,
-} from "lucide-react";
+import { Calendar, FileText, LayoutGrid, List, Search } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -109,7 +103,9 @@ export default function WorkingSpacePage() {
 
   const updateNoteOrder = useMutation(api.mutations.notes.updateNoteOrder);
 
-  const [optimisticNotes, setOptimisticNotes] = useState<Note[] | null | undefined>(allNotes);
+  const [optimisticNotes, setOptimisticNotes] = useState<
+    Note[] | null | undefined
+  >(allNotes);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -172,17 +168,17 @@ export default function WorkingSpacePage() {
 
     const originalTitle = document.title;
     const metaDescription = document.querySelector('meta[name="description"]');
-    const originalContent = metaDescription?.getAttribute('content');
+    const originalContent = metaDescription?.getAttribute("content");
 
     document.title = `${workspace.name} - Notevo Workspace`;
 
     const descriptionContent = `${workspace.name} workspace with ${tables?.length || 0} tables and ${filteredNotes?.length || 0} notes. `;
 
     if (metaDescription) {
-      metaDescription.setAttribute('content', descriptionContent);
+      metaDescription.setAttribute("content", descriptionContent);
     } else {
-      const newMeta = document.createElement('meta');
-      newMeta.name = 'description';
+      const newMeta = document.createElement("meta");
+      newMeta.name = "description";
       newMeta.content = descriptionContent;
       document.head.appendChild(newMeta);
     }
@@ -190,7 +186,7 @@ export default function WorkingSpacePage() {
     return () => {
       document.title = originalTitle;
       if (metaDescription && originalContent) {
-        metaDescription.setAttribute('content', originalContent);
+        metaDescription.setAttribute("content", originalContent);
       } else if (!metaDescription) {
         document.querySelector('meta[name="description"]')?.remove();
       }
@@ -200,7 +196,7 @@ export default function WorkingSpacePage() {
   return (
     <MaxWContainer className="mb-20">
       {/* Modern Gradient Header */}
-      <header className=" pb-5" >
+      <header className=" pb-5">
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8">
           <div className="relative flex flex-col gap-4">
             <div className="flex items-center justify-between">
@@ -249,7 +245,7 @@ export default function WorkingSpacePage() {
                   tableId={table._id}
                   viewMode={viewMode}
                   notes={filteredNotes.filter(
-                    (note) => note.notesTableId === table._id
+                    (note) => note.notesTableId === table._id,
                   )}
                   workspaceSlug={workingSpacesSlug}
                   workspaceId={workingSpaceId}
@@ -306,22 +302,26 @@ function NotesDroppableContainer({
               size="sm"
               className={cn(
                 "rounded-none",
-                viewMode === "grid" && "bg-foreground/10"
+                viewMode === "grid" && "bg-foreground/10",
               )}
               onClick={() => setViewMode("grid")}
             >
-              <LayoutGrid className={`h-4 w-4 ${viewMode === "grid" && "text-purple-600"}`} />
+              <LayoutGrid
+                className={`h-4 w-4 ${viewMode === "grid" && "text-purple-600"}`}
+              />
             </Button>
             <Button
               variant="SidebarMenuButton"
               size="sm"
               className={cn(
                 "rounded-none",
-                viewMode === "list" && "bg-foreground/10"
+                viewMode === "list" && "bg-foreground/10",
               )}
               onClick={() => setViewMode("list")}
             >
-              <List className={`h-4 w-4 ${viewMode === "list" && "text-purple-600"}`} />
+              <List
+                className={`h-4 w-4 ${viewMode === "list" && "text-purple-600"}`}
+              />
             </Button>
           </div>
           <CreateNoteBtn
@@ -331,7 +331,7 @@ function NotesDroppableContainer({
           />
           <TableSettings
             notesTableId={tableId}
-            tableName={tables?.find(t => t._id === tableId)?.name}
+            tableName={tables?.find((t) => t._id === tableId)?.name}
           />
         </div>
       </div>
@@ -398,7 +398,9 @@ function GridNoteCard({ note, provided, workspaceId }: NoteCardProps) {
       {...provided.dragHandleProps}
       className={cn(
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1",
-        isEmpty ? "border-dashed border-border/50" : "border-border/50 hover:border-purple-500/50"
+        isEmpty
+          ? "border-dashed border-border/50"
+          : "border-border/50 hover:border-purple-500/50",
       )}
     >
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
@@ -464,7 +466,9 @@ function ListNoteCard({ note, provided, workspaceId }: NoteCardProps) {
       {...provided.dragHandleProps}
       className={cn(
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 hover:shadow-lg hover:shadow-primary/10",
-        isEmpty ? "border-dashed border-border/50" : "border-border/50 hover:border-purple-500/50"
+        isEmpty
+          ? "border-dashed border-border/50"
+          : "border-border/50 hover:border-purple-500/50",
       )}
     >
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-600 to-indigo-600 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
@@ -512,7 +516,9 @@ function ListNoteCard({ note, provided, workspaceId }: NoteCardProps) {
               asChild
               className="h-7 text-xs hover:bg-purple-600/10 hover:text-purple-600"
             >
-              <Link href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}>
+              <Link
+                href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}
+              >
                 Open
               </Link>
             </Button>
@@ -523,7 +529,10 @@ function ListNoteCard({ note, provided, workspaceId }: NoteCardProps) {
   );
 }
 
-function EmptySearchResults({ searchQuery, onClearSearch }: EmptySearchResultsProps) {
+function EmptySearchResults({
+  searchQuery,
+  onClearSearch,
+}: EmptySearchResultsProps) {
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
       <CardContent className="pt-12 pb-12 text-center">
@@ -550,7 +559,11 @@ function EmptySearchResults({ searchQuery, onClearSearch }: EmptySearchResultsPr
   );
 }
 
-function EmptyTableState({ tableId, workspaceSlug, workspaceId }: EmptyTableStateProps) {
+function EmptyTableState({
+  tableId,
+  workspaceSlug,
+  workspaceId,
+}: EmptyTableStateProps) {
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
       <CardContent className="pt-12 pb-12 text-center">
@@ -579,7 +592,10 @@ function TablesSkeleton() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {Array.from({ length: 8 }).map((_, index) => (
-        <Card key={index} className="bg-card/50 backdrop-blur-sm border-border/50">
+        <Card
+          key={index}
+          className="bg-card/50 backdrop-blur-sm border-border/50"
+        >
           <CardHeader className="pb-3">
             <div className="h-5 w-3/4 bg-muted rounded animate-pulse" />
           </CardHeader>

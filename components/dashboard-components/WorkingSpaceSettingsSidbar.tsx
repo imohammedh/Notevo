@@ -41,7 +41,7 @@ export default function WorkingSpaceSettingsSidbar({
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
   const workspaceHref = `/dashboard/${workingSpaceId}`;
-  const PathName = usePathname()
+  const PathName = usePathname();
   const tables = useQuery(api.mutations.notesTables.getTables, {
     workingSpaceId,
   });

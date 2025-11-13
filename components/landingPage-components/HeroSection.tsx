@@ -14,14 +14,10 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/95" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-600/50 dark:from-purple-600/30 via-transparent to-transparent opacity-50" />
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
-      
+
       {/* Animated Gradient Orbs */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 dark:bg-purple-600/40 rounded-full filter blur-3xl"
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-900/50 dark:bg-purple-600/40 rounded-full filter blur-3xl"
-      />
+      <motion.div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 dark:bg-purple-600/40 rounded-full filter blur-3xl" />
+      <motion.div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-900/50 dark:bg-purple-600/40 rounded-full filter blur-3xl" />
 
       <div className="container relative z-10 mx-auto px-4 py-32 text-center">
         <motion.div
@@ -30,18 +26,18 @@ export default function HeroSection() {
           transition={{ duration: 0.8 }}
           className="space-y-8"
         >
-          <motion.h1 
+          <motion.h1
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-            Simple Note-Taking.
+              Simple Note-Taking.
             </span>
             <br />
             <span className="bg-gradient-to-r from-purple-600 dark:from-purple-600 to-purple-900 dark:to-purple-600 bg-clip-text text-transparent">
-            Supercharged by AI
+              Supercharged by AI
             </span>
           </motion.h1>
 
@@ -51,9 +47,9 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Notevo helps you capture your thoughts, organize them effortlessly 
-            and interact with your notes using AI all in one clean, modern interface. {" "}
-            Start Taking Notes Explore Features
+            Notevo helps you capture your thoughts, organize them effortlessly
+            and interact with your notes using AI all in one clean, modern
+            interface. Start Taking Notes Explore Features
           </motion.p>
 
           <motion.div
@@ -153,7 +149,8 @@ export default function HeroSection() {
               )}
             </div>
             <p className="text-sm text-muted-foreground">
-              Join <span className="font-semibold text-foreground">
+              Join{" "}
+              <span className="font-semibold text-foreground">
                 {!getusers ? (
                   <span className="animate-pulse">...</span>
                 ) : (

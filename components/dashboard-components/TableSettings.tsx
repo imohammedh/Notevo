@@ -156,10 +156,7 @@ export default function TableSettings({
                 )}
               </Button>
             </DropdownMenuContent>
-            <TooltipContent
-              side="bottom"
-              align= "end"
-            >
+            <TooltipContent side="bottom" align="end">
               Rename , Delete
             </TooltipContent>
           </Tooltip>

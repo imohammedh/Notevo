@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,7 +28,11 @@ const formSchema = z.object({
     message: "Feedback must be at least 5 characters.",
   }),
   name: z.string().optional(),
-  email: z.string().email({ message: "Invalid email address." }).optional().or(z.literal("")),
+  email: z
+    .string()
+    .email({ message: "Invalid email address." })
+    .optional()
+    .or(z.literal("")),
 });
 
 export default function Feedback() {
@@ -72,14 +76,16 @@ export default function Feedback() {
     <Dialog>
       <DialogTrigger asChild>
         <button className="relative p-1.5 flex cursor-pointer select-none items-center gap-2 rounded-lg text-sm outline-none transition-colors hover:bg-foreground/10 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 w-full">
-        <MessageCircleHeart size="16" className="mr-2 h-4 w-4" />
-        Feedback
+          <MessageCircleHeart size="16" className="mr-2 h-4 w-4" />
+          Feedback
         </button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Send Feedback</DialogTitle>
         {submitted ? (
-          <div className="py-6 text-center text-green-600 font-medium">Thank you for your feedback!</div>
+          <div className="py-6 text-center text-green-600 font-medium">
+            Thank you for your feedback!
+          </div>
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -110,7 +116,11 @@ export default function Feedback() {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Your name (optional)" {...field} />
+                      <Input
+                        type="text"
+                        placeholder="Your name (optional)"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -123,7 +133,11 @@ export default function Feedback() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Your email (optional)" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Your email (optional)"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

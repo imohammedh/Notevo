@@ -31,10 +31,7 @@ export default function CreateTableBtn({
 
   return (
     <Button
-      className={cn(
-        "flex items-center justify-between gap-2 ",
-        className,
-      )}
+      className={cn("flex items-center justify-between gap-2 ", className)}
       variant="default"
       onClick={handleCreateTable}
       disabled={loading}

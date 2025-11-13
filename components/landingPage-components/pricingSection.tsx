@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { pricingPlans } from "@/lib/data";
 
 type CurrencyCode = keyof typeof CURRENCIES;
-type CurrencySymbol = typeof CURRENCIES[CurrencyCode]["symbol"];
+type CurrencySymbol = (typeof CURRENCIES)[CurrencyCode]["symbol"];
 
 const CURRENCIES = {
   USD: { symbol: "$", rate: 1 },
@@ -31,7 +31,9 @@ const DEFAULT_CURRENCY = "USD";
 
 export default function PricingSection() {
   const [currency, setCurrency] = useState<CurrencyCode>(DEFAULT_CURRENCY);
-  const [currencySymbol, setCurrencySymbol] = useState<CurrencySymbol>(CURRENCIES[DEFAULT_CURRENCY].symbol);
+  const [currencySymbol, setCurrencySymbol] = useState<CurrencySymbol>(
+    CURRENCIES[DEFAULT_CURRENCY].symbol,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -94,7 +96,6 @@ export default function PricingSection() {
 
   return (
     <section id="pricing" className="relative py-24 overflow-hidden">
-
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -124,12 +125,17 @@ export default function PricingSection() {
               className="group relative"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
-              <Card className={cn(
-                "relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl transition-all duration-300 hover:border-primary/20",
-                key === "pro" && "border-primary/30 bg-gradient-to-b from-secondary/40 to-secondary/60"
-              )}>
+              <Card
+                className={cn(
+                  "relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl transition-all duration-300 hover:border-primary/20",
+                  key === "pro" &&
+                    "border-primary/30 bg-gradient-to-b from-secondary/40 to-secondary/60",
+                )}
+              >
                 <CardHeader className="pb-8">
-                  <CardTitle className="text-2xl text-foreground">{plan.name}</CardTitle>
+                  <CardTitle className="text-2xl text-foreground">
+                    {plan.name}
+                  </CardTitle>
                   <CardDescription className="text-muted-foreground">
                     {plan.description}
                   </CardDescription>
@@ -164,9 +170,9 @@ export default function PricingSection() {
                     size="lg"
                     className={cn(
                       "w-full transition-all duration-300",
-                      key === "pro" 
-                        ? "bg-primary hover:bg-primary/90" 
-                        : "border-border/30 hover:border-primary/30"
+                      key === "pro"
+                        ? "bg-primary hover:bg-primary/90"
+                        : "border-border/30 hover:border-primary/30",
                     )}
                     asChild
                   >
@@ -197,7 +203,9 @@ function PricingFeature({ children, included = false }: PricingFeatureProps) {
       ) : (
         <X className="h-5 w-5 text-muted-foreground/30 mr-2 flex-shrink-0" />
       )}
-      <span className={included ? "text-foreground/90" : "text-muted-foreground/50"}>
+      <span
+        className={included ? "text-foreground/90" : "text-muted-foreground/50"}
+      >
         {children}
       </span>
     </li>

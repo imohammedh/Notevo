@@ -4,7 +4,11 @@ interface SectionProps {
   className?: string;
 }
 
-export default function Section({ children, sectionId, className }: SectionProps) {
+export default function Section({
+  children,
+  sectionId,
+  className,
+}: SectionProps) {
   return (
     <section
       id={sectionId}
@@ -13,4 +17,4 @@ export default function Section({ children, sectionId, className }: SectionProps
       {children}
     </section>
   );
-} 
+}

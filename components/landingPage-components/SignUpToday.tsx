@@ -21,7 +21,8 @@ export default function SignUpToday() {
               Ready to Experience the Future of Note-Taking?
             </h2>
             <p className="text-lg text-muted-foreground">
-              Start your journey today and experience the power of AI-powered note-taking.
+              Start your journey today and experience the power of AI-powered
+              note-taking.
             </p>
           </div>
 

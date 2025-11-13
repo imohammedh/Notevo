@@ -40,10 +40,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
 
   return (
     <>
-      <CommandGroup
-        heading="Edit or review selection"
-        className="bg-popover"
-      >
+      <CommandGroup heading="Edit or review selection" className="bg-popover">
         {options.map((option) => (
           <CommandItem
             onSelect={(value) => {

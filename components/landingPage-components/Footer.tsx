@@ -21,7 +21,9 @@ export default function Footer() {
               />
             </Link>
             <h2 className="text-2xl font-bold text-foreground">Notevo</h2>
-            <p className="mt-2 text-muted-foreground">Notes to the Next Level.</p>
+            <p className="mt-2 text-muted-foreground">
+              Notes to the Next Level.
+            </p>
           </div>
 
           <div>
@@ -46,7 +48,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mt-4 text-lg font-semibold text-foreground">Legal</h3>
+            <h3 className="mt-4 text-lg font-semibold text-foreground">
+              Legal
+            </h3>
             <ul className="mt-2 space-y-2 text-muted-foreground">
               <li>
                 <Link href="/terms-of-service" className="hover:underline">

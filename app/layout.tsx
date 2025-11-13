@@ -14,7 +14,7 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: {
-    template: "Notevo", 
+    template: "Notevo",
     default: "Notevo - Simple, Structured Note-Taking. Supercharged by AI.",
   },
   description:
@@ -27,7 +27,8 @@ export const metadata: Metadata = {
   // Add these for better social sharing
   openGraph: {
     title: "Notevo -  Simple, Structured Note-Taking App.",
-    description: "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly with powerful AI.",
+    description:
+      "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly with powerful AI.",
     url: "https://notevo.vercel.app",
     siteName: "Notevo",
     images: [
@@ -45,7 +46,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Notevo - Simple, Structured Note-Taking App.",
-    description: "Organize, Discuss, and Enhance Your Ideas Seamlessly with AI-powered note-taking.",
+    description:
+      "Organize, Discuss, and Enhance Your Ideas Seamlessly with AI-powered note-taking.",
     images: ["/og-image.png"],
   },
 
@@ -64,10 +66,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("bg-background text-foreground flex flex-col min-h-screen", lato.className)}>
+      <body
+        className={cn(
+          "bg-background text-foreground flex flex-col min-h-screen",
+          lato.className,
+        )}
+      >
         <Toaster />
         <Providers>
           <ConvexAuthNextjsServerProvider>
@@ -82,4 +93,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-  

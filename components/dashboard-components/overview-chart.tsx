@@ -76,8 +76,16 @@ export function OverviewChart() {
             <BarChart data={data}>
               <defs>
                 <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="hsl(var(--chart-1))" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="hsl(var(--chart-1))" stopOpacity={0} />
+                  <stop
+                    offset="0%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0.4}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0}
+                  />
                 </linearGradient>
               </defs>
               <XAxis
@@ -101,10 +109,7 @@ export function OverviewChart() {
                   borderRadius: "var(--radius)",
                 }}
               />
-              <Bar
-                dataKey="total"
-                fill="url(#color)"
-              />
+              <Bar dataKey="total" fill="url(#color)" />
             </BarChart>
           </ResponsiveContainer>
         </div>

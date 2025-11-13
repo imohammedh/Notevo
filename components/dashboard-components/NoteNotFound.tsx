@@ -23,9 +23,12 @@ export default function NoteNotFound({
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
             <FileX className="h-10 w-10 text-muted-foreground" />
           </div>
-          <h3 className="mt-4 text-lg font-semibold text-foreground">Note not found</h3>
+          <h3 className="mt-4 text-lg font-semibold text-foreground">
+            Note not found
+          </h3>
           <p className="mt-2 text-sm text-muted-foreground">
-            The note you're looking for doesn't exist or you don't have access to it.
+            The note you're looking for doesn't exist or you don't have access
+            to it.
           </p>
           <Button className="mt-4" asChild>
             <Link href="/dashboard">Return to Dashboard</Link>

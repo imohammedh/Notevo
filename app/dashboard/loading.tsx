@@ -1,7 +1,12 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton"; // Ensure you have a reusable Skeleton component or use Tailwind directly
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 export default function DashboardSkeleton() {
   return (
@@ -27,7 +32,10 @@ export default function DashboardSkeleton() {
       {/* Grid of Skeleton Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {Array.from({ length: 4 }).map((_, idx) => (
-          <Card key={idx} className="bg-card/50 backdrop-blur-sm border-border/50 animate-pulse">
+          <Card
+            key={idx}
+            className="bg-card/50 backdrop-blur-sm border-border/50 animate-pulse"
+          >
             <CardHeader className="pb-3">
               <div className="h-5 w-3/4 bg-muted rounded" />
             </CardHeader>
