@@ -23,7 +23,7 @@ export const ConvexQueryCacheProvider: FC<
     throw new Error(
       "Could not find Convex client! `ConvexQueryCacheProvider` must be used in the React component " +
         "tree under `ConvexProvider`. Did you forget it? " +
-        "See https://docs.convex.dev/quick-start#set-up-convex-in-your-react-app"
+        "See https://docs.convex.dev/quick-start#set-up-convex-in-your-react-app",
     );
   }
   const registry = new CacheRegistry(convex, options);

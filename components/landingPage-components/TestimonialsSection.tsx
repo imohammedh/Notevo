@@ -5,7 +5,10 @@ import Testimonials from "./Testimonials";
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="relative py-24 overflow-hidden bg-gradient-to-b from-background via-background/50 to-background">
+    <section
+      id="testimonials"
+      className="relative py-24 overflow-hidden bg-gradient-to-b from-background via-background/50 to-background"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -42,4 +45,4 @@ export default function TestimonialsSection() {
       </div>
     </section>
   );
-} 
+}

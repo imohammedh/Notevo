@@ -53,7 +53,7 @@ export default function FeaturesSection() {
           </p>
         </motion.div>
 
-        <div 
+        <div
           ref={containerRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative"
           onMouseMove={handleMouseMove}
@@ -92,31 +92,36 @@ export default function FeaturesSection() {
           ))}
 
           {/* Floating Feature Image */}
-          {hoveredFeature && featureImages[hoveredFeature as keyof typeof featureImages] && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
-              className="fixed pointer-events-none z-50"
-              style={{
-                left: mousePosition.x,
-                top: mousePosition.y,
-                transform: 'translate(-50%, -50%)',
-              }}
-            >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl" />
-                <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-4">
-                  <Image
-                    src={featureImages[hoveredFeature as keyof typeof featureImages]}
-                    alt={`${hoveredFeature} demo`}
-                    className="w-full h-full object-contain rounded-lg"
-                  />
+          {hoveredFeature &&
+            featureImages[hoveredFeature as keyof typeof featureImages] && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+                className="fixed pointer-events-none z-50"
+                style={{
+                  left: mousePosition.x,
+                  top: mousePosition.y,
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl" />
+                  <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-4">
+                    <Image
+                      src={
+                        featureImages[
+                          hoveredFeature as keyof typeof featureImages
+                        ]
+                      }
+                      alt={`${hoveredFeature} demo`}
+                      className="w-full h-full object-contain rounded-lg"
+                    />
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          )}
+              </motion.div>
+            )}
         </div>
       </div>
     </section>

@@ -33,7 +33,9 @@ export default function WorkingSpaceNotFound() {
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
               <FolderX className="h-10 w-10 text-muted-foreground" />
             </div>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">Workspace not found</h3>
+            <h3 className="mt-4 text-lg font-semibold text-foreground">
+              Workspace not found
+            </h3>
             <p className="mt-2 text-sm text-muted-foreground">
               You don't have any workspaces yet.
             </p>

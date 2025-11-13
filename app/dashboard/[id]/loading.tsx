@@ -1,4 +1,9 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 
@@ -45,7 +50,10 @@ export default function WorkingSpaceSkeleton() {
       {/* NOTES GRID SKELETON */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {[...Array(8)].map((_, i) => (
-          <Card key={i} className="bg-card/50 backdrop-blur-sm border-border/50">
+          <Card
+            key={i}
+            className="bg-card/50 backdrop-blur-sm border-border/50"
+          >
             <CardHeader className="pb-3">
               <Skeleton className="h-5 w-3/4 rounded-md" />
             </CardHeader>

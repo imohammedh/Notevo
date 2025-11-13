@@ -43,7 +43,7 @@ export default function NoteSettingsSidbar({
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
-  const getNote = useQuery(api.mutations.notes.getNoteById,{_id:noteId});
+  const getNote = useQuery(api.mutations.notes.getNoteById, { _id: noteId });
 
   const initiateDelete = () => {
     setIsAlertOpen(true);

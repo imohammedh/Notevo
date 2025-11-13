@@ -65,7 +65,7 @@ export default function NoteSettings({
 
   const updateNote = useMutation(api.mutations.notes.updateNote);
   const deleteNote = useMutation(api.mutations.notes.deleteNote);
-  const getNote = useQuery(api.mutations.notes.getNoteById,{_id:noteId});
+  const getNote = useQuery(api.mutations.notes.getNoteById, { _id: noteId });
   const inputRef = useRef<HTMLInputElement>(null);
 
   const currentNoteId = searchParams.get("id");
@@ -174,10 +174,7 @@ export default function NoteSettings({
                 </Button>
               </TooltipTrigger>
             </DropdownMenuTrigger>
-            <TooltipContent
-              side="bottom"
-              align={TooltipContentAlign}
-            >
+            <TooltipContent side="bottom" align={TooltipContentAlign}>
               Rename, Pin, Delete
             </TooltipContent>
           </Tooltip>
@@ -246,7 +243,8 @@ export default function NoteSettings({
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Note Deletion</AlertDialogTitle>
             <AlertDialogDescription className="text-muted-foreground">
-              Are you sure you want to delete this note? This action cannot be undone.
+              Are you sure you want to delete this note? This action cannot be
+              undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

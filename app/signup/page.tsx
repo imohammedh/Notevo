@@ -13,11 +13,18 @@ import Link from "next/link";
 import Image from "next/image";
 import ImgSrc from "@/public/AIChatBotLogin.svg";
 import ImgSrcNotevoLogo from "@/public/Notevo-logo.svg";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { z } from "zod"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { z } from "zod";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 function SignInWithMagicLink({
   handleLinkSent,
@@ -59,10 +66,7 @@ function SignInWithMagicLink({
 
   return (
     <Form {...form}>
-      <form
-        className="flex flex-col"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
@@ -70,17 +74,17 @@ function SignInWithMagicLink({
             <FormItem>
               <FormLabel className="text-foreground">Email</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  autoComplete="email"
-                  disabled={loading}
-                />
+                <Input {...field} autoComplete="email" disabled={loading} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={loading} className="hover:scale-105 transition-transform duration-200 mt-2">
+        <Button
+          type="submit"
+          disabled={loading}
+          className="hover:scale-105 transition-transform duration-200 mt-2"
+        >
           {loading ? (
             <>
               <LoadingAnimation className="mx-2 w-4 h-4" /> Sending...
@@ -98,14 +102,13 @@ export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-br from-background via-transparent to-background/90 p-6 md:p-10 overflow-hidden">
-
       <div className="w-full relative max-w-sm md:max-w-3xl">
-      {/* Glow effects */}
-      <div className="absolute inset-0 -z-10 h-full w-full bg-background">
-        <div className="absolute top-0 -left-4 h-72 w-72 animate-blob rounded-full bg-primary/30 blur-2xl filter" />
-        <div className="absolute top-0 -right-4 h-72 w-72 animate-blob animation-delay-2000 rounded-full bg-secondary/30 blur-2xl filter" />
-        <div className="absolute -bottom-8 left-20 h-72 w-72 animate-blob animation-delay-4000 rounded-full bg-accent/30 blur-2xl filter" />
-      </div>
+        {/* Glow effects */}
+        <div className="absolute inset-0 -z-10 h-full w-full bg-background">
+          <div className="absolute top-0 -left-4 h-72 w-72 animate-blob rounded-full bg-primary/30 blur-2xl filter" />
+          <div className="absolute top-0 -right-4 h-72 w-72 animate-blob animation-delay-2000 rounded-full bg-secondary/30 blur-2xl filter" />
+          <div className="absolute -bottom-8 left-20 h-72 w-72 animate-blob animation-delay-4000 rounded-full bg-accent/30 blur-2xl filter" />
+        </div>
         <div className="flex flex-col gap-6">
           <Card className="overflow-hidden bg-background/60 backdrop-blur-md border-border/20 shadow-lg hover:shadow-xl transition-all duration-300 border border-border">
             <CardContent className="grid p-0 md:grid-cols-2">
@@ -119,7 +122,9 @@ export default function SignInPage() {
                       height={45}
                       className="mb-3 hover:scale-110 transition-transform duration-200 sm:block md:hidden lg:hidden"
                     />
-                    <h1 className="text-2xl font-bold text-foreground">Welcome back</h1>
+                    <h1 className="text-2xl font-bold text-foreground">
+                      Welcome back
+                    </h1>
                     <p className="text-balance text-muted-foreground">
                       Login or create an account
                     </p>
@@ -142,7 +147,9 @@ export default function SignInPage() {
                       <h2 className="font-semibold text-2xl tracking-tight text-foreground">
                         Check your email
                       </h2>
-                      <p className="text-muted-foreground">A sign-in link has been sent to your email address.</p>
+                      <p className="text-muted-foreground">
+                        A sign-in link has been sent to your email address.
+                      </p>
                       <Button
                         className="w-full hover:scale-105 transition-transform duration-200"
                         onClick={() => setStep("signIn")}

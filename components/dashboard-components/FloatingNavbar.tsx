@@ -34,7 +34,6 @@ import LoadingAnimation from "../ui/LoadingAnimation";
 import type { Id } from "@/convex/_generated/dataModel";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
-
 export default function FloatingNavbar() {
   const User = useQuery(api.users.viewer);
   const searchParams = useSearchParams().get("id") as Id<"workingSpaces">;

@@ -50,12 +50,12 @@ export default function CreateNoteBtn({
       {loading ? (
         <>
           <LoadingAnimation className="h-3 w-3" />
-          <p >New Note...</p>
+          <p>New Note...</p>
         </>
       ) : (
         <>
           <Plus size="20" />
-          <p >New Note</p>
+          <p>New Note</p>
         </>
       )}
     </Button>

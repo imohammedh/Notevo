@@ -56,9 +56,7 @@ export default function HowToStartSection() {
                     <h3 className="text-xl font-semibold text-foreground">
                       {step.Title}
                     </h3>
-                    <p className="text-muted-foreground">
-                      {step.Body}
-                    </p>
+                    <p className="text-muted-foreground">{step.Body}</p>
                   </div>
                 </div>
               </div>

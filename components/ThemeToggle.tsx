@@ -19,36 +19,24 @@ export function ThemeToggle() {
   }
 
   return (
-    <ToggleGroup 
-      type="single" 
-      size="sm" 
+    <ToggleGroup
+      type="single"
+      size="sm"
       onValueChange={(value) => {
         if (value) {
           setTheme(value);
         }
-      }} 
+      }}
       value={theme}
       className="w-full justify-start"
     >
-      <ToggleGroupItem 
-        value="light" 
-        aria-label="Light"
-        className="flex-1"
-      >
+      <ToggleGroupItem value="light" aria-label="Light" className="flex-1">
         <SunIcon className="h-4 w-4" />
       </ToggleGroupItem>
-      <ToggleGroupItem 
-        value="dark" 
-        aria-label="Dark"
-        className="flex-1"
-      >
+      <ToggleGroupItem value="dark" aria-label="Dark" className="flex-1">
         <MoonIcon className="h-4 w-4" />
       </ToggleGroupItem>
-      <ToggleGroupItem 
-        value="system" 
-        aria-label="System"
-        className="flex-1"
-      >
+      <ToggleGroupItem value="system" aria-label="System" className="flex-1">
         <DesktopIcon className="h-4 w-4" />
       </ToggleGroupItem>
     </ToggleGroup>

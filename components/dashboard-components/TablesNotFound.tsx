@@ -38,12 +38,22 @@ export default function TablesNotFound({
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
           <Table className="h-10 w-10 text-muted-foreground" />
         </div>
-        <h3 className="mt-4 text-lg font-semibold text-foreground">No tables found</h3>
+        <h3 className="mt-4 text-lg font-semibold text-foreground">
+          No tables found
+        </h3>
         <p className="mt-2 text-sm text-muted-foreground">
           Create your first table to start organizing your data.
         </p>
-        <Button className="mt-4 gap-1" onClick={handleCreateTable} disabled={loading}>
-          {loading ? <LoadingAnimation className=" w-4 h-4" /> : <Plus className="h-4 w-4" />}
+        <Button
+          className="mt-4 gap-1"
+          onClick={handleCreateTable}
+          disabled={loading}
+        >
+          {loading ? (
+            <LoadingAnimation className=" w-4 h-4" />
+          ) : (
+            <Plus className="h-4 w-4" />
+          )}
           Create Table
         </Button>
       </div>

@@ -11,7 +11,7 @@ import {
   Text,
   TextQuote,
   Youtube,
-  Twitter
+  Twitter,
 } from "lucide-react";
 import { createSuggestionItems } from "novel";
 import { Command, renderItems } from "novel";
@@ -143,7 +143,6 @@ export const suggestionItems = createSuggestionItems([
       };
       input.click();
     },
-    
   },
   {
     title: "Twitter",
@@ -153,12 +152,7 @@ export const suggestionItems = createSuggestionItems([
     command: ({ editor, range }: any) => {
       const url = prompt("Enter Twitter/X URL:");
       if (url) {
-        editor
-          .chain()
-          .focus()
-          .deleteRange(range)
-          .setTweet({ src: url })
-          .run();
+        editor.chain().focus().deleteRange(range).setTweet({ src: url }).run();
       }
     },
   },
@@ -179,7 +173,6 @@ export const suggestionItems = createSuggestionItems([
       }
     },
   },
-  
 ]);
 
 export const slashCommand = Command.configure({

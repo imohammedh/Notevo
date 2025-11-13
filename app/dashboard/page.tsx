@@ -84,19 +84,20 @@ export default function Dashboard() {
       <MaxWContainer className="relative mb-20">
         {/* Enhanced Hero Section with Gradient */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
-
           <header className="relative max-w-3xl mx-auto text-center">
             <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">
               {viewer?.name ? (
                 <>
                   Hello,{" "}
-                  {`${viewer.name.split(" ")[0].length > 10
-                    ? `${viewer.name.split(" ")[0].substring(0, 10)}...`
-                    : viewer.name.split(" ")[0]
-                    }${viewer.name.split(" ")[1]
+                  {`${
+                    viewer.name.split(" ")[0].length > 10
+                      ? `${viewer.name.split(" ")[0].substring(0, 10)}...`
+                      : viewer.name.split(" ")[0]
+                  }${
+                    viewer.name.split(" ")[1]
                       ? ` ${viewer.name.split(" ")[1].charAt(0)}.`
                       : "!"
-                    }`}
+                  }`}
                 </>
               ) : (
                 <SkeletonTextAnimation className=" w-full h-10" />
@@ -113,16 +114,8 @@ export default function Dashboard() {
         <Tabs defaultValue="workspaces" className="mt-8">
           {recentNotes?.length !== 0 && recentWorkspaces?.length !== 0 && (
             <TabsList className="mb-6 bg-card/90 backdrop-blur-sm p-1 rounded-xl border border-border">
-              <TabsTrigger
-                value="workspaces"
-              >
-                Workspaces
-              </TabsTrigger>
-              <TabsTrigger
-                value="recent"
-              >
-                Recent Notes
-              </TabsTrigger>
+              <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
+              <TabsTrigger value="recent">Recent Notes</TabsTrigger>
             </TabsList>
           )}
 
@@ -340,10 +333,14 @@ function NoteCard({ note }: { note: Note }) {
   const isEmpty = !note.body;
 
   return (
-    <Card className={cn(
-      "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
-      isEmpty ? "border-dashed border-border/50" : "border-border/50 hover:border-purple-500/50"
-    )}>
+    <Card
+      className={cn(
+        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+        isEmpty
+          ? "border-dashed border-border/50"
+          : "border-border/50 hover:border-purple-500/50",
+      )}
+    >
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
 
       <CardHeader className="pb-2">
@@ -363,10 +360,12 @@ function NoteCard({ note }: { note: Note }) {
       </CardHeader>
 
       <CardContent className="pb-3">
-        <p className={cn(
-          "text-sm line-clamp-3",
-          isEmpty ? "text-muted-foreground italic" : "text-muted-foreground"
-        )}>
+        <p
+          className={cn(
+            "text-sm line-clamp-3",
+            isEmpty ? "text-muted-foreground italic" : "text-muted-foreground",
+          )}
+        >
           {getContentPreview(note.body)}
         </p>
       </CardContent>
