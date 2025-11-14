@@ -4,7 +4,7 @@ import Link from "next/link";
 import NotevoLogo from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
+import MaxWContainer from "../ui/MaxWContainer";
 export default function Footer() {
   return (
     <footer className="w-full rounded-t-xl text-foreground py-10">
@@ -37,11 +37,6 @@ export default function Footer() {
               <li>
                 <Link href="/#features" className="hover:underline">
                   Features
-                </Link>
-              </li>
-              <li>
-                <Link href="/#testimonials" className="hover:underline">
-                  Testimonials
                 </Link>
               </li>
             </ul>
