@@ -42,15 +42,13 @@ export default function HowToStartSection() {
               className="group relative"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl" />
-              <div className="relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
+              <div className="relative bg-gradient-to-br from-primary/10 from-30% via-secondary/10 to-transparent border-border/20 border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
                 <div className="flex flex-col items-center text-center space-y-4">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-primary/20 rounded-full" />
-                    <div className="relative bg-primary/10 rounded-full p-4">
-                      <span className="text-xl font-semibold text-primary">
-                        {step.StepNum}
-                      </span>
-                    </div>
+                    <div className="absolute inset-0 " />
+                    <span className="text-xl font-semibold text-primary">
+                      {step.StepNum}
+                    </span>
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-xl font-semibold text-foreground">

@@ -50,38 +50,6 @@ export const HowToStartSteps =[
     },
 ]as const 
 
-
-export const features = [
-    {
-        id:"1",
-        Title:"Talk to Your Notes",
-        Body:"Our advanced AI allows you to interact with your notes naturally. Ask questions, get summaries, and explore insights seamlessly.",
-        imgSrc:imgSrc_TalkNote,
-        isReverse:false
-    },
-    {
-        id:"2",
-        Title:"Smart Categorization and Tagging",
-        Body:"Automatically organize your notes with smart tags and categories, making it easy to find what you need when you need it.",
-        imgSrc:imgSrc_Categorization,
-        isReverse:true
-    },
-    {
-        id:"3",
-        Title:"Rich Text Editor",
-        Body:"Create and edit notes with a Notion-style WYSIWYG editor, powered by Novel. Enjoy AI-powered autocompletion and rich text formatting.",
-        imgSrc:imgSrc_TextEditor,
-        isReverse:false
-    },
-    {
-        id:"4",
-        Title:"Sync Across Devices",
-        Body:"Access your notes from anywhere with seamless syncing across all your devices.",
-        imgSrc:imgSrc_Sync,
-        isReverse:true
-    },
-] as const 
-
 export const poweredBy =[
   {
     icon:BsStars,
@@ -160,11 +128,6 @@ export const pricingPlans = {
 
 export const Features = [
   {
-    title: "AI-Powered",
-    description: "Our advanced AI allows you to interact with your notes naturally, ask questions, get summaries, and explore insights seamlessly.",
-    icon: Brain,
-  },
-  {
     title: "Sync Across Devices",
     description: "Access your notes from anywhere with seamless syncing across all your devices.",
     icon: Cloud,
@@ -178,10 +141,5 @@ export const Features = [
     title: "Smart Organization",
     description: "Organize your thoughts, manage your workspaces, and boost your productivity with Notevo's intuitive organization system.",
     icon: LayoutGrid,
-  },
-  {
-    title: "Activity Tracking",
-    description: "Keep track of your daily tasks and activities with our intuitive interface and powerful analytics.",
-    icon: Activity,
   },
 ] as const;

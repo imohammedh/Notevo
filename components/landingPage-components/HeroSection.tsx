@@ -49,7 +49,7 @@ export default function HeroSection() {
           >
             Notevo helps you capture your thoughts, organize them effortlessly
             and interact with your notes using AI all in one clean, modern
-            interface. Start Taking Notes Explore Features
+            interface.
           </motion.p>
 
           <motion.div
@@ -162,26 +162,6 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-      >
-        <motion.div
-          className="w-6 h-10 border-2 border-primary/50 rounded-full p-1"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <motion.div
-            className="w-1.5 h-1.5 bg-primary/50 rounded-full mx-auto"
-            animate={{ y: [0, 16, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
