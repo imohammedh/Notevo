@@ -23,9 +23,9 @@ export default function Navbar() {
 
   return (
     <motion.header
-      initial={{ y: -60, opacity: 0 }}
+      initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ ease: "linear" }}
+      transition={{ ease: "linear", duration: 0.5 }}
       className="fixed top-0 w-full z-50 transition-all"
     >
       <motion.div
@@ -36,11 +36,12 @@ export default function Navbar() {
             : "border-transparent bg-transparent",
         )}
         animate={{
-          scale: !inView ? 0.99 : 1,
+          width: inView ? "60%" : "90%",
         }}
         transition={{
-          duration: 0.1,
           ease: "easeInOut",
+          duration: 0.1,
+          delay: 0,
         }}
       >
         <div className="flex justify-center items-center gap-4">
@@ -66,6 +67,7 @@ export default function Navbar() {
               />
             </motion.div>
           </Link>
+
           <nav className="hidden lg:flex items-center gap-6">
             {NavLinks.map((link, i) => (
               <Link
@@ -100,6 +102,7 @@ export default function Navbar() {
               />
             </Link>
           </Button>
+
           <Button asChild className="relative group">
             <Link
               prefetch={true}
@@ -163,6 +166,7 @@ export default function Navbar() {
                   {link.Name}
                 </Link>
               ))}
+
               <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-border/20">
                 <Button
                   variant="ghost"
@@ -173,6 +177,7 @@ export default function Navbar() {
                     Sign In
                   </Link>
                 </Button>
+
                 <Button asChild className="w-full justify-center">
                   <Link href="/signup" className="text-sm font-medium">
                     Get Started
