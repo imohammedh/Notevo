@@ -63,7 +63,7 @@ export default function HeroSection() {
               size="lg"
               className="relative group overflow-hidden"
             >
-              <Link href="/signup">
+              <Link prefetch={true} href="/signup">
                 <span className="relative z-10">Get Started for Free</span>
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80"
@@ -79,7 +79,7 @@ export default function HeroSection() {
               asChild
               className="relative group"
             >
-              <Link href="#features">
+              <Link prefetch={true} href="#features">
                 <span className="relative z-10">Learn More</span>
                 <motion.span
                   className="absolute inset-0 rounded-md bg-primary/10"
