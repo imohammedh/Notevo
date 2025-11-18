@@ -86,7 +86,11 @@ export default function Navbar() {
 
         <div className="hidden lg:flex items-center gap-4">
           <Button variant="ghost" asChild className="relative group">
-            <Link href="/signup" className="text-sm font-medium">
+            <Link
+              prefetch={true}
+              href="/signup"
+              className="text-sm font-medium"
+            >
               Sign In
               <motion.span
                 className="absolute inset-0 rounded-md bg-primary/10"
@@ -97,7 +101,11 @@ export default function Navbar() {
             </Link>
           </Button>
           <Button asChild className="relative group">
-            <Link href="/signup" className="text-sm font-medium">
+            <Link
+              prefetch={true}
+              href="/signup"
+              className="text-sm font-medium"
+            >
               Get Started
               <motion.span
                 className="absolute inset-0 rounded-md bg-primary/20"

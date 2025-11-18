@@ -28,7 +28,11 @@ export default function SignUpToday() {
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <Button size="lg" asChild className="w-full sm:w-auto">
-              <Link href="/signup" className="text-base font-medium">
+              <Link
+                prefetch={true}
+                href="/signup"
+                className="text-base font-medium"
+              >
                 Start Free
               </Link>
             </Button>
