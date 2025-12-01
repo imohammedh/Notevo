@@ -87,21 +87,21 @@ export default function WorkingSpacePage() {
   const params = useParams();
   const workingSpaceId = params.id as Id<"workingSpaces">;
 
-  const workspace = useQuery(api.mutations.workingSpaces.getWorkingSpaceById, {
+  const workspace = useQuery(api.workingSpaces.getWorkingSpaceById, {
     _id: workingSpaceId,
   });
   const workingSpacesSlug: string | undefined =
     workspace && (workspace.slug as string);
 
-  const tables = useQuery(api.mutations.notesTables.getTables, {
+  const tables = useQuery(api.notesTables.getTables, {
     workingSpaceId,
   });
 
-  const allNotes = useQuery(api.mutations.notes.getNotesByWorkspaceId, {
+  const allNotes = useQuery(api.notes.getNotesByWorkspaceId, {
     workingSpaceId,
   });
 
-  const updateNoteOrder = useMutation(api.mutations.notes.updateNoteOrder);
+  const updateNoteOrder = useMutation(api.notes.updateNoteOrder);
 
   const [optimisticNotes, setOptimisticNotes] = useState<
     Note[] | null | undefined

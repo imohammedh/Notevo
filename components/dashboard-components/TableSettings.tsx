@@ -52,8 +52,8 @@ export default function TableSettings({
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert Dialog State
   const inputRef = useRef<HTMLInputElement>(null);
-  const updateTable = useMutation(api.mutations.notesTables.updateTable);
-  const deleteTable = useMutation(api.mutations.notesTables.deleteTable);
+  const updateTable = useMutation(api.notesTables.updateTable);
+  const deleteTable = useMutation(api.notesTables.deleteTable);
 
   useEffect(() => {
     if (open) {

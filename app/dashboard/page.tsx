@@ -40,11 +40,11 @@ import { cn } from "@/lib/utils";
 export default function Dashboard() {
   const viewer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(
-    api.mutations.workingSpaces.getRecentWorkingSpaces,
+    api.workingSpaces.getRecentWorkingSpaces,
   );
-  const recentNotes = useQuery(api.mutations.notes.getNoteByUserId);
+  const recentNotes = useQuery(api.notes.getNoteByUserId);
   const createWorkingSpace = useMutation(
-    api.mutations.workingSpaces.createWorkingSpace,
+    api.workingSpaces.createWorkingSpace,
   );
   const [loading, setLoading] = useState(false);
 

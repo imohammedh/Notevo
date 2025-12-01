@@ -63,9 +63,9 @@ export default function NoteSettings({
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
-  const updateNote = useMutation(api.mutations.notes.updateNote);
-  const deleteNote = useMutation(api.mutations.notes.deleteNote);
-  const getNote = useQuery(api.mutations.notes.getNoteById, { _id: noteId });
+  const updateNote = useMutation(api.notes.updateNote);
+  const deleteNote = useMutation(api.notes.deleteNote);
+  const getNote = useQuery(api.notes.getNoteById, { _id: noteId });
   const inputRef = useRef<HTMLInputElement>(null);
 
   const currentNoteId = searchParams.get("id");

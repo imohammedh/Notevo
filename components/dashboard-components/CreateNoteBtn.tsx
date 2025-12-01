@@ -21,7 +21,7 @@ export default function CreateNoteBtn({
   className,
 }: CreateNoteBtnProps) {
   const [loading, setLoading] = useState(false);
-  const createNote = useMutation(api.mutations.notes.createNote);
+  const createNote = useMutation(api.notes.createNote);
 
   const handleCreateNote = async () => {
     setLoading(true);

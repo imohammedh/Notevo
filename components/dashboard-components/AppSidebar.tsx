@@ -285,7 +285,7 @@ const PinnedNoteItem = memo(
     const [isHovered, setIsHovered] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(note.title || "Untitled");
-    const updateNote = useMutation(api.mutations.notes.updateNote);
+    const updateNote = useMutation(api.notes.updateNote);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const notePath = `/dashboard/${note.workingSpaceId}/${note.slug}`;
@@ -478,7 +478,7 @@ const WorkspaceItem = memo(
       workingSpace.name || "Untitled",
     );
     const updateWorkingSpace = useMutation(
-      api.mutations.workingSpaces.updateWorkingSpace,
+      api.workingSpaces.updateWorkingSpace,
     );
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -761,16 +761,16 @@ const AppSidebar = React.memo(function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const createWorkingSpace = useMutation(
-    api.mutations.workingSpaces.createWorkingSpace,
+    api.workingSpaces.createWorkingSpace,
   );
-  const createNote = useMutation(api.mutations.notes.createNote);
+  const createNote = useMutation(api.notes.createNote);
 
   const getWorkingSpaces = useQuery(
-    api.mutations.workingSpaces.getRecentWorkingSpaces,
+    api.workingSpaces.getRecentWorkingSpaces,
   );
   const User = useQuery(api.users.viewer);
-  const getNotesByUserId = useQuery(api.mutations.notes.getNoteByUserId);
-  const createTable = useMutation(api.mutations.notesTables.createTable);
+  const getNotesByUserId = useQuery(api.notes.getNoteByUserId);
+  const createTable = useMutation(api.notesTables.createTable);
 
   const { signOut } = useAuthActions();
 

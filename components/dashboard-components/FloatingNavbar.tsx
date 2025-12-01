@@ -41,9 +41,9 @@ export default function FloatingNavbar() {
   const [handleCreateTableloading, sethandleCreateTableloading] =
     useState(false);
   const [Signoutloading, setSignoutloading] = useState(false);
-  const createTable = useMutation(api.mutations.notesTables.createTable);
+  const createTable = useMutation(api.notesTables.createTable);
   const createWorkingSpace = useMutation(
-    api.mutations.workingSpaces.createWorkingSpace,
+    api.workingSpaces.createWorkingSpace,
   );
 
   const handleCreateWorkingSpace = () => {

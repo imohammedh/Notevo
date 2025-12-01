@@ -58,19 +58,19 @@ export default function WorkingSpaceSettings({
     }
   }, [open]);
 
-  const tables = useQuery(api.mutations.notesTables.getTables, {
+  const tables = useQuery(api.notesTables.getTables, {
     workingSpaceId,
   });
 
-  const notes = useQuery(api.mutations.notes.getNotesByWorkspaceId, {
+  const notes = useQuery(api.notes.getNotesByWorkspaceId, {
     workingSpaceId: workingSpaceId,
   });
 
   const updateWorkingSpace = useMutation(
-    api.mutations.workingSpaces.updateWorkingSpace,
+    api.workingSpaces.updateWorkingSpace,
   );
   const DeleteWorkingSpace = useMutation(
-    api.mutations.workingSpaces.deleteWorkingSpace,
+    api.workingSpaces.deleteWorkingSpace,
   );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
