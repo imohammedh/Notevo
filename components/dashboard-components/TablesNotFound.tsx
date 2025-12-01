@@ -15,7 +15,7 @@ interface TablesNotFoundProps {
 export default function TablesNotFound({
   workingSpaceId,
 }: TablesNotFoundProps) {
-  const createTable = useMutation(api.mutations.notesTables.createTable);
+  const createTable = useMutation(api.notesTables.createTable);
   const [loading, setLoading] = useState(false);
 
   const handleCreateTable = async () => {

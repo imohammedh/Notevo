@@ -30,12 +30,12 @@ export default function BreadcrumbWithCustomSeparator() {
 
   // Fetch workspace data
   const workspaceData = useQuery(
-    api.mutations.workingSpaces.getRecentWorkingSpaces,
+    api.workingSpaces.getRecentWorkingSpaces,
   );
   const workspaceDatafilter =
     workingSpaceId && workspaceData
       ? workspaceData.find(
-          (workspaceDatafiltered) =>
+          (workspaceDatafiltered:any) =>
             workspaceDatafiltered._id === workingSpaceId,
         )
       : null;

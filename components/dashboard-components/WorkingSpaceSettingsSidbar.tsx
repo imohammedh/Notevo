@@ -42,15 +42,15 @@ export default function WorkingSpaceSettingsSidbar({
   const router = useRouter();
   const workspaceHref = `/dashboard/${workingSpaceId}`;
   const PathName = usePathname();
-  const tables = useQuery(api.mutations.notesTables.getTables, {
+  const tables = useQuery(api.notesTables.getTables, {
     workingSpaceId,
   });
 
-  const notes = useQuery(api.mutations.notes.getNotesByWorkspaceId, {
+  const notes = useQuery(api.notes.getNotesByWorkspaceId, {
     workingSpaceId: workingSpaceId,
   });
   const DeleteWorkingSpace = useMutation(
-    api.mutations.workingSpaces.deleteWorkingSpace,
+    api.workingSpaces.deleteWorkingSpace,
   );
 
   const initiateDelete = () => {

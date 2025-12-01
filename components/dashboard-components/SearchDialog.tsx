@@ -116,7 +116,7 @@ export default function SearchDialog({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
-  const notes = useQuery(api.mutations.notes.getNoteByUserId);
+  const notes = useQuery(api.notes.getNoteByUserId);
 
   useHotkeys(
     "ctrl+k",

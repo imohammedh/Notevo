@@ -18,7 +18,7 @@ export default function CreateTableBtn({
   className,
 }: CreateTableBtnProps) {
   const [loading, setLoading] = useState(false);
-  const createTable = useMutation(api.mutations.notesTables.createTable);
+  const createTable = useMutation(api.notesTables.createTable);
 
   const handleCreateTable = async () => {
     setLoading(true);

@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export default function WorkingSpaceNotFound() {
   const createWorkingSpace = useMutation(
-    api.mutations.workingSpaces.createWorkingSpace,
+    api.workingSpaces.createWorkingSpace,
   );
   const [loading, setLoading] = useState(false);
 
