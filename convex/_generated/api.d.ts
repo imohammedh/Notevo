@@ -11,9 +11,9 @@
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as messages from "../messages.js";
-import type * as mutations_notes from "../mutations/notes.js";
-import type * as mutations_notesTables from "../mutations/notesTables.js";
-import type * as mutations_workingSpaces from "../mutations/workingSpaces.js";
+import type * as mutations_notes from "../notes.js";
+import type * as mutations_notesTables from "../notesTables.js";
+import type * as mutations_workingSpaces from "../workingSpaces.js";
 import type * as otp_ResendOTP from "../otp/ResendOTP.js";
 import type * as otp_VerificationCodeEmail from "../otp/VerificationCodeEmail.js";
 import type * as users from "../users.js";
