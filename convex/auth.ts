@@ -10,7 +10,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
     GitHub,
     Google,
     Resend({
-      from: process.env.AUTH_EMAIL ?? "Notevo <onboarding@resend.dev>",
+      from: process.env.AUTH_EMAIL ?? "Notevo <onboarding@notevo.me>",
     }),
     ResendOTP,
     Password,
