@@ -12,15 +12,14 @@ export default function page() {
               provides this Privacy Policy to inform you of our policies and
               procedures regarding the collection, use, and disclosure of
               personal information we may receive from users of our website
-              (&quot;Site&quot;), accessible from https://notevo.vercel.app
-              &quot;Just for now&quot;, and any other services offered by us in
-              connection with our Site (any and all of the foregoing, the
-              &quot;Services&quot;).
+              (&quot;Site&quot;), accessible from https://notevo.me/ , and any
+              other services offered by us in connection with our Site (any and
+              all of the foregoing, the &quot;Services&quot;).
             </p>
             <p>
               If you have additional questions or require more information about
               our Privacy Policy, do not hesitate to contact us at
-              support@notevo.com. This Privacy Policy applies only to our online
+              support@notevo.me. This Privacy Policy applies only to our online
               activities and is valid for visitors to our website with regards
               to the information that they share and/or collect in Notevo. This
               policy is not applicable to any information collected offline or
@@ -176,7 +175,7 @@ export default function page() {
               These changes are effective immediately upon posting.
             </p>
             <p className="py-10">
-              <strong>Last Modified:</strong> 03/06/2025
+              <strong>Last Modified:</strong> 12/02/2025
             </p>
           </section>
         </MaxWContainer>
