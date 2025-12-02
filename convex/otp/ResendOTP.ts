@@ -18,10 +18,9 @@ export const ResendOTP = Email({
   }) {
     const resend = new ResendAPI(provider.apiKey);
     const { error } = await resend.emails.send({
-      // TODO: Update with your app name and email address
       from: process.env.AUTH_EMAIL ?? "Notevo <onboarding@notevo.me>",
       to: [email],
-      // TODO: Update with your app name
+      replyTo:"support@notevo.me",
       subject: `Sign in to Notevo`,
       react: VerificationCodeEmail({ code: token, expires }),
     });
