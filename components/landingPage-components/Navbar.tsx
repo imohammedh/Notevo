@@ -143,6 +143,13 @@ export default function Navbar() {
                 open: { top: 10, rotate: -45 },
               }}
             />
+            <motion.span
+              className="absolute block w-6 h-0.5 bg-foreground"
+              variants={{
+                closed: { top: 17, rotate: 0 },
+                open: { top: 10, rotate: -45 },
+              }}
+            />
           </motion.div>
         </button>
       </motion.div>

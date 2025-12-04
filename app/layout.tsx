@@ -15,7 +15,7 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: {
     template: "Notevo",
-    default: "Notevo - Simple, Structured Note-Taking. Supercharged by AI.",
+    default: "Notevo - Simple, Structured Note-Taking.",
   },
   description:
     "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly. Notevo helps you capture your thoughts, organize them effortlessly, and interact with your notes using powerful AI all in one clean, modern interface.",

@@ -6,18 +6,35 @@ import { cn } from "@/lib/utils";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useState, useEffect } from "react";
+
 export default function HeroSection() {
   const getusers = useQuery(api.users.users);
+  const [showBackground, setShowBackground] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowBackground(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/95" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-600/50 dark:from-purple-600/30 via-transparent to-transparent opacity-50" />
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
-
-      {/* Animated Gradient Orbs */}
-      <motion.div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/30 dark:bg-purple-600/40 rounded-full filter blur-3xl" />
-      <motion.div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-900/50 dark:bg-purple-600/40 rounded-full filter blur-3xl" />
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/10 to-transparent rounded-b-[3rem] mb-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showBackground ? 1 : 0 }}
+        transition={{ duration: 0.8 }}
+      />
+      <motion.div
+        className="absolute inset-0 shadow-xl shadow-primary/5 rounded-b-[3rem] mb-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showBackground ? 1 : 0 }}
+        transition={{ duration: 0.8 }}
+      />
 
       <div className="container relative z-10 mx-auto px-4 py-32 text-center">
         <motion.div
@@ -33,11 +50,17 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-              Simple Note-Taking.
+              Simple, Structured
             </span>
             <br />
-            <span className="bg-gradient-to-r from-purple-600 dark:from-purple-600 to-purple-900 dark:to-purple-600 bg-clip-text text-transparent">
-              Supercharged by AI
+            <span
+              className={
+                showBackground
+                  ? `bg-gradient-to-t from-primary/30 via-secondary/30 p-2 rounded-xl to-transparent transition-all duration-300 ease-in-out`
+                  : ""
+              }
+            >
+              Note-Taking
             </span>
           </motion.h1>
 
@@ -48,8 +71,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             Notevo helps you capture your thoughts, organize them effortlessly
-            and interact with your notes using AI all in one clean, modern
-            interface.
+            and interact with your notes in one clean, modern interface.
           </motion.p>
 
           <motion.div
@@ -90,6 +112,7 @@ export default function HeroSection() {
               </Link>
             </Button>
           </motion.div>
+
           <motion.div
             className="flex items-center justify-center gap-8 pt-8"
             initial={{ opacity: 0, y: 20 }}
