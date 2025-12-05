@@ -24,13 +24,13 @@ export default function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Elements */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/10 to-transparent rounded-b-[3rem] mb-10"
+        className="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/20 to-transparent rounded-b-[3rem] mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: showBackground ? 1 : 0 }}
         transition={{ duration: 0.8 }}
       />
       <motion.div
-        className="absolute inset-0 shadow-xl shadow-primary/5 rounded-b-[3rem] mb-10"
+        className="absolute inset-0 shadow-xl shadow-primary/10 rounded-b-[3rem] mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: showBackground ? 1 : 0 }}
         transition={{ duration: 0.8 }}
@@ -53,15 +53,26 @@ export default function HeroSection() {
               Simple, Structured
             </span>
             <br />
-            <span
-              className={
+            <motion.span
+              initial={{ backgroundSize: "0% 100%" }}
+              animate={
                 showBackground
-                  ? `bg-gradient-to-t from-primary/30 via-secondary/30 p-2 rounded-xl to-transparent transition-all duration-300 ease-in-out`
-                  : ""
+                  ? { backgroundSize: "100% 100%" }
+                  : { backgroundSize: "0% 100%" }
               }
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="
+    bg-gradient-to-r 
+    from-primary/20 
+    to-secondary/10 
+    bg-no-repeat 
+    bg-[length:0%_100%] 
+    p-0.5
+    rounded-xl
+  "
             >
               Note-Taking
-            </span>
+            </motion.span>
           </motion.h1>
 
           <motion.p

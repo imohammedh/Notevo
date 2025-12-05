@@ -68,20 +68,21 @@ export default function Navbar() {
             </motion.div>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-3">
             {NavLinks.map((link, i) => (
-              <Link
-                key={i}
-                href={link.path}
-                className="relative text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
-              >
-                {link.Name}
-                <motion.span
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary"
-                  whileHover={{ width: "100%" }}
-                  transition={{ duration: 0.3 }}
-                />
-              </Link>
+              <Button key={i} variant="ghost" className="px-2">
+                <Link
+                  href={link.path}
+                  className="relative text-sm font-medium text-foreground transition-colors group"
+                >
+                  {link.Name}
+                  <motion.span
+                    className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary"
+                    whileHover={{ width: "100%" }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </Link>
+              </Button>
             ))}
           </nav>
         </div>
