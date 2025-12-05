@@ -13,15 +13,15 @@ export const ResendMagicLink = Resend({
       subject: "Sign in to Notevo",
       html: `
       <html>
-  <body style="font-family: system-ui; background:#fafafa; padding:24px;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="max-width:480px; margin:0 auto;">
+  <body style="font-family: system-ui; background:#fafafa; padding:24px; margin: 24px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width:480px; auto;">
       <tr>
-        <td style="text-align:left; padding-bottom:5px;">
+        <td style="text-align:left; padding-bottom:3px;">
           <!-- Logo aligned left -->
           <img
-            src="https://uncommon-toad-675.convex.cloud/api/storage/123fdf3c-b912-4321-8200-b44b5df4aacd"
+            src="https://notevo.me/favicon.png"
             alt="Notevo Logo"
-            width="70"
+            width="50"
             style="display:inline-block;"
           />
         </td>
@@ -29,7 +29,7 @@ export const ResendMagicLink = Resend({
 
       <tr>
         <td>
-          <h1 style="margin-bottom:16px;">Welcome to Notevo</h1>
+          <h1 style="margin-bottom:10px;">Welcome to Notevo</h1>
           <p>Click the button below to sign in :</p>
           <p>
             <a href="${url}"
@@ -49,8 +49,11 @@ export const ResendMagicLink = Resend({
             <a href="https://notevo.me/privacy-policy" style="color:#2563eb;">Notevo Privacy Policy</a>.
           </p>
 
-          <p style="margin-top:12px; font-size:12px; color:#666;">
+          <p style="margin-top:8px; font-size:12px; color:#666;">
             If you didn't request this, you can safely ignore this email.
+          </p>
+          <p style="margin-top:8px; font-size:10px; color:#666;">
+            @2025-2026 Notevo. All rights reserved.
           </p>
         </td>
       </tr>
