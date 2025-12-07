@@ -281,7 +281,7 @@ function NotesDroppableContainer({
   return (
     <div className="space-y-6">
       {/* Enhanced Control Bar */}
-      <div className="flex flex-row gap-4 items-start sm:items-center justify-between p-4 bg-card/90 backdrop-blur-sm rounded-xl border border-border/50">
+      <div className="flex flex-row gap-4 items-start sm:items-center justify-between">
         <div className="flex items-center gap-3 flex-1 w-full sm:w-auto">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -290,13 +290,13 @@ function NotesDroppableContainer({
               placeholder="Search Notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-background/50 border-border/50 transition-colors"
+              className="pl-10 border-border"
             />
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center border border-border/50 rounded-lg overflow-hidden bg-background/50">
+          <div className="hidden sm:flex items-center border border-border rounded-lg overflow-hidden ">
             <Button
               variant="SidebarMenuButton"
               size="sm"
@@ -307,7 +307,7 @@ function NotesDroppableContainer({
               onClick={() => setViewMode("grid")}
             >
               <LayoutGrid
-                className={`h-4 w-4 ${viewMode === "grid" && "text-purple-600"}`}
+                className={`h-4 w-4 ${viewMode === "grid" && "text-primary"}`}
               />
             </Button>
             <Button
@@ -320,7 +320,7 @@ function NotesDroppableContainer({
               onClick={() => setViewMode("list")}
             >
               <List
-                className={`h-4 w-4 ${viewMode === "list" && "text-purple-600"}`}
+                className={`h-4 w-4 ${viewMode === "list" && "text-primary"}`}
               />
             </Button>
           </div>
@@ -356,7 +356,7 @@ function NotesDroppableContainer({
               {...provided.droppableProps}
               className={
                 viewMode === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                  ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                   : "flex flex-col gap-3"
               }
             >
@@ -397,14 +397,10 @@ function GridNoteCard({ note, provided, workspaceId }: NoteCardProps) {
       {...provided.draggableProps}
       {...provided.dragHandleProps}
       className={cn(
-        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1",
-        isEmpty
-          ? "border-dashed border-border/50"
-          : "border-border/50 hover:border-purple-500/50",
+        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300",
+        isEmpty ? "border-dashed border-border" : "border-border",
       )}
     >
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <CardTitle className="text-base font-semibold text-foreground line-clamp-2 flex-1">
@@ -445,7 +441,7 @@ function GridNoteCard({ note, provided, workspaceId }: NoteCardProps) {
           variant="ghost"
           size="sm"
           asChild
-          className="h-7 text-xs hover:bg-purple-600/10 hover:text-purple-600"
+          className="h-7 text-xs hover:bg-primary/10"
         >
           <Link href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}>
             Open
@@ -465,14 +461,12 @@ function ListNoteCard({ note, provided, workspaceId }: NoteCardProps) {
       {...provided.draggableProps}
       {...provided.dragHandleProps}
       className={cn(
-        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 hover:shadow-lg hover:shadow-primary/10",
+        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300",
         isEmpty
           ? "border-dashed border-border/50"
           : "border-border/50 hover:border-purple-500/50",
       )}
     >
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-600 to-indigo-600 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
-
       <CardContent className="p-4">
         <div className="flex items-center gap-4">
           <div className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0">
@@ -514,7 +508,7 @@ function ListNoteCard({ note, provided, workspaceId }: NoteCardProps) {
               variant="ghost"
               size="sm"
               asChild
-              className="h-7 text-xs hover:bg-purple-600/10 hover:text-purple-600"
+              className="h-7 text-xs hover:bg-primary/10"
             >
               <Link
                 href={`/dashboard/${workspaceId}/${note.slug}?id=${note._id}`}
@@ -537,8 +531,8 @@ function EmptySearchResults({
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
       <CardContent className="pt-12 pb-12 text-center">
         <div className="flex flex-col items-center justify-center">
-          <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
-            <Search className="h-8 w-8 text-muted-foreground" />
+          <div className="h-10 w-10 flex items-center justify-center mb-4">
+            <Search className="h-8 w-8 text-primary" />
           </div>
           <h3 className="text-lg font-semibold mb-2 text-foreground">
             No results found
@@ -549,7 +543,7 @@ function EmptySearchResults({
           <Button
             variant="outline"
             onClick={onClearSearch}
-            className="border-border/50 hover:bg-purple-600/10 hover:text-purple-600 hover:border-purple-600/50"
+            className="border-border/50"
           >
             Clear Search
           </Button>
@@ -568,8 +562,8 @@ function EmptyTableState({
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
       <CardContent className="pt-12 pb-12 text-center">
         <div className="flex flex-col items-center justify-center">
-          <div className="h-16 w-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
-            <FileText className="h-8 w-8 text-white" />
+          <div className="h-10 w-10 flex items-center justify-center mb-4">
+            <FileText className="h-8 w-8 text-primary" />
           </div>
           <h3 className="text-lg font-semibold mb-2 text-foreground">
             No notes yet

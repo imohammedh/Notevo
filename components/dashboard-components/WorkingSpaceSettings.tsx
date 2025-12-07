@@ -26,7 +26,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 interface WorkingSpaceSettings {
   workingSpaceId: Id<"workingSpaces">;
   className?: string;
@@ -66,12 +71,8 @@ export default function WorkingSpaceSettings({
     workingSpaceId: workingSpaceId,
   });
 
-  const updateWorkingSpace = useMutation(
-    api.workingSpaces.updateWorkingSpace,
-  );
-  const DeleteWorkingSpace = useMutation(
-    api.workingSpaces.deleteWorkingSpace,
-  );
+  const updateWorkingSpace = useMutation(api.workingSpaces.updateWorkingSpace);
+  const DeleteWorkingSpace = useMutation(api.workingSpaces.deleteWorkingSpace);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

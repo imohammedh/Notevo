@@ -36,9 +36,6 @@ export function ThemeToggle() {
       <ToggleGroupItem value="dark" aria-label="Dark" className="flex-1">
         <MoonIcon className="h-4 w-4" />
       </ToggleGroupItem>
-      <ToggleGroupItem value="system" aria-label="System" className="flex-1">
-        <DesktopIcon className="h-4 w-4" />
-      </ToggleGroupItem>
     </ToggleGroup>
   );
 }
