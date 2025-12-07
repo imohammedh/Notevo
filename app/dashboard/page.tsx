@@ -9,8 +9,10 @@ import {
   PenSquare,
   Folder,
   Star,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useMutation } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
@@ -29,7 +31,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   extractTextFromTiptap as parseTiptapContentExtractText,
   truncateText as parseTiptapContentTruncateText,
@@ -39,13 +40,9 @@ import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
   const viewer = useQuery(api.users.viewer);
-  const recentWorkspaces = useQuery(
-    api.workingSpaces.getRecentWorkingSpaces,
-  );
+  const recentWorkspaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
   const recentNotes = useQuery(api.notes.getNoteByUserId);
-  const createWorkingSpace = useMutation(
-    api.workingSpaces.createWorkingSpace,
-  );
+  const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
   const [loading, setLoading] = useState(false);
 
   const handleCreateWorkingSpace = async () => {
@@ -75,131 +72,291 @@ export default function Dashboard() {
     }
   }, [viewer]);
 
+  const pinnedNotes = recentNotes?.filter((note) => note.favorite) || [];
   const workspaceCount = recentWorkspaces?.length || 0;
   const notesCount = recentNotes?.length || 0;
-  const pinnedCount = recentNotes?.filter((note) => note.favorite)?.length || 0;
+  const pinnedCount = pinnedNotes.length;
+
+  // Check if data is still loading
+  const isLoadingData =
+    viewer === undefined ||
+    recentWorkspaces === undefined ||
+    recentNotes === undefined;
 
   return (
-    <>
-      <MaxWContainer className="relative mb-20">
-        {/* Enhanced Hero Section with Gradient */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
-          <header className="relative max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">
-              {viewer?.name ? (
-                <>
-                  Hello,{" "}
-                  {`${
-                    viewer.name.split(" ")[0].length > 10
-                      ? `${viewer.name.split(" ")[0].substring(0, 10)}...`
-                      : viewer.name.split(" ")[0]
-                  }${
-                    viewer.name.split(" ")[1]
-                      ? ` ${viewer.name.split(" ")[1].charAt(0)}.`
-                      : "!"
-                  }`}
-                </>
-              ) : (
-                <SkeletonTextAnimation className=" w-full h-10" />
-              )}
-            </h1>
-            <p className="text-white/90 text-md max-w-2xl mx-auto mb-6">
-              Organize your thoughts, manage your workspaces, and boost your
-              productivity with Notevo.
-            </p>
-          </header>
+    <MaxWContainer className="relative">
+      {/* Enhanced Hero Section with Gradient */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
+        <header className="relative max-w-3xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">
+            {viewer?.name ? (
+              <>
+                Hello,{" "}
+                {`${
+                  viewer.name.split(" ")[0].length > 10
+                    ? `${viewer.name.split(" ")[0].substring(0, 10)}...`
+                    : viewer.name.split(" ")[0]
+                }${
+                  viewer.name.split(" ")[1]
+                    ? ` ${viewer.name.split(" ")[1].charAt(0)}.`
+                    : "!"
+                }`}
+              </>
+            ) : (
+              <SkeletonTextAnimation className=" w-full h-10" />
+            )}
+          </h1>
+          <p className="text-white/90 text-md max-w-2xl mx-auto mb-6">
+            Organize your thoughts, manage your workspaces, and boost your
+            productivity with Notevo.
+          </p>
+        </header>
+      </div>
+      {/* Workspaces Slider */}
+      <div className="mb-12">
+        <div className="mb-6 flex justify-between items-center">
+          <h2 className="text-foreground text-xl font-semibold">
+            Your Workspaces
+          </h2>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleCreateWorkingSpace}
+            disabled={loading || isLoadingData}
+          >
+            {loading ? (
+              <LoadingAnimation className="h-3 w-3 sm:mr-2 mr-0" />
+            ) : (
+              <Plus className="h-4 w-4 sm:mr-2 mr-0" />
+            )}
+            <span className="hidden sm:block">New Workspace</span>
+          </Button>
         </div>
 
-        {/* Main Content Tabs */}
-        <Tabs defaultValue="workspaces" className="mt-8">
-          {recentNotes?.length !== 0 && recentWorkspaces?.length !== 0 && (
-            <TabsList className="mb-6 bg-card/90 backdrop-blur-sm p-1 rounded-xl border border-border">
-              <TabsTrigger value="workspaces">Workspaces</TabsTrigger>
-              <TabsTrigger value="recent">Recent Notes</TabsTrigger>
-            </TabsList>
+        {isLoadingData ? (
+          <Slider>
+            {[1, 2, 3, 4].map((i) => (
+              <WorkspaceCardSkeleton key={i} />
+            ))}
+          </Slider>
+        ) : recentWorkspaces && recentWorkspaces.length > 0 ? (
+          <Slider>
+            {recentWorkspaces.map((workspace) => (
+              <WorkspaceCard
+                key={workspace._id}
+                workspace={workspace}
+                handleCreateWorkingSpace={handleCreateWorkingSpace}
+                loading={loading}
+              />
+            ))}
+          </Slider>
+        ) : (
+          <WorkingSpaceNotFound />
+        )}
+      </div>
+      {/* Pinned Notes Slider */}
+      {(isLoadingData || pinnedNotes.length > 0) && (
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-foreground text-xl font-semibold">
+              Pinned Notes
+            </h2>
+          </div>
+          {isLoadingData ? (
+            <Slider>
+              {[1, 2, 3].map((i) => (
+                <NoteCardSkeleton key={i} />
+              ))}
+            </Slider>
+          ) : (
+            <Slider>
+              {pinnedNotes.map((note) => (
+                <NoteCard key={note._id} note={note} />
+              ))}
+            </Slider>
           )}
+        </div>
+      )}
 
-          {/* Workspaces Tab */}
-          <TabsContent value="workspaces">
-            <div className="mb-6 flex justify-between items-center">
-              <h2 className="text-foreground text-xl font-semibold">
-                Your Workspaces
-              </h2>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCreateWorkingSpace}
-                disabled={loading}
-                className=" hover:bg-purple-600/10 hover:text-purple-600 hover:border-purple-600/50 transition-all"
-              >
-                {loading ? (
-                  <LoadingAnimation className="h-3 w-3 mr-2" />
-                ) : (
-                  <Plus className="h-4 w-4 mr-2" />
-                )}
-                New Workspace
-              </Button>
-            </div>
+      {/* Recent Notes Slider */}
+      <div className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-foreground text-xl font-semibold">
+            Recent Notes
+          </h2>
+        </div>
 
-            {recentWorkspaces?.length !== 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {recentWorkspaces ? (
-                  recentWorkspaces.map((workspace) => (
-                    <WorkspaceCard
-                      key={workspace._id}
-                      workspace={workspace}
-                      handleCreateWorkingSpace={handleCreateWorkingSpace}
-                      loading={loading}
-                    />
-                  ))
-                ) : (
-                  <WorkspaceCardSkeleton />
-                )}
-                <CreateWorkspaceCard
-                  onClick={handleCreateWorkingSpace}
-                  loading={loading}
-                />
+        {isLoadingData ? (
+          <Slider>
+            {[1, 2, 3, 4].map((i) => (
+              <NoteCardSkeleton key={i} />
+            ))}
+          </Slider>
+        ) : recentNotes && recentNotes.length > 0 ? (
+          <Slider>
+            {recentNotes.map((note) => (
+              <NoteCard key={note._id} note={note} />
+            ))}
+          </Slider>
+        ) : (
+          <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+            <CardContent className="pt-12 pb-12 text-center">
+              <div className="flex flex-col items-center justify-center">
+                <div className="h-10 w-10 flex items-center justify-center mb-4">
+                  <FileText className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-foreground">
+                  No notes yet
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Create your first note to get started
+                </p>
               </div>
-            ) : (
-              <WorkingSpaceNotFound />
-            )}
-          </TabsContent>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </MaxWContainer>
+  );
+}
 
-          {/* Recent Notes Tab */}
-          <TabsContent value="recent">
-            <div className="mb-6">
-              <h2 className="text-foreground text-xl font-semibold">
-                Recent Notes
-              </h2>
-            </div>
+function WorkspaceCardSkeleton() {
+  return (
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border/50 flex-shrink-0 w-[300px]">
+      <CardHeader className="pb-3 relative">
+        <div className="h-5 bg-muted/50 rounded-md w-3/4 animate-pulse"></div>
+      </CardHeader>
 
-            {recentNotes && recentNotes.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {recentNotes.map((note) => (
-                  <NoteCard key={note._id} note={note} />
-                ))}
-              </div>
-            ) : (
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-                <CardContent className="pt-12 pb-12 text-center">
-                  <div className="flex flex-col items-center justify-center">
-                    <div className="h-16 w-16 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mb-4">
-                      <FileText className="h-8 w-8 text-white" />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2 text-foreground">
-                      No notes yet
-                    </h3>
-                    <p className="text-muted-foreground mb-6">
-                      Create your first note to get started
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
-        </Tabs>
-      </MaxWContainer>
-    </>
+      <CardContent className="pb-3">
+        <div className="h-20 flex items-center justify-center">
+          <div className="h-14 w-14 bg-muted/50 rounded-full animate-pulse"></div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border/50">
+        <div className="h-4 bg-muted/50 rounded w-24 animate-pulse"></div>
+        <div className="h-7 bg-muted/50 rounded w-16 animate-pulse"></div>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function NoteCardSkeleton() {
+  return (
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border/50 flex-shrink-0 w-[300px]">
+      <CardHeader className="pb-2">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 space-y-2">
+            <div className="h-5 bg-muted/50 rounded-md w-3/4 animate-pulse"></div>
+            <div className="h-3 bg-muted/50 rounded-md w-1/2 animate-pulse"></div>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent className="pb-3 space-y-2">
+        <div className="h-3 bg-muted/50 rounded w-full animate-pulse"></div>
+        <div className="h-3 bg-muted/50 rounded w-5/6 animate-pulse"></div>
+        <div className="h-3 bg-muted/50 rounded w-4/6 animate-pulse"></div>
+      </CardContent>
+
+      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border/50">
+        <div className="h-4 bg-muted/50 rounded w-24 animate-pulse"></div>
+        <div className="h-7 bg-muted/50 rounded w-16 animate-pulse"></div>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function Slider({ children }: { children: React.ReactNode }) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    setCanScrollLeft(container.scrollLeft > 0);
+    setCanScrollRight(
+      container.scrollLeft < container.scrollWidth - container.clientWidth - 10,
+    );
+  };
+
+  useEffect(() => {
+    checkScroll();
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", checkScroll);
+      window.addEventListener("resize", checkScroll);
+      return () => {
+        container.removeEventListener("scroll", checkScroll);
+        window.removeEventListener("resize", checkScroll);
+      };
+    }
+  }, [children]);
+
+  const scroll = (direction: "left" | "right") => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const scrollAmount = 320; // Approximate card width + gap
+    const newScrollLeft =
+      direction === "left"
+        ? container.scrollLeft - scrollAmount
+        : container.scrollLeft + scrollAmount;
+
+    container.scrollTo({
+      left: newScrollLeft,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div className="relative group w-[360px] tabletAir:w-[750px] tabletPro:w-[950px] Desktop:w-full">
+      {/* Left Shadow Indicator */}
+      {canScrollLeft && (
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background via-background/50 to-transparent z-[5] pointer-events-none" />
+      )}
+
+      {/* Left Arrow */}
+      {canScrollLeft && (
+        <Button
+          size="icon"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={() => scroll("left")}
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </Button>
+      )}
+
+      {/* Scrollable Container */}
+      <div
+        ref={scrollContainerRef}
+        className=" flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
+        {children}
+      </div>
+
+      {/* Right Shadow Indicator */}
+      {canScrollRight && (
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background via-background/50 to-transparent z-[5] pointer-events-none" />
+      )}
+
+      {/* Right Arrow */}
+      {canScrollRight && (
+        <Button
+          size="icon"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={() => scroll("right")}
+        >
+          <ChevronRight className="h-5 w-5" />
+        </Button>
+      )}
+    </div>
   );
 }
 
@@ -225,16 +382,14 @@ function WorkspaceCard({
   loading,
 }: WorkspaceCardProps) {
   return (
-    <Card className="group relative overflow-hidden bg-card/90 backdrop-blur-sm border-border/50 hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-
+    <Card className="group relative overflow-hidden bg-card/90 backdrop-blur-sm border-border/50 flex-shrink-0 w-[300px] hover:shadow-lg transition-shadow">
       <CardHeader className="pb-3 relative">
         <CardTitle className="text-base font-semibold text-foreground">
           {workspace.name.length > 20
             ? `${workspace.name.substring(0, 20)}...`
             : workspace.name}
         </CardTitle>
-        <div className="absolute top-3 right-3 opacity-50 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-3 right-3">
           <WorkingSpaceSettings
             workingSpaceId={workspace._id}
             workingspaceName={workspace.name}
@@ -261,41 +416,11 @@ function WorkspaceCard({
           variant="ghost"
           size="sm"
           asChild
-          className="h-7 px-2 text-xs hover:bg-purple-600/10 hover:text-purple-600"
+          className="h-7 px-2 text-xs hover:bg-primary/10"
         >
           <Link href={`/dashboard/${workspace._id}`}>Open</Link>
         </Button>
       </CardFooter>
-    </Card>
-  );
-}
-
-function CreateWorkspaceCard({
-  onClick,
-  loading,
-}: {
-  onClick: () => void;
-  loading: boolean;
-}) {
-  return (
-    <Card
-      className="relative overflow-hidden bg-card/50 backdrop-blur-sm border-dashed border-border/50 hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl cursor-pointer group hover:-translate-y-1"
-      onClick={onClick}
-    >
-      <CardContent className="flex flex-col items-center justify-center h-[192px]">
-        {loading ? (
-          <LoadingAnimation />
-        ) : (
-          <>
-            <div className="h-14 w-14 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <Plus className="h-7 w-7 text-white" />
-            </div>
-            <p className="text-foreground font-medium group-hover:text-purple-600 transition-colors">
-              Create Workspace
-            </p>
-          </>
-        )}
-      </CardContent>
     </Card>
   );
 }
@@ -335,14 +460,10 @@ function NoteCard({ note }: { note: Note }) {
   return (
     <Card
       className={cn(
-        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
-        isEmpty
-          ? "border-dashed border-border/50"
-          : "border-border/50 hover:border-purple-500/50",
+        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex-shrink-0 w-[300px] hover:shadow-lg",
+        isEmpty ? "border-dashed border-border/50" : "border-border/50",
       )}
     >
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
@@ -383,7 +504,7 @@ function NoteCard({ note }: { note: Note }) {
           variant="ghost"
           size="sm"
           asChild
-          className="h-7 px-2 text-xs hover:bg-purple-600/10 hover:text-purple-600"
+          className="h-7 px-2 text-xs hover:bg-primary/10"
         >
           <Link
             href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
@@ -391,24 +512,6 @@ function NoteCard({ note }: { note: Note }) {
             Open
           </Link>
         </Button>
-      </CardFooter>
-    </Card>
-  );
-}
-
-function WorkspaceCardSkeleton() {
-  return (
-    <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-      <CardHeader className="pb-3">
-        <div className="h-5 w-3/4 bg-muted rounded animate-pulse"></div>
-      </CardHeader>
-      <CardContent className="pb-3">
-        <div className="h-20 flex items-center justify-center">
-          <div className="h-14 w-14 bg-muted rounded-full animate-pulse"></div>
-        </div>
-      </CardContent>
-      <CardFooter className="pt-3 border-t border-border/50">
-        <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
       </CardFooter>
     </Card>
   );

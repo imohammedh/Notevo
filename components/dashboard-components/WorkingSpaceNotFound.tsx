@@ -9,9 +9,7 @@ import { Card, CardContent } from "../ui/card";
 import Link from "next/link";
 
 export default function WorkingSpaceNotFound() {
-  const createWorkingSpace = useMutation(
-    api.workingSpaces.createWorkingSpace,
-  );
+  const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
   const [loading, setLoading] = useState(false);
 
   const handleCreateWorkingSpace = async () => {
@@ -30,8 +28,8 @@ export default function WorkingSpaceNotFound() {
       <CardContent className="pt-6 text-center">
         <div className="flex flex-col items-center justify-center">
           <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-              <FolderX className="h-10 w-10 text-muted-foreground" />
+            <div className="flex h-20 w-20 items-center justify-center">
+              <FolderX className="h-14 w-14 text-primary" />
             </div>
             <h3 className="mt-4 text-lg font-semibold text-foreground">
               Workspace not found

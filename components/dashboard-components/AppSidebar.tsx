@@ -737,8 +737,44 @@ const UserAccountSection = memo(function UserAccountSection({
               side="top"
               className="rounded-xl m-2 p-1.5 bg-background backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
             >
+              <DropdownMenuItem
+                className=" cursor-default hover:bg-transparent"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    src={User?.image || "/placeholder.svg"}
+                    className="rounded-full"
+                    alt={User ? User.name?.charAt(0) : "..."}
+                  />
+                  <AvatarFallback className="bg-foreground text-foreground">
+                    {User?.name ? (
+                      User.name.charAt(0)
+                    ) : (
+                      <SkeletonSmImgAnimation />
+                    )}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col items-start justify-center">
+                  <div className="font-medium">
+                    {User?.name ? (
+                      User.name
+                    ) : (
+                      <SkeletonTextAnimation className="w-28 mx-0" />
+                    )}
+                  </div>
+                  <div className="text-xs text-foreground/60">
+                    {User?.email}
+                  </div>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+
               <div className="w-full p-2">
-                <ThemeToggle />
+                <div>
+                  <p className=" text-xs mb-2.5">Theme Toggle :</p>
+                  <ThemeToggle />
+                </div>
               </div>
               <DropdownMenuSeparator />
               <Feedback />
@@ -760,14 +796,10 @@ const AppSidebar = React.memo(function AppSidebar() {
   const { open, isMobile, sidebarWidth } = useSidebar();
   const pathname = usePathname();
   const router = useRouter();
-  const createWorkingSpace = useMutation(
-    api.workingSpaces.createWorkingSpace,
-  );
+  const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
   const createNote = useMutation(api.notes.createNote);
 
-  const getWorkingSpaces = useQuery(
-    api.workingSpaces.getRecentWorkingSpaces,
-  );
+  const getWorkingSpaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
   const User = useQuery(api.users.viewer);
   const getNotesByUserId = useQuery(api.notes.getNoteByUserId);
   const createTable = useMutation(api.notesTables.createTable);
