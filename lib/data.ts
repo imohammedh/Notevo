@@ -1,65 +1,65 @@
-import imgSrc_TalkNote from "../public/chat_Note.png"
-import imgSrc_Categorization from "../public/data-classification_note.png"
-import imgSrc_TextEditor from "../public/content-creator_note.png"
-import imgSrc_Sync from "../public/sync_note.png"
+import imgSrc_TalkNote from "../public/chat_Note.png";
+import imgSrc_Categorization from "../public/data-classification_note.png";
+import imgSrc_TextEditor from "../public/content-creator_note.png";
+import imgSrc_Sync from "../public/sync_note.png";
 import { IoLogoVercel } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
 import { Brain, Cloud, FileText, LayoutGrid, Activity } from "lucide-react";
 
 export const NavLinks = [
-    {
-        Name:"Home",
-        path:"/",
-        clicked:true,
-    },
-    {
-        Name:"Features",
-        path:"/#features",
-        clicked:false,
-    },
-    {
-        Name:"About",
-        path:"/#about",
-        clicked:false,
-    },
-    // {
-    //     Name:"Pricing",
-    //     path:"/#pricing",
-    //     clicked:false,
-    // },
-] as const
-
-export const HowToStartSteps =[
-    {
-        id:"1",
-        StepNum:"1",
-        Title:"Sign Up & Get Started",
-        Body:"Sign up effortlessly using OAuth or Magic Links no passwords required!."
-    },
-    {
-        id:"2",
-        StepNum:"2",
-        Title:"Create Your Workspace",
-        Body:"if you're working, setting up a workspace is simple."
-    },
-    {
-        id:"3",
-        StepNum:"3",
-        Title:"Start Writing & Unlock AI Power",
-        Body:"Write, ask questions, and let AI supercharge your creativity."
-    },
-]as const 
-
-export const poweredBy =[
   {
-    icon:BsStars,
-    brannedName:"Novel"
+    Name: "Home",
+    path: "/",
+    clicked: true,
   },
   {
-    icon:IoLogoVercel,
-    brannedName:"Vercel AI SDK"
+    Name: "Features",
+    path: "/#features",
+    clicked: false,
   },
-] as const 
+  {
+    Name: "About",
+    path: "/#about",
+    clicked: false,
+  },
+  // {
+  //     Name:"Pricing",
+  //     path:"/#pricing",
+  //     clicked:false,
+  // },
+] as const;
+
+export const HowToStartSteps = [
+  {
+    id: "1",
+    StepNum: "1",
+    Title: "Sign Up & Get Started",
+    Body: "Sign up effortlessly using OAuth or Magic Links no passwords required!.",
+  },
+  {
+    id: "2",
+    StepNum: "2",
+    Title: "Create Your Workspace",
+    Body: "setting up you'r workspace",
+  },
+  {
+    id: "3",
+    StepNum: "3",
+    Title: "Start Writing",
+    Body: "Writing and experience the power of Simple, Structured Note-Taking.",
+  },
+] as const;
+
+export const poweredBy = [
+  {
+    icon: BsStars,
+    brannedName: "Novel",
+  },
+  {
+    icon: IoLogoVercel,
+    brannedName: "Vercel AI SDK",
+  },
+] as const;
 
 export const testimonials1 = [
   {
@@ -74,7 +74,7 @@ export const testimonials1 = [
     name: "William Shakespeare",
     title: "Hamlet",
   },
-]as const;
+] as const;
 export const testimonials2 = [
   {
     quote:
@@ -89,11 +89,12 @@ export const testimonials2 = [
     title: "Moby-Dick",
   },
   {
-    quote: "Notevo's real-time collaboration feature has streamlined our team's workflow. We can all contribute to and edit notes simultaneously, which is a huge productivity boost.",
+    quote:
+      "Notevo's real-time collaboration feature has streamlined our team's workflow. We can all contribute to and edit notes simultaneously, which is a huge productivity boost.",
     name: "Edgar Allan Poe",
     title: "A Dream Within a Dream",
   },
-]as const;
+] as const;
 
 export const pricingPlans = {
   free: {
@@ -129,17 +130,20 @@ export const pricingPlans = {
 export const Features = [
   {
     title: "Sync Across Devices",
-    description: "Access your notes from anywhere with seamless syncing across all your devices.",
+    description:
+      "Access your notes from anywhere with seamless syncing across all your devices.",
     icon: Cloud,
   },
   {
     title: "Rich Text Editor",
-    description: "Create and edit notes with a Notion-style WYSIWYG editor, powered by Novel. Enjoy AI-powered autocompletion and rich text formatting.",
+    description:
+      "Create and edit notes with a Notion-style WYSIWYG editor, powered by Novel.rich text formatting.",
     icon: FileText,
   },
   {
     title: "Smart Organization",
-    description: "Organize your thoughts, manage your workspaces, and boost your productivity with Notevo's intuitive organization system.",
+    description:
+      "Organize your thoughts, manage your workspaces, and boost your productivity with Notevo's intuitive organization system.",
     icon: LayoutGrid,
   },
 ] as const;
