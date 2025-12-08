@@ -62,7 +62,7 @@ export default function Footer() {
         </div>
         <div className="mt-5 border-t border-border pt-5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="text-start text-muted-foreground text-sm">
-            Copyright @{new Date().getFullYear()} Notevo. All rights reserved.
+            Copyright © {new Date().getFullYear()} Notevo. All rights reserved.
           </div>
           <div className="w-[200px]">
             <ThemeToggle />

@@ -53,7 +53,7 @@ export const ResendMagicLink = Resend({
             If you didn't request this, you can safely ignore this email.
           </p>
           <p style="margin-top:8px; font-size:10px; color:#666;">
-            @2025-2026 Notevo. All rights reserved.
+            Copyright © 2025-2026 Notevo. All rights reserved.
           </p>
         </td>
       </tr>
