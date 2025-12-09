@@ -4,7 +4,7 @@ const siteUrl = "https://notevo.me";
 const siteName = "Notevo";
 const defaultTitle = "Notevo - Simple, Structured Note-Taking";
 const defaultDescription =
-  "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly. Notevo helps you capture your thoughts, organize them effortlessly, and interact with your notes using powerful AI all in one clean, modern interface.";
+  "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly. Notevo helps you capture your thoughts, organize them effortlessly, and interact with your notes all in one clean, modern interface.";
 
 interface GenerateMetadataParams {
   title?: string;
@@ -23,9 +23,7 @@ export function generateMetadata({
   noindex = false,
   keywords = [],
 }: GenerateMetadataParams = {}): Metadata {
-  const fullTitle = title
-    ? `${title} | ${siteName}`
-    : defaultTitle;
+  const fullTitle = title ? `${title} | ${siteName}` : defaultTitle;
   const fullDescription = description || defaultDescription;
   const url = `${siteUrl}${path}`;
   const imageUrl = image.startsWith("http") ? image : `${siteUrl}${image}`;
@@ -147,4 +145,3 @@ export function generateStructuredData({
 
   return baseStructuredData;
 }
-
