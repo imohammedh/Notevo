@@ -28,13 +28,20 @@ export function ThemeToggle() {
         }
       }}
       value={theme}
-      className="w-full justify-start"
+      className="w-full justify-center items-center flex-1 gap-1"
     >
-      <ToggleGroupItem value="light" aria-label="Light" className="flex-1">
+      <ToggleGroupItem value="light" aria-label="Light" className="flex-1 px-3">
         <SunIcon className="h-4 w-4" />
       </ToggleGroupItem>
-      <ToggleGroupItem value="dark" aria-label="Dark" className="flex-1">
+      <ToggleGroupItem value="dark" aria-label="Dark" className="flex-1 px-3">
         <MoonIcon className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        value="system"
+        aria-label="System"
+        className="flex-1 px-3"
+      >
+        <DesktopIcon className="h-4 w-4" />
       </ToggleGroupItem>
     </ToggleGroup>
   );
