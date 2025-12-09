@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://notevo.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://notevo.me";
 const siteName = "Notevo";
 const defaultTitle = "Notevo - Simple, Structured Note-Taking";
 const defaultDescription =
@@ -63,6 +63,7 @@ export function generateMetadata({
           width: 1200,
           height: 630,
           alt: fullTitle,
+          type: "image/png",
         },
       ],
       locale: "en_US",
