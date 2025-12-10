@@ -111,7 +111,7 @@ export default function DashboardLoading() {
           </div>
         </div>
         <Slider>
-          {[...Array(5)].map((_, i) => (
+          {[...Array(3)].map((_, i) => (
             <WorkspaceCardSkeleton key={i} />
           ))}
         </Slider>
@@ -123,7 +123,7 @@ export default function DashboardLoading() {
           Pinned Notes
         </h2>
         <Slider>
-          {[...Array(4)].map((_, i) => (
+          {[...Array(2)].map((_, i) => (
             <NoteCardSkeleton key={i} />
           ))}
         </Slider>
@@ -135,7 +135,7 @@ export default function DashboardLoading() {
           Recent Notes
         </h2>
         <Slider>
-          {[...Array(6)].map((_, i) => (
+          {[...Array(4)].map((_, i) => (
             <NoteCardSkeleton key={i} />
           ))}
         </Slider>
