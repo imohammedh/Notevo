@@ -22,15 +22,19 @@ import {
 import { UploadImagesPlugin } from "novel";
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
-import typescript from 'highlight.js/lib/languages/typescript';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import typescript from "highlight.js/lib/languages/typescript";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { Table } from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import TableCell from "@tiptap/extension-table-cell";
 
 const aiHighlight = AIHighlight;
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
       "text-blue-700 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer",
-    ),  
+    ),
   },
 });
 
@@ -48,7 +52,6 @@ const tiptapImage = TiptapImage.extend({
     class: cx("rounded-lg border border-muted"),
   },
 });
-
 const updatedImage = UpdatedImage.configure({
   HTMLAttributes: {
     class: cx("rounded-lg"),
@@ -56,9 +59,7 @@ const updatedImage = UpdatedImage.configure({
 });
 
 const taskList = TaskList.configure({
-  HTMLAttributes: {
-    class: cx("not-prose pl-2 "),
-  },
+  HTMLAttributes: {},
 });
 
 const taskItem = TaskItem.configure({
@@ -78,7 +79,7 @@ const starterKit = StarterKit.configure({
   codeBlock: false,
   bulletList: {
     HTMLAttributes: {
-      class: cx("list-disc list-outside leading-3 -mt-2"),
+      lass: cx("list-disc list-outside leading-3 -mt-2"),
     },
   },
   orderedList: {
@@ -98,7 +99,9 @@ const starterKit = StarterKit.configure({
   },
   code: {
     HTMLAttributes: {
-      class: cx("rounded-lg bg-brand_fourthary text-brand_tertiary px-1.5 py-1 font-mono font-medium"),
+      class: cx(
+        "rounded-lg bg-brand_fourthary text-brand_tertiary px-1.5 py-1 font-mono font-medium",
+      ),
       spellcheck: "false",
     },
   },
@@ -111,20 +114,13 @@ const starterKit = StarterKit.configure({
 });
 
 const lowlight = createLowlight(common);
-lowlight.register('typescript', typescript);
+lowlight.register("typescript", typescript);
 
 const customCodeBlock = CodeBlockLowlight.configure({
   lowlight,
   HTMLAttributes: {
-    class: 'code-block-wrapper',
+    class: "code-block-wrapper",
   },
-});
-
-const twitter = Twitter.configure({
-  HTMLAttributes: {
-    class: cx("rounded-lg border border-muted my-4"),
-  },
-  inline: false,
 });
 
 const youtube = Youtube.configure({
@@ -136,8 +132,39 @@ const youtube = Youtube.configure({
   height: 480,
 });
 
+// Table Extensions with proper styling
+const table = Table.configure({
+  resizable: true,
+  lastColumnResizable: true,
+  allowTableNodeSelection: true,
+  HTMLAttributes: {
+    class: cx("border-collapse table-auto w-full my-4"),
+  },
+});
+
+const tableRow = TableRow.configure({
+  HTMLAttributes: {
+    class: cx("border-t border-border"),
+  },
+});
+
+const tableHeader = TableHeader.configure({
+  HTMLAttributes: {
+    class: cx(
+      "border border-border bg-muted font-semibold text-left p-3 min-w-[100px]",
+    ),
+  },
+});
+
+const tableCell = TableCell.configure({
+  HTMLAttributes: {
+    class: cx("border border-border p-3 min-w-[100px] relative"),
+  },
+});
+
 export const defaultExtensions = [
   starterKit,
+  GlobalDragHandle,
   tiptapLink,
   tiptapImage,
   updatedImage,
@@ -146,6 +173,9 @@ export const defaultExtensions = [
   horizontalRule,
   aiHighlight,
   customCodeBlock,
-  twitter,
   youtube,
+  table,
+  tableRow,
+  tableHeader,
+  tableCell,
 ];

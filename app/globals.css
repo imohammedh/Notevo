@@ -348,7 +348,7 @@ html {
 
 p[data-placeholder="Write something or Press '/' for commands"].is-empty::before {
   content: attr(data-placeholder);
-  color: var(--novel-stone-400) !important;
+  color: var(--novel-stone-300) !important;
   position: absolute;
   pointer-events: none;
   font-size: 1rem;
