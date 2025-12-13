@@ -7,11 +7,10 @@ import {
   ImageIcon,
   List,
   ListOrdered,
-  MessageSquarePlus,
   Text,
   TextQuote,
   Youtube,
-  Twitter,
+  Table,
 } from "lucide-react";
 import { createSuggestionItems } from "novel";
 import { Command, renderItems } from "novel";
@@ -145,18 +144,6 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Twitter",
-    description: "Embed a tweet",
-    searchTerms: ["twitter", "tweet", "x", "embed"],
-    icon: <Twitter className="w-5 h-5" />,
-    command: ({ editor, range }: any) => {
-      const url = prompt("Enter Twitter/X URL:");
-      if (url) {
-        editor.chain().focus().deleteRange(range).setTweet({ src: url }).run();
-      }
-    },
-  },
-  {
     title: "YouTube",
     description: "Embed a YouTube video",
     searchTerms: ["youtube", "video", "embed"],
@@ -173,8 +160,21 @@ export const suggestionItems = createSuggestionItems([
       }
     },
   },
+  {
+    title: "Table",
+    description: "Insert a table",
+    searchTerms: ["table", "grid", "spreadsheet"],
+    icon: <Table size={18} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run();
+    },
+  },
 ]);
-
 export const slashCommand = Command.configure({
   suggestion: {
     items: () => suggestionItems,

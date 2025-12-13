@@ -84,7 +84,7 @@ export default function Dashboard() {
     recentNotes === undefined;
 
   return (
-    <MaxWContainer className="relative">
+    <MaxWContainer className="relative mb-20">
       {/* Enhanced Hero Section with Gradient */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
         <header className="relative max-w-3xl mx-auto text-center">
