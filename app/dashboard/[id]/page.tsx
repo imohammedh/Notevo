@@ -398,7 +398,9 @@ function GridNoteCard({ note, provided, workspaceId }: NoteCardProps) {
       {...provided.dragHandleProps}
       className={cn(
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300",
-        isEmpty ? "border-dashed border-border" : "border-border",
+        isEmpty
+          ? "border-dashed border-border"
+          : "border-border/50 hover:border-border",
       )}
     >
       <CardHeader className="pb-3">
@@ -464,7 +466,7 @@ function ListNoteCard({ note, provided, workspaceId }: NoteCardProps) {
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300",
         isEmpty
           ? "border-dashed border-border/50"
-          : "border-border/50 hover:border-purple-500/50",
+          : "border-border/50 hover:border-border",
       )}
     >
       <CardContent className="p-4">
