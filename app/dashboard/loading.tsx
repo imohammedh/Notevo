@@ -1,4 +1,3 @@
-// filename: loading.tsx
 import {
   Plus,
   ChevronLeft,
@@ -87,7 +86,7 @@ function NoteCardSkeleton() {
 
 export default function DashboardLoading() {
   return (
-    <MaxWContainer className="relative pb-20">
+    <MaxWContainer className="relative mb-20">
       {/* Hero Gradient Header */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
         <header className="relative max-w-3xl mx-auto text-center space-y-4">
