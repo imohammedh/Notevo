@@ -3,10 +3,10 @@ import {
   createRouteMatcher,
   nextjsMiddlewareRedirect,
 } from "@convex-dev/auth/nextjs/server";
- 
-const isSignInPage = createRouteMatcher(["/signup","/"]);
+
+const isSignInPage = createRouteMatcher(["/signup", "/"]);
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
- 
+
 export default convexAuthNextjsMiddleware(
   async (request, { convexAuth }) => {
     const authenticated = await convexAuth.isAuthenticated();
@@ -20,7 +20,7 @@ export default convexAuthNextjsMiddleware(
   },
   { cookieConfig: { maxAge: 60 * 60 * 24 * 30 } },
 );
- 
+
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
