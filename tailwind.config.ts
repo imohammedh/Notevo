@@ -29,7 +29,7 @@ export default {
       tabletAir: "820px",
       tabletPro: "1024px",
       Desktop: "1080px",
-      md: "1024px",
+      md: "1025px",
       xs: "475px",
       sm: "640px",
       lg: "1024px",

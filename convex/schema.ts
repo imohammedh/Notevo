@@ -13,38 +13,46 @@ export default defineSchema({
 
   workingSpaces: defineTable({
     name: v.string(),
-    slug: v.optional(v.string()), 
+    slug: v.optional(v.string()),
     favorite: v.optional(v.boolean()),
-    userId: v.id("users"), 
+    userId: v.id("users"),
     createdAt: v.number(),
-    updatedAt: v.number(), 
-  }).index("by_userId", ["userId"]).index("by_slug", ["slug"]),
+    updatedAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_slug", ["slug"]),
 
   notesTables: defineTable({
     name: v.optional(v.string()),
     slug: v.optional(v.string()),
     workingSpaceId: v.id("workingSpaces"),
     createdAt: v.number(),
-    updatedAt: v.number()
-  }).index("by_workingSpaceId", ["workingSpaceId"]).index("by_slug", ["slug"]),
-  
-notes: defineTable({
-  title: v.optional(v.string()),
-  slug: v.optional(v.string()),
-  workingSpacesSlug: v.optional(v.string()),
-  workingSpaceId: v.optional(v.id("workingSpaces")),
-  userId: v.optional(v.id("users")),
-  body: v.optional(v.string()),
-  favorite: v.optional(v.boolean()),
-  createdAt: v.number(),
-  updatedAt: v.number(),
-  tags: v.optional(v.array(v.id("tags"))), 
-  notesTableId:  v.optional(v.id("notesTables")),
-  order: v.optional(v.number()), 
-}).index("by_notesTableId", ["notesTableId"]).index("by_workingSpaceId", ["workingSpaceId"]).index("by_slug", ["slug"]).index("by_userId", ["userId"]),
-  
-tags: defineTable({
-  name: v.optional(v.string()),
-  noteId: v.optional(v.id("notes")), 
+    updatedAt: v.number(),
+  })
+    .index("by_workingSpaceId", ["workingSpaceId"])
+    .index("by_slug", ["slug"]),
+
+  notes: defineTable({
+    title: v.optional(v.string()),
+    slug: v.optional(v.string()),
+    workingSpacesSlug: v.optional(v.string()),
+    workingSpaceId: v.optional(v.id("workingSpaces")),
+    userId: v.optional(v.id("users")),
+    body: v.optional(v.string()),
+    favorite: v.optional(v.boolean()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    tags: v.optional(v.array(v.id("tags"))),
+    notesTableId: v.optional(v.id("notesTables")),
+    order: v.optional(v.number()),
+  })
+    .index("by_notesTableId", ["notesTableId"])
+    .index("by_workingSpaceId", ["workingSpaceId"])
+    .index("by_slug", ["slug"])
+    .index("by_userId", ["userId"]),
+
+  tags: defineTable({
+    name: v.optional(v.string()),
+    noteId: v.optional(v.id("notes")),
   }),
 });
