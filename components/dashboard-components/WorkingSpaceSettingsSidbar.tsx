@@ -46,8 +46,6 @@ export default function WorkingSpaceSettingsSidbar({
     workingSpaceId,
   });
 
-  // const notes = tables.filter((n) => n.workingSpaceId === workingSpaceId);
-  console.log(tables);
   const DeleteWorkingSpace = useMutation(api.workingSpaces.deleteWorkingSpace);
 
   const initiateDelete = () => {

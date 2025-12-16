@@ -43,7 +43,7 @@ export default function Dashboard() {
   const recentWorkspaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNoteByUserId,
-    { userId: viewer._id },
+    {},
     { initialNumItems: 7 },
   );
 
