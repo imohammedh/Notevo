@@ -230,7 +230,11 @@ export const getNoteByUserId = query({
   handler: async (ctx, { paginationOpts }) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
-      throw new ConvexError("Not authenticated");
+      return {
+        page: [] as any[],
+        isDone: true,
+        continueCursor: "",
+      };
     }
     return await ctx.db
       .query("notes")
@@ -250,14 +254,11 @@ export const getNoteById = query({
       throw new ConvexError("Not authenticated");
     }
     const { _id } = args;
-    const note = await ctx.db
-      .query("notes")
-      .withIndex("by_id", (q) => q.eq("_id", _id))
-      .first();
+    const note = await ctx.db.get(_id);
     if (!note) {
       throw new ConvexError("Note not found");
     }
-    if (note.userId !== userId && _id !== note._id) {
+    if (note.userId !== userId) {
       throw new ConvexError("You are not authorized to access this note");
     }
     return note;
