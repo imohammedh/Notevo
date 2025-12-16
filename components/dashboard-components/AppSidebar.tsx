@@ -838,7 +838,7 @@ const AppSidebar = React.memo(function AppSidebar() {
   const User = useQuery(api.users.viewer);
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNoteByUserId,
-    {},
+    { userId: User._id },
     { initialNumItems: 10 },
   );
   const createTable = useMutation(api.notesTables.createTable);

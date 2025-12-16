@@ -226,7 +226,7 @@ export const getNotesByTableId = query({
 });
 
 export const getNoteByUserId = query({
-  args: { paginationOpts: paginationOptsValidator },
+  args: { paginationOpts: paginationOptsValidator, userId: v.id("users") },
   handler: async (ctx, { paginationOpts }) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
