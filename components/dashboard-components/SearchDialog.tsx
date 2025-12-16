@@ -128,12 +128,13 @@ export default function SearchDialog({
   sidebaraOpen,
   sidbarMobile,
 }: SearchDialogProps) {
+  const viewer = useQuery(api.users.viewer);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNoteByUserId,
-    {},
+    { userId: viewer._id },
     { initialNumItems: 15 },
   );
 
