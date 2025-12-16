@@ -211,8 +211,20 @@ function NotesDroppableContainer({
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNotesByTableId,
     { notesTableId: tableId },
-    { initialNumItems: 15 },
+    { initialNumItems: 10 },
   );
+  const filteredNotes = useMemo(() => {
+    if (!searchQuery.trim()) return results;
+
+    const q = searchQuery.toLowerCase();
+
+    return results.filter((note) => {
+      return (
+        note.title?.toLowerCase().includes(q) ||
+        note.body?.toLowerCase().includes(q)
+      );
+    });
+  }, [results, searchQuery]);
 
   return (
     <div className="space-y-6">
@@ -275,12 +287,12 @@ function NotesDroppableContainer({
       {/* Notes Grid/List with Loading State */}
       {status === "LoadingFirstPage" ? (
         <NotesSkeleton viewMode={viewMode} />
-      ) : searchQuery && results.length === 0 ? (
+      ) : searchQuery && filteredNotes.length === 0 ? (
         <EmptySearchResults
           searchQuery={searchQuery}
           onClearSearch={() => setSearchQuery("")}
         />
-      ) : results.length === 0 ? (
+      ) : filteredNotes.length === 0 ? (
         <EmptyTableState
           tableId={tableId}
           workspaceSlug={workspaceSlug}
@@ -295,7 +307,7 @@ function NotesDroppableContainer({
                 : "flex flex-col gap-3"
             }
           >
-            {results.map((note, index) => (
+            {filteredNotes.map((note, index) => (
               <div key={note._id}>
                 {viewMode === "grid" ? (
                   <GridNoteCard note={note} workspaceId={workspaceId} />

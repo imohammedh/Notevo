@@ -67,10 +67,6 @@ export default function WorkingSpaceSettings({
     workingSpaceId,
   });
 
-  const notes = useQuery(api.notes.getNotesByWorkspaceId, {
-    workingSpaceId: workingSpaceId,
-  });
-
   const updateWorkingSpace = useMutation(api.workingSpaces.updateWorkingSpace);
   const DeleteWorkingSpace = useMutation(api.workingSpaces.deleteWorkingSpace);
 
@@ -116,8 +112,7 @@ export default function WorkingSpaceSettings({
   };
 
   const tableCount = tables?.length || 0;
-  const noteCount = notes?.length || 0;
-  const hasContent = tableCount > 0 || noteCount > 0;
+  const hasContent = tableCount > 0;
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -177,14 +172,6 @@ export default function WorkingSpaceSettings({
                           {tableCount}
                         </span>{" "}
                         table{tableCount !== 1 ? "s" : ""}
-                      </span>
-                    )}
-                    {noteCount > 0 && (
-                      <span>
-                        <span className="font-medium text-foreground">
-                          {noteCount}
-                        </span>{" "}
-                        note{noteCount !== 1 ? "s" : ""}
                       </span>
                     )}
                   </div>
