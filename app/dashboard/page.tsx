@@ -77,7 +77,8 @@ export default function Dashboard() {
     }
   }, [viewer]);
 
-  const pinnedNotes = results?.filter((note) => note.favorite);
+  // Ensure we always have an array to avoid runtime errors before data loads.
+  const pinnedNotes = results?.filter((note) => note.favorite) ?? [];
 
   return (
     <MaxWContainer className="relative mb-20">
