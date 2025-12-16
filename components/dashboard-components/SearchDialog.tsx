@@ -166,7 +166,13 @@ export default function SearchDialog({
 
   // Group filtered notes by time
   const groupedNotes = filteredNotes ? groupNotesByTime(filteredNotes) : null;
-
+  const hasResultsLoadMore =
+    groupedNotes &&
+    (groupedNotes.today.length > 15 ||
+      groupedNotes.yesterday.length > 15 ||
+      groupedNotes.pastWeek.length > 15 ||
+      groupedNotes.pastMonth.length > 15 ||
+      groupedNotes.older.length > 15);
   const hasResults =
     groupedNotes &&
     (groupedNotes.today.length > 0 ||
@@ -456,12 +462,12 @@ export default function SearchDialog({
                 )}
 
                 {/* Load More Button */}
-                {status === "CanLoadMore" && (
+                {hasResultsLoadMore && status === "CanLoadMore" && (
                   <div className="px-2 py-2">
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => loadMore(25)}
+                      onClick={() => loadMore(5)}
                       className="w-full h-9 text-xs hover:bg-foreground/10"
                     >
                       <ChevronDown size="16" className="mr-2" />
@@ -471,7 +477,7 @@ export default function SearchDialog({
                 )}
 
                 {/* Loading More Indicator */}
-                {status === "LoadingMore" && (
+                {hasResultsLoadMore && status === "LoadingMore" && (
                   <div className="px-2 py-2">
                     <Button
                       variant="ghost"
