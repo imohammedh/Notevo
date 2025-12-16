@@ -230,11 +230,7 @@ export const getNoteByUserId = query({
   handler: async (ctx, { paginationOpts }) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) {
-      return {
-        page: [] as any[],
-        isDone: true,
-        continueCursor: "",
-      };
+      throw new ConvexError("Not authenticated");
     }
     return await ctx.db
       .query("notes")
