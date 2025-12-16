@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Clock,
   FileText,
@@ -37,11 +36,17 @@ import {
 } from "@/lib/parse-tiptap-content";
 import type { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
+import { usePaginatedQuery } from "convex/react";
 
 export default function Dashboard() {
   const viewer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
-  const recentNotes = useQuery(api.notes.getNoteByUserId);
+  const { results, status, loadMore } = usePaginatedQuery(
+    api.notes.getNoteByUserId,
+    {},
+    { initialNumItems: 7 },
+  );
+
   const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
   const [loading, setLoading] = useState(false);
 
@@ -72,16 +77,7 @@ export default function Dashboard() {
     }
   }, [viewer]);
 
-  const pinnedNotes = recentNotes?.filter((note) => note.favorite) || [];
-  const workspaceCount = recentWorkspaces?.length || 0;
-  const notesCount = recentNotes?.length || 0;
-  const pinnedCount = pinnedNotes.length;
-
-  // Check if data is still loading
-  const isLoadingData =
-    viewer === undefined ||
-    recentWorkspaces === undefined ||
-    recentNotes === undefined;
+  const pinnedNotes = results?.filter((note) => note.favorite);
 
   return (
     <MaxWContainer className="relative mb-20">
@@ -112,6 +108,7 @@ export default function Dashboard() {
           </p>
         </header>
       </div>
+
       {/* Workspaces Slider */}
       <div className="mb-12">
         <div className="mb-6 flex justify-between items-center">
@@ -122,7 +119,7 @@ export default function Dashboard() {
             variant="outline"
             size="sm"
             onClick={handleCreateWorkingSpace}
-            disabled={loading || isLoadingData}
+            disabled={loading || recentWorkspaces === undefined}
           >
             {loading ? (
               <LoadingAnimation className="h-3 w-3 sm:mr-2 mr-0" />
@@ -133,13 +130,13 @@ export default function Dashboard() {
           </Button>
         </div>
 
-        {isLoadingData ? (
+        {recentWorkspaces === undefined ? (
           <Slider>
             {[1, 2, 3, 4].map((i) => (
               <WorkspaceCardSkeleton key={i} />
             ))}
           </Slider>
-        ) : recentWorkspaces && recentWorkspaces.length > 0 ? (
+        ) : recentWorkspaces.length > 0 ? (
           <Slider>
             {recentWorkspaces.map((workspace) => (
               <WorkspaceCard
@@ -154,15 +151,16 @@ export default function Dashboard() {
           <WorkingSpaceNotFound />
         )}
       </div>
+
       {/* Pinned Notes Slider */}
-      {(isLoadingData || pinnedNotes.length > 0) && (
+      {(status === "LoadingFirstPage" || pinnedNotes.length > 0) && (
         <div className="mb-12">
           <div className="mb-6">
             <h2 className="text-foreground text-xl font-semibold">
               Pinned Notes
             </h2>
           </div>
-          {isLoadingData ? (
+          {status === "LoadingFirstPage" ? (
             <Slider>
               {[1, 2, 3].map((i) => (
                 <NoteCardSkeleton key={i} />
@@ -186,15 +184,15 @@ export default function Dashboard() {
           </h2>
         </div>
 
-        {isLoadingData ? (
+        {status === "LoadingFirstPage" ? (
           <Slider>
             {[1, 2, 3, 4].map((i) => (
               <NoteCardSkeleton key={i} />
             ))}
           </Slider>
-        ) : recentNotes && recentNotes.length > 0 ? (
+        ) : results.length > 0 ? (
           <Slider>
-            {recentNotes.map((note) => (
+            {results.map((note) => (
               <NoteCard key={note._id} note={note} />
             ))}
           </Slider>
@@ -299,7 +297,7 @@ function Slider({ children }: { children: React.ReactNode }) {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const scrollAmount = 320; // Approximate card width + gap
+    const scrollAmount = 320;
     const newScrollLeft =
       direction === "left"
         ? container.scrollLeft - scrollAmount
@@ -313,12 +311,10 @@ function Slider({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="relative group w-[360px] tabletAir:w-[750px] tabletPro:w-[950px] Desktop:w-full">
-      {/* Left Shadow Indicator */}
       {canScrollLeft && (
         <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background via-background/50 to-transparent z-[5] pointer-events-none" />
       )}
 
-      {/* Left Arrow */}
       {canScrollLeft && (
         <Button
           size="icon"
@@ -329,7 +325,6 @@ function Slider({ children }: { children: React.ReactNode }) {
         </Button>
       )}
 
-      {/* Scrollable Container */}
       <div
         ref={scrollContainerRef}
         className=" flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
@@ -341,12 +336,10 @@ function Slider({ children }: { children: React.ReactNode }) {
         {children}
       </div>
 
-      {/* Right Shadow Indicator */}
       {canScrollRight && (
         <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background via-background/50 to-transparent z-[5] pointer-events-none" />
       )}
 
-      {/* Right Arrow */}
       {canScrollRight && (
         <Button
           size="icon"

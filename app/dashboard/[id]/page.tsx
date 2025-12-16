@@ -23,6 +23,7 @@ import TableSettings from "@/components/dashboard-components/TableSettings";
 import NoteSettings from "@/components/dashboard-components/NoteSettings";
 import TablesNotFound from "@/components/dashboard-components/TablesNotFound";
 import SkeletonTextAnimation from "@/components/ui/SkeletonTextAnimation";
+import LoadingAnimation from "@/components/ui/LoadingAnimation";
 import {
   Card,
   CardContent,
@@ -35,7 +36,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getContentPreview } from "@/lib/getContentPreview";
 import { cn } from "@/lib/utils";
-
+import { usePaginatedQuery } from "convex/react";
 type ViewMode = "grid" | "list";
 
 interface Note {
@@ -57,7 +58,7 @@ interface Note {
 interface NotesDroppableContainerProps {
   tableId: Id<"notesTables">;
   viewMode: ViewMode;
-  notes: Note[];
+  notes?: Note[];
   workspaceSlug?: string;
   workspaceId?: Id<"workingSpaces">;
   searchQuery: string;
@@ -68,7 +69,6 @@ interface NotesDroppableContainerProps {
 
 interface NoteCardProps {
   note: Note;
-  provided: DraggableProvided;
   workspaceId?: Id<"workingSpaces">;
 }
 
@@ -97,71 +97,8 @@ export default function WorkingSpacePage() {
     workingSpaceId,
   });
 
-  const allNotes = useQuery(api.notes.getNotesByWorkspaceId, {
-    workingSpaceId,
-  });
-
-  const updateNoteOrder = useMutation(api.notes.updateNoteOrder);
-
-  const [optimisticNotes, setOptimisticNotes] = useState<
-    Note[] | null | undefined
-  >(allNotes);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [searchQuery, setSearchQuery] = useState<string>("");
-
-  useEffect(() => {
-    if (allNotes) {
-      setOptimisticNotes(allNotes);
-    }
-  }, [allNotes]);
-
-  const handleDragEnd = (result: DropResult): void => {
-    if (!result.destination) return;
-
-    const { source, destination } = result;
-
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    )
-      return;
-
-    const sourceTableId = source.droppableId as Id<"notesTables">;
-    const destTableId = destination.droppableId as Id<"notesTables">;
-
-    if (sourceTableId === destTableId && optimisticNotes) {
-      const updatedNotes = [...optimisticNotes];
-      const sourceTableNotes = updatedNotes.filter(
-        (note) => note.notesTableId === sourceTableId,
-      );
-
-      const [movedNote] = sourceTableNotes.splice(source.index, 1);
-      sourceTableNotes.splice(destination.index, 0, movedNote);
-
-      const newOrder = sourceTableNotes.map((note) => note._id);
-
-      const otherNotes = updatedNotes.filter(
-        (note) => note.notesTableId !== sourceTableId,
-      );
-
-      setOptimisticNotes([...otherNotes, ...sourceTableNotes]);
-
-      updateNoteOrder({
-        tableId: sourceTableId,
-        noteIds: newOrder,
-      });
-    }
-  };
-
-  const filteredNotes = useMemo<Note[]>(() => {
-    const notesToFilter = optimisticNotes || allNotes || [];
-
-    if (!searchQuery) return notesToFilter;
-
-    return notesToFilter.filter((note) =>
-      note.title?.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-  }, [optimisticNotes, allNotes, searchQuery]);
 
   useEffect(() => {
     if (!workspace?.name) return;
@@ -172,7 +109,7 @@ export default function WorkingSpacePage() {
 
     document.title = `${workspace.name} - Notevo Workspace`;
 
-    const descriptionContent = `${workspace.name} workspace with ${tables?.length || 0} tables and ${filteredNotes?.length || 0} notes. `;
+    const descriptionContent = `${workspace.name} workspace. `;
 
     if (metaDescription) {
       metaDescription.setAttribute("content", descriptionContent);
@@ -191,7 +128,7 @@ export default function WorkingSpacePage() {
         document.querySelector('meta[name="description"]')?.remove();
       }
     };
-  }, [workspace?.name, tables?.length, filteredNotes?.length]);
+  }, [workspace?.name, tables?.length]);
 
   return (
     <MaxWContainer className="mb-20">
@@ -209,10 +146,6 @@ export default function WorkingSpacePage() {
                     <LayoutGrid className="h-4 w-4" />
                     {tables?.length || 0} tables
                   </span>
-                  <span className="flex items-center gap-2 px-3 py-1 rounded-full backdrop-blur-sm">
-                    <FileText className="h-4 w-4" />
-                    {filteredNotes?.length || 0} notes
-                  </span>
                 </div>
               </div>
               <CreateTableBtn workingSpaceId={workingSpaceId} />
@@ -222,7 +155,7 @@ export default function WorkingSpacePage() {
       </header>
 
       {/* Tables and Notes Content */}
-      <DragDropContext onDragEnd={handleDragEnd}>
+      <div>
         {tables?.length ? (
           <Tabs defaultValue={tables[0]._id} className="mt-6">
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
@@ -244,9 +177,6 @@ export default function WorkingSpacePage() {
                 <NotesDroppableContainer
                   tableId={table._id}
                   viewMode={viewMode}
-                  notes={filteredNotes.filter(
-                    (note) => note.notesTableId === table._id,
-                  )}
                   workspaceSlug={workingSpacesSlug}
                   workspaceId={workingSpaceId}
                   searchQuery={searchQuery}
@@ -262,7 +192,7 @@ export default function WorkingSpacePage() {
         ) : (
           <TablesSkeleton />
         )}
-      </DragDropContext>
+      </div>
     </MaxWContainer>
   );
 }
@@ -278,6 +208,24 @@ function NotesDroppableContainer({
   tables,
   setViewMode,
 }: NotesDroppableContainerProps) {
+  const { results, status, loadMore } = usePaginatedQuery(
+    api.notes.getNotesByTableId,
+    { notesTableId: tableId },
+    { initialNumItems: 10 },
+  );
+  const filteredNotes = useMemo(() => {
+    if (!searchQuery.trim()) return results;
+
+    const q = searchQuery.toLowerCase();
+
+    return results.filter((note) => {
+      return (
+        note.title?.toLowerCase().includes(q) ||
+        note.body?.toLowerCase().includes(q)
+      );
+    });
+  }, [results, searchQuery]);
+
   return (
     <div className="space-y-6">
       {/* Enhanced Control Bar */}
@@ -336,68 +284,75 @@ function NotesDroppableContainer({
         </div>
       </div>
 
-      {/* Notes Grid/List */}
-      {searchQuery && notes.length === 0 ? (
+      {/* Notes Grid/List with Loading State */}
+      {status === "LoadingFirstPage" ? (
+        <NotesSkeleton viewMode={viewMode} />
+      ) : searchQuery && filteredNotes.length === 0 ? (
         <EmptySearchResults
           searchQuery={searchQuery}
           onClearSearch={() => setSearchQuery("")}
         />
-      ) : notes.length === 0 ? (
+      ) : filteredNotes.length === 0 ? (
         <EmptyTableState
           tableId={tableId}
           workspaceSlug={workspaceSlug}
           workspaceId={workspaceId}
         />
       ) : (
-        <Droppable droppableId={tableId}>
-          {(provided) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className={
-                viewMode === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-                  : "flex flex-col gap-3"
-              }
-            >
-              {notes.map((note, index) => (
-                <Draggable key={note._id} draggableId={note._id} index={index}>
-                  {(provided) =>
-                    viewMode === "grid" ? (
-                      <GridNoteCard
-                        note={note}
-                        provided={provided}
-                        workspaceId={workspaceId}
-                      />
-                    ) : (
-                      <ListNoteCard
-                        note={note}
-                        provided={provided}
-                        workspaceId={workspaceId}
-                      />
-                    )
-                  }
-                </Draggable>
-              ))}
-              {provided.placeholder}
+        <>
+          <div
+            className={
+              viewMode === "grid"
+                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                : "flex flex-col gap-3"
+            }
+          >
+            {filteredNotes.map((note, index) => (
+              <div key={note._id}>
+                {viewMode === "grid" ? (
+                  <GridNoteCard note={note} workspaceId={workspaceId} />
+                ) : (
+                  <ListNoteCard note={note} workspaceId={workspaceId} />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Load More Button */}
+          {status === "CanLoadMore" && (
+            <div className="flex justify-center mt-6">
+              <Button
+                variant="outline"
+                onClick={() => loadMore(15)}
+                className="border-border/50"
+              >
+                Load More
+              </Button>
             </div>
           )}
-        </Droppable>
+
+          {/* Loading More Indicator */}
+          {status === "LoadingMore" && (
+            <div className="flex justify-center mt-6">
+              <Button variant="outline" disabled className="border-border/50">
+                <LoadingAnimation className="h-4 w-4 mr-2" />
+                Loading...
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 }
 
-function GridNoteCard({ note, provided, workspaceId }: NoteCardProps) {
+function GridNoteCard({ note, workspaceId }: NoteCardProps) {
   const isEmpty = !note.body || note.body.trim() === "";
 
   return (
     <Card
-      ref={provided.innerRef}
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
       className={cn(
-        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300",
+        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex flex-col h-full",
         isEmpty
           ? "border-dashed border-border"
           : "border-border/50 hover:border-border",
@@ -418,7 +373,7 @@ function GridNoteCard({ note, provided, workspaceId }: NoteCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="pb-3">
+      <CardContent className="h-full">
         {isEmpty ? (
           <p className="text-sm text-muted-foreground italic">
             No content yet. Click to start writing...
@@ -454,14 +409,11 @@ function GridNoteCard({ note, provided, workspaceId }: NoteCardProps) {
   );
 }
 
-function ListNoteCard({ note, provided, workspaceId }: NoteCardProps) {
+function ListNoteCard({ note, workspaceId }: NoteCardProps) {
   const isEmpty = !note.body || note.body.trim() === "";
 
   return (
     <Card
-      ref={provided.innerRef}
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
       className={cn(
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300",
         isEmpty
@@ -581,6 +533,67 @@ function EmptyTableState({
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
+  if (viewMode === "grid") {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <Card
+            key={index}
+            className="bg-card/90 backdrop-blur-sm border-border/50"
+          >
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="h-5 w-3/4 bg-muted rounded animate-pulse" />
+                <div className="h-5 w-5 bg-muted rounded animate-pulse" />
+              </div>
+            </CardHeader>
+            <CardContent className="pb-3">
+              <div className="space-y-2">
+                <div className="h-4 w-full bg-muted rounded animate-pulse" />
+                <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
+                <div className="h-4 w-4/6 bg-muted rounded animate-pulse" />
+              </div>
+            </CardContent>
+            <CardFooter className="pt-3 flex items-center justify-between border-t border-border/50">
+              <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+              <div className="h-7 w-16 bg-muted rounded animate-pulse" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <Card
+          key={index}
+          className="bg-card/90 backdrop-blur-sm border-border/50"
+        >
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="h-10 w-10 rounded-full bg-muted animate-pulse flex-shrink-0" />
+
+              <div className="flex-1 min-w-0 space-y-2">
+                <div className="h-5 w-2/3 bg-muted rounded animate-pulse" />
+                <div className="h-4 w-full bg-muted rounded animate-pulse" />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+                <div className="h-5 w-5 bg-muted rounded animate-pulse" />
+                <div className="h-7 w-16 bg-muted rounded animate-pulse" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   );
 }
 

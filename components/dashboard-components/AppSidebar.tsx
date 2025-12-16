@@ -8,6 +8,7 @@ import {
   LogOut,
   LayoutDashboard,
   ChevronRight,
+  ChevronDown,
 } from "lucide-react";
 import { TbSelector } from "react-icons/tb";
 import {
@@ -69,6 +70,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { usePaginatedQuery } from "convex/react";
 
 // --- Skeleton Sidebar Component ---
 const SkeletonSidebar = () => {
@@ -436,12 +438,16 @@ interface PinnedNotesListProps {
   favoriteNotes: Doc<"notes">[];
   pathname: string;
   open: boolean;
+  status: "LoadingFirstPage" | "CanLoadMore" | "LoadingMore" | "Exhausted";
+  loadMore: (numItems: number) => void;
 }
 
 const PinnedNotesList = memo(function PinnedNotesList({
   favoriteNotes,
   pathname,
   open,
+  status,
+  loadMore,
 }: PinnedNotesListProps) {
   if (favoriteNotes.length === 0) {
     return null;
@@ -460,6 +466,35 @@ const PinnedNotesList = memo(function PinnedNotesList({
           open={open}
         />
       ))}
+
+      {/* Load More Button for Pinned Notes */}
+      {status === "CanLoadMore" && (
+        <SidebarGroupContent className="px-2 py-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => loadMore(10)}
+            className="w-full h-8 text-xs hover:bg-foreground/10"
+          >
+            <ChevronDown size="14" className="mr-1" />
+            Load More
+          </Button>
+        </SidebarGroupContent>
+      )}
+
+      {status === "LoadingMore" && (
+        <SidebarGroupContent className="px-2 py-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            disabled
+            className="w-full h-8 text-xs"
+          >
+            <LoadingAnimation className="h-3 w-3 mr-2" />
+            Loading...
+          </Button>
+        </SidebarGroupContent>
+      )}
     </SidebarGroup>
   );
 });
@@ -801,7 +836,11 @@ const AppSidebar = React.memo(function AppSidebar() {
 
   const getWorkingSpaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
   const User = useQuery(api.users.viewer);
-  const getNotesByUserId = useQuery(api.notes.getNoteByUserId);
+  const { results, status, loadMore } = usePaginatedQuery(
+    api.notes.getNoteByUserId,
+    {},
+    { initialNumItems: 10 },
+  );
   const createTable = useMutation(api.notesTables.createTable);
 
   const { signOut } = useAuthActions();
@@ -810,8 +849,8 @@ const AppSidebar = React.memo(function AppSidebar() {
   const [loading, setLoading] = useState(false);
 
   const favoriteNotes = React.useMemo(
-    () => getNotesByUserId?.filter((note) => note.favorite) ?? [],
-    [getNotesByUserId],
+    () => results?.filter((note) => note.favorite) ?? [],
+    [results],
   );
 
   const isDashboard = React.useMemo(
@@ -823,8 +862,8 @@ const AppSidebar = React.memo(function AppSidebar() {
     () =>
       getWorkingSpaces === undefined ||
       User === undefined ||
-      getNotesByUserId === undefined,
-    [getWorkingSpaces, User, getNotesByUserId],
+      (results.length === 0 && status !== "LoadingFirstPage"),
+    [getWorkingSpaces, User, results, status],
   );
 
   const handleCreateWorkingSpace = useCallback(async () => {
@@ -855,9 +894,7 @@ const AppSidebar = React.memo(function AppSidebar() {
 
         if (newNoteId) {
           const newNoteUrl = `/dashboard/${workingSpaceId}/${`new-quick-access-notes`}?id=${newNoteId}`;
-          const newNote = getNotesByUserId?.find(
-            (note) => note._id === newNoteId,
-          );
+          const newNote = results?.find((note) => note._id === newNoteId);
 
           if (newNote) {
             router.push(newNoteUrl);
@@ -878,7 +915,7 @@ const AppSidebar = React.memo(function AppSidebar() {
         setLoading(false);
       }
     },
-    [createNote, createTable, getNotesByUserId, router],
+    [createNote, createTable, results, router],
   );
 
   const handleSignOut = useCallback(async () => {
@@ -924,6 +961,8 @@ const AppSidebar = React.memo(function AppSidebar() {
           favoriteNotes={favoriteNotes}
           pathname={pathname}
           open={open}
+          status={status}
+          loadMore={loadMore}
         />
         <WorkspacesList
           getWorkingSpaces={getWorkingSpaces}
