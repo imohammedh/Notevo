@@ -469,7 +469,7 @@ function NoteCard({ note }: { note: Note }) {
             </CardDescription>
           </div>
           {note.favorite && (
-            <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 flex-shrink-0" />
+            <Star className="h-4 w-4 text-purple-500 fill-purple-500 flex-shrink-0" />
           )}
         </div>
       </CardHeader>
