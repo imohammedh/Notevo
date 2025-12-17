@@ -461,7 +461,7 @@ export default function SearchDialog({
                   </>
                 )}
 
-                {/* Load More Button */}
+                {/* Show More Button */}
                 {hasResultsLoadMore && status === "CanLoadMore" && (
                   <div className="px-2 py-2">
                     <Button
@@ -471,7 +471,7 @@ export default function SearchDialog({
                       className="w-full h-9 text-xs hover:bg-foreground/10"
                     >
                       <ChevronDown size="16" className="mr-2" />
-                      Load More Notes
+                      Show More Notes
                     </Button>
                   </div>
                 )}
