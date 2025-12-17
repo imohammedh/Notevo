@@ -547,20 +547,20 @@ function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
           >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between gap-2">
-                <div className="h-5 w-3/4 bg-muted rounded animate-pulse" />
-                <div className="h-5 w-5 bg-muted rounded animate-pulse" />
+                <div className="h-5 w-3/4 bg-primary/20 rounded animate-pulse" />
+                <div className="h-5 w-5 bg-primary/20 rounded animate-pulse" />
               </div>
             </CardHeader>
             <CardContent className="pb-3">
               <div className="space-y-2">
-                <div className="h-4 w-full bg-muted rounded animate-pulse" />
-                <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
-                <div className="h-4 w-4/6 bg-muted rounded animate-pulse" />
+                <div className="h-4 w-full bg-primary/20 rounded animate-pulse" />
+                <div className="h-4 w-5/6 bg-primary/20 rounded animate-pulse" />
+                <div className="h-4 w-4/6 bg-primary/20 rounded animate-pulse" />
               </div>
             </CardContent>
             <CardFooter className="pt-3 flex items-center justify-between border-t border-border">
-              <div className="h-4 w-24 bg-muted rounded animate-pulse" />
-              <div className="h-7 w-16 bg-muted rounded animate-pulse" />
+              <div className="h-4 w-24 bg-primary/20 rounded animate-pulse" />
+              <div className="h-7 w-16 bg-primary/20 rounded animate-pulse" />
             </CardFooter>
           </Card>
         ))}
@@ -574,17 +574,17 @@ function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
         <Card key={index} className="bg-card/90 backdrop-blur-sm border-border">
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
-              <div className="h-10 w-10 rounded-full bg-muted animate-pulse flex-shrink-0" />
+              <div className="h-10 w-10 rounded-full bg-primary/20 animate-pulse flex-shrink-0" />
 
               <div className="flex-1 min-w-0 space-y-2">
-                <div className="h-5 w-2/3 bg-muted rounded animate-pulse" />
-                <div className="h-4 w-full bg-muted rounded animate-pulse" />
+                <div className="h-5 w-2/3 bg-primary/20 rounded animate-pulse" />
+                <div className="h-4 w-full bg-primary/20 rounded animate-pulse" />
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="h-4 w-24 bg-muted rounded animate-pulse" />
-                <div className="h-5 w-5 bg-muted rounded animate-pulse" />
-                <div className="h-7 w-16 bg-muted rounded animate-pulse" />
+                <div className="h-4 w-24 bg-primary/20 rounded animate-pulse" />
+                <div className="h-5 w-5 bg-primary/20 rounded animate-pulse" />
+                <div className="h-7 w-16 bg-primary/20 rounded animate-pulse" />
               </div>
             </div>
           </CardContent>
@@ -600,16 +600,16 @@ function TablesSkeleton() {
       {Array.from({ length: 8 }).map((_, index) => (
         <Card key={index} className="bg-card/50 backdrop-blur-sm border-border">
           <CardHeader className="pb-3">
-            <div className="h-5 w-3/4 bg-muted rounded animate-pulse" />
+            <div className="h-5 w-3/4 bg-primary/20 rounded animate-pulse" />
           </CardHeader>
           <CardContent className="pb-3">
             <div className="space-y-2">
-              <div className="h-4 w-full bg-muted rounded animate-pulse" />
-              <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
+              <div className="h-4 w-full bg-primary/20 rounded animate-pulse" />
+              <div className="h-4 w-5/6 bg-primary/20 rounded animate-pulse" />
             </div>
           </CardContent>
           <CardFooter className="pt-3 border-t border-border">
-            <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+            <div className="h-4 w-24 bg-primary/20 rounded animate-pulse" />
           </CardFooter>
         </Card>
       ))}
