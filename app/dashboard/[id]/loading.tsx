@@ -21,7 +21,7 @@ import MaxWContainer from "@/components/ui/MaxWContainer";
 
 function Skeleton({ className = "" }: { className?: string }) {
   return (
-    <div className={`bg-muted/50 rounded-md animate-pulse ${className}`} />
+    <div className={`bg-primary/20 rounded-md animate-pulse ${className}`} />
   );
 }
 
