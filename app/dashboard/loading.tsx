@@ -45,21 +45,6 @@ function Slider({ children }: { children: React.ReactNode }) {
 
       <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent pointer-events-none opacity-60" />
       <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent pointer-events-none opacity-60" />
-
-      <Button
-        size="icon"
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-        disabled
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </Button>
-      <Button
-        size="icon"
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-        disabled
-      >
-        <ChevronRight className="h-5 w-5" />
-      </Button>
     </div>
   );
 }
