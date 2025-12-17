@@ -139,7 +139,11 @@ export default function WorkingSpacePage() {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <h1 className="text-3xl md:text-4xl font-bold  mb-2">
-                  {workspace?.name}
+                  {!workspace ? (
+                    <div className="bg-primary/20 rounded-md animate-pulse h-6 w-3/4" />
+                  ) : (
+                    workspace.name
+                  )}
                 </h1>
                 <div className="flex items-center gap-4 text-sm">
                   <span className="flex items-center gap-2 px-3 py-1 rounded-full backdrop-blur-sm">
