@@ -198,7 +198,7 @@ export default function Dashboard() {
             ))}
           </Slider>
         ) : (
-          <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+          <Card className="bg-card/50 backdrop-blur-sm border-border">
             <CardContent className="pt-12 pb-12 text-center">
               <div className="flex flex-col items-center justify-center">
                 <div className="h-10 w-10 flex items-center justify-center mb-4">
@@ -221,7 +221,7 @@ export default function Dashboard() {
 
 function WorkspaceCardSkeleton() {
   return (
-    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border/50 flex-shrink-0 w-[300px]">
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
       <CardHeader className="pb-3 relative">
         <div className="h-5 bg-muted/50 rounded-md w-3/4 animate-pulse"></div>
       </CardHeader>
@@ -232,7 +232,7 @@ function WorkspaceCardSkeleton() {
         </div>
       </CardContent>
 
-      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border/50">
+      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
         <div className="h-4 bg-muted/50 rounded w-24 animate-pulse"></div>
         <div className="h-7 bg-muted/50 rounded w-16 animate-pulse"></div>
       </CardFooter>
@@ -242,7 +242,7 @@ function WorkspaceCardSkeleton() {
 
 function NoteCardSkeleton() {
   return (
-    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border/50 flex-shrink-0 w-[300px]">
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 space-y-2">
@@ -258,7 +258,7 @@ function NoteCardSkeleton() {
         <div className="h-3 bg-muted/50 rounded w-4/6 animate-pulse"></div>
       </CardContent>
 
-      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border/50">
+      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
         <div className="h-4 bg-muted/50 rounded w-24 animate-pulse"></div>
         <div className="h-7 bg-muted/50 rounded w-16 animate-pulse"></div>
       </CardFooter>
@@ -376,7 +376,7 @@ function WorkspaceCard({
   loading,
 }: WorkspaceCardProps) {
   return (
-    <Card className="group relative overflow-hidden bg-card/90 backdrop-blur-sm border-border/50 flex-shrink-0 w-[300px] hover:shadow-lg transition-shadow">
+    <Card className="group relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] hover:shadow-lg transition-shadow">
       <CardHeader className="pb-3 relative">
         <CardTitle className="text-base font-semibold text-foreground">
           {workspace.name.length > 20
@@ -397,7 +397,7 @@ function WorkspaceCard({
         </div>
       </CardContent>
 
-      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border/50">
+      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
         <div className="flex items-center gap-1.5">
           <Clock className="h-3.5 w-3.5" />
           {typeof window !== "undefined" ? (
@@ -455,7 +455,7 @@ function NoteCard({ note }: { note: Note }) {
     <Card
       className={cn(
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex-shrink-0 w-[300px] hover:shadow-lg",
-        isEmpty ? "border-dashed border-border/50" : "border-border/50",
+        isEmpty ? "border-dashed border-border" : "border-border",
       )}
     >
       <CardHeader className="pb-2">
@@ -485,7 +485,7 @@ function NoteCard({ note }: { note: Note }) {
         </p>
       </CardContent>
 
-      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border/50">
+      <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
         <div className="flex items-center gap-1.5">
           <Clock className="h-3.5 w-3.5" />
           {typeof window !== "undefined" ? (

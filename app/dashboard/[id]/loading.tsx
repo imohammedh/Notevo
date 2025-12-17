@@ -66,7 +66,7 @@ export default function WorkingSpaceSkeleton() {
         {[...Array(10)].map((_, i) => (
           <Card
             key={i}
-            className="bg-card/50 backdrop-blur-sm border-border/50 overflow-hidden"
+            className="bg-card/50 backdrop-blur-sm border-border overflow-hidden"
           >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
@@ -81,7 +81,7 @@ export default function WorkingSpaceSkeleton() {
               <Skeleton className="h-4 w-10/12 rounded-md" />
             </CardContent>
 
-            <CardFooter className="pt-3 border-t border-border/50 flex justify-between items-center">
+            <CardFooter className="pt-3 border-t border-border flex justify-between items-center">
               <Skeleton className="h-4 w-24 rounded-md" />
               <Skeleton className="h-7 w-16 rounded-md" />
             </CardFooter>

@@ -42,7 +42,7 @@ export default function HowToStartSection() {
               className="group relative"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl" />
-              <div className="relative bg-gradient-to-br from-primary/5 via-secondary/10 to-transparent border border-border/20 rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
+              <div className="relative bg-gradient-to-br from-primary/5 via-secondary/10 to-transparent border border-border rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
                 <div className="flex flex-col items-center text-center space-y-4">
                   <div className="relative">
                     <div className="absolute inset-0 " />

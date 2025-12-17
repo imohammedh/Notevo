@@ -162,7 +162,7 @@ export default function Navbar() {
           exit={{ opacity: 0, y: -10 }}
           className="lg:hidden absolute top-full left-0 right-0 mt-2 mx-4"
         >
-          <div className="bg-background/95 backdrop-blur-xl border border-border/20 rounded-2xl p-4 shadow-lg">
+          <div className="bg-background/95 backdrop-blur-xl border border-border rounded-2xl p-4 shadow-lg">
             <nav className="flex flex-col gap-2">
               {NavLinks.map((link, i) => (
                 <Link
@@ -175,7 +175,7 @@ export default function Navbar() {
                 </Link>
               ))}
 
-              <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-border/20">
+              <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-border">
                 <Button
                   variant="ghost"
                   asChild

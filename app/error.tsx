@@ -34,7 +34,7 @@ export default function Error({
       </div>
 
       <MaxWContainer className="flex flex-col items-center justify-center gap-3 *:text-center relative px-4 sm:px-6 lg:px-8">
-        <Card className="overflow-hidden bg-card/70 backdrop-blur-md border-border/20 shadow-lg hover:shadow-xl transition-all duration-300">
+        <Card className="overflow-hidden bg-card/70 backdrop-blur-md border-border shadow-lg hover:shadow-xl transition-all duration-300">
           <CardContent>
             <div className="p-6 md:p-8">
               <div className="flex flex-col justify-center">
