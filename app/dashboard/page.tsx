@@ -46,6 +46,11 @@ export default function Dashboard() {
     {},
     { initialNumItems: 7 },
   );
+  const {
+    results: favResults,
+    status: favStatus,
+    loadMore: loadMoreFavs,
+  } = usePaginatedQuery(api.notes.getFavNotes, {}, { initialNumItems: 7 });
 
   const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
   const [loading, setLoading] = useState(false);
@@ -78,7 +83,7 @@ export default function Dashboard() {
   }, [viewer]);
 
   // Ensure we always have an array to avoid runtime errors before data loads.
-  const pinnedNotes = results?.filter((note) => note.favorite) ?? [];
+  const pinnedNotes = favResults;
 
   return (
     <MaxWContainer className="relative mb-20">
@@ -154,14 +159,14 @@ export default function Dashboard() {
       </div>
 
       {/* Pinned Notes Slider */}
-      {(status === "LoadingFirstPage" || pinnedNotes.length > 0) && (
+      {(favStatus === "LoadingFirstPage" || pinnedNotes.length > 0) && (
         <div className="mb-12">
           <div className="mb-6">
             <h2 className="text-foreground text-xl font-semibold">
               Pinned Notes
             </h2>
           </div>
-          {status === "LoadingFirstPage" ? (
+          {favStatus === "LoadingFirstPage" ? (
             <Slider>
               {[1, 2, 3].map((i) => (
                 <NoteCardSkeleton key={i} />
@@ -454,7 +459,7 @@ function NoteCard({ note }: { note: Note }) {
   return (
     <Card
       className={cn(
-        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex-shrink-0 w-[300px] hover:shadow-lg",
+        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex-shrink-0 w-[300px] flex flex-col ",
         isEmpty ? "border-dashed border-border" : "border-border",
       )}
     >
@@ -474,7 +479,7 @@ function NoteCard({ note }: { note: Note }) {
         </div>
       </CardHeader>
 
-      <CardContent className="pb-3">
+      <CardContent className=" h-full">
         <p
           className={cn(
             "text-sm line-clamp-3",

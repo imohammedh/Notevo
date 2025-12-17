@@ -372,7 +372,7 @@ const PinnedNoteItem = memo(
                   <TooltipTrigger asChild>
                     <Button
                       variant="SidebarMenuButton"
-                      className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
+                      className={`px-2 my-0.5 h-8 group flex-1 ${
                         isActive ? "bg-foreground/10" : ""
                       }`}
                       asChild
@@ -467,30 +467,30 @@ const PinnedNotesList = memo(function PinnedNotesList({
         />
       ))}
 
-      {/* Load More Button for Pinned Notes */}
-      {status === "CanLoadMore" && (
-        <SidebarGroupContent className="px-2 py-1">
+      {/* Show More Button for Pinned Notes */}
+      {favoriteNotes.length > 6 && status === "CanLoadMore" && (
+        <SidebarGroupContent>
           <Button
-            variant="ghost"
+            variant="SidebarMenuButton"
             size="sm"
             onClick={() => loadMore(5)}
-            className="w-full h-8 text-xs hover:bg-foreground/10"
+            className="px-2 my-0.5 h-8 group flex-1"
           >
-            <ChevronDown size="14" className="mr-1" />
-            Load More
+            <ChevronDown size="16" />
+            Show More
           </Button>
         </SidebarGroupContent>
       )}
 
-      {status === "LoadingMore" && (
-        <SidebarGroupContent className="px-2 py-1">
+      {favoriteNotes.length > 6 && status === "LoadingMore" && (
+        <SidebarGroupContent>
           <Button
-            variant="ghost"
+            variant="SidebarMenuButton"
             size="sm"
             disabled
-            className="w-full h-8 text-xs"
+            className="px-2 my-0.5 h-8 group flex-1"
           >
-            <LoadingAnimation className="h-3 w-3 mr-2" />
+            <LoadingAnimation className="h-3 w-3" />
             Loading...
           </Button>
         </SidebarGroupContent>
@@ -837,9 +837,9 @@ const AppSidebar = React.memo(function AppSidebar() {
   const getWorkingSpaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
   const User = useQuery(api.users.viewer);
   const { results, status, loadMore } = usePaginatedQuery(
-    api.notes.getNoteByUserId,
+    api.notes.getFavNotes,
     {},
-    { initialNumItems: 10 },
+    { initialNumItems: 7 },
   );
   const createTable = useMutation(api.notesTables.createTable);
 
@@ -848,21 +848,13 @@ const AppSidebar = React.memo(function AppSidebar() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const favoriteNotes = React.useMemo(
-    () => results?.filter((note) => note.favorite) ?? [],
-    [results],
-  );
-
   const isDashboard = React.useMemo(
     () => pathname === "/dashboard",
     [pathname],
   );
 
   const isSidebarLoading = React.useMemo(
-    () =>
-      getWorkingSpaces === undefined ||
-      User === undefined ||
-      (results.length === 0 && status !== "LoadingFirstPage"),
+    () => getWorkingSpaces === undefined || User === undefined,
     [getWorkingSpaces, User, results, status],
   );
 
@@ -958,7 +950,7 @@ const AppSidebar = React.memo(function AppSidebar() {
         />
 
         <PinnedNotesList
-          favoriteNotes={favoriteNotes}
+          favoriteNotes={results}
           pathname={pathname}
           open={open}
           status={status}
