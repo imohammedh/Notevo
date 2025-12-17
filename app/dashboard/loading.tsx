@@ -48,7 +48,6 @@ function Slider({ children }: { children: React.ReactNode }) {
 
       <Button
         size="icon"
-        variant="ghost"
         className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
         disabled
       >
@@ -56,7 +55,6 @@ function Slider({ children }: { children: React.ReactNode }) {
       </Button>
       <Button
         size="icon"
-        variant="ghost"
         className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
         disabled
       >
@@ -141,7 +139,7 @@ export default function DashboardSkeleton() {
         </div>
 
         <Slider>
-          {[1, 2, 3, 4].map((i) => (
+          {[1, 2].map((i) => (
             <WorkspaceCardSkeleton key={i} />
           ))}
         </Slider>
@@ -169,7 +167,7 @@ export default function DashboardSkeleton() {
         </div>
 
         <Slider>
-          {[1, 2, 3, 4, 5].map((i) => (
+          {[1, 2, 3, 4].map((i) => (
             <NoteCardSkeleton key={i} />
           ))}
         </Slider>
