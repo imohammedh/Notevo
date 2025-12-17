@@ -228,18 +228,18 @@ function WorkspaceCardSkeleton() {
   return (
     <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
       <CardHeader className="pb-3 relative">
-        <div className="h-5 bg-muted/50 rounded-md w-3/4 animate-pulse"></div>
+        <div className="h-5 bg-primary/20 rounded-md w-3/4 animate-pulse"></div>
       </CardHeader>
 
       <CardContent className="pb-3">
         <div className="h-20 flex items-center justify-center">
-          <div className="h-14 w-14 bg-muted/50 rounded-full animate-pulse"></div>
+          <div className="h-14 w-14 bg-primary/20 rounded-full animate-pulse"></div>
         </div>
       </CardContent>
 
       <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
-        <div className="h-4 bg-muted/50 rounded w-24 animate-pulse"></div>
-        <div className="h-7 bg-muted/50 rounded w-16 animate-pulse"></div>
+        <div className="h-4 bg-primary/20 rounded w-24 animate-pulse"></div>
+        <div className="h-7 bg-primary/20 rounded w-16 animate-pulse"></div>
       </CardFooter>
     </Card>
   );
