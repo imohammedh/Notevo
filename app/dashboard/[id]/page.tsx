@@ -324,7 +324,7 @@ function NotesDroppableContainer({
               <Button
                 variant="outline"
                 onClick={() => loadMore(15)}
-                className="border-border/50"
+                className="border-border"
               >
                 Load More
               </Button>
@@ -334,7 +334,7 @@ function NotesDroppableContainer({
           {/* Loading More Indicator */}
           {status === "LoadingMore" && (
             <div className="flex justify-center mt-6">
-              <Button variant="outline" disabled className="border-border/50">
+              <Button variant="outline" disabled className="border-border">
                 <LoadingAnimation className="h-4 w-4 mr-2" />
                 Loading...
               </Button>
@@ -355,7 +355,7 @@ function GridNoteCard({ note, workspaceId }: NoteCardProps) {
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex flex-col h-full",
         isEmpty
           ? "border-dashed border-border"
-          : "border-border/50 hover:border-border",
+          : "border-border hover:border-border",
       )}
     >
       <CardHeader className="pb-3">
@@ -385,7 +385,7 @@ function GridNoteCard({ note, workspaceId }: NoteCardProps) {
         )}
       </CardContent>
 
-      <CardFooter className="pt-3 flex items-center justify-between border-t border-border/50">
+      <CardFooter className="pt-3 flex items-center justify-between border-t border-border">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Calendar className="h-3.5 w-3.5" />
           {typeof window !== "undefined" ? (
@@ -417,8 +417,8 @@ function ListNoteCard({ note, workspaceId }: NoteCardProps) {
       className={cn(
         "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300",
         isEmpty
-          ? "border-dashed border-border/50"
-          : "border-border/50 hover:border-border",
+          ? "border-dashed border-border"
+          : "border-border hover:border-border",
       )}
     >
       <CardContent className="p-4">
@@ -482,7 +482,7 @@ function EmptySearchResults({
   onClearSearch,
 }: EmptySearchResultsProps) {
   return (
-    <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+    <Card className="bg-card/50 backdrop-blur-sm border-border">
       <CardContent className="pt-12 pb-12 text-center">
         <div className="flex flex-col items-center justify-center">
           <div className="h-10 w-10 flex items-center justify-center mb-4">
@@ -497,7 +497,7 @@ function EmptySearchResults({
           <Button
             variant="outline"
             onClick={onClearSearch}
-            className="border-border/50"
+            className="border-border"
           >
             Clear Search
           </Button>
@@ -513,7 +513,7 @@ function EmptyTableState({
   workspaceId,
 }: EmptyTableStateProps) {
   return (
-    <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+    <Card className="bg-card/50 backdrop-blur-sm border-border">
       <CardContent className="pt-12 pb-12 text-center">
         <div className="flex flex-col items-center justify-center">
           <div className="h-10 w-10 flex items-center justify-center mb-4">
@@ -543,7 +543,7 @@ function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
         {Array.from({ length: 8 }).map((_, index) => (
           <Card
             key={index}
-            className="bg-card/90 backdrop-blur-sm border-border/50"
+            className="bg-card/90 backdrop-blur-sm border-border"
           >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between gap-2">
@@ -558,7 +558,7 @@ function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
                 <div className="h-4 w-4/6 bg-muted rounded animate-pulse" />
               </div>
             </CardContent>
-            <CardFooter className="pt-3 flex items-center justify-between border-t border-border/50">
+            <CardFooter className="pt-3 flex items-center justify-between border-t border-border">
               <div className="h-4 w-24 bg-muted rounded animate-pulse" />
               <div className="h-7 w-16 bg-muted rounded animate-pulse" />
             </CardFooter>
@@ -571,10 +571,7 @@ function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
   return (
     <div className="flex flex-col gap-3">
       {Array.from({ length: 6 }).map((_, index) => (
-        <Card
-          key={index}
-          className="bg-card/90 backdrop-blur-sm border-border/50"
-        >
+        <Card key={index} className="bg-card/90 backdrop-blur-sm border-border">
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className="h-10 w-10 rounded-full bg-muted animate-pulse flex-shrink-0" />
@@ -601,10 +598,7 @@ function TablesSkeleton() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {Array.from({ length: 8 }).map((_, index) => (
-        <Card
-          key={index}
-          className="bg-card/50 backdrop-blur-sm border-border/50"
-        >
+        <Card key={index} className="bg-card/50 backdrop-blur-sm border-border">
           <CardHeader className="pb-3">
             <div className="h-5 w-3/4 bg-muted rounded animate-pulse" />
           </CardHeader>
@@ -614,7 +608,7 @@ function TablesSkeleton() {
               <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
             </div>
           </CardContent>
-          <CardFooter className="pt-3 border-t border-border/50">
+          <CardFooter className="pt-3 border-t border-border">
             <div className="h-4 w-24 bg-muted rounded animate-pulse" />
           </CardFooter>
         </Card>

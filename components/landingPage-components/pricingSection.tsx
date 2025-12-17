@@ -127,7 +127,7 @@ export default function PricingSection() {
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
               <Card
                 className={cn(
-                  "relative bg-background/50 backdrop-blur-xl border border-border/20 rounded-2xl transition-all duration-300 hover:border-primary/20",
+                  "relative bg-background/50 backdrop-blur-xl border border-border rounded-2xl transition-all duration-300 hover:border-primary/20",
                   key === "pro" &&
                     "border-primary/30 bg-gradient-to-b from-secondary/40 to-secondary/60",
                 )}
@@ -172,7 +172,7 @@ export default function PricingSection() {
                       "w-full transition-all duration-300",
                       key === "pro"
                         ? "bg-primary hover:bg-primary/90"
-                        : "border-border/30 hover:border-primary/30",
+                        : "border-border hover:border-primary/30",
                     )}
                     asChild
                   >

@@ -35,7 +35,7 @@ function Slider({ children }: { children: React.ReactNode }) {
 // Workspace Card Skeleton
 function WorkspaceCardSkeleton() {
   return (
-    <div className="flex-shrink-0 w-[300px] rounded-xl border border-border/50 bg-card/90 backdrop-blur-sm overflow-hidden">
+    <div className="flex-shrink-0 w-[300px] rounded-xl border border-border bg-card/90 backdrop-blur-sm overflow-hidden">
       <div className="p-5 pb-4">
         <div className="flex items-start justify-between mb-3">
           <Skeleton className="h-6 w-48 rounded-md" />
@@ -47,7 +47,7 @@ function WorkspaceCardSkeleton() {
           </div>
         </div>
       </div>
-      <div className="px-5 py-3 border-t border-border/50 flex justify-between items-center">
+      <div className="px-5 py-3 border-t border-border flex justify-between items-center">
         <Skeleton className="h-4 w-24 rounded-md" />
         <Skeleton className="h-8 w-16 rounded-md" />
       </div>
@@ -58,7 +58,7 @@ function WorkspaceCardSkeleton() {
 // Note Card Skeleton
 function NoteCardSkeleton() {
   return (
-    <div className="flex-shrink-0 w-[300px] rounded-xl border border-border/50 bg-card/90 backdrop-blur-sm overflow-hidden">
+    <div className="flex-shrink-0 w-[300px] rounded-xl border border-border bg-card/90 backdrop-blur-sm overflow-hidden">
       <div className="p-5 pb-3">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex-1 space-y-2">
@@ -73,7 +73,7 @@ function NoteCardSkeleton() {
           <Skeleton className="h-4 w-9/12 rounded-md" />
         </div>
       </div>
-      <div className="px-5 py-3 border-t border-border/50 flex justify-between items-center">
+      <div className="px-5 py-3 border-t border-border flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Clock className="h-3.5 w-3.5 text-muted-foreground/50" />
           <Skeleton className="h-4 w-20 rounded-md" />

@@ -473,7 +473,7 @@ const PinnedNotesList = memo(function PinnedNotesList({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => loadMore(10)}
+            onClick={() => loadMore(5)}
             className="w-full h-8 text-xs hover:bg-foreground/10"
           >
             <ChevronDown size="14" className="mr-1" />
