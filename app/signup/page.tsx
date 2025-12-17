@@ -110,7 +110,7 @@ export default function SignInPage() {
           <div className="absolute -bottom-8 left-20 h-72 w-72 animate-blob animation-delay-4000 rounded-full bg-accent/30 blur-2xl filter" />
         </div>
         <div className="flex flex-col gap-6">
-          <Card className="overflow-hidden bg-background/60 backdrop-blur-md border-border shadow-lg hover:shadow-xl transition-all duration-300 border border-border">
+          <Card className="overflow-hidden bg-background/60 backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300 border border-border">
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="p-6 md:p-8">
                 <div className="flex flex-col gap-6">
