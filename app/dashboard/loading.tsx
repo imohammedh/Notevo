@@ -1,144 +1,179 @@
+"use client";
+
 import {
   Plus,
   ChevronLeft,
   ChevronRight,
+  Clock,
+  FileText,
   Notebook,
   Star,
-  Clock,
 } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import MaxWContainer from "@/components/ui/MaxWContainer";
+
+function Skeleton({ className = "" }: { className?: string }) {
+  return (
+    <div className={`bg-muted/50 rounded-md animate-pulse ${className}`} />
+  );
+}
+
+function SkeletonText({ width = "w-full" }: { width?: string }) {
+  return <Skeleton className={`h-4 ${width}`} />;
+}
+
+function SkeletonTitle() {
+  return <Skeleton className="h-6 w-3/4" />;
+}
+
+function GreetingSkeleton() {
+  return <Skeleton className="h-10 w-48 inline-block" />;
+}
 
 function Slider({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative group">
-      {/* Left fade + arrow */}
-      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-      <button className="absolute left-2 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-primary text-primary-foreground shadow-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-        <ChevronLeft className="h-5 w-5" />
-      </button>
-
-      {/* Scrollable content */}
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide py-2 -mx-1 px-1">
+    <div className="relative group w-[360px] tabletAir:w-[750px] tabletPro:w-[950px] Desktop:w-full">
+      <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
         {children}
       </div>
 
-      {/* Right fade + arrow */}
-      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-      <button className="absolute right-2 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-primary text-primary-foreground shadow-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent pointer-events-none opacity-60" />
+      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent pointer-events-none opacity-60" />
+
+      <Button
+        size="icon"
+        variant="ghost"
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+        disabled
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </Button>
+      <Button
+        size="icon"
+        variant="ghost"
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+        disabled
+      >
         <ChevronRight className="h-5 w-5" />
-      </button>
+      </Button>
     </div>
   );
 }
 
-// Workspace Card Skeleton
 function WorkspaceCardSkeleton() {
   return (
-    <div className="flex-shrink-0 w-[300px] rounded-xl border border-border bg-card/90 backdrop-blur-sm overflow-hidden">
-      <div className="p-5 pb-4">
-        <div className="flex items-start justify-between mb-3">
-          <Skeleton className="h-6 w-48 rounded-md" />
-          <Skeleton className="h-8 w-8 rounded-md" />
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
+      <CardHeader className="pb-3">
+        <SkeletonTitle />
+      </CardHeader>
+
+      <CardContent className="pb-3">
+        <div className="h-20 flex items-center justify-center">
+          <Skeleton className="h-14 w-14 rounded-full" />
         </div>
-        <div className="flex justify-center py-6">
-          <div className="h-16 w-16 rounded-full bg-muted/70 flex items-center justify-center">
-            <Notebook className="h-9 w-9 text-muted-foreground/50" />
-          </div>
-        </div>
-      </div>
-      <div className="px-5 py-3 border-t border-border flex justify-between items-center">
-        <Skeleton className="h-4 w-24 rounded-md" />
-        <Skeleton className="h-8 w-16 rounded-md" />
-      </div>
-    </div>
+      </CardContent>
+
+      <CardFooter className="pt-3 flex justify-between items-center text-xs border-t border-border">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-7 w-16 rounded-md" />
+      </CardFooter>
+    </Card>
   );
 }
 
-// Note Card Skeleton
 function NoteCardSkeleton() {
   return (
-    <div className="flex-shrink-0 w-[300px] rounded-xl border border-border bg-card/90 backdrop-blur-sm overflow-hidden">
-      <div className="p-5 pb-3">
-        <div className="flex items-start justify-between gap-3 mb-3">
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
+      <CardHeader className="pb-2">
+        <div className="flex items-start justify-between gap-2">
           <div className="flex-1 space-y-2">
-            <Skeleton className="h-6 w-40 rounded-md" />
-            <Skeleton className="h-4 w-28 rounded-md" />
+            <SkeletonTitle />
+            <SkeletonText width="w-1/2" />
           </div>
-          <Star className="h-5 w-5 text-yellow-500/30" />
+          <div className="h-4 w-4" />
         </div>
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-full rounded-md" />
-          <Skeleton className="h-4 w-11/12 rounded-md" />
-          <Skeleton className="h-4 w-9/12 rounded-md" />
-        </div>
-      </div>
-      <div className="px-5 py-3 border-t border-border flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Clock className="h-3.5 w-3.5 text-muted-foreground/50" />
-          <Skeleton className="h-4 w-20 rounded-md" />
-        </div>
-        <Skeleton className="h-8 w-16 rounded-md" />
-      </div>
-    </div>
+      </CardHeader>
+
+      <CardContent className="pb-3 space-y-2">
+        <SkeletonText />
+        <SkeletonText width="w-5/6" />
+        <SkeletonText width="w-4/6" />
+      </CardContent>
+
+      <CardFooter className="pt-3 flex justify-between items-center text-xs border-t border-border">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-7 w-16 rounded-md" />
+      </CardFooter>
+    </Card>
   );
 }
 
-export default function DashboardLoading() {
+export default function DashboardSkeleton() {
   return (
     <MaxWContainer className="relative mb-20">
-      {/* Hero Gradient Header */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
-        <header className="relative max-w-3xl mx-auto text-center space-y-4">
-          <Skeleton className="h-12 w-80 mx-auto rounded-lg" />
-          <div className="space-y-3">
-            <Skeleton className="h-5 w-96 max-w-full mx-auto rounded-md" />
-            <Skeleton className="h-5 w-80 max-w-full mx-auto rounded-md" />
-          </div>
+        <header className="relative max-w-3xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary inline-block">
+            Hello, <GreetingSkeleton />
+          </h1>
+          <p className="text-white/90 text-md max-w-2xl mx-auto mb-6">
+            <Skeleton className="h-5 w-full max-w-lg mx-auto" />
+            <Skeleton className="h-5 w-3/4 max-w-md mx-auto mt-2" />
+          </p>
         </header>
       </div>
 
-      {/* Your Workspaces */}
-      <section className="mb-12">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-foreground">
+      <div className="mb-12">
+        <div className="mb-6 flex justify-between items-center">
+          <h2 className="text-foreground text-xl font-semibold">
             Your Workspaces
           </h2>
-          <div className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            <Skeleton className="h-9 w-36 rounded-lg" />
-          </div>
+          <Button variant="outline" size="sm" disabled>
+            <Plus className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:block">New Workspace</span>
+          </Button>
         </div>
+
         <Slider>
-          {[...Array(3)].map((_, i) => (
+          {[1, 2, 3, 4].map((i) => (
             <WorkspaceCardSkeleton key={i} />
           ))}
         </Slider>
-      </section>
+      </div>
 
-      {/* Pinned Notes */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-foreground mb-6">
-          Pinned Notes
-        </h2>
+      <div className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-foreground text-xl font-semibold">
+            Pinned Notes
+          </h2>
+        </div>
+
         <Slider>
-          {[...Array(2)].map((_, i) => (
+          {[1, 2, 3].map((i) => (
             <NoteCardSkeleton key={i} />
           ))}
         </Slider>
-      </section>
+      </div>
 
-      {/* Recent Notes */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-foreground mb-6">
-          Recent Notes
-        </h2>
+      <div className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-foreground text-xl font-semibold">
+            Recent Notes
+          </h2>
+        </div>
+
         <Slider>
-          {[...Array(4)].map((_, i) => (
+          {[1, 2, 3, 4, 5].map((i) => (
             <NoteCardSkeleton key={i} />
           ))}
         </Slider>
-      </section>
+      </div>
     </MaxWContainer>
   );
 }
