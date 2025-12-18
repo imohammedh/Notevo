@@ -10,19 +10,19 @@ export default function SectionHeading({
   return (
     <div
       className="flex justify-center items-center flex-col w-full text-center
-                    py-6 sm:py-8 md:py-12 lg:py-20"
+                    py-6 sm:py-8 md:py-12 Desktop:py-20"
     >
       <h1
-        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 
+        className="text-3xl sm:text-4xl md:text-5xl Desktop:text-6xl 
                        font-semibold text-brand_tertiary
                        py-2 sm:py-3"
       >
         {SectionTitle}
       </h1>
       <h2
-        className="text-xs sm:text-sm md:text-base lg:text-lg
+        className="text-xs sm:text-sm md:text-base Desktop:text-Desktop
                        font-bold text-brand_tertiary/50
-                       w-[90%] sm:w-[80%] md:w-[70%] lg:w-[50%]"
+                       w-[90%] sm:w-[80%] md:w-[70%] Desktop:w-[50%]"
       >
         {SectionSubTitle}
       </h2>

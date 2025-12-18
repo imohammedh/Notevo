@@ -357,6 +357,127 @@ p[data-placeholder="Write something or Press '/' for commands"].is-empty::before
 .mask-image-gradient {
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
+/* Basic editor styles */
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Task list specific styles */
+  ul[data-type='taskList'] {
+    list-style: none;
+    margin-left: 0;
+    padding: 0;
+
+    li {
+      align-items: center;
+      display: flex;
+      margin-bottom: 0.5rem;
+
+      > label {
+        flex: 0 0 auto;
+        margin-right: 0.75rem;
+        user-select: none;
+      }
+
+      > div {
+        flex: 1 1 auto;
+      }
+
+      /* Strikethrough for completed tasks */
+      &[data-checked='true'] > div {
+        opacity: 0.7;
+        text-decoration: line-through;
+        color: #374151; /* dark gray for completed text */
+      }
+    }
+
+    /* Hide default checkbox and style with custom appearance */
+    input[type='checkbox'] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid #9ca3af; /* gray-400 */
+      border-radius: 0.375rem; /* rounded */
+      background-color: white;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      transition: all 0.2s ease;
+    }
+
+    input[type='checkbox']:checked {
+      background-color: #0ea5e9; /* sky-500 / teal accent */
+      border-color: #0ea5e9;
+    }
+
+    /* Custom checkmark */
+    input[type='checkbox']::before {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      transform: scale(0);
+      transition: transform 0.2s ease;
+      background-color: white;
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+
+    input[type='checkbox']:checked::before {
+      transform: scale(1);
+    }
+
+    ul[data-type='taskList'] {
+      margin: 0.5rem 0 0 2rem;
+    }
+  }
+}
+
+/* Optional: If you want to style a floating menu or bubble menu with buttons similar to the screenshot */
+.tiptap-floating-menu,
+.tiptap-bubble-menu {
+  background: white;
+  border-radius: 9999px; /* pill shape */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.tiptap-floating-menu button,
+.tiptap-bubble-menu button {
+  background: #f3f4f6; /* gray-100 */
+  border: none;
+  border-radius: 9999px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #4b5563; /* gray-600 */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tiptap-floating-menu button.is-active,
+.tiptap-bubble-menu button.is-active {
+  background: #0ea5e9;
+  color: white;
+}
+
+.tiptap-floating-menu button:hover,
+.tiptap-bubble-menu button:hover {
+  background: #e5e7eb; /* gray-200 */
+}
 
 @layer base {
   body {

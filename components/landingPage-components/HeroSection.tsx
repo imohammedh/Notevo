@@ -7,7 +7,8 @@ import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useState, useEffect } from "react";
-
+import BrowserMockup from "./BrowserMockup";
+import MaxWContainer from "../ui/MaxWContainer";
 export default function HeroSection() {
   const getusers = useQuery(api.users.users);
   const [showBackground, setShowBackground] = useState(false);
@@ -21,22 +22,22 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden ">
       {/* Background Elements */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/20 to-transparent rounded-b-[3rem] mb-10"
+        className="absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/70 to-transparent rounded-b-[3rem] mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: showBackground ? 1 : 0 }}
         transition={{ duration: 0.8 }}
       />
       <motion.div
-        className="absolute inset-0 shadow-xl shadow-primary/10 rounded-b-[3rem] mb-10"
+        className="absolute inset-0 shadow-[0_15px_35px] shadow-primary/20 rounded-b-[3rem] mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: showBackground ? 1 : 0 }}
         transition={{ duration: 0.8 }}
       />
 
-      <div className="container relative z-10 mx-auto px-4 py-32 text-center">
+      <div className=" w-full container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row Desktop:gap-8 ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -44,14 +45,12 @@ export default function HeroSection() {
           className="space-y-8"
         >
           <motion.h1
-            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
+            className="bg-gradient-to-r from-primary to-foreground/50 bg-clip-text text-transparent text-4xl md:text-6xl Desktop:text-7xl font-bold tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-              Simple, Structured
-            </span>
+            <span>Simple, Structured</span>
             <br />
             <motion.span
               initial={{ backgroundSize: "0% 100%" }}
@@ -76,7 +75,7 @@ export default function HeroSection() {
           </motion.h1>
 
           <motion.p
-            className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground"
+            className="max-w-2xl text-lg md:text-xl text-muted-foreground"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -86,7 +85,7 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex gap-4 justify-start items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -125,7 +124,7 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="flex items-center justify-center gap-8 pt-8"
+            className="flex items-center justify-start gap-8 py-5"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -194,6 +193,14 @@ export default function HeroSection() {
               Active users
             </p>
           </motion.div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, delay: 0.8 }}
+          className="space-y-8"
+        >
+          <BrowserMockup></BrowserMockup>
         </motion.div>
       </div>
     </section>
