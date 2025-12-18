@@ -31,7 +31,7 @@ export default function HeroSection() {
         transition={{ duration: 0.8 }}
       />
       <motion.div
-        className="absolute inset-0 shadow-[0_15px_35px] shadow-primary/20 rounded-b-[3rem] mb-10"
+        className="absolute inset-0 shadow-[0_15px_25px] shadow-primary/20 rounded-b-[3rem] mb-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: showBackground ? 1 : 0 }}
         transition={{ duration: 0.8 }}
@@ -197,7 +197,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 2, delay: 0.8 }}
+          transition={{ duration: 1.5, delay: 0.8 }}
           className="space-y-8"
         >
           <BrowserMockup></BrowserMockup>

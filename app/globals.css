@@ -374,7 +374,23 @@ p[data-placeholder="Write something or Press '/' for commands"].is-empty::before
       margin-bottom: 0.25em;
     }
   }
+/* List styles - Fixed for regular BulletList */
+  ul:not([data-type="taskList"]),
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+    list-style: disc outside; /* Ensures normal bullets appear */
 
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Ensure ordered lists show numbers */
+  ol {
+    list-style: decimal outside;
+  }
   /* Task list specific styles */
   ul[data-type='taskList'] {
     list-style: none;
@@ -400,7 +416,7 @@ p[data-placeholder="Write something or Press '/' for commands"].is-empty::before
       &[data-checked='true'] > div {
         opacity: 0.7;
         text-decoration: line-through;
-        color: #374151; /* dark gray for completed text */
+        color: var(--accent); /* dark gray for completed text */
       }
     }
 
