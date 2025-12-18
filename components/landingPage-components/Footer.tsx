@@ -5,9 +5,18 @@ import NotevoLogo from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import MaxWContainer from "../ui/MaxWContainer";
+import { motion } from "framer-motion";
+
 export default function Footer() {
   return (
-    <footer className="w-full rounded-t-xl text-foreground py-10">
+    <footer className=" relative w-full text-foreground py-10 ">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 2, delay: 0.3 }}
+        viewport={{ once: true }}
+        className=" absolute inset-0 -z-10 w-full text-foreground py-10 bg-gradient-to-tl from-primary/50 via-secondary/60 to-transparent"
+      />
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>

@@ -32,7 +32,7 @@ export default function Navbar() {
         className={cn(
           "container mx-auto flex justify-between items-center border-solid border p-4 my-2 rounded-2xl transition-all duration-300",
           inView
-            ? "border-border bg-background/80 backdrop-blur-xl shadow-lg"
+            ? "border-border bg-background/60 backdrop-blur-xl"
             : "border-transparent bg-transparent",
         )}
         animate={{

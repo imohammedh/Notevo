@@ -33,7 +33,7 @@ const aiHighlight = AIHighlight;
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
-      "text-blue-700 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer",
+      "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer",
     ),
   },
 });
@@ -59,14 +59,16 @@ const updatedImage = UpdatedImage.configure({
 });
 
 const taskList = TaskList.configure({
-  HTMLAttributes: {},
+  HTMLAttributes: {
+    class: "list-none p-0 m-0",
+  },
 });
 
 const taskItem = TaskItem.configure({
-  HTMLAttributes: {
-    class: cx("flex gap-2 items-start my-4"),
-  },
   nested: true,
+  HTMLAttributes: {
+    class: "flex gap-2 items-start",
+  },
 });
 
 const horizontalRule = HorizontalRule.configure({
