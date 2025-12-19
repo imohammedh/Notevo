@@ -1,7 +1,11 @@
 "use client";
 import { HowToStartSteps } from "@/lib/data";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { useRef } from "react";
+import { AnimatedBeam } from "@/components/magicui/animated-beam";
+import { UserPlus, Link2, Rocket, PlusIcon, PenBoxIcon } from "lucide-react";
+import SectionHeading from "./SectionHeading";
+import Section from "@/components/ui/Section";
 
 interface Step {
   id: string;
@@ -10,58 +14,70 @@ interface Step {
   Body: string;
 }
 
-export default function HowToStartSection() {
-  return (
-    <section id="how-to-start" className="relative py-24 overflow-hidden">
-      <div className="container relative z-10 mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-              How To Start
-            </span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get started with Notevo in just a few simple steps
-          </p>
-        </motion.div>
+const stepIcons = [UserPlus, PlusIcon, PenBoxIcon];
 
-        <div className="grid grid-cols-1 md:grid-cols-2 Desktop:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {HowToStartSteps.map((step: Step, index: number) => (
-            <motion.div
-              key={step.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl" />
-              <div className="relative bg-gradient-to-br from-primary/5 via-secondary/10 to-transparent border border-border rounded-2xl p-6 h-full transition-all duration-300 hover:border-primary/20">
-                <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 " />
-                    <span className="text-xl font-semibold text-primary">
-                      {step.StepNum}
-                    </span>
+export default function HowToStartSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  return (
+    <Section sectionId="how-to-start" className="relative">
+      <div className="container relative z-10 mx-auto px-4">
+        <SectionHeading
+          SectionTitle="How To Start"
+          SectionSubTitle="Get started with Notevo in just a few simple steps"
+        />
+
+        <div ref={containerRef} className="relative max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 Desktop:grid-cols-3 gap-8">
+            {HowToStartSteps.map((step: Step, index: number) => {
+              const Icon = stepIcons[index];
+              return (
+                <motion.div
+                  key={step.id}
+                  className="group relative flex flex-col items-center justify-center"
+                >
+                  <div
+                    ref={(el) => {
+                      nodeRefs.current[index] = el;
+                    }}
+                    className="z-10 flex h-20 w-20 items-center justify-center rounded-full border-2 border-primary/20 bg-background shadow-lg mb-6 group-hover:border-primary/40 transition-colors"
+                  >
+                    <Icon className="h-8 w-8 text-primary" />
                   </div>
+
                   <div className="space-y-2">
-                    <h3 className="text-xl font-semibold text-foreground">
-                      {step.Title}
+                    <h3 className=" flex justify-center items-center gap-2 text-xl text-center font-semibold text-foreground">
+                      <span>{step.StepNum} .</span>
+                      <span>{step.Title}</span>
                     </h3>
-                    <p className="text-muted-foreground">{step.Body}</p>
                   </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {HowToStartSteps.map((_, index) => {
+            if (index < HowToStartSteps.length - 1) {
+              return (
+                <AnimatedBeam
+                  key={`beam-${index}`}
+                  containerRef={containerRef}
+                  fromRef={{ current: nodeRefs.current[index] }}
+                  toRef={{ current: nodeRefs.current[index + 1] }}
+                  curvature={0}
+                  duration={5}
+                  gradientStartColor="hsl(var(--primary))"
+                  gradientStopColor="hsl(var(--primary))"
+                  pathColor="hsl(var(--primary)/0.5)"
+                  pathOpacity={0.5}
+                />
+              );
+            }
+            return null;
+          })}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
