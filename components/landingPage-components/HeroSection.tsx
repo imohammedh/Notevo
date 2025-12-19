@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
@@ -9,10 +9,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useState, useEffect } from "react";
 import BrowserMockup from "./BrowserMockup";
 import MaxWContainer from "../ui/MaxWContainer";
+import { useMediaQuery } from "react-responsive";
 export default function HeroSection() {
   const getusers = useQuery(api.users.users);
   const [showBackground, setShowBackground] = useState(false);
-
+  const { scrollY } = useScroll();
+  const [inView, setInView] = useState<boolean>(false);
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowBackground(true);
@@ -20,21 +23,35 @@ export default function HeroSection() {
 
     return () => clearTimeout(timer);
   }, []);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 90) {
+      setInView(true);
+    } else {
+      setInView(false);
+    }
+  });
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden ">
       {/* Background Elements */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/70 to-transparent rounded-b-[3rem] mb-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showBackground ? 1 : 0 }}
-        transition={{ duration: 0.8 }}
-      />
-      <motion.div
-        className="absolute inset-0 shadow-[0_15px_25px] shadow-primary/20 rounded-b-[3rem] mb-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showBackground ? 1 : 0 }}
-        transition={{ duration: 0.8 }}
+        className={cn(
+          "absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/70 to-transparent",
+          inView ? "shadow-[0_15px_25px] shadow-primary/20 " : "",
+        )}
+        initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
+        animate={{
+          opacity: showBackground ? 1 : 0,
+          margin: inView && !isMobile ? 50 : 0,
+          borderRadius: inView && !isMobile ? 30 : 0,
+        }}
+        transition={{
+          opacity: { duration: showBackground ? 0.8 : 0 },
+          margin: { duration: 0.2 },
+          borderRadius: { duration: inView ? 0.3 : 0 },
+          delay: 0,
+          ease: "easeInOut",
+        }}
       />
 
       <div className=" w-full container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row Desktop:gap-8 ">
