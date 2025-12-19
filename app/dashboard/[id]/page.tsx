@@ -574,7 +574,7 @@ function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {Array.from({ length: 6 }).map((_, index) => (
+      {Array.from({ length: 5 }).map((_, index) => (
         <Card key={index} className="bg-card/90 backdrop-blur-sm border-border">
           <CardContent className="p-4">
             <div className="flex items-center gap-4">

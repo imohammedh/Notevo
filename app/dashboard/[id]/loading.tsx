@@ -90,7 +90,7 @@ function NotesSkeleton({ viewMode }: { viewMode: "grid" | "list" }) {
   if (viewMode === "grid") {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 5 }).map((_, i) => (
           <GridNoteSkeleton key={i} />
         ))}
       </div>
@@ -99,7 +99,7 @@ function NotesSkeleton({ viewMode }: { viewMode: "grid" | "list" }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {Array.from({ length: 6 }).map((_, i) => (
+      {Array.from({ length: 5 }).map((_, i) => (
         <ListNoteSkeleton key={i} />
       ))}
     </div>
