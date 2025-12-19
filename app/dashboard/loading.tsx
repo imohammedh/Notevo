@@ -39,7 +39,7 @@ function GreetingSkeleton() {
 function Slider({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative group w-[360px] tabletAir:w-[750px] tabletPro:w-[950px] Desktop:w-full">
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
+      <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 no-visible-scrollbar scrollbar-hide ">
         {children}
       </div>
 
