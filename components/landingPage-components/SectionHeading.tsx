@@ -2,30 +2,28 @@ interface SectionHeadingProps {
   SectionTitle: string;
   SectionSubTitle: string;
 }
+import { motion } from "framer-motion";
 
 export default function SectionHeading({
   SectionTitle,
   SectionSubTitle,
 }: SectionHeadingProps) {
   return (
-    <div
-      className="flex justify-center items-center flex-col w-full text-center
-                    py-6 sm:py-8 md:py-12 Desktop:py-20"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className="text-center mb-16"
     >
-      <h1
-        className="text-3xl sm:text-4xl md:text-5xl Desktop:text-6xl 
-                       font-semibold text-brand_tertiary
-                       py-2 sm:py-3"
-      >
-        {SectionTitle}
-      </h1>
-      <h2
-        className="text-xs sm:text-sm md:text-base Desktop:text-Desktop
-                       font-bold text-brand_tertiary/50
-                       w-[90%] sm:w-[80%] md:w-[70%] Desktop:w-[50%]"
-      >
-        {SectionSubTitle}
+      <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+        <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+          {SectionTitle}
+        </span>
       </h2>
-    </div>
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        {SectionSubTitle}
+      </p>
+    </motion.div>
   );
 }

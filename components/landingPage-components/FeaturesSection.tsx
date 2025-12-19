@@ -9,7 +9,7 @@ import TextEditor from "@/public/Rich Text Editor.svg";
 import Sync from "@/public/sync_note.png";
 import Section from "@/components/ui/Section";
 import MaxWContainer from "@/components/ui/MaxWContainer";
-
+import SectionHeading from "./SectionHeading";
 const featureImages = {
   "AI-Powered": TalkNote,
   "Sync Across Devices": Sync,
@@ -20,27 +20,12 @@ const featureImages = {
 
 export default function FeaturesSection() {
   return (
-    <Section
-      sectionId="features"
-      className="relative py-24 overflow-hidden bg-gradient-to-b from-background to-background/50"
-    >
+    <Section sectionId="features" className="relative overflow-hidden">
       <MaxWContainer className="relative z-10 ">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-              Features you'll love
-            </span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to take your note-taking to the next level
-          </p>
-        </motion.div>
+        <SectionHeading
+          SectionTitle="Features you'll love"
+          SectionSubTitle="Everything you need to take your note-taking to the next level"
+        />
 
         <div className="space-y-24">
           {Features.map((feature, index) => {
