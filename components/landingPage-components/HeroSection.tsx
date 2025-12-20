@@ -38,7 +38,7 @@ export default function HeroSection() {
       {/* Background Elements */}
       <motion.div
         className={cn(
-          "absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/70 to-transparent",
+          "absolute inset-0 bg-gradient-to-br from-primary/70 via-secondary to-transparent",
           inView ? "shadow-[0_15px_25px] shadow-primary/20 " : "",
         )}
         initial={{ opacity: 0, margin: 0, borderRadius: 0 }}

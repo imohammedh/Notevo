@@ -17,11 +17,11 @@ export default function MoreAboutMe() {
   return (
     <Section sectionId="about">
       <MaxWContainer>
-        <Card className="relative bg-gradient-to-br from-primary/10 via-secondary/10 to-transparent border-border p-5 sm:p-10">
-          <span className="absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-60 text-primary">
+        <Card className="relative bg-gradient-to-br from-primary/50 via-secondary to-transparent border-border p-5 sm:p-10">
+          <span className="absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-60 text-primary">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
-          <span className="absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-60 text-secondary">
+          <span className="absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-60 text-primary-foreground">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
           <CardContent className="w-full flex flex-col sm:flex-row justify-between items-center">

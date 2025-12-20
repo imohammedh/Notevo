@@ -13,12 +13,12 @@ export default function Footer() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
         viewport={{ once: true }}
-        className=" absolute inset-0 -z-10 w-full text-foreground py-10 bg-gradient-to-tl from-primary/50 via-secondary/70 to-transparent"
+        className=" absolute inset-0 -z-10 w-full text-foreground py-10 bg-gradient-to-tl from-primary/50 via-secondary to-transparent"
       />
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           <div>
             <Link href="/">
               <Image
@@ -52,24 +52,30 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mt-4 text-lg font-semibold text-foreground">
-              Legal
-            </h3>
+            <h3 className=" text-lg font-semibold text-foreground">Legal</h3>
             <ul className="mt-2 space-y-2 text-muted-foreground">
               <li>
-                <Link href="/terms-of-service" className="hover:underline">
+                <Link
+                  prefetch={true}
+                  href="/terms-of-service"
+                  className="hover:underline"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="hover:underline">
+                <Link
+                  prefetch={true}
+                  href="/privacy-policy"
+                  className="hover:underline"
+                >
                   Privacy Policy
                 </Link>
               </li>
             </ul>
           </div>
         </div>
-        <div className="mt-5 border-t border-border pt-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-5 border-t border-primary/20 pt-5 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="text-start text-muted-foreground text-sm">
             Copyright © {new Date().getFullYear()} Notevo. All rights reserved.
           </div>
