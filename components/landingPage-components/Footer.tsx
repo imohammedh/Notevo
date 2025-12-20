@@ -9,13 +9,13 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className=" relative w-full text-foreground py-10 ">
+    <footer className=" relative w-full text-foreground py-20">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.4 }}
         viewport={{ once: true }}
-        className=" absolute inset-0 -z-10 w-full text-foreground py-10 bg-gradient-to-tl from-primary/50 via-secondary to-transparent"
+        className="absolute inset-0 -z-10 w-full text-foreground py-10 bg-gradient-to-tl from-primary/50 via-secondary to-transparent"
       />
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
@@ -39,12 +39,20 @@ export default function Footer() {
             <h3 className="text-lg font-semibold text-foreground">Notevo</h3>
             <ul className="mt-2 space-y-2 text-muted-foreground">
               <li>
-                <Link href="/#How_To_Start" className="hover:underline">
+                <Link
+                  prefetch={true}
+                  href="/#How_To_Start"
+                  className="hover:underline"
+                >
                   How To Start
                 </Link>
               </li>
               <li>
-                <Link href="/#features" className="hover:underline">
+                <Link
+                  prefetch={true}
+                  href="/#features"
+                  className="hover:underline"
+                >
                   Features
                 </Link>
               </li>
