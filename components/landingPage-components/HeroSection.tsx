@@ -16,6 +16,8 @@ export default function HeroSection() {
   const { scrollY } = useScroll();
   const [inView, setInView] = useState<boolean>(false);
   const isMobile = useMediaQuery({ maxWidth: 640 });
+  const isTabletAir_horizontal = useMediaQuery({ maxWidth: 1180 });
+  const isTabletPro_horizontal = useMediaQuery({ maxWidth: 1366 });
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowBackground(true);
@@ -42,8 +44,20 @@ export default function HeroSection() {
         initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
         animate={{
           opacity: showBackground ? 1 : 0,
-          margin: inView && !isMobile ? 50 : 0,
-          borderRadius: inView && !isMobile ? 30 : 0,
+          margin:
+            inView &&
+            !isMobile &&
+            !isTabletAir_horizontal &&
+            !isTabletPro_horizontal
+              ? 50
+              : 0,
+          borderRadius:
+            inView &&
+            !isMobile &&
+            !isTabletAir_horizontal &&
+            !isTabletPro_horizontal
+              ? 30
+              : 0,
         }}
         transition={{
           opacity: { duration: showBackground ? 0.8 : 0 },
