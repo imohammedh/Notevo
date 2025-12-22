@@ -22,12 +22,12 @@ export default function FeaturesSection() {
     if (theme === "light") {
       setFeatureImages({
         "Rich Text Editor": NotevoLightkNotePic,
-        "Smart Organization": NotevoLightWorkingspacePagePic,
+        "Simple Organization": NotevoLightWorkingspacePagePic,
       });
     } else {
       setFeatureImages({
         "Rich Text Editor": NotevoDarkNotePic,
-        "Smart Organization": NotevoDarkWorkingspacePagePic,
+        "Simple Organization": NotevoDarkWorkingspacePagePic,
       });
     }
   }, [theme]);
