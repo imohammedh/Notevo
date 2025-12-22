@@ -23,7 +23,7 @@ export function generateMetadata({
   noindex = false,
   keywords = [],
 }: GenerateMetadataParams = {}): Metadata {
-  const fullTitle = title ? `${title} | ${siteName}` : defaultTitle;
+  const fullTitle = title ? `${title}` : defaultTitle;
   const fullDescription = description || defaultDescription;
   const url = `${siteUrl}${path}`;
   const imageUrl = image.startsWith("http") ? image : `${siteUrl}${image}`;
