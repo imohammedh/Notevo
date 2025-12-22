@@ -60,7 +60,7 @@ export default function FeaturesSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="w-full md:w-1/2"
+                  className="w-full md:w-2/3"
                 >
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/50 from-50% via-secondary to-transparent border-border rounded-2xl" />
@@ -68,7 +68,7 @@ export default function FeaturesSection() {
                       <Image
                         src={image}
                         alt={`${feature.title} demo`}
-                        className="w-full h-fit object-cover rounded-lg"
+                        className="w-full h-full object-cover rounded-lg"
                       />
                     </div>
                   </div>
