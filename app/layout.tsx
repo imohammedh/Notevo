@@ -20,7 +20,8 @@ const lato = Lato({
 export const metadata: Metadata = {
   ...generateSEOMetadata({
     title: "Notevo - Simple, Structured Note-Taking",
-    description: "Notevo a minimal, structured, note-taking app",
+    description:
+      "Notevo helps you capture your thoughts, organize them effortlessly and interact with your notes in one clean, modern interface.",
     path: "/",
   }),
   icons: {
