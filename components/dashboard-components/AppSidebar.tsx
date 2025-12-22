@@ -779,7 +779,6 @@ const UserAccountSection = memo(function UserAccountSection({
                 <Avatar className="h-8 w-8">
                   <AvatarImage
                     src={User?.image || "/placeholder.svg"}
-                    className="rounded-full"
                     alt={User ? User.name?.charAt(0) : "..."}
                   />
                   <AvatarFallback className="bg-foreground text-foreground">

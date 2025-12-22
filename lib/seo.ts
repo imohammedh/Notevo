@@ -4,7 +4,7 @@ const siteUrl = "https://notevo.me";
 const siteName = "Notevo";
 const defaultTitle = "Notevo - Simple, Structured Note-Taking";
 const defaultDescription =
-  "Interact with Your Notes Like Never Before. Organize, Discuss, and Enhance Your Ideas Seamlessly. Notevo helps you capture your thoughts, organize them effortlessly, and interact with your notes all in one clean, modern interface.";
+  "Notevo helps you capture your thoughts, organize them effortlessly and interact with your notes in one clean, modern interface.";
 
 interface GenerateMetadataParams {
   title?: string;

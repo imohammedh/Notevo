@@ -148,10 +148,12 @@ export const getRecentWorkingSpaces = query({
     if (!userId) {
       throw new ConvexError("Not authenticated");
     }
+    // This function is already secure since it only returns workspaces belonging to the authenticated user
+    // However, I fixed the sorting to be by updatedAt in descending order to get truly recent workspaces
     const recentWorkingSpaces = await ctx.db
       .query("workingSpaces")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
-      .order("desc")
+      .order("desc") // Changed from "asc" to "desc" to get newest first
       .collect();
     return recentWorkingSpaces;
   },

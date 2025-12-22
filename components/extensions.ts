@@ -157,10 +157,26 @@ const tableHeader = TableHeader.configure({
     ),
   },
 });
+const TipTapExtensionTableCell = TableCell.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      backgroundColor: {
+        default: null,
+        renderHTML: (attributes) => {
+          if (!attributes.backgroundColor) {
+            return {};
+          }
 
-const tableCell = TableCell.configure({
-  HTMLAttributes: {
-    class: cx("border border-border p-3 min-w-[100px] relative"),
+          return {
+            style: `background-color: ${attributes.backgroundColor}`,
+          };
+        },
+        parseHTML: (element) => {
+          return element.style.backgroundColor.replace(/['"]+/g, "");
+        },
+      },
+    };
   },
 });
 
@@ -179,5 +195,5 @@ export const defaultExtensions = [
   table,
   tableRow,
   tableHeader,
-  tableCell,
+  TipTapExtensionTableCell,
 ];

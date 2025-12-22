@@ -68,7 +68,7 @@ export default function HeroSection() {
         }}
       />
 
-      <div className=" w-full container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row Desktop:gap-8 ">
+      <div className=" container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row Desktop:gap-8 ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -170,7 +170,7 @@ export default function HeroSection() {
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.8 + index * 0.1 }}
                   >
-                    <Avatar className="w-10 h-10 border-2 border-background">
+                    <Avatar className="w-10 h-10">
                       <AvatarFallback className="bg-primary/20 animate-pulse" />
                     </Avatar>
                   </motion.div>
@@ -184,7 +184,7 @@ export default function HeroSection() {
                       animate={{ scale: 1 }}
                       transition={{ delay: 0.8 + indx * 0.1 }}
                     >
-                      <Avatar className="w-10 h-10 border-2 border-background">
+                      <Avatar className="w-10 h-10">
                         <AvatarImage
                           src={user.image || "/placeholder.svg"}
                           alt={user.name || "User"}
@@ -202,9 +202,9 @@ export default function HeroSection() {
                       animate={{ scale: 1 }}
                       transition={{ delay: 1.2 }}
                     >
-                      <Avatar className="w-10 h-10 border-2 border-background bg-primary/10">
+                      <Avatar className="w-10 h-10">
                         <AvatarFallback className="text-sm font-medium">
-                          +{getusers.length - 4}
+                          + {getusers.length - 4}
                         </AvatarFallback>
                       </Avatar>
                     </motion.div>
@@ -218,7 +218,7 @@ export default function HeroSection() {
                 {!getusers ? (
                   <span className="animate-pulse">...</span>
                 ) : (
-                  `${getusers.length}+`
+                  ` ${getusers.length} +`
                 )}
               </span>{" "}
               Active users
@@ -229,9 +229,9 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9 }}
-          className="space-y-8"
+          className="space-y-8 relative"
         >
-          <BrowserMockup></BrowserMockup>
+          <BrowserMockup />
         </motion.div>
       </div>
     </section>

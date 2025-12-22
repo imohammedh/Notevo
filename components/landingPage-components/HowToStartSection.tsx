@@ -66,10 +66,11 @@ export default function HowToStartSection() {
                   fromRef={{ current: nodeRefs.current[index] }}
                   toRef={{ current: nodeRefs.current[index + 1] }}
                   curvature={0}
-                  duration={5}
+                  duration={0}
                   gradientStartColor="hsl(var(--primary))"
                   gradientStopColor="hsl(var(--primary))"
                   pathColor="hsl(var(--primary)/0.5)"
+                  pathWidth={10}
                   pathOpacity={0.5}
                 />
               );

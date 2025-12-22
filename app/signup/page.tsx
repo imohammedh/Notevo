@@ -102,12 +102,10 @@ export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-br from-background via-transparent to-background/90 p-6 md:p-10 overflow-hidden">
-      <div className="w-full relative max-w-sm md:max-w-3xl">
+      <div className="w-full relative max-w-sm Desktop:max-w-[54rem]">
         {/* Glow effects */}
         <div className="absolute inset-0 -z-10 h-full w-full bg-background">
-          <div className="absolute top-0 -left-4 h-72 w-72 animate-blob rounded-full bg-primary/30 blur-2xl filter" />
-          <div className="absolute top-0 -right-4 h-72 w-72 animate-blob animation-delay-2000 rounded-full bg-secondary/30 blur-2xl filter" />
-          <div className="absolute -bottom-8 left-20 h-72 w-72 animate-blob animation-delay-4000 rounded-full bg-accent/30 blur-2xl filter" />
+          <div className="absolute -top-10 -left-10 h-72 w-80 rounded-full bg-primary/80 blur-2xl filter" />
         </div>
         <div className="flex flex-col gap-6">
           <Card className="overflow-hidden bg-background/60 backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300 border border-border">

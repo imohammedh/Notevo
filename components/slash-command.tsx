@@ -162,7 +162,7 @@ export const suggestionItems = createSuggestionItems([
   },
   {
     title: "Table",
-    description: "Insert a table",
+    description: "Insert a 3 × 3 table",
     searchTerms: ["table", "grid", "spreadsheet"],
     icon: <Table size={18} />,
     command: ({ editor, range }) => {

@@ -2,23 +2,35 @@
 import { Features } from "@/lib/data";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Organize from "@/public/Organize.svg";
-import TalkNote from "@/public/AI-Powered.svg";
-import Categorization from "@/public/Activities.svg";
-import TextEditor from "@/public/Rich Text Editor.svg";
-import Sync from "@/public/sync_note.png";
-import Section from "@/components/ui/Section";
+import NotevoDarkNotePic from "@/public/NotevoDarkNotePic.svg";
+import NotevoLightkNotePic from "@/public/NotevoLightNotePic.svg";
+import NotevoDarkWorkingspacePagePic from "@/public/NotevoDarkWorkingspacePagePic.svg";
+import NotevoLightWorkingspacePagePic from "@/public/NotevoLightWorkingspacePagePic.svg";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import SectionHeading from "./SectionHeading";
-const featureImages = {
-  "AI-Powered": TalkNote,
-  "Sync Across Devices": Sync,
-  "Rich Text Editor": TextEditor,
-  "Smart Organization": Organize,
-  "Activity Tracking": Categorization,
-};
-
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import Section from "../ui/Section";
+import { object } from "zod";
+import { StaticImageData } from "next/image";
 export default function FeaturesSection() {
+  const [featureImages, setFeatureImages] = useState<
+    Record<string, StaticImageData>
+  >({});
+  const { theme } = useTheme();
+  const featureImagess = useEffect(() => {
+    if (theme === "light") {
+      setFeatureImages({
+        "Rich Text Editor": NotevoLightkNotePic,
+        "Smart Organization": NotevoLightWorkingspacePagePic,
+      });
+    } else {
+      setFeatureImages({
+        "Rich Text Editor": NotevoDarkNotePic,
+        "Smart Organization": NotevoDarkWorkingspacePagePic,
+      });
+    }
+  }, [theme]);
   return (
     <Section sectionId="features" className="relative overflow-hidden">
       <MaxWContainer className="relative z-10 ">
@@ -30,8 +42,7 @@ export default function FeaturesSection() {
         <div className="space-y-24">
           {Features.map((feature, index) => {
             const isEven = index % 2 === 0;
-            const image =
-              featureImages[feature.title as keyof typeof featureImages];
+            const image = featureImages[feature.title];
             return (
               <motion.div
                 key={index}
@@ -57,7 +68,7 @@ export default function FeaturesSection() {
                       <Image
                         src={image}
                         alt={`${feature.title} demo`}
-                        className="w-full h-64 md:h-80 object-cover rounded-lg"
+                        className="w-full h-fit object-cover rounded-lg"
                       />
                     </div>
                   </div>
