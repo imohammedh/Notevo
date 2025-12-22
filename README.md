@@ -7,10 +7,10 @@ I've been looking for a note-taking app that's simpler than Notion but more orga
  ## To Do :
  
  - [x] fix the routing
- - [ ] Link and fix the AI API
  - [ ] add the toaster notification
  - [x] fix the middleware 404 on redirect
  - [ ] add the shareable Link
+ - [ ] real time collaboration
  - [x] fix the code Highlight in the editer
  - [X] add the feedback menu item in the user dropdown menu in the sidebar
  - [x] Redesigning for the dashboard 
