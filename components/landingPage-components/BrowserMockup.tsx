@@ -16,24 +16,425 @@ const BrowserMockup: React.FC = () => {
     content: [
       {
         type: "heading",
-        attrs: { level: 2 },
-        content: [{ type: "text", text: "! Hi 👋 " }],
-      },
-      {
-        type: "codeBlock",
-        attrs: { language: "typescriptreact" },
+        attrs: {
+          level: 1,
+        },
         content: [
-          { type: "text", text: "Write something or Press '/' for commands" },
+          {
+            type: "text",
+            marks: [
+              {
+                type: "textStyle",
+                attrs: {
+                  color: "var(--novel-text-orange)",
+                },
+              },
+            ],
+            text: "Fine Tuning Large Language Model (LLM) :",
+          },
         ],
       },
       {
-        type: "youtube",
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            marks: [
+              {
+                type: "highlight",
+                attrs: {
+                  color: "var(--novel-highlight-default)",
+                },
+              },
+            ],
+            text: "Fine-tuning refers to the process of taking a pre-trained model and adapting it to a specific task by training it further on a smaller, domain-specific dataset. It refines the model’s capabilities and improving its accuracy in specialized tasks without needing a massive dataset or expensive computational resources.",
+          },
+        ],
+      },
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "Fine-tuning allows us to:",
+          },
+        ],
+      },
+      {
+        type: "bulletList",
+        content: [
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Steer the model",
+                  },
+                  {
+                    type: "text",
+                    text: " towards performing optimally on particular tasks.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Ensure model outputs",
+                  },
+                  {
+                    type: "text",
+                    text: " align with expected results for real-world applications.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Reduce model hallucinations",
+                  },
+                  {
+                    type: "text",
+                    text: " and improve output relevance and honesty.",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "image",
         attrs: {
-          src: "https://youtu.be/b1t41Q3xRM8?si=aJoJVBkEWaqSCDOZ",
-          start: 0,
-          width: 640,
-          height: 480,
+          src: "https://media.geeksforgeeks.org/wp-content/uploads/20241209185908679747/Fine-Tuning-Large-Language-Models.webp",
+          alt: "Fine-Tuning-Large-Language-Models",
+          title: null,
+          width: 801,
+          height: 400,
         },
+      },
+      {
+        type: "heading",
+        attrs: {
+          level: 2,
+        },
+        content: [
+          {
+            type: "text",
+            marks: [
+              {
+                type: "highlight",
+                attrs: {
+                  color: "var(--novel-highlight-blue)",
+                },
+              },
+            ],
+            text: "How is Fine-Tuning Performed?",
+          },
+        ],
+      },
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "The general fine-tuning process can be broken down into following steps:",
+          },
+        ],
+      },
+      {
+        type: "orderedList",
+        attrs: {
+          start: 1,
+          type: null,
+        },
+        content: [
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Select Base Model: ",
+                  },
+                  {
+                    type: "text",
+                    text: "Choose a pre-trained model based on our task and compute budget.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Choose Fine-Tuning Method:",
+                  },
+                  {
+                    type: "text",
+                    text: " Select the most appropriate method like ",
+                  },
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://www.geeksforgeeks.org/artificial-intelligence/instruction-tuning-for-large-language-models/",
+                          target: "_blank",
+                          rel: "noopener",
+                          class:
+                            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer text-blue-700",
+                        },
+                      },
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "I",
+                  },
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://www.geeksforgeeks.org/artificial-intelligence/instruction-tuning-for-large-language-models/",
+                          target: "_blank",
+                          rel: "noopener",
+                          class:
+                            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer text-blue-700",
+                        },
+                      },
+                    ],
+                    text: "nstruction Fine-Tuning",
+                  },
+                  {
+                    type: "text",
+                    text: ", ",
+                  },
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://www.geeksforgeeks.org/artificial-intelligence/supervised-fine-tuning-sft-for-llms/",
+                          target: "_blank",
+                          rel: "noopener",
+                          class:
+                            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer text-blue-700",
+                        },
+                      },
+                    ],
+                    text: "Supervised Fine-Tuning",
+                  },
+                  {
+                    type: "text",
+                    text: ", ",
+                  },
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://www.geeksforgeeks.org/artificial-intelligence/what-is-parameter-efficient-fine-tuning-peft/",
+                          target: "_blank",
+                          rel: "noopener",
+                          class:
+                            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer text-blue-700",
+                        },
+                      },
+                    ],
+                    text: "PEFT",
+                  },
+                  {
+                    type: "text",
+                    text: ", ",
+                  },
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://www.geeksforgeeks.org/deep-learning/what-is-low-rank-adaptation-lora/",
+                          target: "_blank",
+                          rel: "noopener",
+                          class:
+                            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer text-blue-700",
+                        },
+                      },
+                    ],
+                    text: "lora",
+                  },
+                  {
+                    type: "text",
+                    text: ", ",
+                  },
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://www.geeksforgeeks.org/deep-learning/what-is-qlora-quantized-low-rank-adapter/",
+                          target: "_blank",
+                          rel: "noopener",
+                          class:
+                            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer text-blue-700",
+                        },
+                      },
+                    ],
+                    text: "qlora",
+                  },
+                  {
+                    type: "text",
+                    text: ", etc based on the task and dataset.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Prepare Dataset:",
+                  },
+                  {
+                    type: "text",
+                    text: " Structure our data for task-specific training, ensuring the format matches the model's requirements.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Training: ",
+                  },
+                  {
+                    type: "text",
+                    text: "Use frameworks like TensorFlow, PyTorch or high-level libraries like ",
+                  },
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "link",
+                        attrs: {
+                          href: "https://www.geeksforgeeks.org/machine-learning/getting-started-with-transformers/",
+                          target: "_blank",
+                          rel: "noopener",
+                          class:
+                            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer text-blue-700",
+                        },
+                      },
+                    ],
+                    text: "Transformers",
+                  },
+                  {
+                    type: "text",
+                    text: " to fine-tune the model.",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: "listItem",
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    type: "text",
+                    marks: [
+                      {
+                        type: "bold",
+                      },
+                    ],
+                    text: "Evaluate and Iterate:",
+                  },
+                  {
+                    type: "text",
+                    text: " Test the model, refine it as necessary and re-train to improve performance.",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
     ],
   });
@@ -48,21 +449,17 @@ const BrowserMockup: React.FC = () => {
   ];
 
   const currentTab = tabs.find((tab) => tab.id === activeTab) || tabs[0];
-
   return (
-    <div className="w-full max-w-5xl">
+    <div className="w-full">
       {/* Responsive Browser Container */}
       <div
         className="
           relative
-          w-full
           aspect-[16/11] 
-          max-w-[90vw] 
-          sm:max-w-3xl 
-          Desktop:max-w-4xl
+          Desktop:w-[48vw] 
+          max-w-4xl
           overflow-hidden
           rounded-lg
-          shadow-2xl
           border border-border
         "
       >
