@@ -1,6 +1,6 @@
 # Notevo
  
-I've been looking for a note-taking app that's simpler than Notion but more organized than Google Keep. Something clean, structured, with a rich text editor. That's what Notevo's trying to be: a minimal, structured, AI-powered note-taking app
+I've been looking for a note-taking app that's simpler than Notion but more organized than Google Keep. Something clean, structured, with a rich text editor. That's what Notevo's trying to be: a minimal, structured, note-taking app
  
  ![Note Page](showCase_imgs/HomePage.png)
  
