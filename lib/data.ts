@@ -135,7 +135,7 @@ export const Features = [
     icon: FileText,
   },
   {
-    title: "Smart Organization",
+    title: "Simple Organization",
     description:
       "Organize your thoughts, manage your workspaces, and boost your productivity with Notevo's intuitive organization system.",
     icon: LayoutGrid,
