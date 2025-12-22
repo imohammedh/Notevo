@@ -59,9 +59,7 @@ const BrowserMockup: React.FC = () => {
           aspect-[16/11] 
           max-w-[90vw] 
           sm:max-w-3xl 
-          md:max-w-4xl 
-          lg:max-w-5xl 
-          xl:max-w-6xl
+          Desktop:max-w-4xl
           overflow-hidden
           rounded-lg
           shadow-2xl

@@ -163,8 +163,8 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
             y2: gradientCoordinates.y2,
           }}
           transition={{
-            delay,
-            duration,
+            delay: 0,
+            duration: 1.2,
             ease: [0.16, 1, 0.3, 1], // https://easings.net/#easeOutExpo
             repeat: Infinity,
             repeatDelay: 0,

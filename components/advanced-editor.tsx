@@ -25,29 +25,21 @@ import { NodeSelector } from "./selectors/node-selector";
 import { TextButtons } from "./selectors/text-buttons";
 import { uploadFn } from "./image-upload";
 import { ColorSelector } from "./selectors/color-selector";
+import DragHandle from "@tiptap/extension-drag-handle-react";
 // REMOVED: import { TableSelector } from "./selectors/table-selector";
 import { TableControls } from "./table-controls";
 import Highlight from "@tiptap/extension-highlight";
 
 const placeholderExtension = Placeholder.configure({
   placeholder: ({ node }) => {
-    if (node.type.name === "paragraph") {
-      return "Write something or Press '/' for commands";
+    if (node.type.name === "heading") {
+      return "Heading";
     }
-    if (node.type.name === "heading" && node.attrs.level === 1) {
-      return "Header 1";
-    }
-    if (node.type.name === "heading" && node.attrs.level === 2) {
-      return "Header 2";
-    }
-    if (node.type.name === "heading" && node.attrs.level === 3) {
-      return "Header 3";
-    }
-    return "";
+    return "Press '/' for commands, or start typing...";
   },
   showOnlyWhenEditable: true,
   showOnlyCurrent: true,
-  includeChildren: false,
+  includeChildren: true,
 });
 
 const extensions = [
@@ -79,104 +71,9 @@ const TailwindAdvancedEditor = ({
 
   return (
     <>
-      <style jsx global>{`
-        /* Table resize handle styling */
-        .ProseMirror table {
-          border-collapse: collapse;
-          table-layout: fixed;
-          width: 100%;
-          margin: 1rem 0;
-          overflow: hidden;
-          position: relative;
-        }
-
-        .ProseMirror th,
-        .ProseMirror td {
-          min-width: 1em;
-          border: 1px solid hsl(var(--border));
-          padding: 0.75rem;
-          vertical-align: top;
-          box-sizing: border-box;
-          position: relative;
-        }
-
-        .ProseMirror th {
-          font-weight: 600;
-          text-align: left;
-          background-color: hsl(var(--muted));
-        }
-
-        /* IMPORTANT: Cell selection highlight */
-        .ProseMirror .selectedCell {
-          background-color: rgba(59, 130, 246, 0.1);
-        }
-
-        .ProseMirror .selectedCell:after {
-          z-index: 2;
-          position: absolute;
-          content: "";
-          left: 0;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          background: rgba(59, 130, 246, 0.15);
-          pointer-events: none;
-          border: 2px solid rgb(59, 130, 246);
-        }
-
-        .ProseMirror .column-resize-handle {
-          position: absolute;
-          right: -2px;
-          top: 0;
-          bottom: -2px;
-          width: 4px;
-          background-color: rgb(59, 130, 246);
-          pointer-events: none;
-          z-index: 20;
-        }
-
-        .ProseMirror.resize-cursor {
-          cursor: ew-resize;
-          cursor: col-resize;
-        }
-
-        /* Drag handle styling */
-        .ProseMirror .drag-handle {
-          position: absolute;
-          opacity: 0;
-          transition: opacity 0.2s;
-          cursor: grab;
-        }
-
-        .ProseMirror:hover .drag-handle {
-          opacity: 1;
-        }
-
-        .ProseMirror .drag-handle:hover {
-          background-color: hsl(var(--muted));
-        }
-
-        .ProseMirror .drag-handle:active {
-          cursor: grabbing;
-        }
-
-        /* Table hover effect */
-        .ProseMirror table:hover {
-          box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Cell focus effect */
-        .ProseMirror td:focus,
-        .ProseMirror th:focus {
-          outline: 2px solid rgb(59, 130, 246);
-          outline-offset: -2px;
-        }
-      `}</style>
-
       <EditorRoot>
-        <div className="relative w-full">
+        <div className="relative notion-editor-container">
           {editorInstance && <TableControls editor={editorInstance} />}
-
           <EditorContent
             initialContent={initialContent}
             extensions={extensions}
@@ -202,7 +99,7 @@ const TailwindAdvancedEditor = ({
             }}
             slotAfter={<ImageResizer />}
           >
-            <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-lg border border-border bg-popover px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-muted-foreground scrollbar-track-transparent">
+            <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-lg border border-border bg-accent px-0.5 py-2 transition-all scrollbar-thin scrollbar-thumb-muted-foreground scrollbar-track-transparent">
               <EditorCommandEmpty className="px-2 text-muted-foreground">
                 No results
               </EditorCommandEmpty>
@@ -211,7 +108,7 @@ const TailwindAdvancedEditor = ({
                   <EditorCommandItem
                     value={item.title}
                     onCommand={(val) => item.command(val)}
-                    className="flex w-full items-center space-x-2 rounded-lg px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
+                    className="flex w-full items-center space-x-2 rounded-lg px-2 py-1 text-left text-sm text-foreground hover:bg-foreground/10 aria-selected:bg-foreground/10"
                     key={item.title}
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background">

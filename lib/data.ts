@@ -129,12 +129,6 @@ export const pricingPlans = {
 
 export const Features = [
   {
-    title: "Sync Across Devices",
-    description:
-      "Access your notes from anywhere with seamless syncing across all your devices.",
-    icon: Cloud,
-  },
-  {
     title: "Rich Text Editor",
     description:
       "Create and edit notes with a Notion-style WYSIWYG editor, powered by Novel.rich text formatting.",
