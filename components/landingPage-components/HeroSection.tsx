@@ -67,8 +67,7 @@ export default function HeroSection() {
           ease: "easeInOut",
         }}
       />
-
-      <div className=" container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row Desktop:gap-8 ">
+      <div className=" container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -111,8 +110,8 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Notevo helps you capture your thoughts, organize them effortlessly
-            and interact with your notes in one clean, modern interface.
+            Notevo helps you capture your thoughts and organize them
+            effortlessly in one clean, modern interface.
           </motion.p>
 
           <motion.div
