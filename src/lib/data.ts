@@ -1,7 +1,3 @@
-import imgSrc_TalkNote from "../public/chat_Note.png";
-import imgSrc_Categorization from "../public/data-classification_note.png";
-import imgSrc_TextEditor from "../public/content-creator_note.png";
-import imgSrc_Sync from "../public/sync_note.png";
 import { IoLogoVercel } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
 import { Brain, Cloud, FileText, LayoutGrid, Activity } from "lucide-react";

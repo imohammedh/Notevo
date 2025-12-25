@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
-import imgsrc from "../public/Notevo-logo.svg";
+import imgsrc from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 import Section from "@/src/components/ui/Section";
 import MaxWContainer from "@/src/components/ui/MaxWContainer";
