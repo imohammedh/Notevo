@@ -7,21 +7,26 @@ import SectionHeading from "./SectionHeading";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Section from "../ui/Section";
+import { StaticImageData } from "next/image";
+import NotevoLightNotePic from "@/public/NotevoLightNotePic.svg";
+import NotevoDarkNotePic from "@/public/NotevoDarkNotePic.svg";
+import NotevoLightWorkingspacePagePic from "@/public/NotevoLightWorkingspacePagePic.svg";
+import NotevoDarkWorkingspacePagePic from "@/public/NotevoDarkWorkingspacePagePic.svg";
 export default function FeaturesSection() {
-  const [featureImages, setFeatureImages] = useState<Record<string, string>>(
-    {},
-  );
+  const [featureImages, setFeatureImages] = useState<
+    Record<string, StaticImageData>
+  >({});
   const { theme } = useTheme();
   useEffect(() => {
     if (theme === "light") {
       setFeatureImages({
-        "Rich Text Editor": "/NotevoLightNotePic.svg",
-        "Simple Organization": "/NotevoLightWorkingspacePagePic.svg",
+        "Rich Text Editor": NotevoLightNotePic,
+        "Simple Organization": NotevoLightWorkingspacePagePic,
       });
     } else {
       setFeatureImages({
-        "Rich Text Editor": "/NotevoDarkNotePic.svg",
-        "Simple Organization": "/NotevoDarkWorkingspacePagePic.svg",
+        "Rich Text Editor": NotevoDarkNotePic,
+        "Simple Organization": NotevoDarkWorkingspacePagePic,
       });
     }
   }, [theme]);
@@ -56,17 +61,14 @@ export default function FeaturesSection() {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="w-full md:w-2/3"
                 >
-                  <div className="relative aspect-video">
+                  <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/50 from-50% via-secondary to-transparent border-border rounded-2xl" />
-                    <div className="relative bg-gradient-to-br from-primary/10 from-50% via-secondary/10 to-transparent border-border rounded-2xl p-2 overflow-hidden h-full">
-                      {image && (
-                        <Image
-                          src={image}
-                          alt={`${feature.title} demo`}
-                          fill
-                          className="object-cover rounded-lg"
-                        />
-                      )}
+                    <div className="relative bg-gradient-to-br from-primary/10 from-50% via-secondary/10 to-transparent border-border rounded-2xl p-2 overflow-hidden">
+                      <Image
+                        src={image}
+                        alt={`${feature.title} demo`}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
                     </div>
                   </div>
                 </motion.div>

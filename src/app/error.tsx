@@ -2,7 +2,7 @@
 import MaxWContainer from "@/src/components/ui/MaxWContainer";
 import Section from "@/src/components/ui/Section";
 import { useEffect } from "react";
-import imgsrc from "../public/Notevo-logo.svg";
+import imgsrc from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
