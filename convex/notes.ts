@@ -1,7 +1,7 @@
 import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { generateSlug } from "../lib/generateSlug";
+import { generateSlug } from "../src/lib/generateSlug";
 import { paginationOptsValidator } from "convex/server";
 
 export const createNote = mutation({

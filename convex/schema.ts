@@ -40,6 +40,7 @@ export default defineSchema({
     userId: v.optional(v.id("users")),
     body: v.optional(v.string()),
     favorite: v.optional(v.boolean()),
+    published: v.optional(v.boolean()),
     createdAt: v.number(),
     updatedAt: v.number(),
     tags: v.optional(v.array(v.id("tags"))),
