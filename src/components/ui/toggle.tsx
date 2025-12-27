@@ -12,6 +12,8 @@ const toggleVariants = cva(
     variants: {
       variant: {
         default: "bg-transparent",
+        SidebarMenuButton:
+          "flex justify-center items-center gap-2 bg-none w-full text-foreground hover:bg-foreground/10",
         outline:
           "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
       },

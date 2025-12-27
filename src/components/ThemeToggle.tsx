@@ -27,6 +27,7 @@ export function ThemeToggle() {
       }}
       value={theme}
       className="w-full justify-center items-center flex-1 gap-1"
+      variant="SidebarMenuButton"
     >
       <ToggleGroupItem value="light" aria-label="Light" className="flex-1 px-3">
         <SunIcon className="h-4 w-4" />
