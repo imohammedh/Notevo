@@ -110,7 +110,7 @@ export default function SignInPage() {
     }
   }, [theme]);
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-muted to-transparent p-6 md:p-10 overflow-hidden">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-transparent via-muted to-transparent p-6 md:p-10 overflow-hidden">
       <div className="w-full relative max-w-sm Desktop:max-w-[53rem]">
         <div className="flex flex-col gap-6">
           <Card className="overflow-hidden bg-background/60 backdrop-blur-md transition-all duration-300 border border-border">
