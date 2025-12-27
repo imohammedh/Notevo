@@ -16,7 +16,7 @@ export default function MoreAboutMe() {
   return (
     <Section sectionId="about">
       <MaxWContainer>
-        <Card className="relative bg-gradient-to-br from-primary/50 via-secondary to-transparent border-border p-5 sm:p-10">
+        <Card className="relative bg-accent border-border p-5 sm:p-10">
           <span className="absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-60 text-primary">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
