@@ -62,7 +62,7 @@ export default function FeaturesSection() {
                   className="w-full md:w-2/3"
                 >
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent from-50% via-secondary to-transparent border-border rounded-2xl" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-muted from-50% via-secondary to-transparent border-border rounded-2xl" />
                     <div className="relative bg-gradient-to-br from-primary/10 from-50% via-secondary/10 to-transparent border-border rounded-2xl p-2 overflow-hidden">
                       <Image
                         src={image}
