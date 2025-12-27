@@ -1,11 +1,13 @@
 "use client";
+import NotevoLightNotePic from "@/public/NotevoLightNotePic.svg";
+import NotevoDarkNotePic from "@/public/NotevoDarkNotePic.svg";
 import { SignInMethodDivider } from "@/src/components/SignInMethodDivider";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import LoadingAnimation from "@/src/components/ui/LoadingAnimation";
 import { Card, CardContent } from "@/src/components/ui/card";
@@ -20,9 +22,10 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { z } from "zod";
-
+import { StaticImageData } from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useTheme } from "next-themes";
 
 function SignInWithMagicLink({
   handleLinkSent,
@@ -98,15 +101,19 @@ function SignInWithMagicLink({
 
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
+  const [Timage, setTimage] = useState<any>();
+  const { theme } = useTheme();
+  useEffect(() => {
+    if (theme === "dark") setTimage(NotevoDarkNotePic);
+    else {
+      setTimage(NotevoLightNotePic);
+    }
+  }, [theme]);
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-br from-background via-transparent to-background/90 p-6 md:p-10 overflow-hidden">
-      <div className="w-full relative max-w-sm Desktop:max-w-[54rem]">
-        {/* Glow effects */}
-        <div className="absolute inset-0 -z-10 h-full w-full bg-background">
-          <div className="absolute -top-10 -left-10 h-72 w-80 rounded-full bg-primary/80 blur-2xl filter" />
-        </div>
+    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-muted to-transparent p-6 md:p-10 overflow-hidden">
+      <div className="w-full relative max-w-sm Desktop:max-w-[53rem]">
         <div className="flex flex-col gap-6">
-          <Card className="overflow-hidden bg-background/60 backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300 border border-border">
+          <Card className="overflow-hidden bg-background/60 backdrop-blur-md transition-all duration-300 border border-border">
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="p-6 md:p-8">
                 <div className="flex flex-col gap-6">
@@ -156,13 +163,13 @@ export default function SignInPage() {
                   )}
                 </div>
               </div>
-              <div className="relative hidden bg-card/70 backdrop-blur-md md:block">
+              <div className="relative hidden bg-card/60 backdrop-blur-md md:block">
                 <Image
-                  src="/AIChatBotLogin.svg"
+                  src={Timage}
                   alt="login Image"
                   width={800}
                   height={600}
-                  className="absolute blur-sm opacity-30 inset-0 h-full w-full object-cover"
+                  className="absolute blur-sm opacity-60 inset-0 h-full w-full object-cover"
                 />
                 <Image
                   src="/Notevo-logo.svg"
