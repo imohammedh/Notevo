@@ -73,7 +73,7 @@ export default function Navbar() {
 
           <nav className="hidden lg:flex items-center gap-3">
             {NavLinks.map((link, i) => (
-              <Button key={i} variant="ghost" className="px-2">
+              <Button key={i} variant="SidebarMenuButton" className="px-2">
                 <Link
                   href={link.path}
                   className="relative text-sm font-medium text-foreground transition-colors group"
@@ -91,7 +91,11 @@ export default function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center gap-4">
-          <Button variant="ghost" asChild className="relative group">
+          <Button
+            variant="SidebarMenuButton"
+            asChild
+            className="relative group"
+          >
             <Link
               prefetch={true}
               href="/signup"

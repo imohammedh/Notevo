@@ -39,7 +39,7 @@ export default function HeroSection() {
       <motion.div
         className={cn(
           "absolute inset-0 bg-gradient-to-b from-accent from-50%  to-transparent",
-          inView ? "shadow-[0_15px_25px] shadow-accent " : "",
+          inView ? "shadow-[0_15px_25px] shadow-muted " : "",
         )}
         initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
         animate={{
