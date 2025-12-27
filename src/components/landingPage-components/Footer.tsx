@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/src/components/ThemeToggle";
@@ -8,15 +7,8 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className=" relative w-full text-foreground py-10">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        viewport={{ once: true }}
-        className="absolute inset-0 -z-10 w-full text-foreground py-10 "
-      />
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
+    <footer className=" relative w-full text-foreground py-20  bg-gradient-to-t from-accent from-50% to-transparent">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           <div>
             <Link href="/">

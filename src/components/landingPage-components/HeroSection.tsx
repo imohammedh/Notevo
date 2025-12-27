@@ -38,8 +38,8 @@ export default function HeroSection() {
       {/* Background Elements */}
       <motion.div
         className={cn(
-          "absolute inset-0 bg-gradient-to-br from-primary/70 via-secondary to-transparent",
-          inView ? "shadow-[0_15px_25px] shadow-primary/20 " : "",
+          "absolute inset-0 bg-gradient-to-b from-accent from-50%  to-transparent",
+          inView ? "shadow-[0_15px_25px] shadow-accent " : "",
         )}
         initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
         animate={{
@@ -49,14 +49,14 @@ export default function HeroSection() {
             !isMobile &&
             !isTabletAir_horizontal &&
             !isTabletPro_horizontal
-              ? 50
+              ? 30
               : 0,
           borderRadius:
             inView &&
             !isMobile &&
             !isTabletAir_horizontal &&
             !isTabletPro_horizontal
-              ? 30
+              ? 20
               : 0,
         }}
         transition={{
@@ -67,7 +67,7 @@ export default function HeroSection() {
           ease: "easeInOut",
         }}
       />
-      <div className=" container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row ">
+      <div className=" container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row Desktop:gap-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
