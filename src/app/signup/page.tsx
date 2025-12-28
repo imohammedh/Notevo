@@ -64,10 +64,9 @@ function SignInWithMagicLink({
       setLoading(false);
     }
   }
-
   return (
     <Form {...form}>
-      <form className="flex flex-col" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="flex flex-col " onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
@@ -84,7 +83,7 @@ function SignInWithMagicLink({
         <Button
           type="submit"
           disabled={loading}
-          className="hover:scale-105 transition-transform duration-200 mt-2"
+          className="hover:scale-105 transition-transform duration-200 mt-5"
         >
           {loading ? (
             <>
