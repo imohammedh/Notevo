@@ -4,13 +4,17 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/src/lib/utils";
-
+import { useTheme } from "next-themes";
+import DarkNotevoLogo from "@/public/DarkNotevo-logo.svg";
+import NotevoLogo from "@/public/Notevo-logo.svg";
 export default function Navbar() {
   const { scrollY } = useScroll();
   const [inView, setInView] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme } = useTheme();
+  const [navImage, setNavImage] = useState<any>();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 90) {
@@ -19,6 +23,13 @@ export default function Navbar() {
       setInView(false);
     }
   });
+  useEffect(() => {
+    if (theme === "dark") {
+      setNavImage(NotevoLogo);
+    } else {
+      setNavImage(DarkNotevoLogo);
+    }
+  }, [theme]);
 
   return (
     <motion.header
@@ -55,7 +66,7 @@ export default function Navbar() {
               className="relative"
             >
               <Image
-                src="/Notevo-logo.svg"
+                src={navImage}
                 alt="Notevo Logo"
                 className="hover:opacity-80 transition-opacity"
                 priority

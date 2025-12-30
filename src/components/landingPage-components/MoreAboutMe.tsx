@@ -1,15 +1,7 @@
 import MaxWContainer from "../ui/MaxWContainer";
 import Section from "../ui/Section";
 import Image from "next/image";
-import { Button } from "@/src/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
 import { LiaQuoteLeftSolid } from "react-icons/lia";
 
 export default function MoreAboutMe() {
