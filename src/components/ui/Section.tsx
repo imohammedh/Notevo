@@ -51,7 +51,7 @@ export default function Section({
       className={cn(
         "w-full",
         "px-4 sm:px-6 md:px-8",
-        "py-8 sm:py-12 md:py-16 Desktop:py-32 ",
+        "py-12 sm:py-16 md:py-20 Desktop:py-32 ",
         className,
       )}
     >

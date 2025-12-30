@@ -26,7 +26,8 @@ import { StaticImageData } from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
-
+import DarkNotevoLogo from "@/public/DarkNotevo-logo.svg";
+import NotevoLogo from "@/public/Notevo-logo.svg";
 function SignInWithMagicLink({
   handleLinkSent,
 }: {
@@ -102,10 +103,14 @@ export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
   const [Timage, setTimage] = useState<any>();
   const { theme } = useTheme();
+  const [IconImage, setIconImage] = useState<any>();
   useEffect(() => {
-    if (theme === "dark") setTimage(NotevoDarkNotePic);
-    else {
+    if (theme === "dark") {
+      setTimage(NotevoDarkNotePic);
+      setIconImage(NotevoLogo);
+    } else {
       setTimage(NotevoLightNotePic);
+      setIconImage(DarkNotevoLogo);
     }
   }, [theme]);
   return (
@@ -118,7 +123,7 @@ export default function SignInPage() {
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center mb-2 text-center">
                     <Image
-                      src="/Notevo-logo.svg"
+                      src={IconImage}
                       alt="log Image"
                       width={45}
                       height={45}
@@ -171,7 +176,7 @@ export default function SignInPage() {
                   className="absolute blur-sm opacity-60 inset-0 h-full w-full object-cover"
                 />
                 <Image
-                  src="/Notevo-logo.svg"
+                  src={IconImage}
                   alt="log Image"
                   width={75}
                   height={75}

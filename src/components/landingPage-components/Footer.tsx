@@ -4,8 +4,20 @@ import Image from "next/image";
 import { ThemeToggle } from "@/src/components/ThemeToggle";
 import MaxWContainer from "../ui/MaxWContainer";
 import { motion } from "framer-motion";
-
+import { useTheme } from "next-themes";
+import DarkNotevoLogo from "@/public/DarkNotevo-logo.svg";
+import NotevoLogo from "@/public/Notevo-logo.svg";
+import { useEffect, useState } from "react";
 export default function Footer() {
+  const [IconImage, setIconImage] = useState<any>();
+  const { theme } = useTheme();
+  useEffect(() => {
+    if (theme === "dark") {
+      setIconImage(NotevoLogo);
+    } else {
+      setIconImage(DarkNotevoLogo);
+    }
+  }, [theme]);
   return (
     <footer className=" relative w-full text-foreground py-20  bg-gradient-to-t from-accent from-50% to-transparent">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 ">
@@ -13,7 +25,7 @@ export default function Footer() {
           <div>
             <Link href="/">
               <Image
-                src="/Notevo-logo.svg"
+                src={IconImage}
                 alt="Notevo logo"
                 className="pb-2 hover:opacity-50"
                 width={50}
