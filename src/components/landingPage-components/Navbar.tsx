@@ -14,8 +14,9 @@ export default function Navbar() {
   const [inView, setInView] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme } = useTheme();
-  const [navImage, setNavImage] = useState<any>();
-
+  const defaultIcon: string =
+    theme === "dark" ? "/Notevo-logo.svg" : "/DarkNotevo-logo.svg";
+  const [IconImage, setIconImage] = useState<string>(defaultIcon);
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 90) {
       setInView(true);
@@ -25,9 +26,9 @@ export default function Navbar() {
   });
   useEffect(() => {
     if (theme === "dark") {
-      setNavImage(NotevoLogo);
+      setIconImage(NotevoLogo);
     } else {
-      setNavImage(DarkNotevoLogo);
+      setIconImage(DarkNotevoLogo);
     }
   }, [theme]);
 
@@ -55,18 +56,14 @@ export default function Navbar() {
         }}
       >
         <div className="flex justify-center items-center gap-4">
-          <Link
-            prefetch={true}
-            href="/"
-            className="flex items-center gap-2 group"
-          >
+          <Link href="/" className="flex items-center gap-2 group">
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className="relative"
             >
               <Image
-                src={navImage}
+                src={IconImage}
                 alt="Notevo Logo"
                 className="hover:opacity-80 transition-opacity"
                 priority

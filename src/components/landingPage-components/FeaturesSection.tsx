@@ -13,10 +13,19 @@ import NotevoDarkNotePic from "@/public/NotevoDarkNotePic.svg";
 import NotevoLightWorkingspacePagePic from "@/public/NotevoLightWorkingspacePagePic.svg";
 import NotevoDarkWorkingspacePagePic from "@/public/NotevoDarkWorkingspacePagePic.svg";
 export default function FeaturesSection() {
-  const [featureImages, setFeatureImages] = useState<
-    Record<string, StaticImageData>
-  >({});
   const { theme } = useTheme();
+  const defaultFeatureImages: Record<string, StaticImageData> =
+    theme === "light"
+      ? {
+          "Rich Text Editor": NotevoLightNotePic,
+          "Simple Organization": NotevoLightWorkingspacePagePic,
+        }
+      : {
+          "Rich Text Editor": NotevoDarkNotePic,
+          "Simple Organization": NotevoDarkWorkingspacePagePic,
+        };
+  const [featureImages, setFeatureImages] =
+    useState<Record<string, StaticImageData>>(defaultFeatureImages);
   useEffect(() => {
     if (theme === "light") {
       setFeatureImages({

@@ -2,20 +2,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/src/components/ThemeToggle";
-import MaxWContainer from "../ui/MaxWContainer";
-import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import DarkNotevoLogo from "@/public/DarkNotevo-logo.svg";
-import NotevoLogo from "@/public/Notevo-logo.svg";
 import { useEffect, useState } from "react";
 export default function Footer() {
-  const [IconImage, setIconImage] = useState<any>();
   const { theme } = useTheme();
+  const defaultIcon: string =
+    theme === "dark" ? "/Notevo-logo.svg" : "/DarkNotevo-logo.svg";
+  const [IconImage, setIconImage] = useState<string>(defaultIcon);
   useEffect(() => {
     if (theme === "dark") {
-      setIconImage(NotevoLogo);
+      setIconImage("/Notevo-logo.svg");
     } else {
-      setIconImage(DarkNotevoLogo);
+      setIconImage("/DarkNotevo-logo.svg");
     }
   }, [theme]);
   return (
@@ -35,7 +33,7 @@ export default function Footer() {
             <h2 className="text-2xl font-bold text-foreground">Notevo</h2>
             <p className="mt-2 text-muted-foreground">
               Notes without the hassle.
-            </p>
+            </p>{" "}
           </div>
 
           <div>
