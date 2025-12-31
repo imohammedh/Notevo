@@ -49,7 +49,7 @@ export default function HeroSection() {
             !isMobile &&
             !isTabletAir_horizontal &&
             !isTabletPro_horizontal
-              ? 30
+              ? 60
               : 0,
           borderRadius:
             inView &&
