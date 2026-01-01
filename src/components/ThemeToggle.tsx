@@ -1,5 +1,4 @@
 "use client";
-
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";

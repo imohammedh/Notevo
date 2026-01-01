@@ -5,17 +5,15 @@ import { ThemeToggle } from "@/src/components/ThemeToggle";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 export default function Footer() {
-  const { theme } = useTheme();
-  const defaultIcon: string =
-    theme === "dark" ? "/Notevo-logo.svg" : "/DarkNotevo-logo.svg";
-  const [IconImage, setIconImage] = useState<string>(defaultIcon);
+  const { resolvedTheme } = useTheme();
+  const [IconImage, setIconImage] = useState<string>("/Notevo-logo.svg");
   useEffect(() => {
-    if (theme === "dark") {
+    if (resolvedTheme === "dark") {
       setIconImage("/Notevo-logo.svg");
     } else {
       setIconImage("/DarkNotevo-logo.svg");
     }
-  }, [theme]);
+  }, [resolvedTheme]);
   return (
     <footer className=" relative w-full text-foreground py-20  bg-gradient-to-t from-accent from-50% to-transparent">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 ">

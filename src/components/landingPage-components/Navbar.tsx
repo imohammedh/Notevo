@@ -13,10 +13,8 @@ export default function Navbar() {
   const { scrollY } = useScroll();
   const [inView, setInView] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { theme } = useTheme();
-  const defaultIcon: string =
-    theme === "dark" ? "/Notevo-logo.svg" : "/DarkNotevo-logo.svg";
-  const [IconImage, setIconImage] = useState<string>(defaultIcon);
+  const { resolvedTheme } = useTheme();
+  const [IconImage, setIconImage] = useState<string>("/notevo-logo.svg");
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 90) {
       setInView(true);
@@ -25,12 +23,12 @@ export default function Navbar() {
     }
   });
   useEffect(() => {
-    if (theme === "dark") {
+    if (resolvedTheme === "dark") {
       setIconImage(NotevoLogo);
     } else {
       setIconImage(DarkNotevoLogo);
     }
-  }, [theme]);
+  }, [resolvedTheme]);
 
   return (
     <motion.header

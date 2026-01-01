@@ -13,21 +13,15 @@ import NotevoDarkNotePic from "@/public/NotevoDarkNotePic.svg";
 import NotevoLightWorkingspacePagePic from "@/public/NotevoLightWorkingspacePagePic.svg";
 import NotevoDarkWorkingspacePagePic from "@/public/NotevoDarkWorkingspacePagePic.svg";
 export default function FeaturesSection() {
-  const { theme } = useTheme();
-  const defaultFeatureImages: Record<string, StaticImageData> =
-    theme === "light"
-      ? {
-          "Rich Text Editor": NotevoLightNotePic,
-          "Simple Organization": NotevoLightWorkingspacePagePic,
-        }
-      : {
-          "Rich Text Editor": NotevoDarkNotePic,
-          "Simple Organization": NotevoDarkWorkingspacePagePic,
-        };
-  const [featureImages, setFeatureImages] =
-    useState<Record<string, StaticImageData>>(defaultFeatureImages);
+  const { resolvedTheme } = useTheme();
+  const [featureImages, setFeatureImages] = useState<
+    Record<string, StaticImageData>
+  >({
+    "Rich Text Editor": NotevoDarkNotePic,
+    "Simple Organization": NotevoDarkWorkingspacePagePic,
+  });
   useEffect(() => {
-    if (theme === "light") {
+    if (resolvedTheme === "light") {
       setFeatureImages({
         "Rich Text Editor": NotevoLightNotePic,
         "Simple Organization": NotevoLightWorkingspacePagePic,
@@ -38,7 +32,7 @@ export default function FeaturesSection() {
         "Simple Organization": NotevoDarkWorkingspacePagePic,
       });
     }
-  }, [theme]);
+  }, [resolvedTheme]);
   return (
     <Section sectionId="features" className="relative overflow-hidden">
       <MaxWContainer className="relative z-10 ">

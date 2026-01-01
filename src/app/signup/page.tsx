@@ -1,7 +1,5 @@
 "use client";
-import NotevoLightNotePic from "@/public/NotevoLightNotePic.svg";
 import NotevoDarkNotePic from "@/public/NotevoDarkNotePic.svg";
-import { SignInMethodDivider } from "@/src/components/SignInMethodDivider";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { useAuthActions } from "@convex-dev/auth/react";
@@ -22,12 +20,9 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { z } from "zod";
-import { StaticImageData } from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
-import DarkNotevoLogo from "@/public/DarkNotevo-logo.svg";
-import NotevoLogo from "@/public/Notevo-logo.svg";
 function SignInWithMagicLink({
   handleLinkSent,
 }: {
@@ -100,19 +95,19 @@ function SignInWithMagicLink({
 }
 
 export default function SignInPage() {
+  const { resolvedTheme } = useTheme();
   const [step, setStep] = useState<"signIn" | "linkSent">("signIn");
-  const [Timage, setTimage] = useState<any>();
-  const { theme } = useTheme();
-  const [IconImage, setIconImage] = useState<any>();
+  const [Timage, setTimage] = useState<string>("/NotevoDarkNotePic.svg");
+  const [IconImage, setIconImage] = useState<string>("/Notevo-logo.svg");
   useEffect(() => {
-    if (theme === "dark") {
-      setTimage(NotevoDarkNotePic);
-      setIconImage(NotevoLogo);
+    if (resolvedTheme === "dark") {
+      setTimage("/NotevoDarkNotePic.svg");
+      setIconImage("/Notevo-logo.svg");
     } else {
-      setTimage(NotevoLightNotePic);
-      setIconImage(DarkNotevoLogo);
+      setTimage("/NotevoLightNotePic.svg");
+      setIconImage("/DarkNotevo-logo.svg");
     }
-  }, [theme]);
+  }, [resolvedTheme]);
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-transparent via-muted to-transparent p-6 md:p-10 overflow-hidden">
       <div className="w-full relative max-w-sm Desktop:max-w-[53rem]">
