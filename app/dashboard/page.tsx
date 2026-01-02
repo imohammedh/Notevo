@@ -44,13 +44,13 @@ export default function Dashboard() {
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNoteByUserId,
     {},
-    { initialNumItems: 7 },
+    { initialNumItems: 5 },
   );
   const {
     results: favResults,
     status: favStatus,
     loadMore: loadMoreFavs,
-  } = usePaginatedQuery(api.notes.getFavNotes, {}, { initialNumItems: 7 });
+  } = usePaginatedQuery(api.notes.getFavNotes, {}, { initialNumItems: 5 });
 
   const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
   const [loading, setLoading] = useState(false);

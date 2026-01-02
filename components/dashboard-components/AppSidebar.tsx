@@ -836,7 +836,7 @@ const AppSidebar = React.memo(function AppSidebar() {
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getFavNotes,
     {},
-    { initialNumItems: 7 },
+    { initialNumItems: 5 },
   );
   const createTable = useMutation(api.notesTables.createTable);
 

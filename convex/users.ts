@@ -1,6 +1,6 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { query } from "./_generated/server";
-
+import { paginationOptsValidator } from "convex/server";
 export const viewer = query({
   args: {},
   handler: async (ctx) => {
@@ -16,12 +16,18 @@ export const viewer = query({
   },
 });
 export const users = query({
-  args: {},
-  handler: async (ctx) => {
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, { paginationOpts }) => {
     const users = await ctx.db
       .query("users")
+      .filter((q) =>
+        q.or(
+          q.neq(q.field("emailVerificationTime"), null),
+          q.neq(q.field("phoneVerificationTime"), null),
+        ),
+      )
       .order("desc")
-      .collect();
+      .paginate(paginationOpts);
     return users;
   },
 });
