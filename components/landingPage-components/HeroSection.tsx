@@ -15,7 +15,7 @@ export default function HeroSection() {
   const { results } = usePaginatedQuery(
     api.users.users,
     {},
-    { initialNumItems: 30 },
+    { initialNumItems: 5 },
   );
   const [showBackground, setShowBackground] = useState(false);
   const { scrollY } = useScroll();
@@ -208,7 +208,7 @@ export default function HeroSection() {
                     >
                       <Avatar className="w-10 h-10">
                         <AvatarFallback className="text-sm font-medium">
-                          + {results.length - 4}
+                          + 65
                         </AvatarFallback>
                       </Avatar>
                     </motion.div>
@@ -219,11 +219,7 @@ export default function HeroSection() {
             <p className="text-sm text-muted-foreground">
               Join{" "}
               <span className="font-semibold text-foreground">
-                {!results ? (
-                  <span className="animate-pulse">...</span>
-                ) : (
-                  ` ${results.length} +`
-                )}
+                {!results ? <span className="animate-pulse">...</span> : "+ 79"}
               </span>{" "}
               Active users
             </p>
