@@ -86,7 +86,7 @@ export default function Footer() {
           <div className="text-start text-muted-foreground text-sm">
             Copyright © {new Date().getFullYear()} Notevo. All rights reserved.
           </div>
-          <div className="w-[200px]">
+          <div>
             <ThemeToggle />
           </div>
         </div>

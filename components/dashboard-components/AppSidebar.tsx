@@ -790,15 +790,14 @@ const UserAccountSection = memo(function UserAccountSection({
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start justify-center">
-                  <div className="font-medium">
+                  <div className="font-medium ">
                     {User?.name ? (
                       User.name
                     ) : (
                       <SkeletonTextAnimation className="w-28 mx-0" />
                     )}
-                  </div>
-                  <div className="text-xs text-foreground/60">
-                    {User?.email}
+                    <br />
+                    {formatUserEmail(User?.email)}
                   </div>
                 </div>
               </DropdownMenuItem>
