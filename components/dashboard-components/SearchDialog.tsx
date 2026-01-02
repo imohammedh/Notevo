@@ -134,7 +134,7 @@ export default function SearchDialog({
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNoteByUserId,
     {},
-    { initialNumItems: 15 },
+    { initialNumItems: 5 },
   );
 
   useHotkeys(

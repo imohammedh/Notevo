@@ -10,8 +10,13 @@ import { useState, useEffect } from "react";
 import BrowserMockup from "./BrowserMockup";
 import MaxWContainer from "../ui/MaxWContainer";
 import { useMediaQuery } from "react-responsive";
+import { usePaginatedQuery } from "convex/react";
 export default function HeroSection() {
-  const getusers = useQuery(api.users.users);
+  const { results } = usePaginatedQuery(
+    api.users.users,
+    {},
+    { initialNumItems: 30 },
+  );
   const [showBackground, setShowBackground] = useState(false);
   const { scrollY } = useScroll();
   const [inView, setInView] = useState<boolean>(false);
@@ -160,7 +165,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <div className="flex -space-x-4">
-              {!getusers ? (
+              {!results ? (
                 // Loading state
                 Array.from({ length: 4 }).map((_, index) => (
                   <motion.div
@@ -176,7 +181,7 @@ export default function HeroSection() {
                 ))
               ) : (
                 <>
-                  {getusers.slice(0, 4).map((user, indx) => (
+                  {results.slice(0, 4).map((user, indx) => (
                     <motion.div
                       key={user._id}
                       initial={{ scale: 0 }}
@@ -195,7 +200,7 @@ export default function HeroSection() {
                       </Avatar>
                     </motion.div>
                   ))}
-                  {getusers.length > 4 && (
+                  {results.length > 4 && (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
@@ -203,7 +208,7 @@ export default function HeroSection() {
                     >
                       <Avatar className="w-10 h-10">
                         <AvatarFallback className="text-sm font-medium">
-                          + {getusers.length - 4}
+                          + {results.length - 4}
                         </AvatarFallback>
                       </Avatar>
                     </motion.div>
@@ -214,10 +219,10 @@ export default function HeroSection() {
             <p className="text-sm text-muted-foreground">
               Join{" "}
               <span className="font-semibold text-foreground">
-                {!getusers ? (
+                {!results ? (
                   <span className="animate-pulse">...</span>
                 ) : (
-                  ` ${getusers.length} +`
+                  ` ${results.length} +`
                 )}
               </span>{" "}
               Active users
