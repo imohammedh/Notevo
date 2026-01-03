@@ -13,7 +13,7 @@ import { useMediaQuery } from "react-responsive";
 import { usePaginatedQuery } from "convex/react";
 
 export default function HeroSection() {
-  const { results } = usePaginatedQuery(
+  const { results, status } = usePaginatedQuery(
     api.users.users,
     {},
     { initialNumItems: 5 },
@@ -69,13 +69,13 @@ export default function HeroSection() {
         }}
       />
 
-      <MaxWContainer className=" py-28 Desktop:py-40 relative flex flex-col items-center justify-center space-y-5">
+      <MaxWContainer className=" py-28 Desktop:py-40 relative flex flex-col items-center justify-center space-y-12">
         {/* Centered Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-5  text-center "
+          className="space-y-8  text-center "
         >
           <motion.h1
             className="bg-gradient-to-r from-primary to-foreground/50 bg-clip-text text-transparent text-4xl md:text-6xl Desktop:text-[90px] font-bold tracking-tight"
@@ -154,7 +154,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <div className="flex -space-x-4">
-              {!results ? (
+              {status === "LoadingFirstPage" ? (
                 // Loading state
                 Array.from({ length: 4 }).map((_, index) => (
                   <motion.div
