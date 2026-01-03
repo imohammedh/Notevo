@@ -69,7 +69,7 @@ export default function HeroSection() {
         }}
       />
 
-      <MaxWContainer className=" py-28 Desktop:py-52 relative flex flex-col items-center justify-center space-y-5">
+      <MaxWContainer className=" py-28 Desktop:py-40 relative flex flex-col items-center justify-center space-y-5">
         {/* Centered Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
