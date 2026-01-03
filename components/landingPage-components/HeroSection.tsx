@@ -69,7 +69,7 @@ export default function HeroSection() {
         }}
       />
 
-      <MaxWContainer className=" py-28 Desktop:py-40 relative flex flex-col items-center justify-center space-y-12">
+      <MaxWContainer className=" py-28 Desktop:py-36 relative flex flex-col items-center justify-center space-y-5">
         {/* Centered Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -84,6 +84,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span>Simple, Structured</span>
+            <br />
             <motion.span
               initial={{ backgroundSize: "0% 100%" }}
               animate={
@@ -224,7 +225,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 1, ease: "easeInOut" }}
-          className="w-full"
+          className="w-full rounded-lg shadow-[0_35px_55px_] shadow-primary/10"
         >
           <BrowserMockup />
         </motion.div>
