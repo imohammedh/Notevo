@@ -11,6 +11,7 @@ import BrowserMockup from "./BrowserMockup";
 import MaxWContainer from "../ui/MaxWContainer";
 import { useMediaQuery } from "react-responsive";
 import { usePaginatedQuery } from "convex/react";
+
 export default function HeroSection() {
   const { results } = usePaginatedQuery(
     api.users.users,
@@ -23,6 +24,7 @@ export default function HeroSection() {
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const isTabletAir_horizontal = useMediaQuery({ maxWidth: 1180 });
   const isTabletPro_horizontal = useMediaQuery({ maxWidth: 1366 });
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowBackground(true);
@@ -30,6 +32,7 @@ export default function HeroSection() {
 
     return () => clearTimeout(timer);
   }, []);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 90) {
       setInView(true);
@@ -39,23 +42,16 @@ export default function HeroSection() {
   });
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden ">
+    <section className="relative flex items-center justify-center overflow-hidden">
       {/* Background Elements */}
       <motion.div
         className={cn(
-          "absolute inset-0 bg-gradient-to-b from-accent from-50%  to-transparent",
-          inView ? "shadow-[0_15px_25px] shadow-muted " : "",
+          "absolute inset-0 bg-gradient-to-b from-accent from-50% to-transparent",
+          inView ? "shadow-[0_15px_25px] shadow-muted" : "",
         )}
         initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
         animate={{
           opacity: showBackground ? 1 : 0,
-          margin:
-            inView &&
-            !isMobile &&
-            !isTabletAir_horizontal &&
-            !isTabletPro_horizontal
-              ? 60
-              : 0,
           borderRadius:
             inView &&
             !isMobile &&
@@ -72,21 +68,22 @@ export default function HeroSection() {
           ease: "easeInOut",
         }}
       />
-      <div className=" container py-32 Desktop:py-0 relative text-start flex  justify-between items-center flex-grow flex-col Desktop:flex-row Desktop:gap-8">
+
+      <MaxWContainer className=" py-28 Desktop:py-52 relative flex flex-col items-center justify-center space-y-5">
+        {/* Centered Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-8"
+          className="space-y-5  text-center "
         >
           <motion.h1
-            className="bg-gradient-to-r from-primary to-foreground/50 bg-clip-text text-transparent text-4xl md:text-6xl Desktop:text-7xl font-bold tracking-tight"
+            className="bg-gradient-to-r from-primary to-foreground/50 bg-clip-text text-transparent text-4xl md:text-6xl Desktop:text-[90px] font-bold tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span>Simple, Structured</span>
-            <br />
             <motion.span
               initial={{ backgroundSize: "0% 100%" }}
               animate={
@@ -95,22 +92,14 @@ export default function HeroSection() {
                   : { backgroundSize: "0% 100%" }
               }
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="
-    bg-gradient-to-r 
-    from-primary/20 
-    to-secondary/10 
-    bg-no-repeat 
-    bg-[length:0%_100%] 
-    p-0.5
-    rounded-xl
-  "
+              className="bg-gradient-to-r from-primary/20 to-secondary/10 bg-no-repeat bg-[length:0%_100%] p-0.5 rounded-xl"
             >
               Note-Taking
             </motion.span>
           </motion.h1>
 
           <motion.p
-            className="max-w-2xl text-lg md:text-xl text-muted-foreground font-bold"
+            className="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground font-bold"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -120,7 +109,7 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.div
-            className="flex gap-4 justify-start items-center"
+            className="flex gap-4 justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -159,7 +148,7 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="flex items-center justify-start gap-8 py-5"
+            className="flex items-center justify-center gap-8 py-5"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -208,7 +197,7 @@ export default function HeroSection() {
                     >
                       <Avatar className="w-10 h-10">
                         <AvatarFallback className="text-sm font-medium">
-                          + 65
+                          + 75
                         </AvatarFallback>
                       </Avatar>
                     </motion.div>
@@ -219,21 +208,27 @@ export default function HeroSection() {
             <p className="text-sm text-muted-foreground">
               Join{" "}
               <span className="font-semibold text-foreground">
-                {!results ? <span className="animate-pulse">...</span> : "+ 79"}
+                {!results ? (
+                  <span className="animate-pulse">...</span>
+                ) : (
+                  ` 79 +`
+                )}
               </span>{" "}
               Active users
             </p>
           </motion.div>
         </motion.div>
+
+        {/* Browser Demo Below */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
-          className="space-y-8 relative"
+          transition={{ duration: 0.9, delay: 1, ease: "easeInOut" }}
+          className="w-full"
         >
           <BrowserMockup />
         </motion.div>
-      </div>
+      </MaxWContainer>
     </section>
   );
 }

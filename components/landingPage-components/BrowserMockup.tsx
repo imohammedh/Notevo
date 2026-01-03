@@ -455,9 +455,9 @@ const BrowserMockup: React.FC = () => {
       <div
         className="
           relative
-          aspect-[16/11] 
-          Desktop:w-[39vw] 
-          max-w-4xl
+          Desktop:w-full 
+          Desktop:h-[43rem] 
+          h-[35rem]
           overflow-hidden
           rounded-lg
           border border-border
