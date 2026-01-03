@@ -12,6 +12,8 @@ I've been looking for a note-taking app that's simpler than Notion but more orga
  - [ ] add the shareable Link
  - [ ] real time collaboration
  - [ ] note export pdf and markdown
+ - [ ] optimistic update layout
+ - [ ] caching layer with redis
  - [x] fix the code Highlight in the editer
  - [X] add the feedback menu item in the user dropdown menu in the sidebar
  - [x] Redesigning for the dashboard 
