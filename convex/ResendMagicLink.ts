@@ -7,7 +7,7 @@ export const ResendMagicLink = Resend({
   async sendVerificationRequest({ identifier: email, provider, url }) {
     const resend = new ResendAPI(provider.apiKey);
     const { error } = await resend.emails.send({
-      from: process.env.AUTH_EMAIL ?? "Notevo <onboarding@notevo.me>",
+      from: process.env.AUTH_EMAIL ?? "Notevo <team@notevo.me>",
       to: [email],
       replyTo: "support@notevo.me",
       subject: "Sign in to Notevo",
