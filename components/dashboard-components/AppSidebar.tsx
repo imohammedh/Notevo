@@ -166,66 +166,93 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
         </div>
         <SidebarTrigger />
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild className="my-1">
+      {getWorkingSpaces?.length === 1 ? (
+        getWorkingSpaces.map((workingSpace) => (
           <Button
-            className="font-medium w-full h-9 flex justify-between items-center gap-1"
+            className="font-medium w-full h-9 flex justify-start items-center gap-2"
             disabled={loading}
+            onMouseDown={() =>
+              handleCreateNote(
+                workingSpace._id as any,
+                workingSpace.slug as string,
+              )
+            }
           >
             {!loading ? (
               <>
+                <Plus size={16} className="font-bold" />
                 Create Note
-                <TbSelector size={16} className="font-bold" />
               </>
             ) : (
               <>
+                <LoadingAnimation className=" h-3 w-3 " />
                 Redirecting...
-                <LoadingAnimation className=" h-3 w-3 text-foreground" />
               </>
             )}
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          side="bottom"
-          className="rounded-xl m-2 p-1.5 bg-background/90 backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
-        >
-          <DropdownMenuLabel className="px-2 py-1 text-sm font-medium opacity-50">
-            {getWorkingSpaces?.length
-              ? "Select a workspace:"
-              : "Create a workspace to add notes:"}
-          </DropdownMenuLabel>
-          <DropdownMenuGroup className="flex-col">
-            {getWorkingSpaces?.length ? (
-              getWorkingSpaces.map((workingSpace) => (
-                <DropdownMenuItem
-                  key={workingSpace._id}
-                  className="relative flex-1 px-2 py-1.5 data-[highlighted]:bg-foreground rounded-lg"
-                  onSelect={() =>
-                    handleCreateNote(
-                      workingSpace._id as any,
-                      workingSpace.slug as string,
-                    )
-                  }
-                  disabled={loading}
+        ))
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild className="my-1">
+            <Button
+              className="font-medium w-full h-9 flex justify-between items-center gap-1"
+              disabled={loading}
+            >
+              {!loading ? (
+                <>
+                  Create Note
+                  <TbSelector size={16} className="font-bold" />
+                </>
+              ) : (
+                <>
+                  Redirecting...
+                  <LoadingAnimation className=" h-3 w-3 text-foreground" />
+                </>
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            side="bottom"
+            className="rounded-xl m-2 p-1.5 bg-background/90 backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
+          >
+            <DropdownMenuLabel className="px-2 py-1 text-sm font-medium opacity-50">
+              {getWorkingSpaces?.length
+                ? "Select a workspace:"
+                : "Create a workspace to add notes:"}
+            </DropdownMenuLabel>
+            <DropdownMenuGroup className="flex-col">
+              {getWorkingSpaces?.length ? (
+                getWorkingSpaces.map((workingSpace) => (
+                  <DropdownMenuItem
+                    key={workingSpace._id}
+                    className="relative flex-1 px-2 py-1.5 data-[highlighted]:bg-foreground rounded-lg"
+                    onSelect={() =>
+                      handleCreateNote(
+                        workingSpace._id as any,
+                        workingSpace.slug as string,
+                      )
+                    }
+                    disabled={loading}
+                  >
+                    <Notebook size="16" className="mr-2" />
+                    <span>{formatWorkspaceName(workingSpace.name)}</span>
+                  </DropdownMenuItem>
+                ))
+              ) : (
+                <Button
+                  variant="outline"
+                  onClick={handleCreateWorkingSpace}
+                  className="border-dashed h-9 my-2 w-full"
                 >
-                  <Notebook size="16" className="mr-2" />
-                  <span>{formatWorkspaceName(workingSpace.name)}</span>
-                </DropdownMenuItem>
-              ))
-            ) : (
-              <Button
-                variant="outline"
-                onClick={handleCreateWorkingSpace}
-                className="border-dashed h-9 my-2 w-full"
-              >
-                <p className="text-xs w-full flex justify-center items-center gap-2">
-                  <Plus size={16} /> Create Workspace
-                </p>
-              </Button>
-            )}
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
+                  <p className="text-xs w-full flex justify-center items-center gap-2">
+                    <Plus size={16} /> Create Workspace
+                  </p>
+                </Button>
+              )}
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </SidebarHeader>
   );
 });
