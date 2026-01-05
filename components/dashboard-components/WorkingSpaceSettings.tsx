@@ -47,7 +47,7 @@ export default function WorkingSpaceSettings({
   const [isDeleting, setIsDeleting] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null); // Ref for the input
 
   useEffect(() => {
@@ -113,14 +113,30 @@ export default function WorkingSpaceSettings({
 
   const tableCount = tables?.length || 0;
   const hasContent = tableCount > 0;
+  const handleTooltipMouseEnter = () => setIsTooltipOpen(true);
+  const handleTooltipMouseLeave = () => setIsTooltipOpen(false);
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="Trigger" className={cn("px-1.5 h-8", className)}>
-            <FaEllipsis size={22} />
-          </Button>
-        </DropdownMenuTrigger>
+        <TooltipProvider>
+          <Tooltip open={isTooltipOpen}>
+            <DropdownMenuTrigger asChild>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="Trigger"
+                  className={cn("px-1.5 h-8", className)}
+                  onMouseEnter={handleTooltipMouseEnter}
+                  onMouseLeave={handleTooltipMouseLeave}
+                >
+                  <FaEllipsis size={22} />
+                </Button>
+              </TooltipTrigger>
+            </DropdownMenuTrigger>
+            <TooltipContent side="bottom" align="start">
+              Rename, Delete
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <DropdownMenuContent
           side="bottom"
           align="start"
@@ -136,7 +152,7 @@ export default function WorkingSpaceSettings({
               className="text-foreground border-border"
               ref={inputRef}
             />
-          </DropdownMenuGroup>
+          </DropdownMenuGroup>{" "}
           <Button
             variant="SidebarMenuButton_destructive"
             className="w-full h-8 px-2 text-sm"
