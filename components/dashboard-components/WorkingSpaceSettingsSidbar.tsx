@@ -57,11 +57,12 @@ export default function WorkingSpaceSettingsSidbar({
     setIsDeleting(true);
     try {
       if (PathName === workspaceHref) {
-        router.push(`/dashboard`);
         await new Promise((resolve) => setTimeout(resolve, 400));
         await DeleteWorkingSpace({ _id: workingSpaceId });
+        router.push(`/dashboard`);
       } else {
         await DeleteWorkingSpace({ _id: workingSpaceId });
+        router.push(`/dashboard`);
       }
     } catch (error) {
       console.error("Failed to delete workspace:", error);

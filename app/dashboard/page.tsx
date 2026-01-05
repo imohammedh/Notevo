@@ -183,43 +183,45 @@ export default function Dashboard() {
       )}
 
       {/* Recent Notes Slider */}
-      <div className="mb-12">
-        <div className="mb-6">
-          <h2 className="text-foreground text-xl font-semibold">
-            Recent Notes
-          </h2>
-        </div>
+      {results.length !== 0 && (
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-foreground text-xl font-semibold">
+              Recent Notes
+            </h2>
+          </div>
 
-        {status === "LoadingFirstPage" ? (
-          <Slider>
-            {[1, 2, 3, 4].map((i) => (
-              <NoteCardSkeleton key={i} />
-            ))}
-          </Slider>
-        ) : results.length > 0 ? (
-          <Slider>
-            {results.map((note) => (
-              <NoteCard key={note._id} note={note} />
-            ))}
-          </Slider>
-        ) : (
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
-            <CardContent className="pt-12 pb-12 text-center">
-              <div className="flex flex-col items-center justify-center">
-                <div className="h-10 w-10 flex items-center justify-center mb-4">
-                  <FileText className="h-8 w-8 text-primary" />
+          {status === "LoadingFirstPage" ? (
+            <Slider>
+              {[1, 2, 3, 4].map((i) => (
+                <NoteCardSkeleton key={i} />
+              ))}
+            </Slider>
+          ) : results.length > 0 ? (
+            <Slider>
+              {results.map((note) => (
+                <NoteCard key={note._id} note={note} />
+              ))}
+            </Slider>
+          ) : (
+            <Card className="bg-card/50 backdrop-blur-sm border-border">
+              <CardContent className="pt-12 pb-12 text-center">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="h-10 w-10 flex items-center justify-center mb-4">
+                    <FileText className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 text-foreground">
+                    No notes yet
+                  </h3>
+                  <p className="text-muted-foreground mb-6">
+                    Create your first note to get started
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-foreground">
-                  No notes yet
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Create your first note to get started
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
     </MaxWContainer>
   );
 }
