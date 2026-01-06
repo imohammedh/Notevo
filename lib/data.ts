@@ -5,7 +5,7 @@ import { Brain, Cloud, FileText, LayoutGrid, Activity } from "lucide-react";
 export const NavLinks = [
   {
     Name: "Home",
-    path: "/",
+    path: "/#home",
     clicked: true,
   },
   {

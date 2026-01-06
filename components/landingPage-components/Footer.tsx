@@ -19,7 +19,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           <div>
-            <Link href="/">
+            <Link href="/#home">
               <Image
                 src={IconImage}
                 alt="Notevo logo"

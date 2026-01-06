@@ -42,7 +42,10 @@ export default function HeroSection() {
   });
 
   return (
-    <section className="relative flex items-center justify-center overflow-hidden">
+    <section
+      id="home"
+      className="relative flex items-center justify-center overflow-hidden"
+    >
       {/* Background Elements */}
       <motion.div
         className={cn(
