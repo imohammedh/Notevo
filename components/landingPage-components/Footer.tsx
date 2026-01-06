@@ -19,7 +19,14 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           <div>
-            <Link href="/#home">
+            <Link
+              href="/"
+              onClick={() => {
+                if (window.location.pathname === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            >
               <Image
                 src={IconImage}
                 alt="Notevo logo"
@@ -38,20 +45,12 @@ export default function Footer() {
             <h3 className="text-lg font-semibold text-foreground">Notevo</h3>
             <ul className="mt-2 space-y-2 text-muted-foreground">
               <li>
-                <Link
-                  prefetch={true}
-                  href="/#How_To_Start"
-                  className="hover:underline"
-                >
+                <Link href="/#How_To_Start" className="hover:underline">
                   How To Start
                 </Link>
               </li>
               <li>
-                <Link
-                  prefetch={true}
-                  href="/#features"
-                  className="hover:underline"
-                >
+                <Link href="/#features" className="hover:underline">
                   Features
                 </Link>
               </li>

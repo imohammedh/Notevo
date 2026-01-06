@@ -3,11 +3,11 @@ import { BsStars } from "react-icons/bs";
 import { Brain, Cloud, FileText, LayoutGrid, Activity } from "lucide-react";
 
 export const NavLinks = [
-  {
-    Name: "Home",
-    path: "/#home",
-    clicked: true,
-  },
+  // {
+  //   Name: "Home",
+  //   path: "/",
+  //   clicked: true,
+  // },
   {
     Name: "Features",
     path: "/#features",
