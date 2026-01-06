@@ -54,7 +54,7 @@ export default function Navbar() {
         }}
       >
         <div className="flex justify-center items-center gap-4">
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/#home" className="flex items-center gap-2 group">
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
