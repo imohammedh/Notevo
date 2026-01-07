@@ -5,14 +5,6 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useMutation } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-  DraggableProvided,
-} from "@hello-pangea/dnd";
-
 import type { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 
@@ -83,21 +75,68 @@ interface EmptyTableStateProps {
   workspaceId?: Id<"workingSpaces">;
 }
 
+const STORAGE_KEYS = {
+  VIEW_MODE: "notevo_view_mode",
+  ACTIVE_TABLE: "notevo_active_table",
+};
+
 export default function WorkingSpacePage() {
   const params = useParams();
   const workingSpaceId = params.id as Id<"workingSpaces">;
 
-  const workspace = useQuery(api.workingSpaces.getWorkingSpaceById, {
-    _id: workingSpaceId,
-  });
+  const workspace = useQuery(
+    api.workingSpaces.getWorkingSpaceById,
+    workingSpaceId ? { _id: workingSpaceId } : "skip",
+  );
   const workingSpacesSlug: string | undefined =
     workspace && (workspace.slug as string);
 
-  const tables = useQuery(api.notesTables.getTables, {
-    workingSpaceId,
+  const tables = useQuery(
+    api.notesTables.getTables,
+    workingSpaceId ? { workingSpaceId } : "skip",
+  );
+
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(STORAGE_KEYS.VIEW_MODE);
+      return stored === "list" || stored === "grid" ? stored : "grid";
+    }
+    return "grid";
   });
 
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [activeTableId, setActiveTableId] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem(STORAGE_KEYS.ACTIVE_TABLE) || "";
+    }
+    return "";
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEYS.VIEW_MODE, viewMode);
+    }
+  }, [viewMode]);
+
+  const defaultTableId = useMemo(() => {
+    if (!tables || tables.length === 0) return undefined;
+
+    const storedTableExists =
+      activeTableId && tables.some((t) => t._id === activeTableId);
+
+    if (storedTableExists) {
+      return activeTableId;
+    }
+
+    return tables[0]._id;
+  }, [tables, activeTableId]);
+
+  const handleTabChange = (tableId: string) => {
+    setActiveTableId(tableId);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(STORAGE_KEYS.ACTIVE_TABLE, tableId);
+    }
+  };
+
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
@@ -161,7 +200,11 @@ export default function WorkingSpacePage() {
       {/* Tables and Notes Content */}
       <div>
         {tables?.length ? (
-          <Tabs defaultValue={tables[0]._id} className="mt-6">
+          <Tabs
+            value={defaultTableId}
+            onValueChange={handleTabChange}
+            className="mt-6"
+          >
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
               <TabsList className=" inline-flex items-center justify-start flex-warp w-fit min-w-full sm:min-w-fit flex-wrap gap-2 sm:gap-3 h-fit p-1 bg-card/90 backdrop-blur-sm rounded-xl border border-border">
                 {tables.map((table) => (
@@ -214,7 +257,7 @@ function NotesDroppableContainer({
 }: NotesDroppableContainerProps) {
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNotesByTableId,
-    { notesTableId: tableId },
+    tableId ? { notesTableId: tableId } : "skip",
     { initialNumItems: 10 },
   );
   const filteredNotes = useMemo(() => {
@@ -222,7 +265,7 @@ function NotesDroppableContainer({
 
     const q = searchQuery.toLowerCase();
 
-    return results.filter((note) => {
+    return results.filter(Boolean).filter((note) => {
       return (
         note.title?.toLowerCase().includes(q) ||
         note.body?.toLowerCase().includes(q)

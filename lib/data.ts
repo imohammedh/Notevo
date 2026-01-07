@@ -29,7 +29,7 @@ export const HowToStartSteps = [
   {
     id: "1",
     StepNum: "1",
-    Title: "Sign Up & Get Started",
+    Title: "Sign Up With Ur Email",
     Body: "Sign up effortlessly using OAuth or Magic Links no passwords required!.",
   },
   {
