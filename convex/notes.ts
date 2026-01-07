@@ -221,6 +221,7 @@ export const getNotesByTableId = query({
     return await ctx.db
       .query("notes")
       .withIndex("by_notesTableId", (q) => q.eq("notesTableId", notesTableId))
+      .order("desc")
       .paginate(paginationOpts);
   },
 });
