@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
-import LoadingAnimation from "../ui/LoadingAnimation";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -48,12 +47,60 @@ export default function TableSettings({
   tableName,
 }: TableSettingsProps) {
   const [inputValue, setInputValue] = useState(tableName);
-  const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert Dialog State
   const inputRef = useRef<HTMLInputElement>(null);
-  const updateTable = useMutation(api.notesTables.updateTable);
-  const deleteTable = useMutation(api.notesTables.deleteTable);
+  const updateTable = useMutation(api.notesTables.updateTable).withOptimisticUpdate(
+    (local, args) => {
+      const { _id, name } = args;
+
+      // Try to find the table in cached queries to get workingSpaceId
+      // This is a best-effort optimization - server will sync correctly regardless
+      // We search through common workspace queries
+      const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
+      if (workspaces && Array.isArray(workspaces)) {
+        for (const ws of workspaces) {
+          const tables = local.getQuery(api.notesTables.getTables, { workingSpaceId: ws._id });
+          if (tables && Array.isArray(tables)) {
+            const tableIndex = tables.findIndex((t: any) => t._id === _id);
+            if (tableIndex !== -1) {
+              const updatedTables = tables.map((t: any) =>
+                t._id === _id
+                  ? {
+                      ...t,
+                      name: name ?? t.name,
+                      updatedAt: Date.now(),
+                    }
+                  : t
+              );
+              local.setQuery(api.notesTables.getTables, { workingSpaceId: ws._id }, updatedTables);
+              break;
+            }
+          }
+        }
+      }
+    },
+  );
+  const deleteTable = useMutation(api.notesTables.deleteTable).withOptimisticUpdate(
+    (local, args) => {
+      const { _id } = args;
+
+      // Try to find and remove the table from cached queries
+      const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
+      if (workspaces && Array.isArray(workspaces)) {
+        for (const ws of workspaces) {
+          const tables = local.getQuery(api.notesTables.getTables, { workingSpaceId: ws._id });
+          if (tables && Array.isArray(tables)) {
+            if (tables.some((t: any) => t._id === _id)) {
+              const filteredTables = tables.filter((t: any) => t._id !== _id);
+              local.setQuery(api.notesTables.getTables, { workingSpaceId: ws._id }, filteredTables);
+              break;
+            }
+          }
+        }
+      }
+    },
+  );
 
   useEffect(() => {
     if (open) {
@@ -87,11 +134,9 @@ export default function TableSettings({
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setIsLoading(true);
     try {
       await deleteTable({ _id: notesTableId });
     } finally {
-      setIsLoading(false);
       setIsAlertOpen(false); // Close Alert after deletion
     }
   };
@@ -141,19 +186,9 @@ export default function TableSettings({
                 variant="SidebarMenuButton_destructive"
                 className="w-full h-8 px-2 text-sm"
                 onClick={initiateDelete}
-                disabled={isLoading}
               >
-                {isLoading ? (
-                  <>
-                    <LoadingAnimation className="text-destructive/10 animate-spin fill-destructive h-3 w-3" />{" "}
-                    Deleting...
-                  </>
-                ) : (
-                  <>
-                    <FaRegTrashCan size="14" />
-                    Delete
-                  </>
-                )}
+                <FaRegTrashCan size="14" />
+                Delete
               </Button>
             </DropdownMenuContent>
             <TooltipContent side="bottom" align="end">
@@ -179,16 +214,8 @@ export default function TableSettings({
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
-              disabled={isLoading}
             >
-              {isLoading ? (
-                <>
-                  <LoadingAnimation className="h-3 w-3 mr-2" />
-                  Deleting...
-                </>
-              ) : (
-                "Delete"
-              )}
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

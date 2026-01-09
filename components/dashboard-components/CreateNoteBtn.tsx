@@ -1,39 +1,71 @@
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { useMutation } from "convex/react";
+import { useMutation, insertAtTop } from "convex/react";
 import { Plus } from "lucide-react";
-import { useState } from "react";
-import LoadingAnimation from "../ui/LoadingAnimation";
 import type { Id } from "@/convex/_generated/dataModel";
+import { useRouter } from "next/navigation";
 
 interface CreateNoteBtnProps {
-  notesTableId?: Id<"notesTables"> | undefined;
+  CNBP_notesTableId: Id<"notesTables"> | undefined;
   workingSpacesSlug: string | any;
   workingSpaceId: Id<"workingSpaces"> | any;
   className?: string;
 }
 
 export default function CreateNoteBtn({
-  notesTableId,
+  CNBP_notesTableId,
   workingSpacesSlug,
   workingSpaceId,
   className,
 }: CreateNoteBtnProps) {
-  const [loading, setLoading] = useState(false);
-  const createNote = useMutation(api.notes.createNote);
+  const router = useRouter();
+
+  const createNote = useMutation(api.notes.createNote).withOptimisticUpdate(
+    (local, args) => {
+      const { notesTableId, title, workingSpacesSlug, workingSpaceId } = args;
+
+      if (!CNBP_notesTableId || notesTableId !== CNBP_notesTableId) return;
+
+      const now = Date.now();
+      const uuid = crypto.randomUUID();
+      const tempId = `${uuid}-${now}` as Id<"notes">;
+      insertAtTop({
+        localQueryStore: local,
+        paginatedQuery: api.notes.getNotesByTableId,
+        argsToMatch: { notesTableId: CNBP_notesTableId },
+        item: {
+          _id: tempId,
+          _creationTime: now,
+          title: title || "Untitled",
+          body: undefined,
+          slug: "untitled",
+          workingSpaceId,
+          workingSpacesSlug,
+          notesTableId: CNBP_notesTableId,
+          favorite: false,
+          createdAt: now,
+          updatedAt: now,
+        },
+      });
+    },
+  );
 
   const handleCreateNote = async () => {
-    setLoading(true);
     try {
-      await createNote({
-        notesTableId: notesTableId as Id<"notesTables"> | undefined,
-        workingSpacesSlug: workingSpacesSlug,
-        workingSpaceId: workingSpaceId,
+      const newNoteId = await createNote({
         title: "Untitled",
+        notesTableId: CNBP_notesTableId,
+        workingSpacesSlug,
+        workingSpaceId,
       });
-    } finally {
-      setLoading(false);
+      // Navigate to the new note using its real slug-based URL
+      router.push(
+        `/dashboard/${workingSpaceId}/new-quick-access-notes?id=${newNoteId}`,
+      );
+    } catch (error) {
+      console.error("Failed to create note:", error);
+      // Optional: show toast/error if creation fails
     }
   };
 
@@ -45,19 +77,9 @@ export default function CreateNoteBtn({
       )}
       variant="outline"
       onClick={handleCreateNote}
-      disabled={loading}
     >
-      {loading ? (
-        <>
-          <LoadingAnimation className="h-3 w-3" />
-          <p>New Note...</p>
-        </>
-      ) : (
-        <>
-          <Plus size="20" />
-          <p>New Note</p>
-        </>
-      )}
+      <Plus size="20" />
+      <p>New Note</p>
     </Button>
   );
 }

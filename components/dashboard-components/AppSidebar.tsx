@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Notebook,
   Plus,
@@ -35,7 +34,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMutation } from "convex/react";
+import { useMutation, insertAtTop } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -71,6 +70,8 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { usePaginatedQuery } from "convex/react";
+import { date } from "zod";
+import { generateSlug } from "@/lib/generateSlug";
 
 // --- Skeleton Sidebar Component ---
 const SkeletonSidebar = () => {
@@ -314,7 +315,29 @@ const PinnedNoteItem = memo(
     const [isHovered, setIsHovered] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(note.title || "Untitled");
-    const updateNote = useMutation(api.notes.updateNote);
+    const updateNote = useMutation(api.notes.updateNote).withOptimisticUpdate(
+      (local, args) => {
+        const { _id, title, favorite } = args;
+
+        // Update single note query if it exists
+        const note = local.getQuery(api.notes.getNoteById, { _id });
+        if (note) {
+          local.setQuery(
+            api.notes.getNoteById,
+            { _id },
+            {
+              ...note,
+              title: title ?? note.title,
+              favorite: favorite ?? note.favorite,
+              updatedAt: Date.now(),
+            },
+          );
+        }
+
+        // Note: Paginated queries (getFavNotes) will be synced by the server
+        // Direct updates to paginated query results are complex and handled server-side
+      },
+    );
     const inputRef = useRef<HTMLInputElement>(null);
 
     const notePath = `/dashboard/${note.workingSpaceId}/${note.slug}`;
@@ -541,7 +564,46 @@ const WorkspaceItem = memo(
     );
     const updateWorkingSpace = useMutation(
       api.workingSpaces.updateWorkingSpace,
-    );
+    ).withOptimisticUpdate((local, args) => {
+      const { _id, name } = args;
+
+      // Update in getRecentWorkingSpaces
+      const workspaces = local.getQuery(
+        api.workingSpaces.getRecentWorkingSpaces,
+      );
+      if (workspaces && Array.isArray(workspaces)) {
+        const updatedWorkspaces = workspaces.map((ws: any) =>
+          ws._id === _id
+            ? {
+                ...ws,
+                name: name ?? ws.name,
+                updatedAt: Date.now(),
+              }
+            : ws,
+        );
+        local.setQuery(
+          api.workingSpaces.getRecentWorkingSpaces,
+          {},
+          updatedWorkspaces,
+        );
+      }
+
+      // Update single workspace query if it exists
+      const workspace = local.getQuery(api.workingSpaces.getWorkingSpaceById, {
+        _id,
+      });
+      if (workspace) {
+        local.setQuery(
+          api.workingSpaces.getWorkingSpaceById,
+          { _id },
+          {
+            ...workspace,
+            name: name ?? workspace.name,
+            updatedAt: Date.now(),
+          },
+        );
+      }
+    });
     const inputRef = useRef<HTMLInputElement>(null);
 
     const workspaceHref = `/dashboard/${workingSpace._id}`;
@@ -855,8 +917,61 @@ const AppSidebar = React.memo(function AppSidebar() {
   const { open, isMobile, sidebarWidth } = useSidebar();
   const pathname = usePathname();
   const router = useRouter();
-  const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
-  const createNote = useMutation(api.notes.createNote);
+  const createWorkingSpace = useMutation(
+    api.workingSpaces.createWorkingSpace,
+  ).withOptimisticUpdate((local, args) => {
+    const { name } = args;
+    const now = Date.now();
+    const uuid = crypto.randomUUID();
+    const tempId = `${uuid}-${now}` as any as Id<"workingSpaces">;
+
+    // Update the getRecentWorkingSpaces query
+    const currentWorkspaces = local.getQuery(
+      api.workingSpaces.getRecentWorkingSpaces,
+    );
+    if (currentWorkspaces !== undefined) {
+      local.setQuery(api.workingSpaces.getRecentWorkingSpaces, {}, [
+        {
+          _id: tempId as any,
+          _creationTime: now,
+          name: name || "Untitled",
+          slug: "untitled",
+          userId: "" as any, // Will be replaced by server
+          createdAt: now,
+          updatedAt: now,
+        },
+        ...currentWorkspaces,
+      ] as any);
+    }
+  });
+  const createNote = useMutation(api.notes.createNote).withOptimisticUpdate(
+    (local, arg) => {
+      const { title, notesTableId, workingSpacesSlug, workingSpaceId } = arg;
+      const now = Date.now();
+      const uuid = crypto.randomUUID();
+      const tempId = `${uuid}-${now}` as any;
+
+      // Optimistically add to favorites if this is a quick access note
+      insertAtTop({
+        localQueryStore: local,
+        paginatedQuery: api.notes.getFavNotes,
+        argsToMatch: {},
+        item: {
+          _id: tempId,
+          _creationTime: now,
+          title: title || "New Quick Access Notes",
+          body: undefined,
+          slug: "untitled",
+          workingSpaceId,
+          workingSpacesSlug,
+          notesTableId,
+          favorite: false,
+          createdAt: now,
+          updatedAt: now,
+        },
+      });
+    },
+  );
 
   const getWorkingSpaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
   const User = useQuery(api.users.viewer);
@@ -865,7 +980,33 @@ const AppSidebar = React.memo(function AppSidebar() {
     {},
     { initialNumItems: 5 },
   );
-  const createTable = useMutation(api.notesTables.createTable);
+  const createTable = useMutation(
+    api.notesTables.createTable,
+  ).withOptimisticUpdate((local, args) => {
+    const { workingSpaceId: wsId, name } = args;
+    const now = Date.now();
+    const uuid = crypto.randomUUID();
+    const tempId = `${uuid}-${now}` as any;
+
+    // Update the getTables query for all workspaces that might be viewing this
+    const currentTables = local.getQuery(api.notesTables.getTables, {
+      workingSpaceId: wsId,
+    });
+    if (currentTables !== undefined) {
+      local.setQuery(api.notesTables.getTables, { workingSpaceId: wsId }, [
+        {
+          _id: tempId,
+          _creationTime: now,
+          name: name || "Untitled",
+          workingSpaceId: wsId,
+          slug: "untitled",
+          createdAt: now,
+          updatedAt: now,
+        },
+        ...currentTables,
+      ]);
+    }
+  });
 
   const { signOut } = useAuthActions();
 

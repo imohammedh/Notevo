@@ -19,7 +19,6 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "@/cache/useQuery";
-import LoadingAnimation from "../ui/LoadingAnimation";
 import { Button } from "@/components/ui/button";
 
 import { SquarePen, X, Pin, PinOff } from "lucide-react";
@@ -36,13 +35,40 @@ export default function NoteSettingsSidbar({
   noteTitle,
   ContainerClassName,
 }: NoteSettingsSidbarProps) {
-  const [ishandleDeleteLoading, setIshandleDeleteLoading] = useState(false);
-  const [ishandleFavoritePinLoading, setIshandleFavoritePinLoading] =
-    useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
-  const updateNote = useMutation(api.notes.updateNote);
-  const deleteNote = useMutation(api.notes.deleteNote);
+  const updateNote = useMutation(api.notes.updateNote).withOptimisticUpdate(
+    (local, args) => {
+      const { _id, favorite } = args;
+
+      // Update single note query
+      const note = local.getQuery(api.notes.getNoteById, { _id });
+      if (note && favorite !== undefined) {
+        local.setQuery(
+          api.notes.getNoteById,
+          { _id },
+          {
+            ...note,
+            favorite: favorite,
+            updatedAt: Date.now(),
+          },
+        );
+      }
+    },
+  );
+  const deleteNote = useMutation(api.notes.deleteNote).withOptimisticUpdate(
+    (local, args) => {
+      const { _id } = args;
+
+      // Get the note - for optimistic IDs, this will help identify it
+      const note = local.getQuery(api.notes.getNoteById, { _id });
+      if (!note) return;
+
+      // For optimistic IDs, the mutation will fail before running
+      // For real IDs, the server will handle deletion and sync queries
+      // Note: Paginated queries will sync automatically when the server confirms deletion
+    },
+  );
   const getNote = useQuery(api.notes.getNoteById, { _id: noteId });
 
   const initiateDelete = () => {
@@ -51,22 +77,19 @@ export default function NoteSettingsSidbar({
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setIshandleDeleteLoading(true);
+
     try {
       await deleteNote({ _id: noteId });
     } finally {
-      setIshandleDeleteLoading(false);
       setIsAlertOpen(false);
     }
   };
 
   const handleFavoritePin = async () => {
-    setIshandleFavoritePinLoading(true);
     await updateNote({
       _id: noteId,
       favorite: !getNote?.favorite,
     });
-    setIshandleFavoritePinLoading(false);
   };
 
   return (
@@ -84,11 +107,8 @@ export default function NoteSettingsSidbar({
                 onClick={handleFavoritePin}
                 variant="SidebarMenuButton"
                 className="px-2 h-7"
-                disabled={ishandleFavoritePinLoading}
               >
-                {ishandleFavoritePinLoading ? (
-                  <LoadingAnimation className="h-4 w-4 text-purple-500" />
-                ) : getNote?.favorite ? (
+                {getNote?.favorite ? (
                   <PinOff size={16} className="text-purple-500" />
                 ) : (
                   <Pin size={16} className="text-purple-500" />
@@ -133,16 +153,8 @@ export default function NoteSettingsSidbar({
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
-              disabled={ishandleDeleteLoading}
             >
-              {ishandleDeleteLoading ? (
-                <>
-                  <LoadingAnimation className="h-3 w-3 mr-2" />
-                  Deleting...
-                </>
-              ) : (
-                "Delete"
-              )}
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

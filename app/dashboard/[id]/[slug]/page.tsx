@@ -13,7 +13,21 @@ export default function NotePage() {
   const searchParams = useSearchParams();
   const noteid = searchParams.get("id") as Id<"notes">;
 
-  const updateNote = useMutation(api.notes.updateNote);
+  const updateNote = useMutation(api.notes.updateNote).withOptimisticUpdate(
+    (local, args) => {
+      const { _id, body } = args;
+
+      // Update single note query (for the current note being edited)
+      const note = local.getQuery(api.notes.getNoteById, { _id });
+      if (note) {
+        local.setQuery(api.notes.getNoteById, { _id }, {
+          ...note,
+          body: body ?? note.body,
+          updatedAt: Date.now(),
+        });
+      }
+    },
+  );
   const getNote = useQuery(
     api.notes.getNoteById,
     noteid ? { _id: noteid } : "skip",

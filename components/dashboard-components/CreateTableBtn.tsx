@@ -3,9 +3,8 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { useMutation } from "convex/react";
+import { useMutation, insertAtTop } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import LoadingAnimation from "../ui/LoadingAnimation";
 import type { Id } from "@/convex/_generated/dataModel";
 
 interface CreateTableBtnProps {
@@ -17,16 +16,38 @@ export default function CreateTableBtn({
   workingSpaceId,
   className,
 }: CreateTableBtnProps) {
-  const [loading, setLoading] = useState(false);
-  const createTable = useMutation(api.notesTables.createTable);
+  const createTable = useMutation(
+    api.notesTables.createTable,
+  ).withOptimisticUpdate((local, args) => {
+    const { workingSpaceId: wsId, name } = args;
+    if (wsId !== workingSpaceId) return;
+
+    const now = Date.now();
+    const uuid = crypto.randomUUID();
+    const tempId = `${uuid}-${now}` as Id<"notesTables">;
+
+    // Update the getTables query
+    const currentTables = local.getQuery(api.notesTables.getTables, {
+      workingSpaceId: wsId,
+    });
+    if (currentTables !== undefined) {
+      local.setQuery(api.notesTables.getTables, { workingSpaceId: wsId }, [
+        {
+          _id: tempId,
+          _creationTime: now,
+          name: name || "Untitled",
+          workingSpaceId: wsId,
+          slug: "untitled",
+          createdAt: now,
+          updatedAt: now,
+        },
+        ...currentTables,
+      ]);
+    }
+  });
 
   const handleCreateTable = async () => {
-    setLoading(true);
-    try {
-      await createTable({ workingSpaceId: workingSpaceId, name: "Untitled" });
-    } finally {
-      setLoading(false);
-    }
+    await createTable({ workingSpaceId: workingSpaceId, name: "Untitled" });
   };
 
   return (
@@ -34,19 +55,9 @@ export default function CreateTableBtn({
       className={cn("flex items-center justify-between gap-2 ", className)}
       variant="default"
       onClick={handleCreateTable}
-      disabled={loading}
     >
-      {loading ? (
-        <>
-          <LoadingAnimation className="h-4 w-4 " />
-          <span className="hidden sm:block">Creating Table...</span>
-        </>
-      ) : (
-        <>
-          <Plus size={20} />
-          <p className="hidden sm:block ">Create Table</p>
-        </>
-      )}
+      <Plus size={20} />
+      <p className="hidden sm:block ">Create Table</p>
     </Button>
   );
 }

@@ -3,10 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useState } from "react";
 import type { Id } from "@/convex/_generated/dataModel";
 import { FileText, Plus, Table } from "lucide-react";
-import LoadingAnimation from "../ui/LoadingAnimation";
 
 interface TablesNotFoundProps {
   workingSpaceId: Id<"workingSpaces">;
@@ -15,11 +13,35 @@ interface TablesNotFoundProps {
 export default function TablesNotFound({
   workingSpaceId,
 }: TablesNotFoundProps) {
-  const createTable = useMutation(api.notesTables.createTable);
-  const [loading, setLoading] = useState(false);
+  const createTable = useMutation(
+    api.notesTables.createTable,
+  ).withOptimisticUpdate((local, args) => {
+    const { workingSpaceId: wsId, name } = args;
+    if (wsId !== workingSpaceId) return;
+    const now = Date.now();
+    const uuid = crypto.randomUUID();
+    const tempId = `${uuid}-${now}` as Id<"notesTables">;
+
+    const currentTables = local.getQuery(api.notesTables.getTables, {
+      workingSpaceId: wsId,
+    });
+    if (currentTables !== undefined) {
+      local.setQuery(api.notesTables.getTables, { workingSpaceId: wsId }, [
+        {
+          _id: tempId,
+          _creationTime: now,
+          name: name || "New Table",
+          workingSpaceId: wsId,
+          slug: "untitled",
+          createdAt: now,
+          updatedAt: now,
+        },
+        ...currentTables,
+      ]);
+    }
+  });
 
   const handleCreateTable = async () => {
-    setLoading(true);
     try {
       await createTable({
         name: "New Table",
@@ -27,8 +49,6 @@ export default function TablesNotFound({
       });
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -44,16 +64,8 @@ export default function TablesNotFound({
         <p className="mt-2 text-sm text-muted-foreground">
           Create your first table to start organizing your data.
         </p>
-        <Button
-          className="mt-4 gap-1"
-          onClick={handleCreateTable}
-          disabled={loading}
-        >
-          {loading ? (
-            <LoadingAnimation className=" w-4 h-4" />
-          ) : (
-            <Plus className="h-4 w-4" />
-          )}
+        <Button className="mt-4 gap-1" onClick={handleCreateTable}>
+          <Plus className="h-4 w-4" />
           Create Table
         </Button>
       </div>
