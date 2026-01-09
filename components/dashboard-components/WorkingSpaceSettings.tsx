@@ -67,8 +67,55 @@ export default function WorkingSpaceSettings({
     workingSpaceId,
   });
 
-  const updateWorkingSpace = useMutation(api.workingSpaces.updateWorkingSpace);
-  const DeleteWorkingSpace = useMutation(api.workingSpaces.deleteWorkingSpace);
+  const updateWorkingSpace = useMutation(api.workingSpaces.updateWorkingSpace).withOptimisticUpdate(
+    (local, args) => {
+      const { _id, name } = args;
+
+      // Update in getRecentWorkingSpaces
+      const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
+      if (workspaces && Array.isArray(workspaces)) {
+        const updatedWorkspaces = workspaces.map((ws: any) =>
+          ws._id === _id
+            ? {
+                ...ws,
+                name: name ?? ws.name,
+                updatedAt: Date.now(),
+              }
+            : ws
+        );
+        local.setQuery(api.workingSpaces.getRecentWorkingSpaces, {}, updatedWorkspaces);
+      }
+
+      // Update single workspace query
+      const workspace = local.getQuery(api.workingSpaces.getWorkingSpaceById, { _id });
+      if (workspace) {
+        local.setQuery(api.workingSpaces.getWorkingSpaceById, { _id }, {
+          ...workspace,
+          name: name ?? workspace.name,
+          updatedAt: Date.now(),
+        });
+      }
+    },
+  );
+  const DeleteWorkingSpace = useMutation(api.workingSpaces.deleteWorkingSpace).withOptimisticUpdate(
+    (local, args) => {
+      const { _id } = args;
+
+      // Remove from getRecentWorkingSpaces
+      const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
+      if (workspaces && Array.isArray(workspaces)) {
+        const filteredWorkspaces = workspaces.filter((ws: any) => ws._id !== _id);
+        local.setQuery(api.workingSpaces.getRecentWorkingSpaces, {}, filteredWorkspaces);
+      }
+
+      // Remove single workspace query - server will handle the deletion
+      const workspace = local.getQuery(api.workingSpaces.getWorkingSpaceById, { _id });
+      if (workspace) {
+        // Can't set to null, but server will handle the deletion
+        // The query will update when server confirms deletion
+      }
+    },
+  );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

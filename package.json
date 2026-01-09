@@ -21,6 +21,7 @@
     "@ai-sdk/react": "^1.1.10",
     "@auth/core": "^0.37.0",
     "@convex-dev/auth": "^0.0.77",
+    "@elevenlabs/react": "^0.12.3",
     "@hello-pangea/dnd": "^18.0.1",
     "@heroui/react-utils": "^2.1.8",
     "@heroui/shared-utils": "^2.1.7",

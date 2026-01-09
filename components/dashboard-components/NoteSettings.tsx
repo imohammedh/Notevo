@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
-import LoadingAnimation from "../ui/LoadingAnimation";
 import { cn } from "@/lib/utils";
 import type { Id } from "@/convex/_generated/dataModel";
 import {
@@ -43,6 +42,7 @@ interface NoteSettingsProps {
   BtnClassName?: string;
   DropdownMenuContentAlign: "end" | "start";
   TooltipContentAlign: "end" | "start";
+  onDelete?: (noteId: Id<"notes">) => void;
 }
 
 export default function NoteSettings({
@@ -52,18 +52,38 @@ export default function NoteSettings({
   BtnClassName,
   DropdownMenuContentAlign,
   TooltipContentAlign,
+  onDelete,
 }: NoteSettingsProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [inputValue, setInputValue] = useState(noteTitle);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const [isFavoritePinLoading, setIsFavoritePinLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
-  const updateNote = useMutation(api.notes.updateNote);
+  const updateNote = useMutation(api.notes.updateNote).withOptimisticUpdate(
+    (local, args) => {
+      const { _id, title, body, favorite } = args;
+
+      // Update single note query
+      const note = local.getQuery(api.notes.getNoteById, { _id });
+      if (note) {
+        local.setQuery(
+          api.notes.getNoteById,
+          { _id },
+          {
+            ...note,
+            title: title ?? note.title,
+            body: body ?? note.body,
+            favorite: favorite !== undefined ? favorite : note.favorite,
+            updatedAt: Date.now(),
+          },
+        );
+      }
+    },
+  );
+
   const deleteNote = useMutation(api.notes.deleteNote);
   const getNote = useQuery(api.notes.getNoteById, { _id: noteId });
   const inputRef = useRef<HTMLInputElement>(null);
@@ -122,32 +142,28 @@ export default function NoteSettings({
     event.preventDefault();
     if (!getNote) return;
 
-    setIsDeleteLoading(true);
+    if (onDelete) {
+      onDelete(noteId);
+    }
+    setIsAlertOpen(false);
+
+    if (isViewingThisNote) {
+      router.push(`/dashboard/${getNote.workingSpaceId}`);
+    }
     try {
       await deleteNote({ _id: noteId });
-      if (isViewingThisNote) {
-        router.push(`/dashboard/${getNote.workingSpaceId}`);
-      }
     } catch (error) {
       console.error("Failed to delete note:", error);
-    } finally {
-      setIsDeleteLoading(false);
-      setIsAlertOpen(false);
     }
   };
 
   const handleFavoritePin = async () => {
     if (!getNote) return;
 
-    setIsFavoritePinLoading(true);
-    try {
-      await updateNote({
-        _id: noteId,
-        favorite: !getNote.favorite,
-      });
-    } finally {
-      setIsFavoritePinLoading(false);
-    }
+    await updateNote({
+      _id: noteId,
+      favorite: !getNote.favorite,
+    });
   };
 
   const handleTooltipMouseEnter = () => setIsTooltipOpen(true);
@@ -202,37 +218,17 @@ export default function NoteSettings({
               variant="SidebarMenuButton"
               className="w-full h-8 px-2 text-sm"
               onClick={handleFavoritePin}
-              disabled={isFavoritePinLoading}
             >
-              {isFavoritePinLoading ? (
-                <>
-                  <LoadingAnimation className="h-3 w-3" />
-                  {getNote?.favorite ? "Unpinning..." : "Pinning..."}
-                </>
-              ) : (
-                <>
-                  <Pin size={14} />
-                  {getNote?.favorite ? "Unpin Note" : "Pin Note"}
-                </>
-              )}
+              <Pin size={14} />
+              {getNote?.favorite ? "Unpin Note" : "Pin Note"}
             </Button>
             <Button
               variant="SidebarMenuButton_destructive"
               className="w-full h-8 px-2 text-sm"
               onClick={initiateDelete}
-              disabled={isDeleteLoading}
             >
-              {isDeleteLoading ? (
-                <>
-                  <LoadingAnimation className="text-destructive/10 animate-spin fill-destructive h-3 w-3" />
-                  Deleting...
-                </>
-              ) : (
-                <>
-                  <FaRegTrashCan size={14} />
-                  Delete
-                </>
-              )}
+              <FaRegTrashCan size={14} />
+              Delete
             </Button>
           </DropdownMenuGroup>
         </DropdownMenuContent>
@@ -254,16 +250,8 @@ export default function NoteSettings({
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-destructive hover:bg-destructive/90 text-destructive-foreground border-none"
-              disabled={isDeleteLoading}
             >
-              {isDeleteLoading ? (
-                <>
-                  <LoadingAnimation className="h-3 w-3 mr-2" />
-                  Deleting...
-                </>
-              ) : (
-                "Delete"
-              )}
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

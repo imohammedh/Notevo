@@ -1,6 +1,6 @@
 "use client";
 import { Calendar, FileText, LayoutGrid, List, Search } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useMutation } from "convex/react";
@@ -29,6 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getContentPreview } from "@/lib/getContentPreview";
 import { cn } from "@/lib/utils";
 import { usePaginatedQuery } from "convex/react";
+import { boolean } from "zod";
 type ViewMode = "grid" | "list";
 
 interface Note {
@@ -58,10 +59,10 @@ interface NotesDroppableContainerProps {
   tables: any[];
   setViewMode: (mode: ViewMode) => void;
 }
-
 interface NoteCardProps {
   note: Note;
   workspaceId?: Id<"workingSpaces">;
+  onDelete?: (noteId: Id<"notes">) => void;
 }
 
 interface EmptySearchResultsProps {
@@ -74,7 +75,6 @@ interface EmptyTableStateProps {
   workspaceSlug?: string;
   workspaceId?: Id<"workingSpaces">;
 }
-
 const STORAGE_KEYS = {
   VIEW_MODE: "notevo_view_mode",
   ACTIVE_TABLE: "notevo_active_table",
@@ -244,7 +244,10 @@ export default function WorkingSpacePage() {
   );
 }
 
-function NotesDroppableContainer({
+// Better approach: Track deleted notes in local state
+// Add this to your NotesDroppableContainer component in page.tsx
+
+export function NotesDroppableContainer({
   tableId,
   viewMode,
   notes,
@@ -257,26 +260,52 @@ function NotesDroppableContainer({
 }: NotesDroppableContainerProps) {
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNotesByTableId,
-    tableId ? { notesTableId: tableId } : "skip",
+    { notesTableId: tableId },
     { initialNumItems: 10 },
   );
-  const filteredNotes = useMemo(() => {
-    if (!searchQuery.trim()) return results;
 
+  // Track deleted notes locally for instant UI feedback
+  const [deletedNoteIds, setDeletedNoteIds] = useState<Set<string>>(new Set());
+
+  // Reset deleted notes when table changes
+  useEffect(() => {
+    setDeletedNoteIds(new Set());
+  }, [tableId]);
+
+  // Filter notes: remove deleted ones first, then apply search
+  const filteredNotes = useMemo(() => {
+    // First, filter out deleted notes
+    const notDeletedNotes = results.filter(
+      (note) => note && !deletedNoteIds.has(note._id),
+    );
+
+    // If no search query, return all non-deleted notes
+    if (!searchQuery.trim()) return notDeletedNotes;
+
+    // Apply search filter
     const q = searchQuery.toLowerCase();
 
-    return results.filter(Boolean).filter((note) => {
+    return notDeletedNotes.filter((note) => {
       return (
         note.title?.toLowerCase().includes(q) ||
         note.body?.toLowerCase().includes(q)
       );
     });
-  }, [results, searchQuery]);
+  }, [results, searchQuery, deletedNoteIds]);
+
+  // Callback to handle note deletion
+  const handleNoteDelete = useCallback((noteId: Id<"notes">) => {
+    setDeletedNoteIds((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(noteId);
+      return newSet;
+    });
+  }, []);
 
   return (
     <div className="space-y-6">
       {/* Enhanced Control Bar */}
-      <div className="flex flex-row gap-4 items-start sm:items-center justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="flex items-center gap-3 flex-1 w-full sm:w-auto">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -290,8 +319,8 @@ function NotesDroppableContainer({
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center border border-border rounded-lg overflow-hidden ">
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <div className="hidden sm:flex items-center border border-border rounded-lg overflow-hidden">
             <Button
               variant="SidebarMenuButton"
               size="sm"
@@ -322,7 +351,7 @@ function NotesDroppableContainer({
           <CreateNoteBtn
             workingSpaceId={workspaceId}
             workingSpacesSlug={workspaceSlug}
-            notesTableId={tableId}
+            CNBP_notesTableId={tableId}
           />
           <TableSettings
             notesTableId={tableId}
@@ -354,12 +383,20 @@ function NotesDroppableContainer({
                 : "flex flex-col gap-3"
             }
           >
-            {filteredNotes.map((note, index) => (
+            {filteredNotes.map((note) => (
               <div key={note._id}>
                 {viewMode === "grid" ? (
-                  <GridNoteCard note={note} workspaceId={workspaceId} />
+                  <GridNoteCard
+                    note={note}
+                    workspaceId={workspaceId}
+                    onDelete={handleNoteDelete}
+                  />
                 ) : (
-                  <ListNoteCard note={note} workspaceId={workspaceId} />
+                  <ListNoteCard
+                    note={note}
+                    workspaceId={workspaceId}
+                    onDelete={handleNoteDelete}
+                  />
                 )}
               </div>
             ))}
@@ -393,7 +430,7 @@ function NotesDroppableContainer({
   );
 }
 
-function GridNoteCard({ note, workspaceId }: NoteCardProps) {
+function GridNoteCard({ note, workspaceId, onDelete }: NoteCardProps) {
   const isEmpty = !note.body || note.body.trim() === "";
 
   return (
@@ -416,6 +453,7 @@ function GridNoteCard({ note, workspaceId }: NoteCardProps) {
             IconVariant="vertical_icon"
             DropdownMenuContentAlign="start"
             TooltipContentAlign="start"
+            onDelete={onDelete}
           />
         </div>
       </CardHeader>
@@ -456,7 +494,7 @@ function GridNoteCard({ note, workspaceId }: NoteCardProps) {
   );
 }
 
-function ListNoteCard({ note, workspaceId }: NoteCardProps) {
+function ListNoteCard({ note, workspaceId, onDelete }: NoteCardProps) {
   const isEmpty = !note.body || note.body.trim() === "";
 
   return (
@@ -504,6 +542,7 @@ function ListNoteCard({ note, workspaceId }: NoteCardProps) {
               IconVariant="vertical_icon"
               DropdownMenuContentAlign="start"
               TooltipContentAlign="start"
+              onDelete={onDelete}
             />
             <Button
               variant="ghost"
@@ -575,7 +614,7 @@ function EmptyTableState({
           <CreateNoteBtn
             workingSpaceId={workspaceId}
             workingSpacesSlug={workspaceSlug}
-            notesTableId={tableId}
+            CNBP_notesTableId={tableId}
           />
         </div>
       </CardContent>
@@ -640,7 +679,6 @@ function NotesSkeleton({ viewMode }: { viewMode: ViewMode }) {
     </div>
   );
 }
-
 function TablesSkeleton() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">

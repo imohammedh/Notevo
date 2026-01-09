@@ -4,22 +4,44 @@ import { Button } from "../ui/button";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState } from "react";
+import type { Id } from "@/convex/_generated/dataModel";
 import LoadingAnimation from "../ui/LoadingAnimation";
 import { Card, CardContent } from "../ui/card";
 import Link from "next/link";
 
 export default function WorkingSpaceNotFound() {
-  const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
-  const [loading, setLoading] = useState(false);
+  const createWorkingSpace = useMutation(
+    api.workingSpaces.createWorkingSpace,
+  ).withOptimisticUpdate((local, args) => {
+    const { name } = args;
+    const now = Date.now();
+    const uuid = crypto.randomUUID();
+    const tempId = `${uuid}-${now}` as Id<"workingSpaces">;
+
+    const currentWorkspaces = local.getQuery(
+      api.workingSpaces.getRecentWorkingSpaces,
+    );
+    if (currentWorkspaces !== undefined) {
+      local.setQuery(api.workingSpaces.getRecentWorkingSpaces, {}, [
+        {
+          _id: tempId,
+          _creationTime: now,
+          name: name || "Untitled",
+          slug: "untitled",
+          userId: "" as Id<"users">,
+          createdAt: now,
+          updatedAt: now,
+        },
+        ...currentWorkspaces,
+      ]);
+    }
+  });
 
   const handleCreateWorkingSpace = async () => {
-    setLoading(true);
     try {
       await createWorkingSpace({ name: "Untitled" });
     } catch (error) {
       console.error("Error creating workspace:", error);
-    } finally {
-      setLoading(false);
     }
   };
 

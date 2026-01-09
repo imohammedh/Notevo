@@ -15,6 +15,7 @@ import { useEffect, useState, useRef } from "react";
 import { useMutation } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import Link from "next/link";
 import MaxWContainer from "@/components/ui/MaxWContainer";
 import WorkingSpaceSettings from "@/components/dashboard-components/WorkingSpaceSettings";
@@ -34,7 +35,6 @@ import {
   extractTextFromTiptap as parseTiptapContentExtractText,
   truncateText as parseTiptapContentTruncateText,
 } from "@/lib/parse-tiptap-content";
-import type { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { usePaginatedQuery } from "convex/react";
 
@@ -52,13 +52,36 @@ export default function Dashboard() {
     loadMore: loadMoreFavs,
   } = usePaginatedQuery(api.notes.getFavNotes, {}, { initialNumItems: 5 });
 
-  const createWorkingSpace = useMutation(api.workingSpaces.createWorkingSpace);
-  const [loading, setLoading] = useState(false);
+  const createWorkingSpace = useMutation(
+    api.workingSpaces.createWorkingSpace,
+  ).withOptimisticUpdate((local, args) => {
+    const { name } = args;
+    const now = Date.now();
+    const uuid = crypto.randomUUID();
+    const tempId = `${uuid}-${now}` as any as Id<"workingSpaces">;
+
+    // Update the getRecentWorkingSpaces query
+    const currentWorkspaces = local.getQuery(
+      api.workingSpaces.getRecentWorkingSpaces,
+    );
+    if (currentWorkspaces !== undefined) {
+      local.setQuery(api.workingSpaces.getRecentWorkingSpaces, {}, [
+        {
+          _id: tempId,
+          _creationTime: now,
+          name: name || "Untitled",
+          slug: "untitled",
+          userId: "" as any as Id<"users">, // Will be replaced by server
+          createdAt: now,
+          updatedAt: now,
+        },
+        ...currentWorkspaces,
+      ]);
+    }
+  });
 
   const handleCreateWorkingSpace = async () => {
-    setLoading(true);
     await createWorkingSpace({ name: "Untitled" });
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -125,13 +148,9 @@ export default function Dashboard() {
             variant="outline"
             size="sm"
             onClick={handleCreateWorkingSpace}
-            disabled={loading || recentWorkspaces === undefined}
+            disabled={recentWorkspaces === undefined}
           >
-            {loading ? (
-              <LoadingAnimation className="h-3 w-3 sm:mr-2 mr-0" />
-            ) : (
-              <Plus className="h-4 w-4 sm:mr-2 mr-0" />
-            )}
+            <Plus className="h-4 w-4 sm:mr-2 mr-0" />
             <span className="hidden sm:block">New Workspace</span>
           </Button>
         </div>
@@ -149,7 +168,7 @@ export default function Dashboard() {
                 key={workspace._id}
                 workspace={workspace}
                 handleCreateWorkingSpace={handleCreateWorkingSpace}
-                loading={loading}
+                loading={false}
               />
             ))}
           </Slider>
