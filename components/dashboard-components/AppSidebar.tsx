@@ -34,7 +34,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useMutation, insertAtTop } from "convex/react";
+import { useMutation, insertAtBottomIfLoaded } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -179,17 +179,8 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
               )
             }
           >
-            {!loading ? (
-              <>
-                <Plus size={16} className="font-bold" />
-                Create Note
-              </>
-            ) : (
-              <>
-                <LoadingAnimation className=" h-3 w-3 " />
-                Redirecting...
-              </>
-            )}
+            <Plus size={16} className="font-bold" />
+            Create Note
           </Button>
         ))
       ) : (
@@ -199,17 +190,8 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
               className="font-medium w-full h-9 flex justify-between items-center gap-1"
               disabled={loading}
             >
-              {!loading ? (
-                <>
-                  Create Note
-                  <TbSelector size={16} className="font-bold" />
-                </>
-              ) : (
-                <>
-                  Redirecting...
-                  <LoadingAnimation className=" h-3 w-3 text-foreground" />
-                </>
-              )}
+              Create Note
+              <TbSelector size={16} className="font-bold" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -218,7 +200,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
           >
             <DropdownMenuLabel className="px-2 py-1 text-sm font-medium opacity-50">
               {getWorkingSpaces?.length
-                ? "Select a workspace:"
+                ? "Select a workspace :"
                 : "Create a workspace to add notes:"}
             </DropdownMenuLabel>
             <DropdownMenuGroup className="flex-col">
@@ -518,7 +500,7 @@ const PinnedNotesList = memo(function PinnedNotesList({
       ))}
 
       {/* Show More Button for Pinned Notes */}
-      {favoriteNotes.length > 6 && status === "CanLoadMore" && (
+      {favoriteNotes.length > 4 && status === "CanLoadMore" && (
         <SidebarGroupContent>
           <Button
             variant="SidebarMenuButton"
@@ -532,7 +514,7 @@ const PinnedNotesList = memo(function PinnedNotesList({
         </SidebarGroupContent>
       )}
 
-      {favoriteNotes.length > 6 && status === "LoadingMore" && (
+      {favoriteNotes.length > 4 && status === "LoadingMore" && (
         <SidebarGroupContent>
           <Button
             variant="SidebarMenuButton"
@@ -950,16 +932,14 @@ const AppSidebar = React.memo(function AppSidebar() {
       const now = Date.now();
       const uuid = crypto.randomUUID();
       const tempId = `${uuid}-${now}` as any;
-
-      // Optimistically add to favorites if this is a quick access note
-      insertAtTop({
+      insertAtBottomIfLoaded({
         localQueryStore: local,
         paginatedQuery: api.notes.getFavNotes,
         argsToMatch: {},
         item: {
           _id: tempId,
           _creationTime: now,
-          title: title || "New Quick Access Notes",
+          title: "New Quick Access Notes",
           body: undefined,
           slug: "untitled",
           workingSpaceId,
@@ -1053,17 +1033,7 @@ const AppSidebar = React.memo(function AppSidebar() {
           const newNoteUrl = `/dashboard/${workingSpaceId}/${`new-quick-access-notes`}?id=${newNoteId}`;
           const newNote = results?.find((note) => note._id === newNoteId);
 
-          if (newNote) {
-            router.push(newNoteUrl);
-          } else {
-            console.warn(
-              "Newly created note not immediately found in getNotesByUserId. Navigating to the expected URL.",
-            );
-            router.push(newNoteUrl);
-          }
-        } else {
-          console.error("Failed to get the ID of the newly created note.");
-          router.push(`/dashboard/${workingSpaceId}`);
+          router.push(newNoteUrl);
         }
       } catch (error) {
         console.error("Error creating note:", error);
