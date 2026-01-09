@@ -12,7 +12,7 @@ I've been looking for a note-taking app that's simpler than Notion but more orga
  - [ ] add the shareable Link
  - [ ] real time collaboration
  - [ ] note export pdf and markdown
- - [ ] optimistic update layout
+ - [x] optimistic update layer
  - [ ] caching layer with redis
  - [ ] speech to text and text to speech
  - [ ] i might add AI 🤞🙂
