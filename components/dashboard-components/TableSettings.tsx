@@ -182,7 +182,7 @@ export default function TableSettings({
             <DropdownMenuContent
               side="bottom"
               align="end"
-              className="w-48 p-1.5 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
+              className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
             >
               <DropdownMenuGroup className="relative">
                 <Label>Rename :</Label>
