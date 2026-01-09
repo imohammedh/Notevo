@@ -261,7 +261,7 @@ export function NotesDroppableContainer({
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNotesByTableId,
     { notesTableId: tableId },
-    { initialNumItems: 10 },
+    { initialNumItems: 5 },
   );
 
   // Track deleted notes locally for instant UI feedback
