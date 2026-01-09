@@ -37,6 +37,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Label } from "../ui/label";
 interface TableSettingsProps {
   notesTableId: Id<"notesTables"> | any; // Strongly typed Id
   tableName: string | any;
@@ -50,57 +51,69 @@ export default function TableSettings({
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false); // Alert Dialog State
   const inputRef = useRef<HTMLInputElement>(null);
-  const updateTable = useMutation(api.notesTables.updateTable).withOptimisticUpdate(
-    (local, args) => {
-      const { _id, name } = args;
+  const updateTable = useMutation(
+    api.notesTables.updateTable,
+  ).withOptimisticUpdate((local, args) => {
+    const { _id, name } = args;
 
-      // Try to find the table in cached queries to get workingSpaceId
-      // This is a best-effort optimization - server will sync correctly regardless
-      // We search through common workspace queries
-      const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
-      if (workspaces && Array.isArray(workspaces)) {
-        for (const ws of workspaces) {
-          const tables = local.getQuery(api.notesTables.getTables, { workingSpaceId: ws._id });
-          if (tables && Array.isArray(tables)) {
-            const tableIndex = tables.findIndex((t: any) => t._id === _id);
-            if (tableIndex !== -1) {
-              const updatedTables = tables.map((t: any) =>
-                t._id === _id
-                  ? {
-                      ...t,
-                      name: name ?? t.name,
-                      updatedAt: Date.now(),
-                    }
-                  : t
-              );
-              local.setQuery(api.notesTables.getTables, { workingSpaceId: ws._id }, updatedTables);
-              break;
-            }
+    // Try to find the table in cached queries to get workingSpaceId
+    // This is a best-effort optimization - server will sync correctly regardless
+    // We search through common workspace queries
+    const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
+    if (workspaces && Array.isArray(workspaces)) {
+      for (const ws of workspaces) {
+        const tables = local.getQuery(api.notesTables.getTables, {
+          workingSpaceId: ws._id,
+        });
+        if (tables && Array.isArray(tables)) {
+          const tableIndex = tables.findIndex((t: any) => t._id === _id);
+          if (tableIndex !== -1) {
+            const updatedTables = tables.map((t: any) =>
+              t._id === _id
+                ? {
+                    ...t,
+                    name: name ?? t.name,
+                    updatedAt: Date.now(),
+                  }
+                : t,
+            );
+            local.setQuery(
+              api.notesTables.getTables,
+              { workingSpaceId: ws._id },
+              updatedTables,
+            );
+            break;
           }
         }
       }
-    },
-  );
-  const deleteTable = useMutation(api.notesTables.deleteTable).withOptimisticUpdate(
-    (local, args) => {
-      const { _id } = args;
+    }
+  });
+  const deleteTable = useMutation(
+    api.notesTables.deleteTable,
+  ).withOptimisticUpdate((local, args) => {
+    const { _id } = args;
 
-      // Try to find and remove the table from cached queries
-      const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
-      if (workspaces && Array.isArray(workspaces)) {
-        for (const ws of workspaces) {
-          const tables = local.getQuery(api.notesTables.getTables, { workingSpaceId: ws._id });
-          if (tables && Array.isArray(tables)) {
-            if (tables.some((t: any) => t._id === _id)) {
-              const filteredTables = tables.filter((t: any) => t._id !== _id);
-              local.setQuery(api.notesTables.getTables, { workingSpaceId: ws._id }, filteredTables);
-              break;
-            }
+    // Try to find and remove the table from cached queries
+    const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
+    if (workspaces && Array.isArray(workspaces)) {
+      for (const ws of workspaces) {
+        const tables = local.getQuery(api.notesTables.getTables, {
+          workingSpaceId: ws._id,
+        });
+        if (tables && Array.isArray(tables)) {
+          if (tables.some((t: any) => t._id === _id)) {
+            const filteredTables = tables.filter((t: any) => t._id !== _id);
+            local.setQuery(
+              api.notesTables.getTables,
+              { workingSpaceId: ws._id },
+              filteredTables,
+            );
+            break;
           }
         }
       }
-    },
-  );
+    }
+  });
 
   useEffect(() => {
     if (open) {
@@ -172,6 +185,7 @@ export default function TableSettings({
               className="w-48 p-1.5 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
             >
               <DropdownMenuGroup className="relative">
+                <Label>Rename :</Label>
                 <Input
                   type="text"
                   value={inputValue}
