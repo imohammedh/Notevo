@@ -86,7 +86,7 @@ export default function home() {
 
   useEffect(() => {
     if (viewer?.name) {
-      document.title = `${viewer.name} - home`;
+      document.title = `${viewer.name} - Home`;
 
       const metaDescription = document.querySelector(
         'meta[name="description"]',
@@ -96,7 +96,7 @@ export default function home() {
       } else {
         const newMeta = document.createElement("meta");
         newMeta.name = "description";
-        newMeta.content = `${viewer.name}'s Notevo home`;
+        newMeta.content = `${viewer.name}'s Notevo Home`;
         document.head.appendChild(newMeta);
       }
     }

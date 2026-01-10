@@ -268,7 +268,7 @@ const SidebarNavigation = memo(function SidebarNavigation({
             >
               <Link href="/home">
                 <HomeIcon size="16" />
-                <span>home</span>
+                <span>Home</span>
               </Link>
             </Button>
           </SidebarMenuItem>
