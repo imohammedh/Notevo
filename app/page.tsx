@@ -38,6 +38,6 @@ export default function HomePage() {
       </div>
     );
   } else {
-    redirect("/dashboard");
+    redirect("/home");
   }
 }

@@ -149,7 +149,7 @@ export default function NoteSettings({
     setIsAlertOpen(false);
 
     if (isViewingThisNote) {
-      router.push(`/dashboard/${getNote.workingSpaceId}`);
+      router.push(`/home/${getNote.workingSpaceId}`);
     }
     try {
       await deleteNote({ _id: noteId });

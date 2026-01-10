@@ -255,7 +255,7 @@ export default function SearchDialog({
                             className="flex items-center py-2 px-2 group"
                             onSelect={() =>
                               handleItemClick(
-                                `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
+                                `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                               )
                             }
                           >
@@ -296,7 +296,7 @@ export default function SearchDialog({
                               className="flex items-center py-2 px-2 group"
                               onSelect={() =>
                                 handleItemClick(
-                                  `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
+                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                                 )
                               }
                             >
@@ -336,7 +336,7 @@ export default function SearchDialog({
                               className="flex items-center py-2 px-2 group"
                               onSelect={() =>
                                 handleItemClick(
-                                  `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
+                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                                 )
                               }
                             >
@@ -378,7 +378,7 @@ export default function SearchDialog({
                               className="flex items-center py-2 px-2 group"
                               onSelect={() =>
                                 handleItemClick(
-                                  `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
+                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                                 )
                               }
                             >
@@ -422,7 +422,7 @@ export default function SearchDialog({
                               className="flex items-center py-2 px-2 group"
                               onSelect={() =>
                                 handleItemClick(
-                                  `/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
+                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
                                 )
                               }
                             >

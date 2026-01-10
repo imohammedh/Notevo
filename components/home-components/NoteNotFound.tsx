@@ -31,7 +31,7 @@ export default function NoteNotFound({
             to it.
           </p>
           <Button className="mt-4" asChild>
-            <Link href="/dashboard">Return to Dashboard</Link>
+            <Link href="/home">Return to home</Link>
           </Button>
         </div>
       </div>

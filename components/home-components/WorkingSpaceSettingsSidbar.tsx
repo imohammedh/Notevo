@@ -40,31 +40,37 @@ export default function WorkingSpaceSettingsSidbar({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
-  const workspaceHref = `/dashboard/${workingSpaceId}`;
+  const workspaceHref = `/home/${workingSpaceId}`;
   const PathName = usePathname();
   const tables = useQuery(api.notesTables.getTables, {
     workingSpaceId,
   });
 
-  const DeleteWorkingSpace = useMutation(api.workingSpaces.deleteWorkingSpace).withOptimisticUpdate(
-    (local, args) => {
-      const { _id } = args;
+  const DeleteWorkingSpace = useMutation(
+    api.workingSpaces.deleteWorkingSpace,
+  ).withOptimisticUpdate((local, args) => {
+    const { _id } = args;
 
-      // Remove from getRecentWorkingSpaces
-      const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
-      if (workspaces && Array.isArray(workspaces)) {
-        const filteredWorkspaces = workspaces.filter((ws: any) => ws._id !== _id);
-        local.setQuery(api.workingSpaces.getRecentWorkingSpaces, {}, filteredWorkspaces);
-      }
+    // Remove from getRecentWorkingSpaces
+    const workspaces = local.getQuery(api.workingSpaces.getRecentWorkingSpaces);
+    if (workspaces && Array.isArray(workspaces)) {
+      const filteredWorkspaces = workspaces.filter((ws: any) => ws._id !== _id);
+      local.setQuery(
+        api.workingSpaces.getRecentWorkingSpaces,
+        {},
+        filteredWorkspaces,
+      );
+    }
 
-      // Remove single workspace query - server will handle the deletion
-      const workspace = local.getQuery(api.workingSpaces.getWorkingSpaceById, { _id });
-      if (workspace) {
-        // Can't set to null, but server will handle the deletion
-        // The query will update when server confirms deletion
-      }
-    },
-  );
+    // Remove single workspace query - server will handle the deletion
+    const workspace = local.getQuery(api.workingSpaces.getWorkingSpaceById, {
+      _id,
+    });
+    if (workspace) {
+      // Can't set to null, but server will handle the deletion
+      // The query will update when server confirms deletion
+    }
+  });
 
   const initiateDelete = () => {
     setIsAlertOpen(true);
@@ -77,10 +83,10 @@ export default function WorkingSpaceSettingsSidbar({
       if (PathName === workspaceHref) {
         await new Promise((resolve) => setTimeout(resolve, 400));
         await DeleteWorkingSpace({ _id: workingSpaceId });
-        router.push(`/dashboard`);
+        router.push(`/home`);
       } else {
         await DeleteWorkingSpace({ _id: workingSpaceId });
-        router.push(`/dashboard`);
+        router.push(`/home`);
       }
     } catch (error) {
       console.error("Failed to delete workspace:", error);

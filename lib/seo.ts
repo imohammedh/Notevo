@@ -123,7 +123,7 @@ export function generateStructuredData({
         "@type": "SearchAction",
         target: {
           "@type": "EntryPoint",
-          urlTemplate: `${url}/dashboard?search={search_term_string}`,
+          urlTemplate: `${url}/home?search={search_term_string}`,
         },
         "query-input": "required name=search_term_string",
       },

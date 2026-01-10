@@ -61,7 +61,7 @@ export default function CreateNoteBtn({
       });
       // Navigate to the new note using its real slug-based URL
       router.push(
-        `/dashboard/${workingSpaceId}/new-quick-access-notes?id=${newNoteId}`,
+        `/home/${workingSpaceId}/new-quick-access-notes?id=${newNoteId}`,
       );
     } catch (error) {
       console.error("Failed to create note:", error);
