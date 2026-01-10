@@ -19,13 +19,11 @@ export default function BreadcrumbWithCustomSeparator() {
   const pathname = usePathname();
   const pathSegments = pathname.split("/").filter((segment) => segment);
 
-  // Find the workspace ID segment (assuming it's always the segment after "dashboard")
-  const dashboardIndex = pathSegments.findIndex(
-    (segment) => segment === "dashboard",
-  );
+  // Find the workspace ID segment (assuming it's always the segment after "home")
+  const homeIndex = pathSegments.findIndex((segment) => segment === "home");
   const workingSpaceId: Id<"workingSpaces"> | null =
-    dashboardIndex >= 0 && pathSegments.length > dashboardIndex + 1
-      ? (pathSegments[dashboardIndex + 1] as Id<"workingSpaces">)
+    homeIndex >= 0 && pathSegments.length > homeIndex + 1
+      ? (pathSegments[homeIndex + 1] as Id<"workingSpaces">)
       : null;
 
   // Fetch workspace data
@@ -54,7 +52,7 @@ export default function BreadcrumbWithCustomSeparator() {
 
             // If this is the workspace ID segment and we have workspace data
             if (
-              index === dashboardIndex + 1 &&
+              index === homeIndex + 1 &&
               workspaceDatafilter &&
               workspaceDatafilter.name
             ) {

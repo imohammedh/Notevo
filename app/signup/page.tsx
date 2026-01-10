@@ -45,7 +45,7 @@ function SignInWithMagicLink({
     setLoading(true);
     const formData = new FormData();
     formData.set("email", values.email);
-    formData.set("redirectTo", "/dashboard");
+    formData.set("redirectTo", "/home");
     try {
       await signIn("resend", formData);
       handleLinkSent();
@@ -206,7 +206,7 @@ function SignInWithGitHub() {
       type="button"
       onClick={() => {
         setLoading(true);
-        void signIn("github", { redirectTo: "/dashboard" }).finally(() =>
+        void signIn("github", { redirectTo: "/home" }).finally(() =>
           setLoading(false),
         );
       }}
@@ -235,7 +235,7 @@ function SignInWithGoogle() {
       type="button"
       onClick={() => {
         setLoading(true);
-        void signIn("google", { redirectTo: "/dashboard" }).finally(() =>
+        void signIn("google", { redirectTo: "/home" }).finally(() =>
           setLoading(false),
         );
       }}

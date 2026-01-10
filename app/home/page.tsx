@@ -18,8 +18,8 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import Link from "next/link";
 import MaxWContainer from "@/components/ui/MaxWContainer";
-import WorkingSpaceSettings from "@/components/dashboard-components/WorkingSpaceSettings";
-import WorkingSpaceNotFound from "@/components/dashboard-components/WorkingSpaceNotFound";
+import WorkingSpaceSettings from "@/components/home-components/WorkingSpaceSettings";
+import WorkingSpaceNotFound from "@/components/home-components/WorkingSpaceNotFound";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
 import SkeletonTextAnimation from "@/components/ui/SkeletonTextAnimation";
 import {
@@ -38,7 +38,7 @@ import {
 import { cn } from "@/lib/utils";
 import { usePaginatedQuery } from "convex/react";
 
-export default function Dashboard() {
+export default function home() {
   const viewer = useQuery(api.users.viewer);
   const recentWorkspaces = useQuery(api.workingSpaces.getRecentWorkingSpaces);
   const { results, status, loadMore } = usePaginatedQuery(
@@ -86,20 +86,17 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (viewer?.name) {
-      document.title = `${viewer.name} - Dashboard`;
+      document.title = `${viewer.name} - home`;
 
       const metaDescription = document.querySelector(
         'meta[name="description"]',
       );
       if (metaDescription) {
-        metaDescription.setAttribute(
-          "content",
-          `${viewer.name}'s Notevo dashboard`,
-        );
+        metaDescription.setAttribute("content", `${viewer.name}'s Notevo home`);
       } else {
         const newMeta = document.createElement("meta");
         newMeta.name = "description";
-        newMeta.content = `${viewer.name}'s Notevo dashboard`;
+        newMeta.content = `${viewer.name}'s Notevo home`;
         document.head.appendChild(newMeta);
       }
     }
@@ -438,7 +435,7 @@ function WorkspaceCard({
           asChild
           className="h-7 px-2 text-xs hover:bg-primary/10"
         >
-          <Link href={`/dashboard/${workspace._id}`}>Open</Link>
+          <Link href={`/home/${workspace._id}`}>Open</Link>
         </Button>
       </CardFooter>
     </Card>
@@ -527,7 +524,7 @@ function NoteCard({ note }: { note: Note }) {
           className="h-7 px-2 text-xs hover:bg-primary/10"
         >
           <Link
-            href={`/dashboard/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
+            href={`/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`}
           >
             Open
           </Link>

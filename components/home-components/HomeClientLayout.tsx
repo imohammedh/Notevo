@@ -6,15 +6,15 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import AppSidebar from "@/components/dashboard-components/AppSidebar";
-import BreadcrumbWithCustomSeparator from "@/components/dashboard-components/BreadcrumbWithCustomSeparator";
+import AppSidebar from "@/components/home-components/AppSidebar";
+import BreadcrumbWithCustomSeparator from "@/components/home-components/BreadcrumbWithCustomSeparator";
 import { MobileWarning } from "@/components/ui/mobile-warning";
-import NoteSettings from "@/components/dashboard-components/NoteSettings";
+import NoteSettings from "@/components/home-components/NoteSettings";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { Id } from "@/convex/_generated/dataModel";
 import { parseSlug } from "@/lib/parseSlug";
 
-const DashboardContent = memo(({ children }: { children: ReactNode }) => {
+const HomeContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showShadow, setShowShadow] = useState(false);
@@ -83,16 +83,16 @@ const DashboardContent = memo(({ children }: { children: ReactNode }) => {
   );
 });
 
-DashboardContent.displayName = "DashboardContent";
+HomeContent.displayName = "homeContent";
 
-const DashboardClientLayout = memo(({ children }: { children: ReactNode }) => {
+const HomeClientLayout = memo(({ children }: { children: ReactNode }) => {
   return (
     <SidebarProvider>
-      <DashboardContent>{children}</DashboardContent>
+      <HomeContent>{children}</HomeContent>
     </SidebarProvider>
   );
 });
 
-DashboardClientLayout.displayName = "DashboardClientLayout";
+HomeClientLayout.displayName = "homeClientLayout";
 
-export default DashboardClientLayout;
+export default HomeClientLayout;

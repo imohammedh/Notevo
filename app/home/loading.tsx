@@ -96,7 +96,7 @@ function NoteCardSkeleton() {
   );
 }
 
-export default function DashboardSkeleton() {
+export default function homeSkeleton() {
   return (
     <MaxWContainer className="relative mb-20">
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">

@@ -5,7 +5,7 @@ import {
   Pin,
   CircleUserRound,
   LogOut,
-  LayoutDashboard,
+  HomeIcon,
   ChevronRight,
   ChevronDown,
 } from "lucide-react";
@@ -242,14 +242,14 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
 
 interface SidebarNavigationProps {
   pathname: string;
-  isDashboard: boolean;
+  ishome: boolean;
   isMobile: boolean;
   open: boolean;
 }
 
 const SidebarNavigation = memo(function SidebarNavigation({
   pathname,
-  isDashboard,
+  ishome,
   isMobile,
   open,
 }: SidebarNavigationProps) {
@@ -263,12 +263,12 @@ const SidebarNavigation = memo(function SidebarNavigation({
               asChild
               variant="SidebarMenuButton"
               className={`px-2 h-8 group ${
-                pathname === "/dashboard" ? "bg-foreground/10" : ""
+                pathname === "/home" ? "bg-foreground/10" : ""
               }`}
             >
-              <Link href="/dashboard">
-                <LayoutDashboard size="16" />
-                <span>Dashboard</span>
+              <Link href="/home">
+                <HomeIcon size="16" />
+                <span>home</span>
               </Link>
             </Button>
           </SidebarMenuItem>
@@ -322,7 +322,7 @@ const PinnedNoteItem = memo(
     );
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const notePath = `/dashboard/${note.workingSpaceId}/${note.slug}`;
+    const notePath = `/home/${note.workingSpaceId}/${note.slug}`;
     const noteHref = `${notePath}?id=${note._id}`;
     const isActive = pathname === notePath;
 
@@ -588,7 +588,7 @@ const WorkspaceItem = memo(
     });
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const workspaceHref = `/dashboard/${workingSpace._id}`;
+    const workspaceHref = `/home/${workingSpace._id}`;
     const isActive = pathname === workspaceHref;
 
     const handleContentMouseEnter = useCallback(() => {
@@ -785,7 +785,7 @@ const UserAccountSection = memo(function UserAccountSection({
   isSigningOut,
   pathname,
 }: UserAccountSectionProps) {
-  const settingsHref = "/dashboard/settings/profile";
+  const settingsHref = "/home/settings/profile";
   const isSettingsActive = pathname === settingsHref;
 
   return (
@@ -993,10 +993,7 @@ const AppSidebar = React.memo(function AppSidebar() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const isDashboard = React.useMemo(
-    () => pathname === "/dashboard",
-    [pathname],
-  );
+  const ishome = React.useMemo(() => pathname === "/home", [pathname]);
 
   const isSidebarLoading = React.useMemo(
     () => getWorkingSpaces === undefined || User === undefined,
@@ -1030,14 +1027,14 @@ const AppSidebar = React.memo(function AppSidebar() {
         });
 
         if (newNoteId) {
-          const newNoteUrl = `/dashboard/${workingSpaceId}/${`new-quick-access-notes`}?id=${newNoteId}`;
+          const newNoteUrl = `/home/${workingSpaceId}/${`new-quick-access-notes`}?id=${newNoteId}`;
           const newNote = results?.find((note) => note._id === newNoteId);
 
           router.push(newNoteUrl);
         }
       } catch (error) {
         console.error("Error creating note:", error);
-        router.push(`/dashboard/${workingSpaceId}`);
+        router.push(`/home/${workingSpaceId}`);
       } finally {
         setLoading(false);
       }
@@ -1080,7 +1077,7 @@ const AppSidebar = React.memo(function AppSidebar() {
       <SidebarContent className="relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-muted-foreground">
         <SidebarNavigation
           pathname={pathname}
-          isDashboard={isDashboard}
+          ishome={ishome}
           isMobile={isMobile}
           open={open}
         />

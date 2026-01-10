@@ -18,7 +18,7 @@ I've been looking for a note-taking app that's simpler than Notion but more orga
  - [ ] i might add AI 🤞🙂
  - [x] fix the code Highlight in the editer
  - [X] add the feedback menu item in the user dropdown menu in the sidebar
- - [x] Redesigning for the dashboard 
+ - [x] Redesigning for the home 
  - [x] fix the caching
  - [x] change the rename stff in the workingspace route
  
