@@ -40,7 +40,7 @@ import { api } from "@/convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
-import { useState, useCallback, memo, useRef } from "react";
+import { useState, useCallback, memo, useRef, useMemo } from "react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
@@ -457,8 +457,6 @@ const PinnedNoteItem = memo(
   },
   (prevProps, nextProps) => {
     return (
-      prevProps.note._id === nextProps.note._id &&
-      prevProps.note.title === nextProps.note.title &&
       prevProps.note.favorite === nextProps.note.favorite &&
       prevProps.pathname === nextProps.pathname &&
       prevProps.open === nextProps.open
@@ -934,7 +932,7 @@ const AppSidebar = React.memo(function AppSidebar() {
       const tempId = `${uuid}-${now}` as any;
       insertAtBottomIfLoaded({
         localQueryStore: local,
-        paginatedQuery: api.notes.getFavNotes,
+        paginatedQuery: api.notes.getNoteByUserId,
         argsToMatch: {},
         item: {
           _id: tempId,
@@ -945,7 +943,6 @@ const AppSidebar = React.memo(function AppSidebar() {
           workingSpaceId,
           workingSpacesSlug,
           notesTableId,
-          favorite: false,
           createdAt: now,
           updatedAt: now,
         },
@@ -993,9 +990,9 @@ const AppSidebar = React.memo(function AppSidebar() {
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const ishome = React.useMemo(() => pathname === "/home", [pathname]);
+  const ishome = useMemo(() => pathname === "/home", [pathname]);
 
-  const isSidebarLoading = React.useMemo(
+  const isSidebarLoading = useMemo(
     () => getWorkingSpaces === undefined || User === undefined,
     [getWorkingSpaces, User, results, status],
   );
@@ -1010,7 +1007,6 @@ const AppSidebar = React.memo(function AppSidebar() {
 
   const handleCreateNote = useCallback(
     async (workingSpaceId: any, workingSpacesSlug: string) => {
-      setLoading(true);
       try {
         const tableName = "New Quick Access Notes";
 
@@ -1028,18 +1024,14 @@ const AppSidebar = React.memo(function AppSidebar() {
 
         if (newNoteId) {
           const newNoteUrl = `/home/${workingSpaceId}/${`new-quick-access-notes`}?id=${newNoteId}`;
-          const newNote = results?.find((note) => note._id === newNoteId);
-
           router.push(newNoteUrl);
         }
       } catch (error) {
         console.error("Error creating note:", error);
         router.push(`/home/${workingSpaceId}`);
-      } finally {
-        setLoading(false);
       }
     },
-    [createNote, createTable, results, router],
+    [createNote, createTable],
   );
 
   const handleSignOut = useCallback(async () => {
