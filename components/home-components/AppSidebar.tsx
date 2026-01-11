@@ -457,8 +457,6 @@ const PinnedNoteItem = memo(
   },
   (prevProps, nextProps) => {
     return (
-      prevProps.note._id === nextProps.note._id &&
-      prevProps.note.title === nextProps.note.title &&
       prevProps.note.favorite === nextProps.note.favorite &&
       prevProps.pathname === nextProps.pathname &&
       prevProps.open === nextProps.open
