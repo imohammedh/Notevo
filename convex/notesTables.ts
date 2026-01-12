@@ -198,38 +198,3 @@ export const getTables = query({
     return tables;
   },
 });
-
-export const getTableByName = query({
-  args: {
-    workingSpaceId: v.id("workingSpaces"),
-    name: v.string(),
-  },
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) {
-      throw new Error("Not authenticated");
-    }
-
-    const { workingSpaceId, name } = args;
-
-    // Verify the user owns the workspace
-    const workspace = await ctx.db.get(workingSpaceId);
-    if (!workspace) {
-      throw new Error("Workspace not found");
-    }
-
-    if (workspace.userId !== userId) {
-      throw new Error("Not authorized to view tables in this workspace");
-    }
-
-    const table = await ctx.db
-      .query("notesTables")
-      .withIndex("by_workingSpaceId", (q) =>
-        q.eq("workingSpaceId", workingSpaceId),
-      )
-      .filter((q) => q.eq(q.field("name"), name))
-      .first();
-
-    return table;
-  },
-});

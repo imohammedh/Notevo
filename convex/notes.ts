@@ -227,12 +227,38 @@ export const getNotesByTableId = query({
 });
 
 export const getNoteByUserId = query({
-  args: { paginationOpts: paginationOptsValidator },
-  handler: async (ctx, { paginationOpts }) => {
+  args: {
+    paginationOpts: paginationOptsValidator,
+    searchQuery: v.optional(v.string()),
+  },
+  handler: async (ctx, { paginationOpts, searchQuery }) => {
     const userId = await getAuthUserId(ctx);
+
     if (!userId) {
       throw new ConvexError("Not authenticated");
     }
+
+    // If there's a search query, filter notes by title
+    if (searchQuery && searchQuery.trim() !== "") {
+      const allNotes = await ctx.db
+        .query("notes")
+        .withIndex("by_userId", (q) => q.eq("userId", userId))
+        .order("desc")
+        .collect();
+
+      const lowerQuery = searchQuery.toLowerCase();
+      const matchedNotes = allNotes.filter((note) => {
+        return note.title?.toLowerCase().includes(lowerQuery);
+      });
+
+      return {
+        page: matchedNotes,
+        continueCursor: "",
+        isDone: true,
+      };
+    }
+
+    // No search query - return paginated results
     return await ctx.db
       .query("notes")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
