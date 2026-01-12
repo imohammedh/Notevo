@@ -11,20 +11,11 @@ import {
   Settings,
   Star,
   ChevronDown,
+  X,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
 import {
   Dialog,
   DialogContent,
@@ -33,12 +24,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@/cache/useQuery";
+import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
 import { useHotkeys } from "react-hotkeys-hook";
 import { usePaginatedQuery } from "convex/react";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
-import { extractTextFromTiptap as parseTiptapContentExtractText } from "@/lib/parse-tiptap-content";
 
 interface SearchDialogProps {
   variant?: "default" | "SidebarMenuButton";
@@ -75,17 +65,6 @@ const getRelativeTime = (date: Date) => {
   return `${Math.floor(diffInDays / 30)} months ago`;
 };
 
-// Helper to extract and search note body text
-const searchInNoteBody = (body: any, query: string): boolean => {
-  if (!body) return false;
-  try {
-    const plainText = parseTiptapContentExtractText(body);
-    return plainText?.toLowerCase().includes(query.toLowerCase()) || false;
-  } catch (error) {
-    return false;
-  }
-};
-
 // Group notes by time period
 const groupNotesByTime = (notes: any[]) => {
   const now = new Date();
@@ -118,6 +97,54 @@ const groupNotesByTime = (notes: any[]) => {
   };
 };
 
+function SearchLoadingSkeleton() {
+  return (
+    <div className="space-y-2 p-2">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="flex items-center py-2 px-2">
+          <div className="h-8 w-8 bg-primary/20 rounded-lg mr-2 animate-pulse" />
+          <div className="flex-1 space-y-2">
+            <div className="h-4 bg-primary/20 rounded w-3/4 animate-pulse" />
+            <div className="h-3 bg-primary/20 rounded w-1/2 animate-pulse" />
+          </div>
+          <div className="h-3 bg-primary/20 rounded w-20 animate-pulse" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function NoteItem({ note, onClick, isSelected }: any) {
+  const Icon = getNoteIcon(note);
+
+  return (
+    <div
+      onClick={onClick}
+      className={`flex items-center py-2 px-3 cursor-pointer rounded-lg transition-colors ${
+        isSelected ? "bg-accent" : "hover:bg-accent/50"
+      }`}
+    >
+      <div className="flex w-full items-center">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg mr-3">
+          <Icon size={16} />
+        </div>
+        <div className="flex-1 overflow-hidden">
+          <p className="font-medium truncate text-foreground">
+            {note.title || "Untitled"}
+          </p>
+          <p className="text-xs text-muted-foreground truncate">
+            {note.workingSpacesSlug || "Personal"}
+          </p>
+        </div>
+        <div className="flex items-center text-xs text-muted-foreground">
+          <Clock className="mr-1 h-3 w-3" />
+          <span>{getRelativeTime(new Date(note.createdAt))}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function SearchDialog({
   variant = "SidebarMenuButton",
   showTitle = false,
@@ -127,12 +154,36 @@ export default function SearchDialog({
 }: SearchDialogProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Debounce the search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  // Use the debounced query for the backend search
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNoteByUserId,
-    {},
-    { initialNumItems: 5 },
+    { searchQuery: debouncedQuery || undefined },
+    { initialNumItems: 12 },
   );
+
+  // Reset when dialog opens
+  useEffect(() => {
+    if (open) {
+      setQuery("");
+      setDebouncedQuery("");
+      setSelectedIndex(0);
+      setTimeout(() => inputRef.current?.focus(), 0);
+    }
+  }, [open]);
 
   useHotkeys(
     "ctrl+k",
@@ -143,40 +194,45 @@ export default function SearchDialog({
     [open],
   );
 
-  const handleItemClick = (href: string) => {
+  const filteredNotes = results || [];
+
+  // Group notes by time
+  const groupedNotes = useMemo(() => {
+    return groupNotesByTime(filteredNotes);
+  }, [filteredNotes]);
+
+  // Flatten grouped notes for keyboard navigation
+  const allNotes = useMemo(() => {
+    return [
+      ...groupedNotes.today,
+      ...groupedNotes.yesterday,
+      ...groupedNotes.pastWeek,
+      ...groupedNotes.pastMonth,
+      ...groupedNotes.older,
+    ];
+  }, [groupedNotes]);
+
+  const handleItemClick = (note: any) => {
     setOpen(false);
-    setQuery("");
-    router.push(href);
+    router.push(`/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`);
   };
 
-  // Filter notes based on search query (search in title, workspace slug, and body)
-  const filteredNotes = results?.filter((note) => {
-    const lowerQuery = query.toLowerCase();
-    const titleMatch = note.title?.toLowerCase().includes(lowerQuery);
-    const workspaceMatch = note.workingSpacesSlug
-      ?.toLowerCase()
-      .includes(lowerQuery);
-    const bodyMatch = searchInNoteBody(note.body, lowerQuery);
+  // Keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex((prev) => Math.min(prev + 1, allNotes.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => Math.max(prev - 1, 0));
+    } else if (e.key === "Enter" && allNotes[selectedIndex]) {
+      e.preventDefault();
+      handleItemClick(allNotes[selectedIndex]);
+    }
+  };
 
-    return titleMatch || workspaceMatch || bodyMatch;
-  });
-
-  // Group filtered notes by time
-  const groupedNotes = filteredNotes ? groupNotesByTime(filteredNotes) : null;
-  const hasResultsLoadMore =
-    groupedNotes &&
-    (groupedNotes.today.length > 15 ||
-      groupedNotes.yesterday.length > 15 ||
-      groupedNotes.pastWeek.length > 15 ||
-      groupedNotes.pastMonth.length > 15 ||
-      groupedNotes.older.length > 15);
-  const hasResults =
-    groupedNotes &&
-    (groupedNotes.today.length > 0 ||
-      groupedNotes.yesterday.length > 0 ||
-      groupedNotes.pastWeek.length > 0 ||
-      groupedNotes.pastMonth.length > 0 ||
-      groupedNotes.older.length > 0);
+  const isDebouncing = query !== debouncedQuery;
+  const hasResults = allNotes.length > 0;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -191,10 +247,10 @@ export default function SearchDialog({
             <div className="w-full flex items-center justify-between gap-1">
               Search
               <span className="inline-flex gap-1">
-                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
                   <span className="text-xs">Ctrl</span>
                 </kbd>
-                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
                   <span className="text-xs">K</span>
                 </kbd>
               </span>
@@ -202,302 +258,144 @@ export default function SearchDialog({
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="p-2 overflow-hidden border border-border bg-accent shadow-xl shadow-border/10 md:min-w-[800px]">
+      <DialogContent
+        aria-describedby={undefined}
+        className="p-0 overflow-hidden bg-background md:min-w-[800px] gap-0"
+      >
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
-        <Command className="bg-background">
-          <div
-            className={`flex items-center border-b ${hasResults ? `border-border` : `border-none`} w-full px-3`}
-          >
-            <CommandInput
-              placeholder="Search for notes by title or content..."
-              className="h-11 border-none focus:ring-0 focus-visible:ring-0 placeholder:text-muted-foreground"
-              value={query}
-              onValueChange={setQuery}
-            />
-          </div>
-          <CommandList className="max-h-[60vh] scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent overflow-auto p-1">
-            {status === "LoadingFirstPage" ? (
-              <div className="space-y-2 p-2">
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <div key={index} className="flex items-center py-2 px-2">
-                    <div className="h-8 w-8 bg-muted rounded-lg mr-2 animate-pulse" />
-                    <div className="flex-1 space-y-2">
-                      <div className="h-4 bg-muted rounded w-3/4 animate-pulse" />
-                      <div className="h-3 bg-muted rounded w-1/2 animate-pulse" />
-                    </div>
-                    <div className="h-3 bg-muted rounded w-20 animate-pulse" />
+        {/* Search Input */}
+        <div className="flex items-center border-b border-border px-4 py-1.5">
+          {isDebouncing ? (
+            <LoadingAnimation className="h-4 w-4 mr-2 text-muted-foreground" />
+          ) : (
+            <Search className="h-4 w-4 mr-2 text-muted-foreground" />
+          )}
+          <Input
+            ref={inputRef}
+            placeholder="Search for notes by title..."
+            className="flex-1 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none px-0"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+        </div>
+        {/* Results */}
+        <div className="min-h-[60vh] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent p-2">
+          {isDebouncing ? (
+            <SearchLoadingSkeleton />
+          ) : !hasResults ? (
+            <div className="py-12 text-center text-sm text-muted-foreground">
+              {!query ? (
+                <>
+                  <FileText className="mx-auto h-12 w-12 opacity-50 mb-3" />
+                  <p className="font-medium">No notes found</p>
+                  <p className="text-xs mt-1">
+                    Create your first note to get started
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Search className="mx-auto h-12 w-12 opacity-50 mb-3" />
+                  <p className="font-medium">No results found for "{query}"</p>
+                  <p className="text-xs mt-1">
+                    Try different keywords or check your spelling
+                  </p>
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {groupedNotes.today.length > 0 && (
+                <div className="mb-4">
+                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                    Today
                   </div>
-                ))}
-              </div>
-            ) : (
-              <>
-                <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
-                  {results && results.length === 0 ? (
-                    <>
-                      <FileText className="mx-auto h-8 w-8 opacity-50 mb-2" />
-                      <p>No notes found</p>
-                      <p className="text-xs">
-                        Create your first note to get started
-                      </p>
-                    </>
-                  ) : (
-                    "No results found."
-                  )}
-                </CommandEmpty>
+                  {groupedNotes.today.map((note, idx) => (
+                    <NoteItem
+                      key={note._id}
+                      note={note}
+                      onClick={() => handleItemClick(note)}
+                      isSelected={allNotes.indexOf(note) === selectedIndex}
+                    />
+                  ))}
+                </div>
+              )}
 
-                {groupedNotes && (
-                  <>
-                    {groupedNotes.today.length > 0 && (
-                      <CommandGroup heading="Today">
-                        {groupedNotes.today.map((note) => (
-                          <CommandItem
-                            key={note._id}
-                            className="flex items-center py-2 px-2 group"
-                            onSelect={() =>
-                              handleItemClick(
-                                `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
-                              )
-                            }
-                          >
-                            <div className="flex w-full items-center">
-                              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
-                                {React.createElement(getNoteIcon(note), {
-                                  size: 16,
-                                })}
-                              </div>
-                              <div className="flex-1 overflow-hidden">
-                                <p className="font-medium truncate text-foreground">
-                                  {note.title || "Untitled"}
-                                </p>
-                                <p className="text-xs text-muted-foreground truncate">
-                                  {note.workingSpacesSlug || "Personal"}
-                                </p>
-                              </div>
-                              <div className="flex items-center text-xs text-muted-foreground">
-                                <Clock className="mr-1 h-3 w-3" />
-                                <span>
-                                  {getRelativeTime(new Date(note.createdAt))}
-                                </span>
-                                <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                              </div>
-                            </div>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    )}
-
-                    {groupedNotes.yesterday.length > 0 && (
-                      <>
-                        <CommandSeparator />
-                        <CommandGroup heading="Yesterday">
-                          {groupedNotes.yesterday.map((note) => (
-                            <CommandItem
-                              key={note._id}
-                              className="flex items-center py-2 px-2 group"
-                              onSelect={() =>
-                                handleItemClick(
-                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
-                                )
-                              }
-                            >
-                              <div className="flex w-full items-center">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
-                                  {React.createElement(getNoteIcon(note), {
-                                    size: 16,
-                                  })}
-                                </div>
-                                <div className="flex-1 overflow-hidden">
-                                  <p className="font-medium truncate text-foreground">
-                                    {note.title || "Untitled"}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground truncate">
-                                    {note.workingSpacesSlug || "Personal"}
-                                  </p>
-                                </div>
-                                <div className="flex items-center text-xs text-muted-foreground">
-                                  <Clock className="mr-1 h-3 w-3" />
-                                  <span>Yesterday</span>
-                                  <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </div>
-                              </div>
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </>
-                    )}
-
-                    {groupedNotes.pastWeek.length > 0 && (
-                      <>
-                        <CommandSeparator />
-                        <CommandGroup heading="Past Week">
-                          {groupedNotes.pastWeek.map((note) => (
-                            <CommandItem
-                              key={note._id}
-                              className="flex items-center py-2 px-2 group"
-                              onSelect={() =>
-                                handleItemClick(
-                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
-                                )
-                              }
-                            >
-                              <div className="flex w-full items-center">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
-                                  {React.createElement(getNoteIcon(note), {
-                                    size: 16,
-                                  })}
-                                </div>
-                                <div className="flex-1 overflow-hidden">
-                                  <p className="font-medium truncate text-foreground">
-                                    {note.title || "Untitled"}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground truncate">
-                                    {note.workingSpacesSlug || "Personal"}
-                                  </p>
-                                </div>
-                                <div className="flex items-center text-xs text-muted-foreground">
-                                  <Clock className="mr-1 h-3 w-3" />
-                                  <span>
-                                    {getRelativeTime(new Date(note.createdAt))}
-                                  </span>
-                                  <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </div>
-                              </div>
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </>
-                    )}
-
-                    {groupedNotes.pastMonth.length > 0 && (
-                      <>
-                        <CommandSeparator />
-                        <CommandGroup heading="Past 30 Days">
-                          {groupedNotes.pastMonth.map((note) => (
-                            <CommandItem
-                              key={note._id}
-                              className="flex items-center py-2 px-2 group"
-                              onSelect={() =>
-                                handleItemClick(
-                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
-                                )
-                              }
-                            >
-                              <div className="flex w-full items-center">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
-                                  {React.createElement(getNoteIcon(note), {
-                                    size: 16,
-                                  })}
-                                </div>
-                                <div className="flex-1 overflow-hidden">
-                                  <p className="font-medium truncate text-foreground">
-                                    {note.title || "Untitled"}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground truncate">
-                                    {note.workingSpacesSlug || "Personal"}
-                                  </p>
-                                </div>
-                                <div className="flex items-center text-xs text-muted-foreground">
-                                  <Clock className="mr-1 h-3 w-3" />
-                                  <span>
-                                    {new Date(
-                                      note.createdAt,
-                                    ).toLocaleDateString()}
-                                  </span>
-                                  <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </div>
-                              </div>
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </>
-                    )}
-
-                    {groupedNotes.older.length > 0 && (
-                      <>
-                        <CommandSeparator />
-                        <CommandGroup heading="Older">
-                          {groupedNotes.older.map((note) => (
-                            <CommandItem
-                              key={note._id}
-                              className="flex items-center py-2 px-2 group"
-                              onSelect={() =>
-                                handleItemClick(
-                                  `/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`,
-                                )
-                              }
-                            >
-                              <div className="flex w-full items-center">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border mr-2">
-                                  {React.createElement(getNoteIcon(note), {
-                                    size: 16,
-                                  })}
-                                </div>
-                                <div className="flex-1 overflow-hidden">
-                                  <p className="font-medium truncate text-foreground">
-                                    {note.title || "Untitled"}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground truncate">
-                                    {note.workingSpacesSlug || "Personal"}
-                                  </p>
-                                </div>
-                                <div className="flex items-center text-xs text-muted-foreground">
-                                  <Clock className="mr-1 h-3 w-3" />
-                                  <span>
-                                    {new Date(
-                                      note.createdAt,
-                                    ).toLocaleDateString()}
-                                  </span>
-                                  <Undo2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </div>
-                              </div>
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </>
-                    )}
-                  </>
-                )}
-
-                {/* Show More Button */}
-                {hasResultsLoadMore && status === "CanLoadMore" && (
-                  <div className="px-2 py-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => loadMore(5)}
-                      className="w-full h-9 text-xs hover:bg-foreground/10"
-                    >
-                      <ChevronDown size="16" className="mr-2" />
-                      Show More Notes
-                    </Button>
+              {groupedNotes.yesterday.length > 0 && (
+                <div className="mb-4">
+                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                    Yesterday
                   </div>
-                )}
+                  {groupedNotes.yesterday.map((note) => (
+                    <NoteItem
+                      key={note._id}
+                      note={note}
+                      onClick={() => handleItemClick(note)}
+                      isSelected={allNotes.indexOf(note) === selectedIndex}
+                    />
+                  ))}
+                </div>
+              )}
 
-                {/* Loading More Indicator */}
-                {hasResultsLoadMore && status === "LoadingMore" && (
-                  <div className="px-2 py-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      disabled
-                      className="w-full h-9 text-xs"
-                    >
-                      <LoadingAnimation className="h-4 w-4 mr-2" />
-                      Loading...
-                    </Button>
+              {groupedNotes.pastWeek.length > 0 && (
+                <div className="mb-4">
+                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                    Past Week
                   </div>
-                )}
-              </>
-            )}
-          </CommandList>
-        </Command>
-        <DialogFooter>
+                  {groupedNotes.pastWeek.map((note) => (
+                    <NoteItem
+                      key={note._id}
+                      note={note}
+                      onClick={() => handleItemClick(note)}
+                      isSelected={allNotes.indexOf(note) === selectedIndex}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {groupedNotes.pastMonth.length > 0 && (
+                <div className="mb-4">
+                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                    Past 30 Days
+                  </div>
+                  {groupedNotes.pastMonth.map((note) => (
+                    <NoteItem
+                      key={note._id}
+                      note={note}
+                      onClick={() => handleItemClick(note)}
+                      isSelected={allNotes.indexOf(note) === selectedIndex}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {groupedNotes.older.length > 0 && (
+                <div className="mb-4">
+                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                    Older
+                  </div>
+                  {groupedNotes.older.map((note) => (
+                    <NoteItem
+                      key={note._id}
+                      note={note}
+                      onClick={() => handleItemClick(note)}
+                      isSelected={allNotes.indexOf(note) === selectedIndex}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <DialogFooter className="border-t border-border px-4 py-3">
           <span className="inline-flex gap-1">
-            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md border border-border bg-background px-1.5 font-mono text-xs font-medium text-muted-foreground">
-              <ArrowDownUp size={16} /> Select
+            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground">
+              <ArrowDownUp size={16} /> Navigate
             </kbd>
-            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md border border-border bg-background px-1.5 font-mono text-xs font-medium text-muted-foreground">
-              <Undo2 size={16} /> open
+            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground">
+              <Undo2 size={16} /> Open
             </kbd>
           </span>
         </DialogFooter>
