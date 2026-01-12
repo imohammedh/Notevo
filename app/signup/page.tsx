@@ -53,7 +53,7 @@ function SignInWithMagicLink({
       toast({
         variant: "destructive",
         title: "Invalid Email or Password",
-        description: "Example for a valid email : example@mail.com",
+        description: "Example for a valid email : example@email.com",
       });
     } finally {
       setLoading(false);
@@ -67,9 +67,16 @@ function SignInWithMagicLink({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-foreground">Email</FormLabel>
+              <FormLabel className="text-foreground text-base">
+                Enter your email
+              </FormLabel>
               <FormControl>
-                <Input {...field} autoComplete="email" disabled={loading} />
+                <Input
+                  {...field}
+                  autoComplete="email"
+                  placeholder="name@email.com"
+                  disabled={loading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,7 +85,7 @@ function SignInWithMagicLink({
         <Button
           type="submit"
           disabled={loading}
-          className="hover:scale-105 transition-transform duration-200 mt-5"
+          className="hover:scale-105 transition-transform duration-200 mt-3"
         >
           {loading ? (
             <>
@@ -111,7 +118,7 @@ export default function SignInPage() {
     <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-transparent via-muted to-transparent p-6 md:p-10 overflow-hidden">
       <div className="w-full relative max-w-sm Desktop:max-w-[53rem]">
         <div className="flex flex-col gap-6">
-          <Card className="overflow-hidden bg-background/60 backdrop-blur-md transition-all duration-300 border border-border">
+          <Card className="overflow-hidden bg-background border border-border">
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="p-6 md:p-8">
                 <div className="flex flex-col gap-6">
@@ -135,9 +142,13 @@ export default function SignInPage() {
                       <SignInWithMagicLink
                         handleLinkSent={() => setStep("linkSent")}
                       />
-                      <span className="relative z-10 px-2 text-muted-foreground">
-                        Or continue with
-                      </span>
+                      <div className=" relative py-3 ">
+                        <hr className=" border-primary/20" />
+                        <span className=" text-sm bg-background absolute top-2/4 -translate-y-1/2 left-2/4 -translate-x-1/2 z-10 px-6 text-muted-foreground">
+                          OTHER OPTIONS
+                        </span>
+                      </div>
+
                       <div className="grid grid-cols-2 gap-4">
                         <SignInWithGitHub />
                         <SignInWithGoogle />
