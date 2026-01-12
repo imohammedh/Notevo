@@ -89,16 +89,42 @@ export default function HeroSection() {
             <span>Simple, Structured</span>
             <br />
             <motion.span
-              initial={{ backgroundSize: "0% 100%" }}
-              animate={
-                showBackground
-                  ? { backgroundSize: "100% 100%" }
-                  : { backgroundSize: "0% 100%" }
-              }
+              className="relative inline-block px-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="bg-gradient-to-r from-primary/20 to-secondary/10 bg-no-repeat bg-[length:0%_100%] p-0.5 rounded-xl"
             >
-              Note-Taking
+              <span className="bg-gradient-to-r from-primary to-foreground/70 bg-clip-text">
+                Note-Taking
+              </span>
+
+              {/* Hand-drawn pen underline */}
+              <motion.svg
+                viewBox="0 0 300 40"
+                preserveAspectRatio="none"
+                className="absolute left-0 -bottom-4 w-full h-8"
+              >
+                <motion.path
+                  d="
+        M 5 25
+        Q 40 22, 80 26
+        T 150 24
+        T 220 26
+        T 295 24
+      "
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-primary/60"
+                  initial={{ pathLength: 0 }}
+                  animate={
+                    showBackground ? { pathLength: 1 } : { pathLength: 0 }
+                  }
+                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+                />
+              </motion.svg>
             </motion.span>
           </motion.h1>
 
