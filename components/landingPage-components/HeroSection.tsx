@@ -118,11 +118,13 @@ export default function HeroSection() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className="text-primary/60"
-                  initial={{ pathLength: 0 }}
+                  initial={{ pathLength: 0, opacity: 0 }}
                   animate={
-                    showBackground ? { pathLength: 1 } : { pathLength: 0 }
+                    showBackground
+                      ? { pathLength: 1, opacity: 1 }
+                      : { pathLength: 0, opacity: 0 }
                   }
-                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+                  transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
                 />
               </motion.svg>
             </motion.span>
