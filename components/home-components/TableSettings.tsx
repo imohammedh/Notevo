@@ -182,7 +182,7 @@ export default function TableSettings({
             <DropdownMenuContent
               side="bottom"
               align="end"
-              className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
+              className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground "
             >
               <DropdownMenuGroup className="relative">
                 <Label>Rename :</Label>
@@ -192,7 +192,7 @@ export default function TableSettings({
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   onKeyDown={handleKeyDown}
-                  className="text-foreground border-border"
+                  className="text-foreground h-9"
                   ref={inputRef}
                 />
               </DropdownMenuGroup>
@@ -205,7 +205,7 @@ export default function TableSettings({
                 Delete
               </Button>
             </DropdownMenuContent>
-            <TooltipContent side="bottom" align="end">
+            <TooltipContent side="bottom" alignOffset={1} align="end">
               Rename , Delete
             </TooltipContent>
           </Tooltip>

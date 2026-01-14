@@ -196,7 +196,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             side="bottom"
-            className="rounded-xl m-2 p-1.5 bg-background/90 backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
+            className="rounded-lg m-2 p-1.5 bg-background/90 backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
           >
             <DropdownMenuLabel className="px-2 py-1 text-sm font-medium opacity-50">
               {getWorkingSpaces?.length
@@ -839,7 +839,7 @@ const UserAccountSection = memo(function UserAccountSection({
             </DropdownMenuTrigger>
             <DropdownMenuContent
               side="top"
-              className="rounded-xl m-2 p-1.5 bg-background backdrop-blur border border-solid border-border w-[--radix-popper-anchor-width]"
+              className="rounded-lg m-2 p-1.5 bg-background backdrop-blur w-[--radix-popper-anchor-width]"
             >
               <DropdownMenuItem
                 className=" cursor-default hover:bg-transparent"

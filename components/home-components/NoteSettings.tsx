@@ -191,7 +191,11 @@ export default function NoteSettings({
                 </Button>
               </TooltipTrigger>
             </DropdownMenuTrigger>
-            <TooltipContent side="bottom" align={TooltipContentAlign}>
+            <TooltipContent
+              side="bottom"
+              alignOffset={1}
+              align={TooltipContentAlign}
+            >
               Rename, Pin, Delete
             </TooltipContent>
           </Tooltip>
@@ -201,7 +205,7 @@ export default function NoteSettings({
           side="bottom"
           align={DropdownMenuContentAlign}
           alignOffset={1}
-          className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground bg-card border border-border rounded-xl"
+          className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground "
         >
           <DropdownMenuGroup className="relative">
             <Label>Rename :</Label>
@@ -211,7 +215,7 @@ export default function NoteSettings({
               onChange={handleInputChange}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
-              className="text-foreground border-border"
+              className="text-foreground h-9"
               ref={inputRef}
             />
           </DropdownMenuGroup>

@@ -206,7 +206,7 @@ export default function WorkingSpacePage() {
             className="mt-6"
           >
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
-              <TabsList className=" inline-flex items-center justify-start flex-warp w-fit min-w-full sm:min-w-fit flex-wrap gap-2 sm:gap-3 h-fit p-1 bg-card/90 backdrop-blur-sm rounded-xl border border-border">
+              <TabsList className=" inline-flex items-center justify-start flex-warp w-fit min-w-full sm:min-w-fit flex-wrap gap-2 sm:gap-3 h-fit p-1 bg-card/90 backdrop-blur-sm rounded-lg border border-border">
                 {tables.map((table) => (
                   <TabsTrigger
                     key={table._id}
