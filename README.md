@@ -9,7 +9,7 @@ I've been looking for a note-taking app that's simpler than Notion but more orga
  - [x] fix the routing
  - [ ] add the toaster notification
  - [x] fix the middleware 404 on redirect
- - [ ] add the shareable Link
+ - [x] add the shareable Link
  - [ ] real time collaboration
  - [ ] note export pdf and markdown
  - [x] optimistic update layer
