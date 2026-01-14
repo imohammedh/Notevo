@@ -110,7 +110,7 @@ function NotesSkeleton({ viewMode }: { viewMode: "grid" | "list" }) {
 function TablesTabsSkeleton() {
   return (
     <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
-      <div className="inline-flex items-center gap-3 p-1 bg-card/90 backdrop-blur-sm rounded-xl border border-border">
+      <div className="inline-flex items-center gap-3 p-1 bg-card/90 backdrop-blur-sm rounded-lg border border-border">
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}

@@ -59,6 +59,8 @@ export const createNote = mutation({
       workingSpacesSlug,
       slug: slug,
       workingSpaceId: workingSpaceId,
+      favorite: false,
+      published: false,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
@@ -75,6 +77,7 @@ export const updateNote = mutation({
     body: v.optional(v.string()),
     order: v.optional(v.number()),
     favorite: v.optional(v.boolean()),
+    published: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -82,7 +85,7 @@ export const updateNote = mutation({
       throw new ConvexError("Not authenticated");
     }
 
-    const { _id, title, body, order, favorite } = args;
+    const { _id, title, body, order, favorite, published } = args;
     const note = await ctx.db.get(_id);
     if (!note) {
       throw new ConvexError("Note not found");
@@ -116,6 +119,7 @@ export const updateNote = mutation({
       updatedAt: Date.now(),
       order: order ?? note.order,
       favorite: favorite ?? note.favorite,
+      published: published ?? note.published,
     };
 
     const updatedNote = await ctx.db.replace(_id, update);
@@ -270,18 +274,19 @@ export const getNoteByUserId = query({
 export const getNoteById = query({
   args: {
     _id: v.id("notes"),
+    isPublish: v.optional(v.boolean()) || false,
   },
   handler: async (ctx, args) => {
+    const { _id, isPublish } = args;
     const userId = await getAuthUserId(ctx);
-    if (!userId) {
+    if (!userId && isPublish === false) {
       throw new ConvexError("Not authenticated");
     }
-    const { _id } = args;
     const note = await ctx.db.get(_id);
     if (!note) {
       throw new ConvexError("Note not found");
     }
-    if (note.userId !== userId) {
+    if (note.userId !== userId && note.published === false) {
       throw new ConvexError("You are not authorized to access this note");
     }
     return note;

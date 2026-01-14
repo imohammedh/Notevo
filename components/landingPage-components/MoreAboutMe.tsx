@@ -16,14 +16,14 @@ export default function MoreAboutMe() {
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
           <CardContent className="w-full flex flex-col sm:flex-row justify-between items-center">
-            <div className="p-2 rounded-xl flex-shrink-0 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur-xl" />
+            <div className="p-2 rounded-lg flex-shrink-0 relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg blur-xl" />
               <Image
                 src="/picofme.png"
                 alt="Mohammed"
                 width={300}
                 height={300}
-                className="relative rounded-xl"
+                className="relative rounded-lg"
               />
             </div>
             <div className="h-full flex justify-between items-center flex-col gap-3 w-full sm:w-2/3">

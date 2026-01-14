@@ -13,7 +13,7 @@ import NoteSettings from "@/components/home-components/NoteSettings";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { Id } from "@/convex/_generated/dataModel";
 import { parseSlug } from "@/lib/parseSlug";
-
+import PublicNote from "../PublicNote";
 const HomeContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -60,13 +60,16 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
             </div>
             <div>
               {noteid && noteTitle && (
-                <NoteSettings
-                  noteId={noteid}
-                  noteTitle={noteTitle}
-                  IconVariant="horizontal_icon"
-                  DropdownMenuContentAlign="end"
-                  TooltipContentAlign="end"
-                />
+                <span className=" flex justify-between items-center gap-2">
+                  <PublicNote noteId={noteid} noteTitle={noteTitle} />
+                  <NoteSettings
+                    noteId={noteid}
+                    noteTitle={noteTitle}
+                    IconVariant="horizontal_icon"
+                    DropdownMenuContentAlign="end"
+                    TooltipContentAlign="end"
+                  />
+                </span>
               )}
             </div>
           </div>
