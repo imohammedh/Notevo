@@ -128,21 +128,6 @@ export default function homeSkeleton() {
           ))}
         </Slider>
       </div>
-
-      <div className="mb-12">
-        <div className="mb-6">
-          <h2 className="text-foreground text-xl font-semibold">
-            Pinned Notes
-          </h2>
-        </div>
-
-        <Slider>
-          {[1, 2, 3].map((i) => (
-            <NoteCardSkeleton key={i} />
-          ))}
-        </Slider>
-      </div>
-
       <div className="mb-12">
         <div className="mb-6">
           <h2 className="text-foreground text-xl font-semibold">
