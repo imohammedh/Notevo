@@ -72,6 +72,7 @@ export default function PublicNote({
     },
   );
   const getNote = useQuery(api.notes.getNoteById, { _id: noteId });
+  if (!getNote) return null;
   const handlePublished = async () => {
     if (getNote === undefined || getNote === null) {
       return null;
