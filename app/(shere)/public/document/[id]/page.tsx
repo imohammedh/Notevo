@@ -125,15 +125,16 @@ export default function PublicNotePage() {
       <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/80 via-65% to-transparent to-90%">
         <div className="container mx-auto p-3 flex justify-between items-center w-full">
           <div className="flex justify-start items-center gap-3">
-            <Button variant="ghost" className=" text-sm gap-2 px-2 h-8">
+            <Button variant="ghost" className=" text-sm px-2 h-8">
               <Link
                 href="https://notevo.me/"
+                target="_blank"
                 onClick={() => {
                   if (window.location.pathname === "/") {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }
                 }}
-                className="flex items-center gap-2 group"
+                className="flex justify-between items-center gap-2 group"
               >
                 <Image
                   src={IconImage}
@@ -142,8 +143,8 @@ export default function PublicNotePage() {
                   width={20}
                   height={20}
                 />
+                Get Notevo
               </Link>
-              Get Notevo
             </Button>
           </div>
           <div className="flex justify-center items-center gap-1">
