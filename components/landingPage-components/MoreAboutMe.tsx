@@ -34,7 +34,7 @@ export default function MoreAboutMe() {
               </h1>
               <span className="w-full flex justify-center items-start flex-col gap-2 text-muted-foreground">
                 <p className="font-semibold text-base">Mohammed H</p>
-                <p className="font-light text-sm">Software Dev @Notevo</p>
+                <p className="font-light text-sm">Building Notevo</p>
               </span>
             </div>
           </CardContent>

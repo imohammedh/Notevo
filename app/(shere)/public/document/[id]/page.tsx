@@ -16,11 +16,18 @@ import DarkNotevoLogo from "@/public/DarkNotevo-logo.svg";
 import NotevoLogo from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { MessageCircleWarning } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { OctagonX, Moon, Sun, Monitor } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 export default function PublicNotePage() {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, setTheme, theme } = useTheme();
   const [IconImage, setIconImage] = useState<string>("/notevo-logo.svg");
+
   useEffect(() => {
     if (resolvedTheme === "dark") {
       setIconImage(NotevoLogo);
@@ -28,6 +35,29 @@ export default function PublicNotePage() {
       setIconImage(DarkNotevoLogo);
     }
   }, [resolvedTheme]);
+
+  const cycleTheme = () => {
+    const currentTheme = theme || "system";
+    if (currentTheme === "light") {
+      setTheme("dark");
+    } else if (currentTheme === "dark") {
+      setTheme("system");
+    } else {
+      setTheme("light");
+    }
+  };
+
+  const getThemeIcon = () => {
+    const currentTheme = theme || "system";
+    if (currentTheme === "light") {
+      return <Sun className="h-[1.2rem] w-[1.2rem]" />;
+    } else if (currentTheme === "dark") {
+      return <Moon className="h-[1.2rem] w-[1.2rem]" />;
+    } else {
+      return <Monitor className="h-[1.2rem] w-[1.2rem]" />;
+    }
+  };
+
   const searchParams = useSearchParams();
   const params = useParams();
   const noteid = params.id as Id<"notes">;
@@ -47,17 +77,12 @@ export default function PublicNotePage() {
   useEffect(() => {
     if (!getNote?.title) return;
 
-    // Store original values
     const originalTitle = document.title;
-
-    // Update document title
     document.title = `${getNote.title} - Notevo`;
 
-    // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     const originalContent = metaDescription?.getAttribute("content");
 
-    // Create better description from note content or title
     const descriptionText = getNote.body
       ? `${getNote.title}: ${getNote.body.substring(0, 150)}...`
       : `View and edit "${getNote.title}" on Notevo`;
@@ -75,7 +100,6 @@ export default function PublicNotePage() {
       metaDescription = newMeta;
     }
 
-    // Cleanup function
     return () => {
       document.title = originalTitle;
       if (createdMeta && metaDescription) {
@@ -95,14 +119,15 @@ export default function PublicNotePage() {
   }
 
   const parsedContent = getNote.body ? JSON.parse(getNote.body) : content;
+
   return (
     <div className="relative w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
-      <header className="fixed top-0 left-0 w-full z-[900]  bg-gradient-to-b from-background/95 from-50% via-background/80 via-70% to-transparent">
-        <div className=" container mx-auto p-2 flex justify-between items-center w-full">
+      <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background/95 from-50% via-background/80 via-70% to-transparent">
+        <div className="container mx-auto p-3 flex justify-between items-center w-full">
           <div className="flex justify-start items-center gap-3">
-            <Button variant="ghost" className=" gap-2">
+            <Button variant="ghost" className=" text-sm gap-2 px-2 h-8">
               <Link
-                href="/"
+                href="https://notevo.me/"
                 onClick={() => {
                   if (window.location.pathname === "/") {
                     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -114,26 +139,47 @@ export default function PublicNotePage() {
                   src={IconImage}
                   alt="Notevo Logo"
                   priority
-                  width={25}
-                  height={25}
+                  width={20}
+                  height={20}
                 />
               </Link>
-              Notevo
+              Get Notevo
             </Button>
           </div>
-          <div className="flex justify-center items-center gap-3">
-            <Button className=" gap-2" variant="Trigger">
-              <MessageCircleWarning size={14} />
-              <p className=" text-sm">Read only</p>
-            </Button>
+          <div className="flex justify-center items-center gap-1">
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button className="gap-1" variant="Trigger">
+                    <OctagonX size={14} />
+                    <p className="text-sm">Read only</p>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="text-base" side="bottom">
+                  You're editing a copy of the original note,
+                  <br />
+                  Your changes won't affect the original
+                  <br />
+                  but you can download your edited copy anytime.
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-            <div className=" flex items-center justify-between">
-              <ThemeToggle />
+            <div className="flex items-center justify-between">
+              <Button
+                variant="ghost"
+                className=" w-8 h-8"
+                size="icon"
+                onClick={cycleTheme}
+              >
+                {getThemeIcon()}
+                <span className="sr-only">Toggle theme</span>
+              </Button>
             </div>
           </div>
         </div>
       </header>
-      <div className=" container mx-auto py-10 flex-1 ">
+      <div className="container mx-auto py-10 flex-1">
         <TailwindAdvancedEditor
           initialContent={parsedContent}
           onUpdate={(editor) => {
