@@ -122,7 +122,7 @@ export default function PublicNotePage() {
 
   return (
     <div className="relative w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
-      <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background/95 from-50% via-background/80 via-70% to-transparent">
+      <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/80 via-65% to-transparent to-90%">
         <div className="container mx-auto p-3 flex justify-between items-center w-full">
           <div className="flex justify-start items-center gap-3">
             <Button variant="ghost" className=" text-sm gap-2 px-2 h-8">
@@ -179,7 +179,7 @@ export default function PublicNotePage() {
           </div>
         </div>
       </header>
-      <div className="container mx-auto py-10 flex-1">
+      <MaxWContainer className=" py-10 flex-1">
         <TailwindAdvancedEditor
           initialContent={parsedContent}
           onUpdate={(editor) => {
@@ -187,7 +187,7 @@ export default function PublicNotePage() {
             setContent(updatedContent);
           }}
         />
-      </div>
+      </MaxWContainer>
     </div>
   );
 }
