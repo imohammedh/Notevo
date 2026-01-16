@@ -8,7 +8,6 @@ import {
   type EditorInstance,
   EditorRoot,
   ImageResizer,
-  Placeholder,
   handleCommandNavigation,
   handleImageDrop,
   handleImagePaste,
@@ -29,30 +28,25 @@ import DragHandle from "@tiptap/extension-drag-handle-react";
 // REMOVED: import { TableSelector } from "./selectors/table-selector";
 import { TableControls } from "./table-controls";
 import Highlight from "@tiptap/extension-highlight";
+import Placeholder from "@tiptap/extension-placeholder";
 
-const placeholderExtension = Placeholder.configure({
-  placeholder: ({ node }) => {
-    if (node.type.name === "heading") {
-      return "Heading";
-    }
-    return "Press '/' for commands, or start typing...";
-  },
-  showOnlyWhenEditable: true,
-  showOnlyCurrent: true,
-  includeChildren: true,
-});
-
+// ── All extensions used by the editor ──
 const extensions = [
-  placeholderExtension,
   TextStyle,
   Color,
-  Highlight.configure({
-    multicolor: true,
+  Highlight.configure({ multicolor: true }),
+
+  // Placeholder — shows when editor is empty
+  Placeholder.configure({
+    placeholder: "Press '/' for commands, or start writing...",
+    emptyEditorClass:
+      "is-editor-empty before:content-[attr(data-placeholder)] before:float-left before:text-muted-foreground before:pointer-events-none before:cursor-text before:h-0",
+    showOnlyWhenEditable: true,
   }),
+
   ...defaultExtensions,
   slashCommand,
 ];
-
 const TailwindAdvancedEditor = ({
   initialContent,
   onUpdate,
@@ -73,7 +67,37 @@ const TailwindAdvancedEditor = ({
     <>
       <EditorRoot>
         <div className="relative notion-editor-container">
-          {editorInstance && <TableControls editor={editorInstance} />}
+          {editorInstance && (
+            <>
+              <TableControls editor={editorInstance} />{" "}
+              <DragHandle editor={editorInstance}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="#70768b"
+                >
+                  <path
+                    d="
+          M9 6
+          a1.25 1.25 0 1 0 0.01 0
+          M15 6
+          a1.25 1.25 0 1 0 0.01 0
+          M9 12
+          a1.25 1.25 0 1 0 0.01 0
+          M15 12
+          a1.25 1.25 0 1 0 0.01 0
+          M9 18
+          a1.25 1.25 0 1 0 0.01 0
+          M15 18
+          a1.25 1.25 0 1 0 0.01 0
+        "
+                  />
+                </svg>
+              </DragHandle>
+            </>
+          )}
           <EditorContent
             initialContent={initialContent}
             extensions={extensions}

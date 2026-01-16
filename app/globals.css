@@ -295,6 +295,60 @@ html {
   margin-top: 0.75em;
 }
 
+.ProseMirror {
+  padding-inline: 4rem;
+
+  >*+* {
+    margin-top: 0.75em;
+  }
+
+  [data-id] {
+    margin: 1rem 0;
+    position: relative;
+    margin-top: 1.5rem;
+    padding: 2rem 1rem 1rem;
+
+  }
+}
+
+.drag-handle {
+  align-items: center;
+  background: transparent;
+  cursor: grab;
+  display: flex;
+  height: 1.5rem;
+  justify-content: center;
+  width: 1.5rem;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+/* Make sure the handle appears reliably */
+[data-drag-handle] {
+  position: absolute !important;
+  pointer-events: auto !important;
+  z-index: 25 !important;
+  opacity: 0 !important;
+}
+
+/* Force visibility on hover of parent block */
+.ProseMirror>* {
+  position: relative;
+}
+
+.ProseMirror>*:hover [data-drag-handle] {
+  opacity: 0 !important;
+}
+
+/* When actually dragging */
+[data-dragging="true"] [data-drag-handle] {
+  opacity: 1 !important;
+  transform: scale(1.2);
+}
+
 .ProseMirror h1,
 .ProseMirror h2,
 .ProseMirror h3 {

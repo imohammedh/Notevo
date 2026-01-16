@@ -20,11 +20,15 @@ export default function NotePage() {
       // Update single note query (for the current note being edited)
       const note = local.getQuery(api.notes.getNoteById, { _id });
       if (note) {
-        local.setQuery(api.notes.getNoteById, { _id }, {
-          ...note,
-          body: body ?? note.body,
-          updatedAt: Date.now(),
-        });
+        local.setQuery(
+          api.notes.getNoteById,
+          { _id },
+          {
+            ...note,
+            body: body ?? note.body,
+            updatedAt: Date.now(),
+          },
+        );
       }
     },
   );
@@ -32,25 +36,7 @@ export default function NotePage() {
     api.notes.getNoteById,
     noteid ? { _id: noteid } : "skip",
   );
-
-  const [content, setContent] = useState<JSONContent>({
-    type: "doc",
-    content: [
-      {
-        type: "heading",
-        attrs: { level: 2 },
-        content: [{ type: "text", text: "! Hi 👋 " }],
-      },
-      {
-        type: "codeBlock",
-        attrs: { language: "typescriptreact" },
-        content: [
-          { type: "text", text: "Write something or Press '/' for commands" },
-        ],
-      },
-      { type: "paragraph" },
-    ],
-  });
+  const [content, setContent] = useState<JSONContent>();
 
   const debouncedUpdateNote = useDebouncedCallback(
     (updatedContent: JSONContent) => {
