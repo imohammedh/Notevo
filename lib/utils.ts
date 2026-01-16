@@ -3,6 +3,15 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+const getMaxTitleLength = () => {
+  if (typeof window === "undefined") return 12; // SSR safety
+
+  const width = window.innerWidth;
+
+  if (width < 640) return 10; // mobile
+  if (width < 1024) return 35; // tablet
+  return 60; // desktop
+};
 const MAX_NAME_LENGTH = 50;
 const EMAIL_DISPLAY_REGEX = /(.{3}).*?(@.{3}).*/;
 export const formatWorkspaceName = (name: string) =>
@@ -22,16 +31,6 @@ export const formatUserName = (name: string | undefined) => {
 
 export const formatUserEmail = (email: string | undefined) =>
   email ? email.replace(EMAIL_DISPLAY_REGEX, "$1...$2") : "";
-
-const getMaxTitleLength = () => {
-  if (typeof window === "undefined") return 12; // SSR safety
-
-  const width = window.innerWidth;
-
-  if (width < 640) return 10; // mobile
-  if (width < 1024) return 14; // tablet
-  return 18; // desktop
-};
 
 export const formatUserNoteTitle = (title: string) => {
   if (!title) return "";
