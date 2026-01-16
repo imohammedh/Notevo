@@ -16,14 +16,14 @@ import DarkNotevoLogo from "@/public/DarkNotevo-logo.svg";
 import NotevoLogo from "@/public/Notevo-logo.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { OctagonX, Moon, Sun, Monitor } from "lucide-react";
+import { OctagonX, Moon, Sun, Monitor, Slash } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import { parseSlug } from "@/lib/parseSlug";
 export default function PublicNotePage() {
   const { resolvedTheme, setTheme, theme } = useTheme();
   const [IconImage, setIconImage] = useState<string>("/notevo-logo.svg");
@@ -124,7 +124,7 @@ export default function PublicNotePage() {
     <div className="relative w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
       <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/80 via-65% to-transparent to-90%">
         <div className="container mx-auto p-3 flex justify-between items-center w-full">
-          <div className="flex justify-start items-center gap-3">
+          <div className="flex justify-start items-center">
             <Button variant="ghost" className=" text-sm px-2 h-8">
               <Link
                 href="https://notevo.me/"
@@ -145,6 +145,10 @@ export default function PublicNotePage() {
                 />
                 Get Notevo
               </Link>
+            </Button>
+            <Button disabled variant="ghost" className=" text-sm px-2 h-8">
+              <Slash size={14} className=" -ml-2.5 mr-2" />
+              {parseSlug(`${getNote.title} :`)}
             </Button>
           </div>
           <div className="flex justify-center items-center gap-1">
