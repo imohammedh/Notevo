@@ -24,6 +24,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { parseSlug } from "@/lib/parseSlug";
+import { formatUserNoteTitle } from "@/lib/utils";
 export default function PublicNotePage() {
   const { resolvedTheme, setTheme, theme } = useTheme();
   const [IconImage, setIconImage] = useState<string>("/notevo-logo.svg");
@@ -117,7 +118,9 @@ export default function PublicNotePage() {
   if (getNote === null) {
     return <p>Note not found!</p>;
   }
-
+  const PublicNoteTitle = formatUserNoteTitle(
+    `${parseSlug(`${getNote.title} :`)}`,
+  );
   const parsedContent = getNote.body ? JSON.parse(getNote.body) : content;
 
   return (
@@ -148,7 +151,7 @@ export default function PublicNotePage() {
             </Button>
             <Button disabled variant="ghost" className=" text-sm px-2 h-8">
               <Slash size={14} className=" -ml-2.5 mr-2" />
-              {parseSlug(`${getNote.title} :`)}
+              {PublicNoteTitle}
             </Button>
           </div>
           <div className="flex justify-center items-center gap-1">
