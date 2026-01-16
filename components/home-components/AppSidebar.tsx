@@ -72,7 +72,6 @@ import {
 import { usePaginatedQuery } from "convex/react";
 import { date } from "zod";
 import { generateSlug } from "@/lib/generateSlug";
-
 // --- Skeleton Sidebar Component ---
 const SkeletonSidebar = () => {
   return (
@@ -179,8 +178,18 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
               )
             }
           >
-            <Plus size={16} className="font-bold" />
-            Create Note
+            {loading ? (
+              <>
+                <LoadingAnimation className=" h-3 w-3" />
+                redirecting...
+              </>
+            ) : (
+              <>
+                {" "}
+                <Plus size={16} className="font-bold" />
+                Create Note
+              </>
+            )}
           </Button>
         ))
       ) : (
@@ -190,8 +199,18 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
               className="font-medium w-full h-9 flex justify-between items-center gap-1"
               disabled={loading}
             >
-              Create Note
-              <TbSelector size={16} className="font-bold" />
+              {loading ? (
+                <>
+                  redirecting...
+                  <LoadingAnimation className=" h-3 w-3" />
+                </>
+              ) : (
+                <>
+                  {" "}
+                  Create Note
+                  <TbSelector size={16} className="font-bold" />
+                </>
+              )}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -1008,6 +1027,7 @@ const AppSidebar = React.memo(function AppSidebar() {
   const handleCreateNote = useCallback(
     async (workingSpaceId: any, workingSpacesSlug: string) => {
       try {
+        setLoading(true);
         const tableName = "New Quick Access Notes";
 
         const tableId = await createTable({
@@ -1029,6 +1049,8 @@ const AppSidebar = React.memo(function AppSidebar() {
       } catch (error) {
         console.error("Error creating note:", error);
         router.push(`/home/${workingSpaceId}`);
+      } finally {
+        setLoading(false);
       }
     },
     [createNote, createTable],
