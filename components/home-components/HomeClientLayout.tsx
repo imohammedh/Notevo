@@ -76,7 +76,7 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
         </div>
         <div
           ref={scrollContainerRef}
-          className="pt-7 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
+          className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
         >
           {children}
         </div>
