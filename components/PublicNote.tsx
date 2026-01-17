@@ -30,6 +30,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
+import { useMediaQuery } from "react-responsive";
 interface PublicNoteProp {
   noteId: Id<"notes">;
   noteTitle: string | any;
@@ -95,6 +96,7 @@ export default function PublicNote({
 
   const handleTooltipMouseEnter = () => setIsTooltipOpen(true);
   const handleTooltipMouseLeave = () => setIsTooltipOpen(false);
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <TooltipProvider>
@@ -110,11 +112,12 @@ export default function PublicNote({
                 {getNote?.published ? (
                   <>
                     <EyeClosed size={14} />
-                    Unpublish
+                    {!isMobile && "Unpublish"}
                   </>
                 ) : (
                   <>
-                    <Eye size={14} /> Publish
+                    <Eye size={14} />
+                    {!isMobile && " Publish"}
                   </>
                 )}
               </Button>

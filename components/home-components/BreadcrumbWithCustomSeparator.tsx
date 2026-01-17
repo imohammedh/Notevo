@@ -1,5 +1,4 @@
 "use client";
-
 import { Slash } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -14,10 +13,16 @@ import { parseSlug } from "@/lib/parseSlug";
 import { useQuery } from "@/cache/useQuery";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
+import { useMediaQuery } from "react-responsive";
 
 export default function BreadcrumbWithCustomSeparator() {
   const pathname = usePathname();
   const pathSegments = pathname.split("/").filter((segment) => segment);
+
+  // Media query hooks
+  const isMobile = useMediaQuery({ maxWidth: 640 });
+  const isTabletAir_horizontal = useMediaQuery({ maxWidth: 1180 });
+  const isTabletPro_horizontal = useMediaQuery({ maxWidth: 1366 });
 
   // Find the workspace ID segment (assuming it's always the segment after "home")
   const homeIndex = pathSegments.findIndex((segment) => segment === "home");
@@ -36,15 +41,26 @@ export default function BreadcrumbWithCustomSeparator() {
         )
       : null;
 
+  // Function to truncate display name based on device
+  const getTruncatedName = (name: string) => {
+    if (isMobile) {
+      return name.length > 10 ? `${name.slice(0, 12)}...` : name;
+    } else if (isTabletAir_horizontal) {
+      return name.length > 15 ? `${name.slice(0, 15)}...` : name;
+    } else if (isTabletPro_horizontal) {
+      return name.length > 20 ? `${name.slice(0, 35)}...` : name;
+    }
+    return name.length > 30 ? `${name.slice(0, 45)}...` : name;
+  };
+
   return (
     <div className="bg-background py-2">
       <Breadcrumb>
-        <BreadcrumbList className="flex flex-nowrap overflow-x-hidden whitespace-nowrap text-foreground">
+        <BreadcrumbList className="flex flex-nowrap overflow-x-auto whitespace-nowrap text-foreground scrollbar-thin">
           {pathSegments.map((segment, index) => {
             // Build the path up to this segment
             const pathToSegment =
               "/" + pathSegments.slice(0, index + 1).join("/");
-
             const isLast = index === pathSegments.length - 1;
 
             // Determine display name based on segment type
@@ -62,18 +78,13 @@ export default function BreadcrumbWithCustomSeparator() {
               displayName = parseSlug(segment);
             }
 
-            // Handle mobile view truncation
-            const isMobile =
-              typeof window !== "undefined" && window.innerWidth <= 768;
-            displayName =
-              isMobile && displayName.length > 10
-                ? `${displayName.slice(0, 10)}...`
-                : displayName;
+            // Apply truncation based on device
+            displayName = getTruncatedName(displayName);
 
             return (
               <div
                 key={pathToSegment}
-                className="flex items-center justify-start"
+                className="flex items-center justify-start flex-shrink-0"
               >
                 <BreadcrumbItem>
                   {isLast ? (
@@ -92,7 +103,7 @@ export default function BreadcrumbWithCustomSeparator() {
                   )}
                 </BreadcrumbItem>
                 {!isLast && (
-                  <Slash className="w-3 h-3 mx-1 text-muted-foreground" />
+                  <Slash className="w-3 h-3 mx-1 text-muted-foreground flex-shrink-0" />
                 )}
               </div>
             );

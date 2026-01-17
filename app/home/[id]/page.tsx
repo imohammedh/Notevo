@@ -170,7 +170,7 @@ export default function WorkingSpacePage() {
   }, [workspace?.name, tables?.length]);
 
   return (
-    <MaxWContainer className="mb-20">
+    <MaxWContainer className="my-5">
       {/* Modern Gradient Header */}
       <header className=" pb-5">
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8">

@@ -38,16 +38,31 @@ function GreetingSkeleton() {
 
 function Slider({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative group w-[360px] tabletAir:w-[750px] tabletPro:w-[950px] Desktop:w-full">
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 no-visible-scrollbar scrollbar-hide ">
+    <div className="relative w-full group">
+      <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
+      <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth px-4">
         {children}
       </div>
 
-      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent pointer-events-none opacity-60" />
+      <Button
+        size="icon"
+        variant="ghost"
+        className="absolute left-1 top-1/2 -translate-y-1/2 h-9 w-9 opacity-40 hover:opacity-80 transition-opacity"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </Button>
+
+      <Button
+        size="icon"
+        variant="ghost"
+        className="absolute right-1 top-1/2 -translate-y-1/2 h-9 w-9 opacity-40 hover:opacity-80 transition-opacity"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </Button>
     </div>
   );
 }
-
 function WorkspaceCardSkeleton() {
   return (
     <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
@@ -98,7 +113,7 @@ function NoteCardSkeleton() {
 
 export default function homeSkeleton() {
   return (
-    <MaxWContainer className="relative mb-20">
+    <MaxWContainer className="relative my-5">
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
         <header className="relative max-w-3xl mx-auto text-center">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary inline-block">

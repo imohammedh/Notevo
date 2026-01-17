@@ -132,7 +132,7 @@ export default function WorkingSpacePageSkeleton() {
   const fakeViewMode: "grid" | "list" = "grid"; // You can make this dynamic if needed
 
   return (
-    <MaxWContainer className="mb-20">
+    <MaxWContainer className="my-5">
       {/* Header Skeleton */}
       <header className="pb-5">
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8">
