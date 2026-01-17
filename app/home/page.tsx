@@ -60,7 +60,6 @@ export default function home() {
     const uuid = crypto.randomUUID();
     const tempId = `${uuid}-${now}` as any as Id<"workingSpaces">;
 
-    // Update the getRecentWorkingSpaces query
     const currentWorkspaces = local.getQuery(
       api.workingSpaces.getRecentWorkingSpaces,
     );
@@ -71,7 +70,7 @@ export default function home() {
           _creationTime: now,
           name: name || "Untitled",
           slug: "untitled",
-          userId: "" as any as Id<"users">, // Will be replaced by server
+          userId: "" as any as Id<"users">,
           createdAt: now,
           updatedAt: now,
         },
@@ -102,13 +101,12 @@ export default function home() {
     }
   }, [viewer]);
 
-  // Ensure we always have an array to avoid runtime errors before data loads.
   const pinnedNotes = favResults;
 
   return (
     <MaxWContainer className="relative mb-20">
-      {/* Enhanced Hero Section with Gradient */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
+      {/* Enhanced Hero Section */}
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
         <header className="relative max-w-3xl mx-auto text-center">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">
             {viewer?.name ? (
@@ -125,7 +123,7 @@ export default function home() {
                 }`}
               </>
             ) : (
-              <SkeletonTextAnimation className=" w-full h-10" />
+              <SkeletonTextAnimation className="w-full h-10" />
             )}
           </h1>
           <p className="text-white/90 text-md max-w-2xl mx-auto mb-6">
@@ -244,7 +242,7 @@ export default function home() {
 
 function WorkspaceCardSkeleton() {
   return (
-    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] h-fit">
       <CardHeader className="pb-3 relative">
         <div className="h-5 bg-primary/20 rounded-md w-3/4 animate-pulse"></div>
       </CardHeader>
@@ -265,7 +263,7 @@ function WorkspaceCardSkeleton() {
 
 function NoteCardSkeleton() {
   return (
-    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] h-[225px] ">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 space-y-2">
@@ -291,30 +289,52 @@ function NoteCardSkeleton() {
 
 function Slider({ children }: { children: React.ReactNode }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
   const checkScroll = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    setCanScrollLeft(container.scrollLeft > 0);
+    const hasOverflow = container.scrollWidth > container.clientWidth;
+    setCanScrollLeft(container.scrollLeft > 10);
     setCanScrollRight(
-      container.scrollLeft < container.scrollWidth - container.clientWidth - 10,
+      hasOverflow &&
+        container.scrollLeft <
+          container.scrollWidth - container.clientWidth - 10,
     );
   };
 
   useEffect(() => {
-    checkScroll();
     const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener("scroll", checkScroll);
-      window.addEventListener("resize", checkScroll);
-      return () => {
-        container.removeEventListener("scroll", checkScroll);
-        window.removeEventListener("resize", checkScroll);
-      };
-    }
+    if (!container) return;
+
+    checkScroll();
+
+    const resizeObserver = new ResizeObserver(() => {
+      checkScroll();
+    });
+
+    const mutationObserver = new MutationObserver(() => {
+      checkScroll();
+    });
+
+    resizeObserver.observe(container);
+    mutationObserver.observe(container, {
+      childList: true,
+      subtree: true,
+    });
+
+    container.addEventListener("scroll", checkScroll);
+    window.addEventListener("resize", checkScroll);
+
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+      container.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
   }, [children]);
 
   const scroll = (direction: "left" | "right") => {
@@ -334,24 +354,27 @@ function Slider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="relative group w-[360px] tabletAir:w-[750px] tabletPro:w-[950px] Desktop:w-full">
+    <div ref={wrapperRef} className="relative w-full h-[280px] group">
+      {/* Left gradient fade */}
       {canScrollLeft && (
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background via-background/50 to-transparent z-[5] pointer-events-none" />
+        <div className="absolute -left-1 top-0 bottom-0 w-16 sm:w-20 bg-gradient-to-r from-background via-background/80 to-transparent z-[5] pointer-events-none" />
       )}
 
+      {/* Left scroll button */}
       {canScrollLeft && (
         <Button
           size="icon"
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
           onClick={() => scroll("left")}
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
         </Button>
       )}
 
+      {/* Scrollable container - ABSOLUTE POSITIONED */}
       <div
         ref={scrollContainerRef}
-        className=" flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
+        className="absolute inset-0 flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -360,17 +383,19 @@ function Slider({ children }: { children: React.ReactNode }) {
         {children}
       </div>
 
+      {/* Right gradient fade */}
       {canScrollRight && (
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background via-background/50 to-transparent z-[5] pointer-events-none" />
+        <div className="absolute -right-1 top-0 bottom-0 w-16 sm:w-20 bg-gradient-to-l from-background via-background/80 to-transparent z-[5] pointer-events-none" />
       )}
 
+      {/* Right scroll button */}
       {canScrollRight && (
         <Button
           size="icon"
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
           onClick={() => scroll("right")}
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </Button>
       )}
     </div>
@@ -399,7 +424,7 @@ function WorkspaceCard({
   loading,
 }: WorkspaceCardProps) {
   return (
-    <Card className="group relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] hover:shadow-lg transition-shadow">
+    <Card className="group relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] h-fit hover:shadow-lg transition-shadow">
       <CardHeader className="pb-3 relative">
         <CardTitle className="text-base font-semibold text-foreground">
           {workspace.name.length > 20
@@ -477,7 +502,7 @@ function NoteCard({ note }: { note: Note }) {
   return (
     <Card
       className={cn(
-        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex-shrink-0 w-[300px] flex flex-col ",
+        "group relative overflow-hidden bg-card/90 backdrop-blur-sm border transition-all duration-300 flex-shrink-0 w-[300px] h-[225px] flex flex-col",
         isEmpty ? "border-dashed border-border" : "border-border",
       )}
     >
@@ -497,7 +522,7 @@ function NoteCard({ note }: { note: Note }) {
         </div>
       </CardHeader>
 
-      <CardContent className=" h-full">
+      <CardContent className="h-full">
         <p
           className={cn(
             "text-sm line-clamp-3",
