@@ -38,34 +38,30 @@ function GreetingSkeleton() {
 
 function Slider({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative w-full group">
+    <div className="relative w-full h-[280px] group">
       <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth px-4">
+      <div
+        className="absolute inset-0 flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
         {children}
       </div>
-
       <Button
         size="icon"
-        variant="ghost"
-        className="absolute left-1 top-1/2 -translate-y-1/2 h-9 w-9 opacity-40 hover:opacity-80 transition-opacity"
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
       >
-        <ChevronLeft className="h-5 w-5" />
-      </Button>
-
-      <Button
-        size="icon"
-        variant="ghost"
-        className="absolute right-1 top-1/2 -translate-y-1/2 h-9 w-9 opacity-40 hover:opacity-80 transition-opacity"
-      >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
       </Button>
     </div>
   );
 }
 function WorkspaceCardSkeleton() {
   return (
-    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] h-fit">
       <CardHeader className="pb-3">
         <SkeletonTitle />
       </CardHeader>
@@ -86,7 +82,7 @@ function WorkspaceCardSkeleton() {
 
 function NoteCardSkeleton() {
   return (
-    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px]">
+    <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] h-[225px]">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 space-y-2">
