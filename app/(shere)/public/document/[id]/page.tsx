@@ -119,16 +119,16 @@ export default function PublicNotePage() {
     return <p>Note not found!</p>;
   }
   const PublicNoteTitle = formatUserNoteTitle(
-    `${parseSlug(`${getNote.title} :`)}`,
+    `${parseSlug(`${getNote.title}`)}`,
   );
   const parsedContent = getNote.body ? JSON.parse(getNote.body) : content;
 
   return (
-    <div className="relative w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
+    <div className="relative  w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
       <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/80 via-65% to-transparent to-90%">
         <div className="container mx-auto p-3 flex justify-between items-center w-full">
-          <div className="flex justify-start items-center">
-            <Button variant="ghost" className=" text-sm px-2 h-8">
+          <div className="flex justify-start items-center gap-1 w-full ">
+            <Button variant="ghost" className=" text-sm px-1.5 py-1.5 h-8">
               <Link
                 href="https://notevo.me/"
                 target="_blank"
@@ -137,20 +137,24 @@ export default function PublicNotePage() {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }
                 }}
-                className="flex justify-between items-center gap-2 group"
+                className="flex justify-between items-center gap-1.5 mb-0.5 group"
               >
                 <Image
                   src={IconImage}
                   alt="Notevo Logo"
                   priority
-                  width={20}
-                  height={20}
+                  width={16}
+                  height={16}
                 />
                 Get Notevo
               </Link>
             </Button>
-            <Button disabled variant="ghost" className=" text-sm px-2 h-8">
-              <Slash size={14} className=" -ml-2.5 mr-2" />
+            <Button
+              disabled
+              variant="ghost"
+              className=" text-sm px-1.5 py-1.5 h-8"
+            >
+              <Slash size={16} className=" -ml-2 mr-1 mt-0.5" />
               {PublicNoteTitle}
             </Button>
           </div>
@@ -158,12 +162,12 @@ export default function PublicNotePage() {
             <TooltipProvider delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button className="gap-1" variant="Trigger">
+                  <Button className="gap-1 px-1.5 py-1.5 h-8" variant="Trigger">
                     <OctagonX size={14} />
                     <p className="text-sm">Read only</p>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="text-base" side="bottom">
+                <TooltipContent className="text-sm" side="bottom">
                   You're editing a copy of the original note,
                   <br />
                   Your changes won't affect the original
@@ -174,20 +178,29 @@ export default function PublicNotePage() {
             </TooltipProvider>
 
             <div className="flex items-center justify-between">
-              <Button
-                variant="ghost"
-                className=" w-8 h-8"
-                size="icon"
-                onClick={cycleTheme}
-              >
-                {getThemeIcon()}
-                <span className="sr-only">Toggle theme</span>
-              </Button>
+              <TooltipProvider delayDuration={0} disableHoverableContent>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className=" w-8 h-8 mt-0.5"
+                      size="icon"
+                      onClick={cycleTheme}
+                    >
+                      {getThemeIcon()}
+                      <span className="sr-only">Toggle theme</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="text-xs" side="bottom">
+                    Toggle theme
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
         </div>
       </header>
-      <MaxWContainer className=" py-10 flex-1">
+      <MaxWContainer className=" py-0 Desktop:py-10 flex-1">
         <TailwindAdvancedEditor
           initialContent={parsedContent}
           onUpdate={(editor) => {
