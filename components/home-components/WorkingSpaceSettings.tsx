@@ -214,6 +214,7 @@ export default function WorkingSpaceSettings({
               onChange={handleInputChange}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
+              placeholder="Rename your space"
               className="text-foreground h-9"
               ref={inputRef}
             />
@@ -231,7 +232,7 @@ export default function WorkingSpaceSettings({
               </>
             ) : (
               <>
-                <FaRegTrashCan size="14" /> Delete
+                <FaRegTrashCan size="14" className=" text-primary" /> Delete
               </>
             )}
           </Button>

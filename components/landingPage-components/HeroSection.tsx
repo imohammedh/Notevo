@@ -44,13 +44,13 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Background Elements */}
       <motion.div
         className={cn(
-          "absolute inset-0 bg-gradient-to-b from-accent from-50% to-transparent",
-          inView ? "shadow-[0_15px_25px] shadow-muted" : "",
+          "absolute inset-0 bg-gradient-to-br from-primary/40 from-5% via-primary/10 via-50% to-transparent",
+          inView ? "shadow-[0_15px_25px] shadow-primary/10" : "",
         )}
         initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
         animate={{
@@ -60,7 +60,14 @@ export default function HeroSection() {
             !isMobile &&
             !isTabletAir_horizontal &&
             !isTabletPro_horizontal
-              ? 20
+              ? 50
+              : 0,
+          margin:
+            inView &&
+            !isMobile &&
+            !isTabletAir_horizontal &&
+            !isTabletPro_horizontal
+              ? 50
               : 0,
         }}
         transition={{
@@ -72,7 +79,7 @@ export default function HeroSection() {
         }}
       />
 
-      <MaxWContainer className=" py-28 Desktop:py-36 relative flex flex-col items-center justify-center space-y-5">
+      <MaxWContainer className=" relative flex flex-col items-center justify-center space-y-5">
         {/* Centered Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -81,7 +88,7 @@ export default function HeroSection() {
           className="space-y-8  text-center "
         >
           <motion.h1
-            className="bg-gradient-to-r from-primary to-foreground/50 bg-clip-text text-transparent text-4xl md:text-6xl Desktop:text-[90px] font-bold tracking-tight"
+            className="bg-gradient-to-r from-primary from-70% to-primary/10 bg-clip-text text-transparent text-5xl md:text-6xl Desktop:text-[90px] font-bold tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -94,7 +101,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <span className="bg-gradient-to-r from-primary to-foreground/70 bg-clip-text">
+              <span className="bg-gradient-to-r from-primary from-70% to-primary/10 bg-clip-text">
                 Note-Taking
               </span>
 
@@ -117,7 +124,7 @@ export default function HeroSection() {
                   strokeWidth="10"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-primary/60"
+                  className="text-primary"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={
                     showBackground
@@ -249,16 +256,6 @@ export default function HeroSection() {
               Active users
             </p>
           </motion.div>
-        </motion.div>
-
-        {/* Browser Demo Below */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1, ease: "easeInOut" }}
-          className="w-full rounded-lg shadow-[0_35px_55px_] shadow-primary/10"
-        >
-          <BrowserMockup />
         </motion.div>
       </MaxWContainer>
     </section>

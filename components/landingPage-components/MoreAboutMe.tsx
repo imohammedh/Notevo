@@ -8,16 +8,16 @@ export default function MoreAboutMe() {
   return (
     <Section sectionId="about">
       <MaxWContainer>
-        <Card className="relative bg-accent border-border p-5 sm:p-10">
-          <span className="absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-60 text-primary">
+        <Card className="relative bg-primary/15 border-border p-5 sm:p-10">
+          <span className="absolute -top-8 sm:-top-10 left-0 -rotate-2 opacity-30 text-primary">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
-          <span className="absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-60 text-primary-foreground">
+          <span className="absolute -top-8 sm:-top-10 left-1 -rotate-2 opacity-50 text-primary">
             <LiaQuoteLeftSolid className="size-14 sm:size-16 lg:size-20" />
           </span>
           <CardContent className="w-full flex flex-col sm:flex-row justify-between items-center">
             <div className="p-2 rounded-lg flex-shrink-0 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg blur-xl" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-muted/30 rounded-lg blur-xl" />
               <Image
                 src="/picofme.png"
                 alt="Mohammed"
@@ -34,7 +34,7 @@ export default function MoreAboutMe() {
               </h1>
               <span className="w-full flex justify-center items-start flex-col gap-2 text-muted-foreground">
                 <p className="font-semibold text-base">Mohammed H</p>
-                <p className="font-light text-sm">Building Notevo</p>
+                <p className="font-light text-xs">Building Notevo</p>
               </span>
             </div>
           </CardContent>

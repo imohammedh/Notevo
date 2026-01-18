@@ -47,6 +47,8 @@ export default function PublicNote({
   const [inputValue, setInputValue] = useState(
     `https://notevo.me/public/document/${noteId}`,
   );
+
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   const [open, setOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -96,7 +98,6 @@ export default function PublicNote({
 
   const handleTooltipMouseEnter = () => setIsTooltipOpen(true);
   const handleTooltipMouseLeave = () => setIsTooltipOpen(false);
-  const isMobile = useMediaQuery({ maxWidth: 640 });
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <TooltipProvider>
@@ -140,7 +141,7 @@ export default function PublicNote({
             <header className=" w-full text-start px-5 pb-2 pt-2 flex flex-col justify-center items-start gap-3">
               <span className=" space-y-2">
                 <h1 className=" flex justify-start items-center gap-2 text-base text-primary font-bold">
-                  <CheckSquare size={14} />
+                  <CheckSquare size={14} className=" text-primary" />
                   Published to the web
                 </h1>
                 <p className=" text-xs text-muted-foreground">
@@ -156,7 +157,7 @@ export default function PublicNote({
                   <Input
                     type="text"
                     value={inputValue}
-                    className="h-9 truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-90% to-transparent to-80% text-transparent bg-clip-text"
+                    className="h-9 truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-85% to-transparent to-80% text-transparent bg-clip-text"
                     disabled
                   />
                   <TooltipProvider delayDuration={0} disableHoverableContent>
@@ -164,10 +165,14 @@ export default function PublicNote({
                       <TooltipTrigger asChild>
                         <Button
                           onMouseDown={handleCopy}
-                          className={`w-fit h-8 absolute top-1/2 -translate-y-1/2 right-0 ${isCopied && "text-green-600 hover:text-green-600"}`}
+                          className={`w-fit h-8 absolute top-1/2 -translate-y-1/2 right-0 ${isCopied && "text-primary hover:text-primary"}`}
                           variant="Trigger"
                         >
-                          {isCopied ? " Copied!" : <Copy size={14} />}
+                          {isCopied ? (
+                            " Copied!"
+                          ) : (
+                            <Copy size={14} className=" text-primary" />
+                          )}
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent className=" text-xs" side="bottom">
@@ -183,7 +188,7 @@ export default function PublicNote({
                   className=" w-full h-8 gap-2"
                   variant="outline"
                 >
-                  <EyeClosed size={14} />
+                  <EyeClosed size={14} className=" text-primary" />
                   Unpublish
                 </Button>
                 <Button className=" w-full h-8 " variant="secondary">
@@ -202,7 +207,7 @@ export default function PublicNote({
             <header className=" w-full text-start px-5 pb-2 pt-2 flex flex-col justify-center items-center gap-6">
               <span className=" space-y-2">
                 <h1 className=" flex justify-start items-center gap-2 text-base text-primary font-bold">
-                  <Globe2Icon size={14} />
+                  <Globe2Icon size={14} className=" text-primary" />
                   Publish to the web
                 </h1>
                 <p className=" text-xs text-muted-foreground">

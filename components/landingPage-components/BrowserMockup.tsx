@@ -466,12 +466,12 @@ const BrowserMockup: React.FC = () => {
         {/* Browser Frame - Top Bar */}
         <div className="absolute top-0 left-0 right-0 z-10">
           {/* Toolbar with Tabs */}
-          <div className="bg-muted border-b border-border h-11 flex items-stretch">
+          <div className="bg-secondary h-11 flex items-stretch">
             {/* Mac Dots */}
             <div className="pl-3 pr-2 pt-3 flex-none flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-red-500"></span>
-              <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-              <span className="w-3 h-3 rounded-full bg-green-500"></span>
+              <span className="w-3 h-3 rounded-full bg-background/80"></span>
+              <span className="w-3 h-3 rounded-full bg-background/80"></span>
+              <span className="w-3 h-3 rounded-full bg-background/80"></span>
             </div>
 
             {/* Tabs */}
@@ -485,8 +485,8 @@ const BrowserMockup: React.FC = () => {
                     border-x border-t border-border
                     ${
                       activeTab === tab.id
-                        ? "bg-background text-foreground"
-                        : "bg-muted text-muted-foreground hover:bg-muted-foreground/80"
+                        ? "bg-background/80 text-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-bg-background/80"
                     }
                   `}
                 >
@@ -497,9 +497,9 @@ const BrowserMockup: React.FC = () => {
           </div>
 
           {/* Address Bar */}
-          <div className="bg-muted border-b border-border px-3 py-2 flex items-center gap-3">
+          <div className="bg-secondary border-b border-border px-3 py-2 flex items-center gap-3">
             {/* Navigation Arrows */}
-            <div className="flex gap-2 text-muted-foreground">
+            <div className="flex gap-2 text-background/80">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"

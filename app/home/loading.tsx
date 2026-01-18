@@ -38,11 +38,11 @@ function GreetingSkeleton() {
 
 function Slider({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative w-full h-[280px] group">
+    <div className="relative w-full h-[250px] group">
       <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
       <div
-        className="absolute inset-0 flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
+        className="absolute inset-0 flex gap-4 h-fit overflow-x-auto scrollbar-hide scroll-smooth"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",

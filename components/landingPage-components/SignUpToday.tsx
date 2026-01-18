@@ -17,7 +17,7 @@ export default function SignUpToday() {
           className="relative flex flex-col items-center justify-center gap-8 py-16 px-6"
         >
           <div className="text-center space-y-4 max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+            <h2 className="text-4xl md:text-5xl Desktop:text-6xl font-bold tracking-tight bg-gradient-to-r from-primary from-70% to-primary/10 bg-clip-text text-transparent">
               Ready to Experience the Future of Note-Taking?
             </h2>
             <p className="text-lg text-muted-foreground">

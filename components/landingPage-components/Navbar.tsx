@@ -23,7 +23,7 @@ export default function Navbar() {
     }
   });
   useEffect(() => {
-    if (resolvedTheme === "dark") {
+    if (resolvedTheme !== "dark") {
       setIconImage(NotevoLogo);
     } else {
       setIconImage(DarkNotevoLogo);

@@ -159,7 +159,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
     <SidebarHeader className=" text-foreground rounded-b-lg border-b border-primary/20">
       <div className="flex items-center justify-between p-1.5">
         <div className="flex items-center gap-2">
-          <span className="font-semibold text-foreground">Notevo</span>
+          <span className="font-semibold text-primary">Notevo</span>
           <Badge variant="secondary" className="text-[0.6rem]">
             BETA
           </Badge>
@@ -282,11 +282,11 @@ const SidebarNavigation = memo(function SidebarNavigation({
               asChild
               variant="SidebarMenuButton"
               className={`px-2 h-8 group ${
-                pathname === "/home" ? "bg-foreground/10" : ""
+                pathname === "/home" ? "bg-primary/10" : ""
               }`}
             >
               <Link href="/home">
-                <HomeIcon size="16" />
+                <HomeIcon className=" text-primary" size="16" />
                 <span>Home</span>
               </Link>
             </Button>
@@ -424,7 +424,7 @@ const PinnedNoteItem = memo(
                     <Button
                       variant="SidebarMenuButton"
                       className={`px-2 my-0.5 h-8 group flex-1 ${
-                        isActive ? "bg-foreground/10" : ""
+                        isActive ? "bg-primary/10" : ""
                       }`}
                       asChild
                       onDoubleClick={handleDoubleClick}
@@ -436,12 +436,12 @@ const PinnedNoteItem = memo(
                         {isHovered || isActive ? (
                           <ChevronRight
                             size="16"
-                            className="text-purple-500 flex-shrink-0"
+                            className="text-primary flex-shrink-0"
                           />
                         ) : (
                           <Pin
                             size="16"
-                            className="text-purple-500 flex-shrink-0"
+                            className="text-primary flex-shrink-0"
                           />
                         )}
                         <span className={textClassName}>
@@ -525,7 +525,7 @@ const PinnedNotesList = memo(function PinnedNotesList({
             onClick={() => loadMore(5)}
             className="px-2 my-0.5 h-8 group flex-1"
           >
-            <ChevronDown size="16" />
+            <ChevronDown size="16" className=" text-primary" />
             Show More
           </Button>
         </SidebarGroupContent>
@@ -687,7 +687,7 @@ const WorkspaceItem = memo(
                     <Button
                       variant="SidebarMenuButton"
                       className={`px-2 my-0.5 h-8 group flex-1 justify-start ${
-                        isActive ? "bg-foreground/10" : ""
+                        isActive ? "bg-primary/10" : ""
                       }`}
                       asChild
                       onDoubleClick={handleDoubleClick}
@@ -697,9 +697,15 @@ const WorkspaceItem = memo(
                         className="flex items-center gap-2 flex-grow min-w-0"
                       >
                         {isHovered || isActive ? (
-                          <ChevronRight size="16" className="flex-shrink-0" />
+                          <ChevronRight
+                            size="16"
+                            className="flex-shrink-0 text-primary"
+                          />
                         ) : (
-                          <Notebook size="16" className="flex-shrink-0" />
+                          <Notebook
+                            size="16"
+                            className="flex-shrink-0 text-primary"
+                          />
                         )}
                         <span className={textClassName}>
                           {formatWorkspaceName(workingSpace.name || "Untitled")}
@@ -759,12 +765,20 @@ const WorkspacesList = memo(function WorkspacesList({
       <SidebarGroupLabel className="text-muted-foreground flex items-center justify-between">
         <span>Workspaces</span>
       </SidebarGroupLabel>
-      <SidebarGroupAction
-        title="Add Workspace"
-        onClick={handleCreateWorkingSpace}
-      >
-        <Plus /> <span className="sr-only">Add Workspace</span>
-      </SidebarGroupAction>
+      <TooltipProvider delayDuration={0} disableHoverableContent>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <SidebarGroupAction onClick={handleCreateWorkingSpace}>
+              <Plus size={16} className=" text-primary" />{" "}
+              <span className="sr-only">Add Workspace</span>
+            </SidebarGroupAction>
+          </TooltipTrigger>
+          <TooltipContent side="right" sideOffset={5} className=" text-xs p-1">
+            Add Workspace
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       {getWorkingSpaces?.length ? (
         getWorkingSpaces.map((workingSpace) => (
           <WorkspaceItem
@@ -781,7 +795,7 @@ const WorkspacesList = memo(function WorkspacesList({
           className="border-dashed h-9 my-2 w-full"
         >
           <p className="text-xs w-full flex justify-center items-center gap-2">
-            <Plus size={16} /> Create Workspace
+            <Plus size={16} className=" text-primary" /> Create Workspace
           </p>
         </Button>
       )}
@@ -899,7 +913,7 @@ const UserAccountSection = memo(function UserAccountSection({
               <DropdownMenuSeparator />
               <Feedback />
               <DropdownMenuItem onClick={handleSignOut}>
-                <LogOut size="16" className="mr-2 h-4 w-4" />
+                <LogOut size="16" className="mr-2 h-4 w-4 text-primary" />
                 Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -1076,7 +1090,7 @@ const AppSidebar = React.memo(function AppSidebar() {
   return (
     <Sidebar
       variant="inset"
-      className="group bg-accent"
+      className="group bg-muted"
       style={{
         width: `${sidebarWidth}px`,
       }}
