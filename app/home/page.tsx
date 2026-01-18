@@ -288,10 +288,10 @@ function NoteCardSkeleton() {
 }
 
 function Slider({ children }: { children: React.ReactNode }) {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const checkScroll = () => {
     const container = scrollContainerRef.current;
@@ -354,7 +354,7 @@ function Slider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div ref={wrapperRef} className="relative w-full h-[280px] group">
+    <div ref={wrapperRef} className="relative w-full h-[250px] group">
       {/* Left gradient fade */}
       {canScrollLeft && (
         <div className="absolute -left-1 top-0 bottom-0 w-16 sm:w-20 bg-gradient-to-r from-background via-background/80 to-transparent z-[5] pointer-events-none" />
@@ -374,7 +374,7 @@ function Slider({ children }: { children: React.ReactNode }) {
       {/* Scrollable container - ABSOLUTE POSITIONED */}
       <div
         ref={scrollContainerRef}
-        className="absolute inset-0 flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
+        className="absolute inset-0 flex gap-4 h-fit overflow-x-auto scrollbar-hide scroll-smooth"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -517,7 +517,7 @@ function NoteCard({ note }: { note: Note }) {
             </CardDescription>
           </div>
           {note.favorite && (
-            <Star className="h-4 w-4 text-purple-500 fill-purple-500 flex-shrink-0" />
+            <Star className="h-4 w-4 text-primary fill-primary flex-shrink-0" />
           )}
         </div>
       </CardHeader>

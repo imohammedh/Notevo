@@ -16,7 +16,6 @@ import { parseSlug } from "@/lib/parseSlug";
 import PublicNote from "../PublicNote";
 const HomeContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showShadow, setShowShadow] = useState(false);
 
   useEffect(() => {
@@ -41,8 +40,9 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
   const noteid = searchParams.get("id") as Id<"notes">;
   const noteTitle = parseSlug(`${pathSegments[2]}`);
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="flex h-screen w-full bg-accent overflow-hidden">
+    <div className="flex h-screen w-full bg-muted overflow-hidden">
       <AppSidebar />
       <main
         className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-primary/20 ${

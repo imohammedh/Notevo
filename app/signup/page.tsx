@@ -106,16 +106,16 @@ export default function SignInPage() {
   const [Timage, setTimage] = useState<string>("/NotevoDarkNotePic.svg");
   const [IconImage, setIconImage] = useState<string>("/Notevo-logo.svg");
   useEffect(() => {
-    if (resolvedTheme === "dark") {
+    if (resolvedTheme == "dark") {
       setTimage("/NotevoDarkNotePic.svg");
-      setIconImage("/Notevo-logo.svg");
+      setIconImage("/DarkNotevo-logo.svg");
     } else {
       setTimage("/NotevoLightNotePic.svg");
-      setIconImage("/DarkNotevo-logo.svg");
+      setIconImage("/Notevo-logo.svg");
     }
   }, [resolvedTheme]);
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-transparent via-muted to-transparent p-6 md:p-10 overflow-hidden">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-transparent via-primary/10 to-transparent p-6 md:p-10 overflow-hidden">
       <div className="w-full relative max-w-sm Desktop:max-w-[53rem]">
         <div className="flex flex-col gap-6">
           <Card className="overflow-hidden bg-background border border-border">

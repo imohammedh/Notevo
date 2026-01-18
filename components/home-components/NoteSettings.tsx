@@ -184,9 +184,12 @@ export default function NoteSettings({
                   onMouseLeave={handleTooltipMouseLeave}
                 >
                   {IconVariant === "vertical_icon" ? (
-                    <FaEllipsisVertical size={18} />
+                    <FaEllipsisVertical
+                      size={18}
+                      className=" text-muted-foreground"
+                    />
                   ) : (
-                    <FaEllipsis size={22} />
+                    <FaEllipsis size={22} className=" text-muted-foreground" />
                   )}
                 </Button>
               </TooltipTrigger>
@@ -215,6 +218,7 @@ export default function NoteSettings({
               onChange={handleInputChange}
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
+              placeholder="Rename your note"
               className="text-foreground h-9"
               ref={inputRef}
             />
@@ -225,7 +229,7 @@ export default function NoteSettings({
               className="w-full h-8 px-2 text-sm"
               onClick={handleFavoritePin}
             >
-              <Pin size={14} />
+              <Pin size={14} className=" text-primary" />
               {getNote?.favorite ? "Unpin Note" : "Pin Note"}
             </Button>
             <Button
@@ -233,7 +237,7 @@ export default function NoteSettings({
               className="w-full h-8 px-2 text-sm"
               onClick={initiateDelete}
             >
-              <FaRegTrashCan size={14} />
+              <FaRegTrashCan size={14} className=" text-primary" />
               Delete
             </Button>
           </DropdownMenuGroup>

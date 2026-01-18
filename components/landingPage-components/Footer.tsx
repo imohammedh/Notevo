@@ -8,14 +8,14 @@ export default function Footer() {
   const { resolvedTheme } = useTheme();
   const [IconImage, setIconImage] = useState<string>("/Notevo-logo.svg");
   useEffect(() => {
-    if (resolvedTheme === "dark") {
+    if (resolvedTheme !== "dark") {
       setIconImage("/Notevo-logo.svg");
     } else {
       setIconImage("/DarkNotevo-logo.svg");
     }
   }, [resolvedTheme]);
   return (
-    <footer className=" relative w-full text-foreground py-20  bg-gradient-to-t from-accent from-50% to-transparent">
+    <footer className=" relative w-full text-foreground py-10 bg-muted">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           <div>
@@ -35,7 +35,7 @@ export default function Footer() {
                 height={50}
               />
             </Link>
-            <h2 className="text-2xl font-bold text-foreground">Notevo</h2>
+            <h2 className="text-2xl font-bold text-primary">Notevo</h2>
             <p className="mt-2 text-muted-foreground">
               Notes without the hassle.
             </p>{" "}

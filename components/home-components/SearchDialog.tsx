@@ -37,20 +37,6 @@ interface SearchDialogProps {
   sidebaraOpen?: boolean;
   sidbarMobile?: boolean;
 }
-
-// Helper function to get icon based on note type or category
-const getNoteIcon = (note: any) => {
-  const typeMap: Record<string, any> = {
-    document: FileText,
-    code: Code,
-    inbox: Inbox,
-    starred: Star,
-    settings: Settings,
-  };
-
-  return typeMap[note.type] || FileText;
-};
-
 // Helper to format relative time
 const getRelativeTime = (date: Date) => {
   const now = new Date();
@@ -115,18 +101,16 @@ function SearchLoadingSkeleton() {
 }
 
 function NoteItem({ note, onClick, isSelected }: any) {
-  const Icon = getNoteIcon(note);
-
   return (
     <div
       onClick={onClick}
       className={`flex items-center py-2 px-3 cursor-pointer rounded-lg transition-colors ${
-        isSelected ? "bg-accent" : "hover:bg-accent/50"
+        isSelected ? "bg-primary/20" : "hover:bg-primary/10"
       }`}
     >
       <div className="flex w-full items-center">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg mr-3">
-          <Icon size={16} />
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg mr-3 border border-primary/20">
+          <FileText className=" text-primary" size={16} />
         </div>
         <div className="flex-1 overflow-hidden">
           <p className="font-medium truncate text-foreground">
@@ -136,8 +120,8 @@ function NoteItem({ note, onClick, isSelected }: any) {
             {note.workingSpacesSlug || "Personal"}
           </p>
         </div>
-        <div className="flex items-center text-xs text-muted-foreground">
-          <Clock className="mr-1 h-3 w-3" />
+        <div className="flex items-center text-xs text-primary">
+          <Clock className="mr-1 h-3 w-3 text-primary" />
           <span>{getRelativeTime(new Date(note.createdAt))}</span>
         </div>
       </div>
@@ -242,15 +226,15 @@ export default function SearchDialog({
           size="sm"
           className="px-2 h-8 group outline-none border-none"
         >
-          <Search size={iconSize} />
+          <Search className=" text-primary" size={iconSize} />
           {showTitle && (
             <div className="w-full flex items-center justify-between gap-1">
               Search
               <span className="inline-flex gap-1">
-                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-mute px-1.5 font-mono text-[10px] font-medium text-primary">
                   <span className="text-xs">Ctrl</span>
                 </kbd>
-                <kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-mute px-1.5 font-mono text-[10px] font-medium text-primary">
                   <span className="text-xs">K</span>
                 </kbd>
               </span>
@@ -266,9 +250,9 @@ export default function SearchDialog({
         {/* Search Input */}
         <div className="flex items-center border-b border-border px-4 py-1.5">
           {isDebouncing ? (
-            <LoadingAnimation className="h-4 w-4 mr-2 text-muted-foreground" />
+            <LoadingAnimation className="h-4 w-4 mr-2 text-primary" />
           ) : (
-            <Search className="h-4 w-4 mr-2 text-muted-foreground" />
+            <Search className="h-4 w-4 mr-2 text-primary" />
           )}
           <Input
             ref={inputRef}
@@ -287,7 +271,7 @@ export default function SearchDialog({
             <div className="py-12 text-center text-sm text-muted-foreground">
               {!query ? (
                 <>
-                  <FileText className="mx-auto h-12 w-12 opacity-50 mb-3" />
+                  <FileText className="mx-auto h-12 w-12 opacity-50 mb-3 text-primary" />
                   <p className="font-medium">No notes found</p>
                   <p className="text-xs mt-1">
                     Create your first note to get started
@@ -295,7 +279,7 @@ export default function SearchDialog({
                 </>
               ) : (
                 <>
-                  <Search className="mx-auto h-12 w-12 opacity-50 mb-3" />
+                  <Search className="mx-auto h-12 w-12 opacity-50 text-primary mb-3" />
                   <p className="font-medium">No results found for "{query}"</p>
                   <p className="text-xs mt-1">
                     Try different keywords or check your spelling
@@ -391,10 +375,10 @@ export default function SearchDialog({
         {/* Footer */}
         <DialogFooter className="border-t border-border px-4 py-3">
           <span className="inline-flex gap-1">
-            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground">
+            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-mute px-1.5 font-mono text-xs font-medium text-primary">
               <ArrowDownUp size={16} /> Navigate
             </kbd>
-            <kbd className="pointer-events-none ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground">
+            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-mute px-1.5 font-mono text-xs font-medium text-primary ">
               <Undo2 size={16} /> Open
             </kbd>
           </span>

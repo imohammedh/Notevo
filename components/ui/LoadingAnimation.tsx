@@ -8,7 +8,7 @@ export default function LoadingAnimation({ className }: LoadingAnimationProp) {
       <svg
         aria-hidden="true"
         className={cn(
-          "w-5 h-5 text-muted animate-spin fill-foreground",
+          "w-5 h-5 text-muted animate-spin fill-primary",
           className,
         )}
         viewBox="0 0 100 101"

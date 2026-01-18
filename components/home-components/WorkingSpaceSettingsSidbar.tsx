@@ -115,7 +115,7 @@ export default function WorkingSpaceSettingsSidbar({
                 variant="SidebarMenuButton_destructive"
                 className="px-2 h-7"
               >
-                <X size={16} />
+                <X size={16} className=" text-primary" />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" className="font-medium" sideOffset={5}>

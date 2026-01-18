@@ -56,7 +56,7 @@ export default function BreadcrumbWithCustomSeparator() {
   return (
     <div className="bg-background py-2">
       <Breadcrumb>
-        <BreadcrumbList className="flex flex-nowrap overflow-x-auto whitespace-nowrap text-foreground scrollbar-thin">
+        <BreadcrumbList className="flex flex-nowrap overflow-x-auto whitespace-nowrap text-primary scrollbar-thin">
           {pathSegments.map((segment, index) => {
             // Build the path up to this segment
             const pathToSegment =
@@ -88,14 +88,14 @@ export default function BreadcrumbWithCustomSeparator() {
               >
                 <BreadcrumbItem>
                   {isLast ? (
-                    <BreadcrumbPage className="text-foreground">
+                    <BreadcrumbPage className="text-primary">
                       {displayName}
                     </BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink asChild>
                       <Link
                         href={pathToSegment}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        className="text-muted-foreground hover:text-primary transition-colors"
                       >
                         {displayName}
                       </Link>

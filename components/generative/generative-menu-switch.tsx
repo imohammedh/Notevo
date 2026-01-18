@@ -39,7 +39,7 @@ const GenerativeMenuSwitch = ({
             size="sm"
             disabled={true}
           >
-            {/* <Magic className="h-5 w-5 text-primary" /> */}* Comming Soon *
+            {/* <Magic className="h-5 w-5 text-primary" /> */}
           </Button>
           {children}
         </Fragment>
