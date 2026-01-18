@@ -106,7 +106,7 @@ export default function home() {
   return (
     <MaxWContainer className="relative my-5">
       {/* Enhanced Hero Section */}
-      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8 mb-8">
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-muted from-20% via-transparent via-70% to-muted p-8 mb-8">
         <header className="relative max-w-3xl mx-auto text-center">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">
             {viewer?.name ? (
