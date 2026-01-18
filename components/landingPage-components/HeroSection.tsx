@@ -185,10 +185,10 @@ export default function HeroSection() {
       "
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="10"
+                  strokeWidth="7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-primary"
+                  className="text-primary/90"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={
                     showBackground
