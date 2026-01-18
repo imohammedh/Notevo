@@ -135,7 +135,7 @@ export default function WorkingSpacePageSkeleton() {
     <MaxWContainer className="my-5">
       {/* Header Skeleton */}
       <header className="pb-5">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-muted from-20% via-transparent via-70% to-muted p-8">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <h1 className="text-3xl md:text-4xl font-bold mb-2">
