@@ -173,7 +173,7 @@ export default function WorkingSpacePage() {
     <MaxWContainer className="my-5">
       {/* Modern Gradient Header */}
       <header className=" pb-5">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-accent from-20% via-transparent via-70% to-accent p-8">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-muted from-20% via-transparent via-70% to-muted p-8">
           <div className="relative flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex-1">
