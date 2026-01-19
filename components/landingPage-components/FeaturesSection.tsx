@@ -66,7 +66,7 @@ export default function FeaturesSection() {
                 >
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/30 from-50% to-transparent border-border rounded-2xl" />
-                    <div className="relative bg-gradient-to-br from-primary/10 from-50%  to-transparent border-border rounded-2xl p-2 overflow-hidden">
+                    <div className="relative bg-gradient-to-br from-primary/10 from-50%  to-transparent border-border rounded-2xl p-1 Desktop:p-2 overflow-hidden">
                       <Image
                         src={image}
                         alt={`${feature.title} demo`}
