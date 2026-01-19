@@ -29,7 +29,7 @@ import DragHandle from "@tiptap/extension-drag-handle-react";
 import { TableControls } from "./table-controls";
 import Highlight from "@tiptap/extension-highlight";
 import Placeholder from "@tiptap/extension-placeholder";
-
+import { useTheme } from "next-themes";
 // ── All extensions used by the editor ──
 const extensions = [
   TextStyle,
@@ -40,7 +40,7 @@ const extensions = [
   Placeholder.configure({
     placeholder: "Press '/' for commands, or start writing...",
     emptyEditorClass:
-      "is-editor-empty before:content-[attr(data-placeholder)] before:float-left before:text-muted-foreground before:pointer-events-none before:cursor-text before:h-0",
+      "is-editor-empty before:content-[attr(data-placeholder)] before:float-left before:text-primary/60 before:pointer-events-none before:cursor-text before:h-0",
     showOnlyWhenEditable: true,
   }),
 
@@ -62,6 +62,15 @@ const TailwindAdvancedEditor = ({
   const [editorInstance, setEditorInstance] = useState<EditorInstance | null>(
     null,
   );
+  const [dragHandleColor, setDragHandleColor] = useState<string>();
+  const { resolvedTheme } = useTheme();
+  useEffect(() => {
+    if (resolvedTheme !== "dark") {
+      setDragHandleColor("#644a40");
+    } else {
+      setDragHandleColor("#ffe0c2");
+    }
+  }, [resolvedTheme]);
 
   return (
     <>
@@ -76,7 +85,7 @@ const TailwindAdvancedEditor = ({
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  stroke="#70768b"
+                  stroke={dragHandleColor}
                 >
                   <path
                     d="

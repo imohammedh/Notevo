@@ -6,6 +6,7 @@
   or use the "Copy code" button at https://ui.shadcn.com/themes */
 @layer base {
   :root {
+    --placeholder: #644a40;
     --background: 0 0% 97.6471%;
     --foreground: 0 0% 12.5490%;
     --card: 0 0% 98.8235%;
@@ -91,6 +92,7 @@
   }
 
   .dark {
+    --placeholder: #ffe0c2;
     --background: 0 0% 6.6667%;
     --foreground: 0 0% 93.3333%;
     --card: 0 0% 9.8039%;
@@ -270,7 +272,8 @@ html {
 .ProseMirror p.is-empty:not(.is-editor-empty)::before {
   content: attr(data-placeholder);
   float: left;
-  color: var(--novel-stone-300);
+  color: var(--placeholder) !important;
+  opacity: 0.6;
   pointer-events: none;
   height: 0;
   margin: 0;
