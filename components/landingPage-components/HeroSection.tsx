@@ -195,7 +195,7 @@ export default function HeroSection() {
                       ? { pathLength: 1, opacity: 1 }
                       : { pathLength: 0, opacity: 0 }
                   }
-                  transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
                 />
               </motion.svg>
             </motion.span>
