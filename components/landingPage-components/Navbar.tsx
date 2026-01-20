@@ -71,7 +71,7 @@ export default function Navbar() {
               <Image
                 src={IconImage}
                 alt="Notevo Logo"
-                className="hover:opacity-80 transition-opacity"
+                className=" Desktop:hover:opacity-80 transition-opacity"
                 priority
                 width={40}
                 height={40}
@@ -143,7 +143,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="lg:hidden p-2 hover:bg-accent rounded-lg transition-colors relative group"
+          className="lg:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors relative group"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -152,21 +152,21 @@ export default function Navbar() {
             className="relative w-6 h-6"
           >
             <motion.span
-              className="absolute block w-6 h-0.5 bg-foreground"
+              className="absolute block w-6 h-0.5 bg-primary"
               variants={{
                 closed: { top: 2, rotate: 0 },
                 open: { top: 10, rotate: 45 },
               }}
             />
             <motion.span
-              className="absolute block w-6 h-0.5 bg-foreground"
+              className="absolute block w-6 h-0.5 bg-primary"
               variants={{
                 closed: { top: 10, rotate: 0 },
                 open: { top: 10, rotate: -45 },
               }}
             />
             <motion.span
-              className="absolute block w-6 h-0.5 bg-foreground"
+              className="absolute block w-6 h-0.5 bg-primary"
               variants={{
                 closed: { top: 17, rotate: 0 },
                 open: { top: 10, rotate: -45 },
