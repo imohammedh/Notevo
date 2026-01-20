@@ -327,7 +327,7 @@ export default function HeroSection() {
           <Image
             src={homeImage}
             alt="Notevo home page"
-            className=" mask-image-gradient p-full w-full"
+            className=" mask-image-gradient p-full w-full rounded-lg"
             width={300}
             height={300}
           />

@@ -35,6 +35,35 @@ export default function FeaturesSection() {
   }, [resolvedTheme]);
   return (
     <Section sectionId="features" className="relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none select-none z-[-5] overflow-hidden">
+        {/* 3. Mirrored arrow - left side - drawn a bit later */}
+        <svg
+          className="absolute -left-8 top-[30%] w-32 h-24 text-primary/50 -rotate-[8deg]"
+          viewBox="0 0 140 100"
+        >
+          <path
+            d="M129 60 Q120 90,110 65 T20 95 "
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <svg
+          className="absolute -right-8 top-[50%] w-32 h-24 text-primary/20 rotate-[8deg]"
+          viewBox="0 0 140 100"
+        >
+          <path
+            d="M20 70 Q50 40,90 65 T120 45"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
       <MaxWContainer className="relative z-10 ">
         <SectionHeading
           SectionTitle="Features you'll love"
@@ -49,7 +78,7 @@ export default function FeaturesSection() {
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className={`flex flex-col ${
@@ -59,14 +88,14 @@ export default function FeaturesSection() {
                 {/* Image Side */}
                 <motion.div
                   initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  animate={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="w-full md:w-2/3"
                 >
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/30 from-50% to-transparent border-border rounded-2xl" />
-                    <div className="relative bg-gradient-to-br from-primary/10 from-50%  to-transparent border-border rounded-2xl p-1 Desktop:p-2 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/30 from-50% to-transparent border-border rounded-lg" />
+                    <div className="relative bg-gradient-to-br from-primary/10 from-50%  to-transparent border-border rounded-lg p-1 Desktop:p-2 overflow-hidden">
                       <Image
                         src={image}
                         alt={`${feature.title} demo`}
@@ -79,7 +108,7 @@ export default function FeaturesSection() {
                 {/* Text Side */}
                 <motion.div
                   initial={{ opacity: 0, x: isEven ? 40 : -40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  animate={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="w-full md:w-1/2"

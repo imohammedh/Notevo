@@ -30,7 +30,7 @@ export default function PublicNotePage() {
   const [IconImage, setIconImage] = useState<string>("/notevo-logo.svg");
 
   useEffect(() => {
-    if (resolvedTheme === "dark") {
+    if (resolvedTheme !== "dark") {
       setIconImage(NotevoLogo);
     } else {
       setIconImage(DarkNotevoLogo);
@@ -167,12 +167,10 @@ export default function PublicNotePage() {
                     <p className="text-sm">Read only</p>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="text-sm" side="bottom">
-                  You're editing a copy of the original note,
-                  <br />
-                  Your changes won't affect the original
-                  <br />
-                  but you can download your edited copy anytime.
+                <TooltipContent className="text-sm w-[350px]" side="bottom">
+                  You're editing a life copy of the original note, Your changes
+                  won't affect the original but you can download your edited
+                  copy anytime.
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
