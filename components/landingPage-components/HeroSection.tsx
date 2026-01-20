@@ -59,7 +59,7 @@ export default function HeroSection() {
     >
       {/* Background Elements */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-primary/30 from-5% via-primary/10 via-30% to-transparent to-50% -z-[900]"
+        className="absolute inset-0 bg-gradient-to-b from-primary/20 from-5% via-primary/10 via-20% to-transparent to-50% -z-[900]"
         initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
         animate={{
           opacity: showBackground ? 1 : 0,
@@ -153,7 +153,7 @@ export default function HeroSection() {
           className="space-y-8 text-center "
         >
           <motion.h1
-            className="bg-gradient-to-r from-primary from-70% to-primary/10 bg-clip-text text-transparent text-5xl md:text-6xl Desktop:text-[90px] font-bold tracking-tight"
+            className="bg-gradient-to-r from-primary/90 from-70% to-primary/10 bg-clip-text text-transparent text-5xl md:text-6xl Desktop:text-[90px] font-bold tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}

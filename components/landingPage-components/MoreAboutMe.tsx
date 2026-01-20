@@ -27,7 +27,7 @@ export default function MoreAboutMe() {
               />
             </div>
             <div className="h-full flex justify-between items-center flex-col gap-1 w-full sm:w-2/3">
-              <h1 className=" space-y-4 text-start text-lg sm:text-xl lg:text-2xl pb-3 lg:pb-5 bg-gradient-to-r from-foreground/90 to-foreground/80 bg-clip-text text-transparent sm:text-left">
+              <h1 className=" space-y-4 text-start text-lg sm:text-xl lg:text-2xl pb-3 lg:pb-5 bg-gradient-to-r from-foreground/80 to-foreground/70 bg-clip-text text-transparent sm:text-left">
                 <p>
                   {`I've been looking for a note-taking app that's simpler than
                   Notion but more organized than Google Keep.`}
