@@ -22,6 +22,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
+import { Badge } from "@/components/ui/badge";
 function SignInWithMagicLink({
   handleLinkSent,
 }: {
@@ -118,6 +119,12 @@ export default function SignInPage() {
     <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-transparent via-primary/10 to-transparent p-6 md:p-10 overflow-hidden">
       <div className="w-full relative max-w-sm Desktop:max-w-[53rem]">
         <div className="flex flex-col gap-6">
+          <span className=" w-full flex justify-start items-center px-1 ">
+            <Badge variant="secondary" className="text-xs w-fit">
+              BETA
+            </Badge>
+          </span>
+
           <Card className="overflow-hidden bg-background border border-border">
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="p-6 md:p-8">
