@@ -160,7 +160,7 @@ export default function PublicNote({
                     className="h-9 truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-85% to-transparent to-80% text-transparent bg-clip-text"
                     disabled
                   />
-                  <TooltipProvider delayDuration={0} disableHoverableContent>
+                  <TooltipProvider delayDuration={200} disableHoverableContent>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
