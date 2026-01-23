@@ -38,24 +38,18 @@ export default function PublicNotePage() {
   }, [resolvedTheme]);
 
   const cycleTheme = () => {
-    const currentTheme = theme || "system";
-    if (currentTheme === "light") {
+    if (resolvedTheme === "light") {
       setTheme("dark");
-    } else if (currentTheme === "dark") {
-      setTheme("system");
-    } else {
+    } else if (resolvedTheme === "dark") {
       setTheme("light");
     }
   };
 
   const getThemeIcon = () => {
-    const currentTheme = theme || "system";
-    if (currentTheme === "light") {
+    if (resolvedTheme === "light") {
       return <Sun className="h-[1.2rem] w-[1.2rem]" />;
-    } else if (currentTheme === "dark") {
+    } else if (resolvedTheme == "dark") {
       return <Moon className="h-[1.2rem] w-[1.2rem]" />;
-    } else {
-      return <Monitor className="h-[1.2rem] w-[1.2rem]" />;
     }
   };
 
@@ -137,14 +131,14 @@ export default function PublicNotePage() {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }
                 }}
-                className="flex justify-between items-center gap-1.5 mb-0.5 group"
+                className="flex justify-between items-center gap-2 group"
               >
                 <Image
                   src={IconImage}
                   alt="Notevo Logo"
                   priority
-                  width={16}
-                  height={16}
+                  width={18}
+                  height={18}
                 />
                 Get Notevo
               </Link>
@@ -167,7 +161,7 @@ export default function PublicNotePage() {
                     <p className="text-sm">Read only</p>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="text-sm w-[350px]" side="bottom">
+                <TooltipContent className="text-sm w-[300px]" side="bottom">
                   You're editing a life copy of the original note, Your changes
                   won't affect the original but you can download your edited
                   copy anytime.
@@ -189,7 +183,7 @@ export default function PublicNotePage() {
                       <span className="sr-only">Toggle theme</span>
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent className="text-xs" side="bottom">
+                  <TooltipContent className="text-xs px-1 py-1" side="bottom">
                     Toggle theme
                   </TooltipContent>
                 </Tooltip>
@@ -198,7 +192,7 @@ export default function PublicNotePage() {
           </div>
         </div>
       </header>
-      <MaxWContainer className=" py-0 Desktop:py-10 flex-1">
+      <MaxWContainer className=" Desktop:container Desktop:mx-auto py-0 Desktop:py-16 tabletAir:py-16 tabletPro:py-16 sm:py-16 flex-1">
         <TailwindAdvancedEditor
           initialContent={parsedContent}
           onUpdate={(editor) => {

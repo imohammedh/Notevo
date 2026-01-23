@@ -175,7 +175,10 @@ export default function PublicNote({
                           )}
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent className=" text-xs" side="bottom">
+                      <TooltipContent
+                        className="text-xs px-1 py-1"
+                        side="bottom"
+                      >
                         Copy link
                       </TooltipContent>
                     </Tooltip>
