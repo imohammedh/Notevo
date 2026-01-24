@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,9 +8,14 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsisVertical, FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
-import { Pin } from "lucide-react";
+import {
+  Pin,
+  ChevronsLeftRightEllipsis,
+  ChevronsRightLeft,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { useQuery } from "@/cache/useQuery";
@@ -35,12 +40,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Label } from "../ui/label";
+import { useNoteWidth } from "@/hooks/useNoteWidth";
 
 interface NoteSettingsProps {
   noteId: Id<"notes">;
   noteTitle: string | any;
   IconVariant: "vertical_icon" | "horizontal_icon";
   BtnClassName?: string;
+  ShowWidthOp: Boolean;
   DropdownMenuContentAlign: "end" | "start";
   TooltipContentAlign: "end" | "start";
   onDelete?: (noteId: Id<"notes">) => void;
@@ -53,6 +60,7 @@ export default function NoteSettings({
   BtnClassName,
   DropdownMenuContentAlign,
   TooltipContentAlign,
+  ShowWidthOp,
   onDelete,
 }: NoteSettingsProps) {
   const router = useRouter();
@@ -62,7 +70,7 @@ export default function NoteSettings({
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
-
+  const { noteWidth, toggleWidth } = useNoteWidth();
   const updateNote = useMutation(api.notes.updateNote).withOptimisticUpdate(
     (local, args) => {
       const { _id, title, body, favorite } = args;
@@ -199,7 +207,7 @@ export default function NoteSettings({
               alignOffset={1}
               align={TooltipContentAlign}
             >
-              Rename, Pin, Delete
+              Rename, Pin, Delete{ShowWidthOp && "..."}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -232,6 +240,33 @@ export default function NoteSettings({
               <Pin size={14} className=" text-primary" />
               {getNote?.favorite ? "Unpin Note" : "Pin Note"}
             </Button>
+            {ShowWidthOp && (
+              <>
+                <Button
+                  variant="SidebarMenuButton"
+                  className="w-full h-8 px-2 text-sm"
+                  onClick={toggleWidth}
+                >
+                  {noteWidth === "false" ? (
+                    <>
+                      {" "}
+                      <ChevronsLeftRightEllipsis
+                        size={14}
+                        className=" text-primary"
+                      />
+                      Full width{" "}
+                    </>
+                  ) : (
+                    <>
+                      <ChevronsRightLeft size={14} className=" text-primary" />
+                      Max width
+                    </>
+                  )}
+                </Button>
+                <DropdownMenuSeparator />
+              </>
+            )}
+
             <Button
               variant="SidebarMenuButton_destructive"
               className="w-full h-8 px-2 text-sm"

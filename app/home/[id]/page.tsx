@@ -450,6 +450,7 @@ function GridNoteCard({ note, workspaceId, onDelete }: NoteCardProps) {
           <NoteSettings
             noteId={note._id}
             noteTitle={note.title}
+            ShowWidthOp={false}
             IconVariant="vertical_icon"
             DropdownMenuContentAlign="start"
             TooltipContentAlign="start"
@@ -539,6 +540,7 @@ function ListNoteCard({ note, workspaceId, onDelete }: NoteCardProps) {
             <NoteSettings
               noteId={note._id}
               noteTitle={note.title}
+              ShowWidthOp={false}
               IconVariant="vertical_icon"
               DropdownMenuContentAlign="start"
               TooltipContentAlign="start"

@@ -65,6 +65,7 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
                   <NoteSettings
                     noteId={noteid}
                     noteTitle={noteTitle}
+                    ShowWidthOp={true}
                     IconVariant="horizontal_icon"
                     DropdownMenuContentAlign="end"
                     TooltipContentAlign="end"
