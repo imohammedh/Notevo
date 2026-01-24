@@ -44,9 +44,6 @@ export default function PublicNote({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [inputValue, setInputValue] = useState(
-    `https://notevo.me/public/document/${noteId}`,
-  );
 
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const [open, setOpen] = useState(false);
@@ -88,7 +85,9 @@ export default function PublicNote({
   };
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(inputValue);
+      await navigator.clipboard.writeText(
+        `https://notevo.me/public/document/${noteId}`,
+      );
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
@@ -156,7 +155,7 @@ export default function PublicNote({
                 <span className="relative">
                   <Input
                     type="text"
-                    value={inputValue}
+                    value={`https://notevo.me/public/document/${noteId}`}
                     className="h-9 truncate flex-grow bg-gradient-to-r from-foreground from-50% via-transparent via-85% to-transparent to-80% text-transparent bg-clip-text"
                     disabled
                   />
@@ -198,7 +197,7 @@ export default function PublicNote({
                   <Link
                     target="_blank"
                     className=" flex justify-center items-center gap-2"
-                    href={inputValue}
+                    href={`https://notevo.me/public/document/${noteId}`}
                   >
                     <ExternalLink size={14} />
                     View site
