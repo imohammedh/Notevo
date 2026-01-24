@@ -119,7 +119,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
       <PopoverContent
         sideOffset={5}
         align="start"
-        className="w-48 p-1 border border-border bg-accent"
+        className="w-48 p-1 border border-border bg-muted"
       >
         {items.map((item) => (
           <EditorBubbleItem
@@ -128,10 +128,10 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
               item.command(editor);
               onOpenChange(false);
             }}
-            className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm text-foreground hover:bg-foreground/10"
+            className="flex cursor-pointer items-center justify-between rounded-lg px-2 py-1 text-sm text-primary hover:bg-primary/10"
           >
-            <div className="flex items-center *:text-foreground space-x-2">
-              <item.icon className="h-4 w-4" />
+            <div className="flex items-center text-foreground space-x-2">
+              <item.icon className="h-4 w-4 text-primary" />
               <span>{item.name}</span>
             </div>
             {activeItem.name === item.name && (

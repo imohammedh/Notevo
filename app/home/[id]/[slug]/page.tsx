@@ -3,15 +3,17 @@ import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { JSONContent } from "@tiptap/react";
 import TailwindAdvancedEditor from "@/components/advanced-editor";
 import { useDebouncedCallback } from "use-debounce";
 import type { Id } from "@/convex/_generated/dataModel";
 import NoteLoadingSkeletonUI from "@/components/ui/NoteLoadingSkeletonUI";
+import { useNoteWidth } from "@/hooks/useNoteWidth";
 export default function NotePage() {
   const searchParams = useSearchParams();
   const noteid = searchParams.get("id") as Id<"notes">;
+  const { noteWidth } = useNoteWidth();
 
   const updateNote = useMutation(api.notes.updateNote).withOptimisticUpdate(
     (local, args) => {
@@ -106,7 +108,7 @@ export default function NotePage() {
 
   const parsedContent = getNote.body ? JSON.parse(getNote.body) : content;
   return (
-    <MaxWContainer>
+    <div className={noteWidth === "false" ? "container" : "px-4"}>
       <TailwindAdvancedEditor
         initialContent={parsedContent}
         onUpdate={(editor) => {
@@ -115,6 +117,6 @@ export default function NotePage() {
           debouncedUpdateNote(updatedContent);
         }}
       />
-    </MaxWContainer>
+    </div>
   );
 }
