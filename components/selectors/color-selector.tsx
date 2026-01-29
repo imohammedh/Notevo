@@ -134,7 +134,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       >
         <div className="flex flex-col">
           <div className="my-1 px-2 text-sm font-semibold text-foreground">
-            Color :
+            Color
           </div>
           <div className="w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
             {TEXT_COLORS.map(({ name, color }) => (
@@ -158,7 +158,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
         </div>
         <div>
           <div className="my-1 px-2 text-sm font-semibold text-foreground">
-            Background :
+            Background
           </div>
           <div className="w-full flex flex-wrap flex-1 flex-grow flex-row items-center justify-start">
             {HIGHLIGHT_COLORS.map(({ name, color }) => (
