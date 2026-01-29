@@ -129,7 +129,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       </PopoverTrigger>
       <PopoverContent
         sideOffset={5}
-        className="my-1 rounded-lg border border-border bg-accent px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl"
+        className="my-1 rounded-lg border border-border bg-muted px-1 py-2 transition-all scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent flex max-h-80 w-48 flex-col overflow-hidden overflow-y-auto p-1 shadow-xl"
         align="start"
       >
         <div className="flex flex-col">
@@ -144,7 +144,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                   editor.commands.setColor(color);
                   onOpenChange(false);
                 }}
-                className="cursor-pointer flex items-center justify-center px-2 py-1 text-md rounded-sm text-foreground hover:bg-foreground/10"
+                className="cursor-pointer flex items-center justify-center px-2 py-1 text-md rounded-sm text-foreground hover:bg-primary/10"
               >
                 <div
                   className="rounded-sm border text-base border-border px-2 py-px font-medium"
@@ -167,7 +167,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                 onSelect={() => {
                   editor.commands.setHighlight({ color });
                 }}
-                className="flex cursor-pointer items-center justify-between px-2 py-1 text-md rounded-sm text-foreground hover:bg-foreground/10"
+                className="flex cursor-pointer items-center justify-between px-2 py-1 text-md rounded-sm text-foreground hover:bg-primary/10"
               >
                 <div
                   className="rounded-sm border text-secondary-foreground border-border px-2 py-px font-medium"
