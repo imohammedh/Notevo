@@ -257,7 +257,7 @@ export const TableControls = ({ editor }: TableControlsProps) => {
         {(contextMenu.type === "row" || contextMenu.type === "column") && (
           <>
             <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              {contextMenu.type === "row" ? "Row" : "Column"} Actions :
+              {contextMenu.type === "row" ? "Row" : "Column"} Actions
             </div>
 
             {contextMenu.type === "row" && (
