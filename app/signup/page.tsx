@@ -199,11 +199,11 @@ export default function SignInPage() {
           </Card>
           <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-foreground">
             By signing up and continue, you agree to our{" "}
-            <Link prefetch={true} href="/terms-of-service">
+            <Link target="_blank" prefetch={true} href="/terms-of-service">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link prefetch={true} href="/privacy-policy">
+            <Link target="_blank" prefetch={true} href="/privacy-policy">
               Privacy Policy
             </Link>
             .
