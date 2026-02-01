@@ -217,6 +217,7 @@ export default function SearchDialog({
 
   const isDebouncing = query !== debouncedQuery;
   const hasResults = allNotes.length > 0;
+  const isLoading = isDebouncing || status === "LoadingFirstPage";
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -265,7 +266,7 @@ export default function SearchDialog({
         </div>
         {/* Results */}
         <div className="min-h-[60vh] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent p-2">
-          {isDebouncing ? (
+          {isLoading ? (
             <SearchLoadingSkeleton />
           ) : !hasResults ? (
             <div className="py-12 text-center text-sm text-muted-foreground">
