@@ -144,10 +144,10 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                   editor.commands.setColor(color);
                   onOpenChange(false);
                 }}
-                className="cursor-pointer flex items-center justify-center px-2 py-1 text-md rounded-sm text-foreground hover:bg-primary/10"
+                className="cursor-pointer flex items-center justify-center px-2 py-1 text-md rounded-lg text-foreground group "
               >
                 <div
-                  className="rounded-sm border text-base border-border px-2 py-px font-medium"
+                  className="rounded-lg border text-base border-primary/20 px-2 py-px font-medium group-hover:border-primary/50"
                   style={{ color }}
                 >
                   A
@@ -167,10 +167,10 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
                 onSelect={() => {
                   editor.commands.setHighlight({ color });
                 }}
-                className="flex cursor-pointer items-center justify-between px-2 py-1 text-md rounded-sm text-foreground hover:bg-primary/10"
+                className="flex cursor-pointer items-center justify-between px-2 py-1 text-md rounded-lg text-foreground group"
               >
                 <div
-                  className="rounded-sm border text-secondary-foreground border-border px-2 py-px font-medium"
+                  className="rounded-lg border text-secondary-foreground border-primary/20 px-2 py-px font-medium group-hover:border-primary/50"
                   style={{ backgroundColor: color }}
                 >
                   A
