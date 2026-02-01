@@ -14,6 +14,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import type { Id } from "@/convex/_generated/dataModel";
 import { parseSlug } from "@/lib/parseSlug";
 import PublicNote from "../PublicNote";
+import { motion } from "framer-motion";
 const HomeContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
   const [showShadow, setShowShadow] = useState(false);
@@ -49,9 +50,16 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
           open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ""
         } rounded-none bg-background `}
       >
-        {showShadow && (
-          <div className="absolute rounded-t-xl transition-all ease-in-out duration-300 left-0 top-0 w-full h-52 bg-gradient-to-b from-background from-30% to-transparent z-[5] pointer-events-none" />
-        )}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showShadow ? 1 : 0 }}
+          transition={{
+            delay: 0,
+            ease: "easeInOut",
+            duration: showShadow ? 0.4 : 0.3,
+          }}
+          className="absolute rounded-t-xl transition-colors ease-in-out duration-300 left-0 top-0 w-full h-[35rem] bg-gradient-to-b from-background from-10% to-transparent to-100% z-[5] pointer-events-none"
+        />
         <div className="z-[10] relative w-full flex items-center justify-start px-5 gap-3 mx-auto rounded-t-xl border-t border-l border-none py-2.5 ">
           <div className="flex justify-between items-center w-full">
             <div className="flex justify-start items-center gap-3">
