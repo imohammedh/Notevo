@@ -42,6 +42,7 @@ const extensions = [
     emptyEditorClass:
       "is-editor-empty before:content-[attr(data-placeholder)] before:float-left before:text-primary/60 before:pointer-events-none before:cursor-text before:h-0",
     showOnlyWhenEditable: true,
+    includeChildren: true,
   }),
 
   ...defaultExtensions,
@@ -141,7 +142,7 @@ const TailwindAdvancedEditor = ({
                   <EditorCommandItem
                     value={item.title}
                     onCommand={(val) => item.command(val)}
-                    className="flex w-full items-center space-x-2 rounded-lg px-2 py-1 text-left text-sm text-foreground hover:bg-primary/10 aria-selected:bg-foreground/10"
+                    className="flex w-full items-center space-x-2 rounded-lg px-2 py-1 text-left text-sm text-foreground hover:bg-primary/10 aria-selected:bg-primary/10"
                     key={item.title}
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg text-primary">

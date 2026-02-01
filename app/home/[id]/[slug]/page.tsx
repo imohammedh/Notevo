@@ -10,6 +10,7 @@ import { useDebouncedCallback } from "use-debounce";
 import type { Id } from "@/convex/_generated/dataModel";
 import NoteLoadingSkeletonUI from "@/components/ui/NoteLoadingSkeletonUI";
 import { useNoteWidth } from "@/hooks/useNoteWidth";
+import { cn } from "@/lib/utils";
 export default function NotePage() {
   const searchParams = useSearchParams();
   const noteid = searchParams.get("id") as Id<"notes">;
@@ -108,7 +109,7 @@ export default function NotePage() {
 
   const parsedContent = getNote.body ? JSON.parse(getNote.body) : content;
   return (
-    <div className={noteWidth === "false" ? "container" : "px-4"}>
+    <div className={cn(noteWidth === "false" ? "container " : "px-4", "pb-28")}>
       <TailwindAdvancedEditor
         initialContent={parsedContent}
         onUpdate={(editor) => {
