@@ -45,8 +45,8 @@ export default function Footer() {
             <h3 className="text-lg font-semibold text-foreground">Notevo</h3>
             <ul className="mt-2 space-y-2 text-muted-foreground">
               <li>
-                <Link href="/#How_To_Start" className="hover:underline">
-                  How To Start
+                <Link href="/#about" className="hover:underline">
+                  About
                 </Link>
               </li>
               <li>
