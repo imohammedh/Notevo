@@ -56,9 +56,9 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
           transition={{
             delay: 0,
             ease: "easeInOut",
-            duration: showShadow ? 0.4 : 0.3,
+            duration: showShadow ? 0.2 : 0.3,
           }}
-          className="absolute rounded-t-xl transition-colors ease-in-out duration-300 left-0 top-0 w-full h-[35rem] bg-gradient-to-b from-background from-10% to-transparent to-100% z-[5] pointer-events-none"
+          className="absolute rounded-t-xl transition-colors ease-in-out duration-300 left-0 top-0 w-full h-52 bg-gradient-to-b from-background from-30% to-transparent to-100% z-[5] pointer-events-none"
         />
         <div className="z-[10] relative w-full flex items-center justify-start px-5 gap-3 mx-auto rounded-t-xl border-t border-l border-none py-2.5 ">
           <div className="flex justify-between items-center w-full">
