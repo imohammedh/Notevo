@@ -21,9 +21,10 @@ export const users = query({
     const users = await ctx.db
       .query("users")
       .filter((q) =>
-        q.or(
+        q.and(
           q.neq(q.field("emailVerificationTime"), null),
           q.neq(q.field("phoneVerificationTime"), null),
+          q.neq(q.field("image"), null),
         ),
       )
       .order("desc")
