@@ -57,25 +57,26 @@ export default function HeroSection() {
       id="home"
       className="relative pb-12 pt-28 Desktop:pt-32 flex items-center justify-center overflow-hidden"
     >
-      {/* Background Elements */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-primary/20 from-5% via-primary/10 via-20% to-transparent to-50% -z-[900]"
-        initial={{ opacity: 0, margin: 0, borderRadius: 0 }}
-        animate={{
-          opacity: showBackground ? 1 : 0,
-        }}
-        transition={{
-          opacity: { duration: showBackground ? 0.8 : 0 },
-          delay: 0,
-          ease: "easeInOut",
-        }}
-      />
+      <div className="absolute inset-0 h-full w-full bg-transparent mask-image-gradient">
+        {/* Right Masked Concentric Squares - Light Pattern */}
+        <div
+          className="absolute inset-0 -z-[900] pointer-events-none"
+          style={{
+            backgroundImage: `
+        repeating-linear-gradient(-180deg, transparent, transparent 5px, rgba(75, 85, 99, 0.06) 5px, rgba(75, 85, 99, 0.06) 5px, transparent 6px, transparent 70px),
+
+        repeating-linear-gradient(-180deg, transparent, transparent 5px, rgba(107, 114, 128, 0.04) 5px, rgba(107, 114, 128, 0.04) 10px, transparent 5px, transparent 70px)
+      `,
+          }}
+        />
+        {/* Your Content/Components */}
+      </div>
 
       {/* Hand-drawn doodles with real drawing animation */}
       <div className="absolute inset-0 pointer-events-none select-none z-[-5] overflow-hidden">
         {/* 1. Loose scribble circle - top left - being drawn */}
         <motion.svg
-          className="absolute -top-16 -left-20 w-40 h-40 md:w-48 md:h-48 text-primary/70"
+          className="absolute -top-16 -left-20 w-40 h-40 md:w-48 md:h-48 text-primary/80"
           viewBox="0 0 120 120"
           initial={{ opacity: 0 }}
           animate={showBackground ? { opacity: 1 } : { opacity: 0 }}
@@ -124,7 +125,7 @@ export default function HeroSection() {
 
         {/* 3. Mirrored arrow - left side - drawn a bit later */}
         <motion.svg
-          className="absolute -left-8 top-[30%] w-32 h-24 text-primary/20 -rotate-[8deg]"
+          className="absolute -left-8 top-[30%] w-32 h-24 text-primary/50 -rotate-[8deg]"
           viewBox="0 0 140 100"
           initial={{ opacity: 0 }}
           animate={showBackground ? { opacity: 1 } : { opacity: 0 }}
@@ -153,7 +154,7 @@ export default function HeroSection() {
           className="space-y-8 text-center "
         >
           <motion.h1
-            className="bg-gradient-to-r from-primary/90 from-70% to-primary/10 bg-clip-text text-transparent text-5xl md:text-6xl Desktop:text-[90px] font-bold tracking-tight"
+            className="bg-gradient-to-r from-primary/70 via-primary to-primary/70  bg-clip-text text-transparent leading-[50px] text-[46px] md:text-8xl Desktop:text-[100px] font-bold tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -166,7 +167,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <span className="bg-gradient-to-r from-primary from-70% to-primary/10 bg-clip-text">
+              <span className="bg-gradient-to-r from-primary/70 via-primary to-primary/70 bg-clip-text">
                 Note-Taking
               </span>
               {/* Hand-drawn pen underline */}
@@ -188,7 +189,7 @@ export default function HeroSection() {
                   strokeWidth="7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-primary/90"
+                  className="text-primary"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={
                     showBackground
@@ -206,8 +207,9 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Notevo helps you capture your thoughts and organize them
-            effortlessly in one clean, modern interface.
+            Notevo helps you capture your thoughts{" "}
+            <br className=" hidden Desktop:block tabletAir:block tabletPro:block" />{" "}
+            and organize them in one clean, modern interface.
           </motion.p>
           <motion.div
             className="flex gap-4 justify-center items-center"
@@ -264,7 +266,7 @@ export default function HeroSection() {
                     transition={{ delay: 0.8 + index * 0.1 }}
                   >
                     <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-primary/20 animate-pulse" />
+                      <AvatarFallback className="bg-primary/20 rounded-full animate-pulse" />
                     </Avatar>
                   </motion.div>
                 ))
@@ -283,7 +285,7 @@ export default function HeroSection() {
                           alt={user.name || "User"}
                           className="rounded-full"
                         />
-                        <AvatarFallback className="bg-primary/20">
+                        <AvatarFallback className="bg-primary/20 rounded-full">
                           {user.name ? user.name.charAt(0) : "U"}
                         </AvatarFallback>
                       </Avatar>
@@ -296,7 +298,7 @@ export default function HeroSection() {
                       transition={{ delay: 1.2 }}
                     >
                       <Avatar className="w-10 h-10">
-                        <AvatarFallback className="text-sm font-medium">
+                        <AvatarFallback className="text-sm font-medium rounded-full">
                           + 75
                         </AvatarFallback>
                       </Avatar>

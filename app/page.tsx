@@ -23,7 +23,7 @@ export default function HomePage() {
 
   if (!viewer) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className=" relative flex flex-col min-h-screen">
         <Navbar />
         <div className="flex-grow flex-1">
           <HeroSection />
