@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 function SignInWithMagicLink({
   handleLinkSent,
 }: {
@@ -116,8 +117,44 @@ export default function SignInPage() {
     }
   }, [resolvedTheme]);
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-gradient-to-t from-transparent via-primary/10 to-transparent p-6 md:p-10 overflow-hidden">
-      <div className="w-full relative max-w-sm Desktop:max-w-[53rem]">
+    <div className=" relative flex min-h-svh flex-col items-center justify-center p-6 md:p-10 overflow-hidden">
+      <div className="absolute inset-0 h-full w-full bg-transparent ">
+        {/* Right Masked Concentric Squares - Light Pattern */}
+        <div
+          className="absolute inset-0 -z-[900] pointer-events-none"
+          style={{
+            backgroundImage: `
+        repeating-linear-gradient(-180deg, transparent, transparent 5px, rgba(75, 85, 99, 0.06) 5px, rgba(75, 85, 99, 0.06) 5px, transparent 6px, transparent 70px),
+
+        repeating-linear-gradient(-180deg, transparent, transparent 5px, rgba(107, 114, 128, 0.04) 5px, rgba(107, 114, 128, 0.04) 10px, transparent 5px, transparent 70px)
+      `,
+          }}
+        />
+        {/* Your Content/Components */}
+      </div>
+      <div className="w-full relative max-w-sm Desktop:max-w-[53rem]  rounded-lg">
+        <motion.svg
+          className="absolute -z-50 -top-14 -left-14 w-40 h-40 md:w-48 md:h-48 text-primary/80"
+          viewBox="0 0 120 120"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <motion.path
+            d="M30 60 Q15 35,50 25 Q85 15,95 50 Q105 75,80 90 Q55 105,30 85"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{
+              pathLength: { duration: 0.8, ease: "easeOut", delay: 0.3 },
+              opacity: { duration: 0.4 },
+            }}
+          />
+        </motion.svg>
         <div className="flex flex-col gap-6">
           <span className=" w-full flex justify-start items-center px-1 ">
             <Badge variant="secondary" className="text-xs w-fit">
@@ -125,7 +162,7 @@ export default function SignInPage() {
             </Badge>
           </span>
 
-          <Card className="overflow-hidden bg-background border border-border">
+          <Card className="overflow-hidden bg-background border border-border shadow-xl shadow-primary/10">
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="p-6 md:p-8">
                 <div className="flex flex-col gap-6">
