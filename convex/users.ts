@@ -22,9 +22,8 @@ export const users = query({
       .query("users")
       .filter((q) =>
         q.and(
-          q.neq(q.field("emailVerificationTime"), null),
-          q.neq(q.field("phoneVerificationTime"), null),
-          q.neq(q.field("image"), null),
+          q.neq(q.field("emailVerificationTime"), undefined),
+          q.neq(q.field("image"), undefined),
         ),
       )
       .order("desc")
