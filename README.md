@@ -11,9 +11,9 @@ I've been looking for a note-taking app that's simpler than Notion but more orga
  - [x] fix the middleware 404 on redirect
  - [x] add the shareable Link
  - [ ] real time collaboration
- - [ ] note export pdf and markdown
+ - [x] note export pdf and markdown -> i endup Adding multi-format note export (JSON, Markdown, DOCX, PDF)
  - [x] optimistic update layer
- - [ ] caching
+ - [x] caching
  - [ ] speech to text and text to speech
  - [ ] i might add AI 🤞🙂
  - [x] fix the code Highlight in the editer
