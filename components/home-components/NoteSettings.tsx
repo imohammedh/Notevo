@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,12 +9,17 @@ import {
   DropdownMenuGroup,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsisVertical, FaEllipsis, FaRegTrashCan } from "react-icons/fa6";
 import {
   Pin,
   ChevronsLeftRightEllipsis,
   ChevronsRightLeft,
+  Download,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
@@ -42,6 +47,31 @@ import {
 import { Label } from "../ui/label";
 import { useNoteWidth } from "@/hooks/useNoteWidth";
 
+// Tiptap & conversion imports
+import { generateHTML, generateText } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
+import TextStyle from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
+import TurndownService from "turndown";
+import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import Table from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+
+// DOCX & PDF libraries
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+} from "docx";
+import { saveAs } from "file-saver";
+import html2pdf from "html2pdf.js";
+
 interface NoteSettingsProps {
   noteId: Id<"notes">;
   noteTitle: string | any;
@@ -66,16 +96,17 @@ export default function NoteSettings({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const [inputValue, setInputValue] = useState(noteTitle);
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
   const { noteWidth, toggleWidth } = useNoteWidth();
+
   const updateNote = useMutation(api.notes.updateNote).withOptimisticUpdate(
     (local, args) => {
       const { _id, title, body, favorite } = args;
-
-      // Update single note query
       const note = local.getQuery(api.notes.getNoteById, { _id });
       if (note) {
         local.setQuery(
@@ -151,14 +182,13 @@ export default function NoteSettings({
     event.preventDefault();
     if (!getNote) return;
 
-    if (onDelete) {
-      onDelete(noteId);
-    }
+    if (onDelete) onDelete(noteId);
     setIsAlertOpen(false);
 
     if (isViewingThisNote) {
       router.push(`/home/${getNote.workingSpaceId}`);
     }
+
     try {
       await deleteNote({ _id: noteId });
     } catch (error) {
@@ -168,11 +198,176 @@ export default function NoteSettings({
 
   const handleFavoritePin = async () => {
     if (!getNote) return;
-
     await updateNote({
       _id: noteId,
       favorite: !getNote.favorite,
     });
+  };
+
+  const handleDownload = async (
+    format: "json" | "markdown" | "docx" | "pdf",
+  ) => {
+    if (!getNote?.body) {
+      alert("No content available to download.");
+      return;
+    }
+
+    let parsedBody;
+    try {
+      parsedBody = JSON.parse(getNote.body);
+    } catch (err) {
+      console.error("Failed to parse note body:", err);
+      alert("Cannot export: note content appears to be corrupted.");
+      return;
+    }
+
+    const extensions = [
+      StarterKit,
+      TextStyle,
+      Highlight.configure({ multicolor: true }),
+      Image.configure({
+        inline: false,
+        allowBase64: true,
+        HTMLAttributes: { class: "rounded-lg border border-muted" },
+      }),
+      Link.configure({
+        HTMLAttributes: {
+          class:
+            "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer",
+          target: "_blank",
+          rel: "noopener noreferrer nofollow",
+        },
+      }),
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: { class: "border-collapse table-auto w-full my-4" },
+      }),
+      TableRow.configure({
+        HTMLAttributes: { class: "border-t border-border" },
+      }),
+      TableHeader.configure({
+        HTMLAttributes: {
+          class:
+            "border border-border bg-muted font-semibold text-left p-3 min-w-[100px]",
+        },
+      }),
+      TableCell,
+    ];
+
+    let content: Blob | string;
+    let type!: string;
+    let ext!: string;
+    let filename = `${noteTitle || "note"}`;
+
+    switch (format) {
+      case "json":
+        content = JSON.stringify(parsedBody, null, 2);
+        type = "application/json";
+        ext = "json";
+        break;
+
+      case "markdown":
+        try {
+          const html = generateHTML(parsedBody, extensions);
+          const turndown = new TurndownService();
+          turndown
+            .addRule("image", {
+              filter: "img",
+              replacement: (c, node) => {
+                const src = (node as HTMLElement).getAttribute("src") || "";
+                const alt = (node as HTMLElement).getAttribute("alt") || "";
+                return `\n\n![${alt}](${src})\n\n`;
+              },
+            })
+            .addRule("highlight", {
+              filter: ["mark"],
+              replacement: (c) => `==${c}==`,
+            });
+          content = turndown.turndown(html);
+          type = "text/markdown";
+          ext = "md";
+        } catch (err) {
+          console.warn("Markdown failed:", err);
+          content = generateText(parsedBody, extensions);
+          ext = "txt";
+        }
+        break;
+
+      case "docx":
+        try {
+          const doc = new Document({
+            sections: [
+              {
+                properties: {},
+                children: [
+                  new Paragraph({
+                    text: noteTitle || "Untitled Note",
+                    heading: HeadingLevel.HEADING_1,
+                    alignment: AlignmentType.CENTER,
+                  }),
+                  new Paragraph({ text: "", spacing: { after: 200 } }),
+                  new Paragraph({
+                    children: [
+                      new TextRun(generateText(parsedBody, extensions)),
+                    ],
+                  }),
+                ],
+              },
+            ],
+          });
+
+          const blob = await Packer.toBlob(doc);
+          saveAs(blob, `${filename}.docx`);
+          return;
+        } catch (err) {
+          console.error("DOCX generation failed:", err);
+          alert("DOCX export failed – falling back to text.");
+          content = generateText(parsedBody, extensions);
+          type = "text/plain";
+          ext = "txt";
+        }
+        break;
+
+      case "pdf":
+        try {
+          // Dynamic import - only runs in browser
+          const html2pdf = (await import("html2pdf.js")).default;
+
+          const html = generateHTML(parsedBody, extensions);
+          const element = document.createElement("div");
+          element.innerHTML = `<h1>${noteTitle || "Note"}</h1>` + html;
+          element.style.padding = "20px";
+          element.style.fontFamily = "Arial, sans-serif";
+
+          const opt = {
+            margin: 1,
+            filename: `${filename}.pdf`,
+            image: { type: "jpeg" as const, quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: {
+              unit: "in" as const,
+              format: "letter" as const,
+              orientation: "portrait" as const,
+            },
+          };
+
+          await html2pdf().set(opt).from(element).save();
+          return;
+        } catch (err) {
+          console.error("PDF generation failed:", err);
+          alert("PDF export failed – try simpler content or check console.");
+          return;
+        }
+    }
+
+    // Fallback download for json/markdown/txt
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${filename}.${ext}`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleTooltipMouseEnter = () => setIsTooltipOpen(true);
@@ -194,10 +389,10 @@ export default function NoteSettings({
                   {IconVariant === "vertical_icon" ? (
                     <FaEllipsisVertical
                       size={18}
-                      className=" text-muted-foreground"
+                      className="text-muted-foreground"
                     />
                   ) : (
-                    <FaEllipsis size={22} className=" text-muted-foreground" />
+                    <FaEllipsis size={22} className="text-muted-foreground" />
                   )}
                 </Button>
               </TooltipTrigger>
@@ -207,7 +402,7 @@ export default function NoteSettings({
               alignOffset={1}
               align={TooltipContentAlign}
             >
-              Rename, Pin, Delete{ShowWidthOp && "..."}
+              Rename, Pin, Download, Delete{ShowWidthOp && "..."}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -216,7 +411,7 @@ export default function NoteSettings({
           side="bottom"
           align={DropdownMenuContentAlign}
           alignOffset={1}
-          className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground "
+          className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground"
         >
           <DropdownMenuGroup className="relative">
             <Label>Rename :</Label>
@@ -231,15 +426,50 @@ export default function NoteSettings({
               ref={inputRef}
             />
           </DropdownMenuGroup>
+
           <DropdownMenuGroup>
             <Button
               variant="SidebarMenuButton"
               className="w-full h-8 px-2 text-sm"
               onClick={handleFavoritePin}
             >
-              <Pin size={14} className=" text-primary" />
+              <Pin size={14} className="text-primary" />
               {getNote?.favorite ? "Unpin Note" : "Pin Note"}
             </Button>
+
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="w-full h-8 px-2 text-sm flex items-center gap-2 hover:bg-primary/10">
+                <Download size={14} className="text-primary" />
+                Download
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className="w-48 text-muted-foreground">
+                <DropdownMenuItem
+                  className="text-sm cursor-pointer"
+                  onClick={() => handleDownload("markdown")}
+                >
+                  Markdown (.md)
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-sm cursor-pointer"
+                  onClick={() => handleDownload("json")}
+                >
+                  JSON
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-sm cursor-pointer"
+                  onClick={() => handleDownload("docx")}
+                >
+                  Word (.docx)
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-sm cursor-pointer"
+                  onClick={() => handleDownload("pdf")}
+                >
+                  PDF
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+
             {ShowWidthOp && (
               <>
                 <Button
@@ -249,16 +479,15 @@ export default function NoteSettings({
                 >
                   {noteWidth === "false" ? (
                     <>
-                      {" "}
                       <ChevronsLeftRightEllipsis
                         size={14}
-                        className=" text-primary"
+                        className="text-primary"
                       />
-                      Full width{" "}
+                      Full width
                     </>
                   ) : (
                     <>
-                      <ChevronsRightLeft size={14} className=" text-primary" />
+                      <ChevronsRightLeft size={14} className="text-primary" />
                       Max width
                     </>
                   )}
@@ -272,7 +501,7 @@ export default function NoteSettings({
               className="w-full h-8 px-2 text-sm"
               onClick={initiateDelete}
             >
-              <FaRegTrashCan size={14} className=" text-primary" />
+              <FaRegTrashCan size={14} className="text-primary" />
               Delete
             </Button>
           </DropdownMenuGroup>

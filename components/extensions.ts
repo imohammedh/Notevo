@@ -28,6 +28,8 @@ import { Table } from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
+// Add at the top of NoteSettings.tsx (next to other tiptap imports)
+import Highlight from "@tiptap/extension-highlight";
 
 const aiHighlight = AIHighlight;
 const tiptapLink = TiptapLink.configure({
