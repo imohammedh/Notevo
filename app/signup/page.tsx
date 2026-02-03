@@ -134,7 +134,7 @@ export default function SignInPage() {
       </div>
       <div className="w-full relative max-w-sm Desktop:max-w-[53rem]  rounded-lg">
         <motion.svg
-          className="absolute -z-50 -top-14 -left-14 w-40 h-40 md:w-48 md:h-48 text-primary/80"
+          className="absolute -z-50 Desktop:-top-16 -top-14 Desktop:-left-16 -left-12 w-40 h-40 md:w-48 md:h-48 text-primary/80"
           viewBox="0 0 120 120"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -144,7 +144,7 @@ export default function SignInPage() {
             d="M30 60 Q15 35,50 25 Q85 15,95 50 Q105 75,80 90 Q55 105,30 85"
             fill="none"
             stroke="currentColor"
-            strokeWidth="5"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
             initial={{ pathLength: 0, opacity: 0 }}
