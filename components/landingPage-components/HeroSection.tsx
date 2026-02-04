@@ -272,25 +272,28 @@ export default function HeroSection() {
                 ))
               ) : (
                 <>
-                  {results.slice(0, 4).map((user, indx) => (
-                    <motion.div
-                      key={user._id}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.8 + indx * 0.1 }}
-                    >
-                      <Avatar className="w-10 h-10">
-                        <AvatarImage
-                          src={user.image || "/placeholder.svg"}
-                          alt={user.name || "User"}
-                          className="rounded-full"
-                        />
-                        <AvatarFallback className="bg-primary/20 rounded-full">
-                          {user.name ? user.name.charAt(0) : "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                    </motion.div>
-                  ))}
+                  {results
+                    .filter((user) => user.image && user.name)
+                    .slice(0, 4)
+                    .map((user, indx) => (
+                      <motion.div
+                        key={user._id}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.8 + indx * 0.1 }}
+                      >
+                        <Avatar className="w-10 h-10">
+                          <AvatarImage
+                            src={user.image || "/placeholder.svg"}
+                            alt={user.name || "User"}
+                            className="rounded-full"
+                          />
+                          <AvatarFallback className="bg-primary/20 rounded-full">
+                            {user.name ? user.name.charAt(0) : "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                      </motion.div>
+                    ))}
                   {results.length > 4 && (
                     <motion.div
                       initial={{ scale: 0 }}
