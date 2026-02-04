@@ -73,6 +73,7 @@
     "html-react-parser": "^5.2.2",
     "html2pdf.js": "^0.14.0",
     "js-html2pdf": "^1.1.4",
+    "jspdf": "^4.1.0",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.469.0",
     "markdown-extensions": "^2.0.0",

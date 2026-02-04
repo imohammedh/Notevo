@@ -70,7 +70,6 @@ import {
   AlignmentType,
 } from "docx";
 import { saveAs } from "file-saver";
-import html2pdf from "html2pdf.js";
 
 interface NoteSettingsProps {
   noteId: Id<"notes">;
@@ -259,6 +258,36 @@ export default function NoteSettings({
     let ext!: string;
     let filename = `${noteTitle || "note"}`;
 
+    // Helper: create HTML element with forced readable colors (black text + white bg)
+    const createReadableExportElement = () => {
+      const tempDiv = document.createElement("div");
+      tempDiv.style.color = "#000000";
+      tempDiv.style.backgroundColor = "#ffffff";
+      tempDiv.style.padding = "32px";
+      tempDiv.style.fontFamily = "Arial, Helvetica, sans-serif";
+      tempDiv.style.lineHeight = "1.6";
+      tempDiv.style.fontSize = "16px";
+
+      // Strong override to prevent light text from dark mode
+      const style = document.createElement("style");
+      style.textContent = `
+        * { color: #000000 !important; background: #ffffff !important; }
+        a { color: #0066cc !important; text-decoration: underline; }
+        mark { background-color: #ffff99 !important; color: #000000 !important; }
+        h1, h2, h3, h4, h5, h6 { color: #000000 !important; }
+        table, th, td { border: 1px solid #000000 !important; color: #000000 !important; }
+        code { background: #f5f5f5 !important; color: #000000 !important; }
+      `;
+      tempDiv.appendChild(style);
+
+      const html = generateHTML(parsedBody, extensions);
+      tempDiv.innerHTML =
+        `<h1 style="color:#000000; margin-bottom: 24px;">${noteTitle || "Note"}</h1>` +
+        html;
+
+      return tempDiv;
+    };
+
     switch (format) {
       case "json":
         content = JSON.stringify(parsedBody, null, 2);
@@ -308,7 +337,10 @@ export default function NoteSettings({
                   new Paragraph({ text: "", spacing: { after: 200 } }),
                   new Paragraph({
                     children: [
-                      new TextRun(generateText(parsedBody, extensions)),
+                      new TextRun({
+                        text: generateText(parsedBody, extensions),
+                        color: "000000", // force black text in fallback
+                      }),
                     ],
                   }),
                 ],
@@ -330,14 +362,11 @@ export default function NoteSettings({
 
       case "pdf":
         try {
-          // Dynamic import - only runs in browser
-          const html2pdf = (await import("html2pdf.js")).default;
+          // Dynamic import to avoid SSR issues
+          const html2pdfModule = await import("html2pdf.js");
+          const html2pdf = html2pdfModule.default;
 
-          const html = generateHTML(parsedBody, extensions);
-          const element = document.createElement("div");
-          element.innerHTML = `<h1>${noteTitle || "Note"}</h1>` + html;
-          element.style.padding = "20px";
-          element.style.fontFamily = "Arial, sans-serif";
+          const element = createReadableExportElement();
 
           const opt = {
             margin: 1,
@@ -442,7 +471,7 @@ export default function NoteSettings({
                 <Download size={14} className="text-primary" />
                 Download
               </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent className="w-48 text-muted-foreground">
+              <DropdownMenuSubContent className="w-48">
                 <DropdownMenuItem
                   className="text-sm cursor-pointer"
                   onClick={() => handleDownload("markdown")}
@@ -492,10 +521,10 @@ export default function NoteSettings({
                     </>
                   )}
                 </Button>
-                <DropdownMenuSeparator />
               </>
             )}
 
+            <DropdownMenuSeparator />
             <Button
               variant="SidebarMenuButton_destructive"
               className="w-full h-8 px-2 text-sm"
