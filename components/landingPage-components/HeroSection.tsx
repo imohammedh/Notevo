@@ -20,7 +20,7 @@ export default function HeroSection() {
   const { results, status } = usePaginatedQuery(
     api.users.users,
     {},
-    { initialNumItems: 5 },
+    { initialNumItems: 6 },
   );
   const [showBackground, setShowBackground] = useState(false);
   const { scrollY } = useScroll();
@@ -258,7 +258,7 @@ export default function HeroSection() {
             <div className="flex -space-x-4">
               {status === "LoadingFirstPage" ? (
                 // Loading state
-                Array.from({ length: 4 }).map((_, index) => (
+                Array.from({ length: 5 }).map((_, index) => (
                   <motion.div
                     key={index}
                     initial={{ scale: 0 }}
@@ -274,7 +274,7 @@ export default function HeroSection() {
                 <>
                   {results
                     .filter((user) => user.image && user.name)
-                    .slice(0, 4)
+                    .slice(0, 5)
                     .map((user, indx) => (
                       <motion.div
                         key={user._id}
@@ -294,7 +294,7 @@ export default function HeroSection() {
                         </Avatar>
                       </motion.div>
                     ))}
-                  {results.length > 4 && (
+                  {results.length > 5 && (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
