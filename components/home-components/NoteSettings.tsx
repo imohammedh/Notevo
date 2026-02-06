@@ -47,12 +47,11 @@ import {
 import { Label } from "../ui/label";
 import { useNoteWidth } from "@/hooks/useNoteWidth";
 
-// Tiptap & conversion imports
+// Tiptap imports
 import { generateHTML, generateText } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import TextStyle from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
-import TurndownService from "turndown";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Table from "@tiptap/extension-table";
@@ -60,7 +59,7 @@ import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 
-// DOCX & PDF libraries
+// DOCX libraries (with aliases to avoid name conflicts)
 import {
   Document,
   Packer,
@@ -68,7 +67,13 @@ import {
   TextRun,
   HeadingLevel,
   AlignmentType,
+  Table as DocxTable,
+  TableRow as DocxTableRow,
+  TableCell as DocxTableCell,
+  ShadingType,
+  BorderStyle,
 } from "docx";
+import TurndownService from "turndown";
 import { saveAs } from "file-saver";
 
 interface NoteSettingsProps {
@@ -223,7 +228,10 @@ export default function NoteSettings({
     const extensions = [
       StarterKit,
       TextStyle,
-      Highlight.configure({ multicolor: true }),
+      Highlight.configure({
+        multicolor: true,
+        HTMLAttributes: { class: "pb-6" },
+      }),
       Image.configure({
         inline: false,
         allowBase64: true,
@@ -256,34 +264,106 @@ export default function NoteSettings({
     let content: Blob | string;
     let type!: string;
     let ext!: string;
-    let filename = `${noteTitle || "note"}`;
+    const filename = `${noteTitle || "note"}`;
 
-    // Helper: create HTML element with forced readable colors (black text + white bg)
+    // PDF Helper (unchanged)
     const createReadableExportElement = () => {
       const tempDiv = document.createElement("div");
+
       tempDiv.style.color = "#000000";
       tempDiv.style.backgroundColor = "#ffffff";
-      tempDiv.style.padding = "32px";
+      tempDiv.style.padding = "10px";
       tempDiv.style.fontFamily = "Arial, Helvetica, sans-serif";
-      tempDiv.style.lineHeight = "1.6";
+      tempDiv.style.lineHeight = "1.8";
       tempDiv.style.fontSize = "16px";
+      tempDiv.style.maxWidth = "100%";
+      tempDiv.style.margin = "0 ";
 
-      // Strong override to prevent light text from dark mode
       const style = document.createElement("style");
       style.textContent = `
-        * { color: #000000 !important; background: #ffffff !important; }
-        a { color: #0066cc !important; text-decoration: underline; }
-        mark { background-color: #ffff99 !important; color: #000000 !important; }
-        h1, h2, h3, h4, h5, h6 { color: #000000 !important; }
-        table, th, td { border: 1px solid #000000 !important; color: #000000 !important; }
-        code { background: #f5f5f5 !important; color: #000000 !important; }
-      `;
+      * { color: #000000 !important; background: #ffffff !important; box-sizing: border-box; }
+      hr { display: none !important; }
+      a { color: #0066cc !important; text-decoration: underline !important; }
+      pre, code {
+        background: #f8f9fa !important;
+        color: #000000 !important;
+        font-family: Consolas, Monaco, monospace !important;
+        font-size: 0.95rem !important;
+        padding: 1.2rem !important;
+        border: 1px solid #ddd !important;
+        border-radius: 6px !important;
+        overflow-x: auto !important;
+        margin: 1.6rem 0 !important;
+        white-space: pre-wrap !important;
+      }
+      blockquote {
+        border-left: 4px solid #ccc !important;
+        margin: 1.5rem 0 !important;
+        padding-left: 1rem !important;
+        font-style: italic !important;
+        color: #444 !important;
+      }
+      ul, ol {
+        margin: 1rem 0 1.5rem 2rem !important;
+        padding-left: 0 !important;
+      }
+      li { margin-bottom: 0.6rem !important; }
+      table, th, td {
+        border: 1px solid #444 !important;
+        border-collapse: collapse !important;
+        color: #000000 !important;
+        padding: 8px !important;
+      }
+      th { background-color: #f0f0f0 !important; font-weight: bold !important; }
+      img {
+        display: block !important;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      img[alt*="could not be loaded"],
+      img:not([src]),
+      img[src=""] {
+        display: none !important;
+      }
+    `;
       tempDiv.appendChild(style);
 
       const html = generateHTML(parsedBody, extensions);
-      tempDiv.innerHTML =
-        `<h1 style="color:#000000; margin-bottom: 24px;">${noteTitle || "Note"}</h1>` +
-        html;
+
+      const htmlWithPlaceholder = html.replace(
+        /<img[^>]*>/g,
+        `<div style="background:#f0f0f0; padding:16px; text-align:start; border:1px solid #ccc; margin:1.5rem 0; font-style:italic; color:#555;">
+        [Image could not be loaded]
+      </div>`,
+      );
+
+      let styledHtml = htmlWithPlaceholder
+        .replace(
+          /<h1/g,
+          '<h1 style="font-size:2.8rem; font-weight:700; margin:0 0 2rem 0; text-align:start; line-height:1.2;"',
+        )
+        .replace(
+          /<h2/g,
+          '<h2 style="font-size:2.2rem; font-weight:600; margin:3rem 0 1.2rem 0;"',
+        )
+        .replace(
+          /<h3/g,
+          '<h3 style="font-size:1.8rem; font-weight:600; margin:2.5rem 0 1rem 0;"',
+        )
+        .replace(
+          /<h4/g,
+          '<h4 style="font-size:1.5rem; font-weight:600; margin:2rem 0 0.8rem 0;"',
+        )
+        .replace(
+          /<h5/g,
+          '<h5 style="font-size:1.3rem; font-weight:600; margin:1.8rem 0 0.6rem 0;"',
+        )
+        .replace(
+          /<h6/g,
+          '<h6 style="font-size:1.1rem; font-weight:600; margin:1.8rem 0 0.6rem 0;"',
+        );
+
+      tempDiv.innerHTML = styledHtml;
 
       return tempDiv;
     };
@@ -302,7 +382,7 @@ export default function NoteSettings({
           turndown
             .addRule("image", {
               filter: "img",
-              replacement: (c, node) => {
+              replacement: (c: any, node: any) => {
                 const src = (node as HTMLElement).getAttribute("src") || "";
                 const alt = (node as HTMLElement).getAttribute("alt") || "";
                 return `\n\n![${alt}](${src})\n\n`;
@@ -310,7 +390,7 @@ export default function NoteSettings({
             })
             .addRule("highlight", {
               filter: ["mark"],
-              replacement: (c) => `==${c}==`,
+              replacement: (c: any) => `==${c}==`,
             });
           content = turndown.turndown(html);
           type = "text/markdown";
@@ -328,22 +408,7 @@ export default function NoteSettings({
             sections: [
               {
                 properties: {},
-                children: [
-                  new Paragraph({
-                    text: noteTitle || "Untitled Note",
-                    heading: HeadingLevel.HEADING_1,
-                    alignment: AlignmentType.CENTER,
-                  }),
-                  new Paragraph({ text: "", spacing: { after: 200 } }),
-                  new Paragraph({
-                    children: [
-                      new TextRun({
-                        text: generateText(parsedBody, extensions),
-                        color: "000000", // force black text in fallback
-                      }),
-                    ],
-                  }),
-                ],
+                children: parseTiptapToDocx(parsedBody.content || []),
               },
             ],
           });
@@ -353,7 +418,7 @@ export default function NoteSettings({
           return;
         } catch (err) {
           console.error("DOCX generation failed:", err);
-          alert("DOCX export failed – falling back to text.");
+          alert("DOCX export failed falling back to text.");
           content = generateText(parsedBody, extensions);
           type = "text/plain";
           ext = "txt";
@@ -362,7 +427,6 @@ export default function NoteSettings({
 
       case "pdf":
         try {
-          // Dynamic import to avoid SSR issues
           const html2pdfModule = await import("html2pdf.js");
           const html2pdf = html2pdfModule.default;
 
@@ -372,7 +436,7 @@ export default function NoteSettings({
             margin: 1,
             filename: `${filename}.pdf`,
             image: { type: "jpeg" as const, quality: 0.98 },
-            html2canvas: { scale: 2 },
+            html2canvas: { scale: 1.5 },
             jsPDF: {
               unit: "in" as const,
               format: "letter" as const,
@@ -384,12 +448,12 @@ export default function NoteSettings({
           return;
         } catch (err) {
           console.error("PDF generation failed:", err);
-          alert("PDF export failed – try simpler content or check console.");
+          alert("PDF export failed try simpler content or check console.");
           return;
         }
     }
 
-    // Fallback download for json/markdown/txt
+    // Fallback download
     const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -399,6 +463,174 @@ export default function NoteSettings({
     URL.revokeObjectURL(url);
   };
 
+  // ────────────────────────────────────────────────
+  // Parse Tiptap JSON → docx children (headings, bold, lists, etc.)
+  // ────────────────────────────────────────────────
+  function parseTiptapToDocx(nodes: any[]): (Paragraph | any)[] {
+    const children: (Paragraph | any)[] = [];
+
+    for (const node of nodes || []) {
+      if (!node) continue;
+
+      switch (node.type) {
+        case "paragraph":
+          children.push(
+            new Paragraph({
+              children: parseTextWithMarks(node.content || []),
+            }),
+          );
+          break;
+
+        case "heading":
+          const level = node.attrs?.level || 1;
+          children.push(
+            new Paragraph({
+              heading:
+                HeadingLevel[`HEADING_${level}` as keyof typeof HeadingLevel],
+              children: parseTextWithMarks(node.content || []),
+            }),
+          );
+          break;
+
+        case "bulletList":
+          children.push(...parseList(node.content || [], false));
+          break;
+
+        case "orderedList":
+          children.push(...parseList(node.content || [], true));
+          break;
+
+        case "codeBlock":
+          const codeText = node.content?.[0]?.text || "";
+          children.push(
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: codeText,
+                  font: { name: "Consolas" },
+                  size: 22,
+                  shading: { fill: "f8f9fa", type: ShadingType.SOLID },
+                }),
+              ],
+              spacing: { before: 200, after: 200 },
+            }),
+          );
+          break;
+
+        case "blockquote":
+          children.push(
+            new Paragraph({
+              children: parseTextWithMarks(node.content || []),
+              indent: { left: 360 },
+            }),
+          );
+          break;
+
+        case "table":
+          const rows =
+            node.content?.map((rowNode: any) => {
+              const cells =
+                rowNode.content?.map((cellNode: any) => {
+                  return new DocxTableCell({
+                    children: [
+                      new Paragraph({
+                        children: parseTextWithMarks(cellNode.content || []),
+                      }),
+                    ],
+                  });
+                }) || [];
+              return new DocxTableRow({ children: cells });
+            }) || [];
+
+          children.push(
+            new DocxTable({
+              rows,
+              width: { size: 100, type: "pct" },
+            }),
+          );
+          break;
+
+        default:
+          if (node.content) {
+            children.push(...parseTiptapToDocx(node.content));
+          }
+          break;
+      }
+    }
+
+    return children;
+  }
+
+  function parseTextWithMarks(textNodes: any[]): TextRun[] {
+    const runs: TextRun[] = [];
+
+    for (const node of textNodes || []) {
+      if (node.type !== "text" || !node.text) continue;
+
+      const options: any = {
+        text: node.text,
+        color: "000000",
+      };
+
+      if (node.marks) {
+        for (const mark of node.marks) {
+          switch (mark.type) {
+            case "bold":
+              options.bold = true;
+              break;
+            case "italic":
+              options.italics = true;
+              break;
+            case "code":
+              options.font = { name: "Consolas" };
+              options.size = 22;
+              options.shading = { fill: "f8f9fa", type: ShadingType.SOLID };
+              break;
+            case "highlight":
+              options.shading = { fill: "ffff99", type: ShadingType.SOLID };
+              break;
+            case "link":
+              if (mark.attrs?.href) {
+                options.link = { href: mark.attrs.href };
+              }
+              break;
+          }
+        }
+      }
+
+      runs.push(new TextRun(options));
+    }
+
+    return runs;
+  }
+
+  function parseList(listItems: any[], isOrdered: boolean): Paragraph[] {
+    const listItemsParsed: Paragraph[] = [];
+
+    listItems.forEach((itemNode) => {
+      if (itemNode.type === "listItem") {
+        const itemChildren = parseTextWithMarks(
+          itemNode.content?.[0]?.content || [],
+        );
+
+        listItemsParsed.push(
+          new Paragraph({
+            children: itemChildren,
+            bullet: isOrdered ? undefined : { level: 0 },
+            numbering: isOrdered
+              ? { reference: "ordered", level: 0 }
+              : undefined,
+          }),
+        );
+
+        if (itemNode.content?.length > 1) {
+          listItemsParsed.push(...parseTiptapToDocx(itemNode.content.slice(1)));
+        }
+      }
+    });
+
+    return listItemsParsed;
+  }
   const handleTooltipMouseEnter = () => setIsTooltipOpen(true);
   const handleTooltipMouseLeave = () => setIsTooltipOpen(false);
 
@@ -521,10 +753,10 @@ export default function NoteSettings({
                     </>
                   )}
                 </Button>
+                <DropdownMenuSeparator />
               </>
             )}
 
-            <DropdownMenuSeparator />
             <Button
               variant="SidebarMenuButton_destructive"
               className="w-full h-8 px-2 text-sm"
