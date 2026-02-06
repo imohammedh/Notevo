@@ -203,7 +203,6 @@ export default function SearchDialog({
 
   // Keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    e.preventDefault();
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setSelectedIndex((prev) => Math.min(prev + 1, allNotes.length - 1));
