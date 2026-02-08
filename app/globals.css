@@ -450,6 +450,172 @@ html {
   opacity: 1;
 }
 
+/* Base ToC styles */
+.table-of-contents {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  gap: 0;
+  text-decoration: none;
+}
+
+/* Compact ToC container */
+.compact-toc-container {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  transition: all 0.3s ease-out;
+}
+
+/* Collapsed state - just lines visible */
+.compact-toc-container:not(:hover) {
+  width: 3rem;
+}
+
+/* Expanded state - full content visible */
+.compact-toc-container:hover {
+  width: 16rem;
+}
+
+/* Individual ToC items */
+.toc-item {
+  transition: all 0.2s ease-out;
+}
+
+/* The horizontal line indicator */
+.toc-line {
+  height: 50px;
+  background-color: hsl(var(--primary));
+  transition: all 0.2s ease-out;
+  flex-shrink: 0;
+}
+
+/* Active item line */
+.toc-item.is-active .toc-line {
+  background-color: hsl(var(--primary));
+  width: 1.5rem;
+}
+
+/* Scrolled over item - dimmed */
+.toc-item.is-scrolled {
+  opacity: 0.4;
+}
+
+/* Hover effects */
+.toc-item:hover .toc-line {
+  width: 1.5rem;
+  background-color: hsl(var(--foreground) / 0.5);
+}
+
+/* Text content */
+.toc-text {
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.compact-toc-container:hover .toc-text {
+  opacity: 1;
+}
+
+/* Ensure headings have proper scroll behavior */
+.ProseMirror h1[data-toc-id],
+.ProseMirror h2[data-toc-id],
+.ProseMirror h3[data-toc-id],
+.ProseMirror h4[data-toc-id],
+.ProseMirror h5[data-toc-id],
+.ProseMirror h6[data-toc-id] {
+  scroll-margin-top: 6rem;
+}
+
+/* Scrollbar for expanded ToC */
+.compact-toc-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.compact-toc-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.compact-toc-container::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary));
+  border-radius: 2px;
+}
+
+.compact-toc-container::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--primary) / 0.3);
+}
+
+/* Hide on mobile/tablet */
+@media (max-width: 1024px) {
+  .compact-toc-container {
+    display: none;
+  }
+}
+
+/* Responsive positioning */
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .compact-toc-container {
+    right: 0;
+  }
+
+  .compact-toc-container:not(:hover) {
+    width: 2rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1280px) {
+  .compact-toc-container {
+    right: 0.5rem;
+  }
+}
+
+/* Animation for smooth appearance */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.compact-toc-container:hover .toc-text {
+  animation: fadeInRight 0.2s ease-out;
+}
+
+/* Optional: Add a subtle background on hover */
+.compact-toc-container:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsl(var(--background));
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem 0 0 0.5rem;
+  z-index: -1;
+}
+
+/* Dark mode adjustments */
+.dark .toc-line {
+  background-color: hsl(var(--border) / 0.5);
+}
+
+.dark .compact-toc-container:hover::before {
+  background: hsl(var(--background) / 0.95);
+}
+
 /* For dark mode */
 .dark .code-block-wrapper {
   background: #1e1e1e;

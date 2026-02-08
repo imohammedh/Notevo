@@ -272,12 +272,12 @@ export default function NoteSettings({
 
       tempDiv.style.color = "#000000";
       tempDiv.style.backgroundColor = "#ffffff";
-      tempDiv.style.padding = "10px";
+      tempDiv.style.padding = "0";
       tempDiv.style.fontFamily = "Arial, Helvetica, sans-serif";
       tempDiv.style.lineHeight = "1.8";
       tempDiv.style.fontSize = "16px";
       tempDiv.style.maxWidth = "100%";
-      tempDiv.style.margin = "0 ";
+      tempDiv.style.margin = "0";
 
       const style = document.createElement("style");
       style.textContent = `
@@ -672,7 +672,7 @@ export default function NoteSettings({
           side="bottom"
           align={DropdownMenuContentAlign}
           alignOffset={1}
-          className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground"
+          className="w-48 pb-1.5 px-1.5 pt-0 space-y-4 text-muted-foreground z-[10000]"
         >
           <DropdownMenuGroup className="relative">
             <Label>Rename :</Label>
