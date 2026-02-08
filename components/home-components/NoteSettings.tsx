@@ -753,10 +753,10 @@ export default function NoteSettings({
                     </>
                   )}
                 </Button>
-                <DropdownMenuSeparator />
               </>
             )}
 
+            <DropdownMenuSeparator />
             <Button
               variant="SidebarMenuButton_destructive"
               className="w-full h-8 px-2 text-sm"
