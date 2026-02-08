@@ -133,7 +133,7 @@ export default function PublicNote({
         side="bottom"
         alignOffset={1}
         align="end"
-        className="min-w-[20rem] pb-1.5 px-1.5 pt-2 space-y-4 text-muted-foreground "
+        className="min-w-[20rem] pb-1.5 px-1.5 pt-2 space-y-4 text-muted-foreground z-[10000]"
       >
         <DropdownMenuGroup className="relative">
           {getNote?.published ? (

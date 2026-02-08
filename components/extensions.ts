@@ -28,8 +28,9 @@ import { Table } from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
-// Add at the top of NoteSettings.tsx (next to other tiptap imports)
 import Highlight from "@tiptap/extension-highlight";
+import { mergeAttributes } from "@tiptap/core";
+import Heading from "@tiptap/extension-heading";
 
 const aiHighlight = AIHighlight;
 const tiptapLink = TiptapLink.configure({
@@ -54,6 +55,7 @@ const tiptapImage = TiptapImage.extend({
     class: cx("rounded-lg border border-muted"),
   },
 });
+
 const updatedImage = UpdatedImage.configure({
   HTMLAttributes: {
     class: cx("rounded-lg"),
@@ -79,11 +81,39 @@ const horizontalRule = HorizontalRule.configure({
   },
 });
 
+// Custom Heading extension that adds data-toc-id attribute
+const CustomHeading = Heading.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      id: {
+        default: null,
+        rendered: true,
+        parseHTML: (element) => element.getAttribute("data-toc-id"),
+        renderHTML: (attributes) => {
+          if (!attributes.id) {
+            return {};
+          }
+          return {
+            "data-toc-id": attributes.id,
+          };
+        },
+      },
+    };
+  },
+}).configure({
+  levels: [1, 2, 3, 4, 5, 6],
+  HTMLAttributes: {
+    class: cx("scroll-mt-24"),
+  },
+});
+
 const starterKit = StarterKit.configure({
   codeBlock: false,
+  heading: false, // Disable the default heading extension
   bulletList: {
     HTMLAttributes: {
-      lass: cx("list-disc list-outside leading-3 -mt-2"),
+      class: cx("list-disc list-outside leading-3 -mt-2"),
     },
   },
   orderedList: {
@@ -159,6 +189,7 @@ const tableHeader = TableHeader.configure({
     ),
   },
 });
+
 const TipTapExtensionTableCell = TableCell.extend({
   addAttributes() {
     return {
@@ -184,6 +215,7 @@ const TipTapExtensionTableCell = TableCell.extend({
 
 export const defaultExtensions = [
   starterKit,
+  CustomHeading, // Use our custom heading extension instead of the default
   GlobalDragHandle,
   tiptapLink,
   tiptapImage,
