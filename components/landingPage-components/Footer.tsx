@@ -35,7 +35,7 @@ export default function Footer() {
       </svg>
       <footer className=" relative w-full text-foreground py-10 bg-muted">
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 ">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 ">
             <div>
               <Link
                 href="/"
@@ -83,6 +83,7 @@ export default function Footer() {
                     prefetch={true}
                     href="/terms-of-service"
                     className="hover:underline"
+                    target="_blank"
                   >
                     Terms of Service
                   </Link>
@@ -92,8 +93,23 @@ export default function Footer() {
                     prefetch={true}
                     href="/privacy-policy"
                     className="hover:underline"
+                    target="_blank"
                   >
                     Privacy Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className=" text-lg font-semibold text-foreground">Social</h3>
+              <ul className="mt-2 space-y-2 text-muted-foreground">
+                <li>
+                  <Link
+                    href="https://www.linkedin.com/company/notevo"
+                    className="hover:underline"
+                    target="_blank"
+                  >
+                    Linkedin
                   </Link>
                 </li>
               </ul>
