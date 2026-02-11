@@ -39,7 +39,6 @@ export const ToCItem = ({ item, onItemClick, isExpanded }: ToCItemProps) => {
     >
       <Link
         href={`#${item.id}`}
-        prefetch={true}
         onClick={(e) => onItemClick(e, item)}
         className={`
           flex items-center gap-2 py-1 px-2 rounded-lg no-underline
