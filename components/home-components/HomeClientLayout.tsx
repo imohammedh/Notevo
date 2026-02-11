@@ -46,8 +46,8 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
     <div className="flex h-screen w-full bg-muted overflow-hidden">
       <AppSidebar />
       <main
-        className={`relative flex flex-col flex-1 min-h-svh transition-all duration-300 ease-in-out border-primary/20 ${
-          open && !isMobile ? `rounded-t-xl border-t border-l mt-3` : ""
+        className={`relative flex flex-col flex-1 h-auto transition-all duration-300 ease-in-out border-primary/20 ${
+          open && !isMobile ? `rounded-tl-lg border-t border-l mt-3` : ""
         } rounded-none bg-background `}
       >
         <motion.div
@@ -58,9 +58,9 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
             ease: "easeInOut",
             duration: showShadow ? 0.2 : 0.3,
           }}
-          className="absolute rounded-t-xl transition-colors ease-in-out duration-300 left-0 top-0 w-full h-52 bg-gradient-to-b from-background from-30% to-transparent to-100% z-[5] pointer-events-none"
+          className="absolute rounded-tl-lg transition-colors ease-in-out duration-300 left-0 top-0 w-full h-52 bg-gradient-to-b from-background from-30% to-transparent to-100% z-[5] pointer-events-none"
         />
-        <div className="z-[10] relative w-full flex items-center justify-start px-5 gap-3 mx-auto rounded-t-xl border-t border-l border-none py-2.5 ">
+        <div className="z-[10] relative w-full flex items-center justify-start px-5 gap-3 mx-auto rounded-tl-lg border-none py-2.5 ">
           <div className="flex justify-between items-center w-full">
             <div className="flex justify-start items-center gap-3">
               {(!open || isMobile) && <SidebarTrigger />}
