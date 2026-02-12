@@ -34,7 +34,14 @@ import {
   TableOfContents,
 } from "@tiptap/extension-table-of-contents";
 import { CompactFloatingToC } from "./ToC";
-
+import { Plus } from "lucide-react";
+import { Button } from "./ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const TailwindAdvancedEditor = ({
   initialContent,
   onUpdate,
@@ -61,6 +68,31 @@ const TailwindAdvancedEditor = ({
     }
   }, [resolvedTheme]);
 
+  useEffect(() => {
+    if (!editorInstance) return;
+
+    const syncToC = () => {
+      // Force ToC update by dispatching a transaction
+      editorInstance.view.dispatch(editorInstance.state.tr);
+    };
+
+    // Listen to all relevant events
+    editorInstance.on("create", syncToC);
+    editorInstance.on("update", syncToC);
+    editorInstance.on("selectionUpdate", syncToC);
+    editorInstance.on("focus", syncToC);
+
+    // Initial sync
+    syncToC();
+
+    return () => {
+      editorInstance.off("create", syncToC);
+      editorInstance.off("update", syncToC);
+      editorInstance.off("selectionUpdate", syncToC);
+      editorInstance.off("focus", syncToC);
+    };
+  }, [editorInstance]);
+
   // Create extensions array with ToC configuration
   const extensions = [
     TextStyle,
@@ -83,6 +115,26 @@ const TailwindAdvancedEditor = ({
     slashCommand,
   ];
 
+  // Handler for adding new block below current position
+  const handleAddBlock = () => {
+    if (!editorInstance) return;
+
+    const { state } = editorInstance;
+    const { selection } = state;
+    const { $from } = selection;
+
+    // Find the end of the current block
+    const endPos = $from.end();
+
+    // Insert a new paragraph after the current block
+    editorInstance
+      .chain()
+      .focus()
+      .insertContentAt(endPos, { type: "paragraph" })
+      .setTextSelection(endPos + 1)
+      .run();
+  };
+
   return (
     <>
       <EditorRoot>
@@ -90,31 +142,57 @@ const TailwindAdvancedEditor = ({
           {editorInstance && (
             <>
               <TableControls editor={editorInstance} />
-              <DragHandle editor={editorInstance}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke={dragHandleColor}
-                >
-                  <path
-                    d="
-                      M9 6
-                      a1.25 1.25 0 1 0 0.01 0
-                      M15 6
-                      a1.25 1.25 0 1 0 0.01 0
-                      M9 12
-                      a1.25 1.25 0 1 0 0.01 0
-                      M15 12
-                      a1.25 1.25 0 1 0 0.01 0
-                      M9 18
-                      a1.25 1.25 0 1 0 0.01 0
-                      M15 18
-                      a1.25 1.25 0 1 0 0.01 0
-                    "
-                  />
-                </svg>
+              <DragHandle
+                editor={editorInstance}
+                tippyOptions={{
+                  zIndex: 9999,
+                  duration: 300,
+                  animation: "shift-toward-subtle",
+                  moveTransition: "transform 0.15s ease-out",
+                }}
+              >
+                <div className="flex justify-center items-center gap-1">
+                  {/* Add Block Button */}
+                  <Button
+                    onClick={handleAddBlock}
+                    variant="Trigger"
+                    size="icon"
+                    className="h-4 w-4 p-0 rounded mt-0.5"
+                  >
+                    <Plus stroke={dragHandleColor} strokeWidth={3} />
+                  </Button>
+
+                  {/* Drag Handle Icon */}
+                  <div className="cursor-grab active:cursor-grabbing">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="3"
+                      stroke={dragHandleColor}
+                      className="w-5 h-5 mr-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="
+                          M9 6
+                          a1.25 1.25 0 1 0 0.01 0
+                          M15 6
+                          a1.25 1.25 0 1 0 0.01 0
+                          M9 12
+                          a1.25 1.25 0 1 0 0.01 0
+                          M15 12
+                          a1.25 1.25 0 1 0 0.01 0
+                          M9 18
+                          a1.25 1.25 0 1 0 0.01 0
+                          M15 18
+                          a1.25 1.25 0 1 0 0.01 0
+                        "
+                      />
+                    </svg>
+                  </div>
+                </div>
               </DragHandle>
             </>
           )}
@@ -136,11 +214,12 @@ const TailwindAdvancedEditor = ({
                   "text-foreground py-6 prose-stone prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none w-full",
               },
             }}
+            onCreate={({ editor }) => {
+              setEditorInstance(editor);
+              onUpdate(editor);
+            }}
             onUpdate={({ editor }) => {
               onUpdate(editor);
-              if (editor && !editorInstance) {
-                setEditorInstance(editor);
-              }
             }}
             slotAfter={<ImageResizer />}
           >
