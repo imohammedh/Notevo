@@ -101,7 +101,7 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
 
     const headingElements = new Map<string, HTMLElement>();
     const observerOptions = {
-      rootMargin: "-100px 0px -66% 0px", // Trigger when heading is near top of viewport
+      rootMargin: "-100px 0px -66% 0px",
       threshold: 0,
     };
 
@@ -109,7 +109,6 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
     items.forEach((item) => {
       let element: HTMLElement | null = null;
 
-      // Try multiple methods to find the element
       if (item.dom && item.dom instanceof HTMLElement) {
         element = item.dom;
       } else {
@@ -144,7 +143,6 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
 
     if (headingElements.size === 0) return;
 
-    // Track which headings are visible
     const visibleHeadings = new Set<string>();
 
     const observer = new IntersectionObserver((entries) => {
@@ -162,7 +160,6 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
         }
       });
 
-      // Find the first visible heading (topmost)
       if (visibleHeadings.size > 0) {
         const firstVisibleId = items.find((item) =>
           visibleHeadings.has(item.id),
@@ -173,7 +170,6 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
           onActiveIdChange?.(firstVisibleId);
         }
       } else {
-        // If no headings are visible, find the closest one above viewport
         const scrollY = window.scrollY;
         let closestId: string | null = null;
         let closestDistance = Infinity;
@@ -183,7 +179,6 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
           const elementTop = rect.top + scrollY;
           const distance = scrollY - elementTop;
 
-          // Only consider headings above current scroll position
           if (distance >= 0 && distance < closestDistance) {
             closestDistance = distance;
             closestId = id;
@@ -195,7 +190,6 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
       }
     }, observerOptions);
 
-    // Observe all heading elements
     headingElements.forEach((element) => {
       observer.observe(element);
     });
@@ -204,6 +198,29 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
       observer.disconnect();
     };
   }, [items, editor, onActiveIdChange]);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const syncOnReady = () => {
+      // Force a no-op transaction to initialize state
+      editor.view.dispatch(editor.state.tr);
+    };
+
+    // Listen to all relevant events
+    editor.on("create", syncOnReady);
+    editor.on("focus", syncOnReady);
+    editor.on("selectionUpdate", syncOnReady);
+
+    // Run initial sync
+    syncOnReady();
+
+    return () => {
+      editor.off("create", syncOnReady);
+      editor.off("focus", syncOnReady);
+      editor.off("selectionUpdate", syncOnReady);
+    };
+  }, [editor]);
 
   if (items.length === 0) {
     return <ToCEmptyState isExpanded={isExpanded} />;
@@ -234,7 +251,7 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
         }
       }
 
-      // Method 2: Try finding by ID (standard HTML id attribute)
+      // Method 2: Try finding by ID
       if (!targetElement) {
         const byId = document.getElementById(item.id);
         if (byId instanceof HTMLElement) {
@@ -299,14 +316,19 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
         }
       }
 
-      // Update editor selection if we have a valid position
       if (editorPos !== null && editorPos >= 0) {
         try {
           const tr = editor.view.state.tr;
           const resolvedPos = tr.doc.resolve(editorPos);
           tr.setSelection(new TextSelection(resolvedPos));
+
+          // Dispatch transaction
           editor.view.dispatch(tr);
-          editor.view.focus();
+
+          // Force focus with a slight delay to ensure transaction completes
+          setTimeout(() => {
+            editor.commands.focus();
+          }, 10);
         } catch (e) {
           console.warn("Could not update editor selection", e);
         }
@@ -324,7 +346,7 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
             inline: "nearest",
           });
 
-          // Small timeout to adjust for fixed headers
+          // Adjust for fixed headers
           setTimeout(() => {
             window.scrollBy({ top: -100, behavior: "smooth" });
           }, 300);
@@ -346,7 +368,7 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
           }
         }
 
-        // Update URL hash without jumping
+        // Update URL hash
         setTimeout(() => {
           window.history.replaceState(null, "", `#${item.id}`);
         }, 100);
@@ -359,7 +381,7 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
     }
   };
 
-  // Update items with active state based on scroll tracking
+  // Update items with active state
   const updatedItems = items.map((item) => ({
     ...item,
     isActive: item.id === activeId,
