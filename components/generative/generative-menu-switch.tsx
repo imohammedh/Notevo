@@ -27,20 +27,19 @@ const GenerativeMenuSwitch = ({
           editor?.chain().unsetHighlight().run();
         },
       }}
-      className="flex w-fit max-w-[90vw] overflow-hidden rounded-lg bg-accent border border-border shadow-xl"
+      className="flex w-fit max-w-[80vw] overflow-hidden rounded-lg bg-muted border border-border shadow-xl"
     >
       {open && <AISelector open={open} onOpenChange={onOpenChange} />}
       {!open && (
         <Fragment>
-          <Button
+          {/* <Button
             className="gap-1 rounded-none border-none"
             variant="SidebarMenuButton"
             onClick={() => onOpenChange(true)}
             size="sm"
             disabled={true}
           >
-            {/* <Magic className="h-5 w-5 text-primary" /> */}
-          </Button>
+          </Button> */}
           {children}
         </Fragment>
       )}
