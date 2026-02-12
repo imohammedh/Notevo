@@ -169,14 +169,21 @@ export default function SearchDialog({
     }
   }, [open]);
 
-  useHotkeys(
-    "ctrl+k",
-    (e: KeyboardEvent) => {
-      e.preventDefault();
-      setOpen(true);
-    },
-    [open],
-  );
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        e.stopPropagation();
+        setOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handler);
+
+    return () => {
+      window.removeEventListener("keydown", handler);
+    };
+  }, []);
 
   const filteredNotes = results || [];
 
