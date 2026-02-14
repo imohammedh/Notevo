@@ -160,9 +160,11 @@ const TailwindAdvancedEditor = ({
                   "text-foreground py-6 prose-stone prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none w-full",
               },
             }}
+            onUpdate={({ editor }) => {
+              onUpdate(editor);
+            }}
             onCreate={({ editor }) => {
               setEditorInstance(editor);
-              onUpdate(editor);
             }}
             slotAfter={<ImageResizer />}
           >
