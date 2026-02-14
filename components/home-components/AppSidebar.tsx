@@ -169,6 +169,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
       {getWorkingSpaces?.length === 1 ? (
         getWorkingSpaces.map((workingSpace) => (
           <Button
+            key={workingSpace._id}
             className="font-medium w-full h-9 flex justify-start items-center gap-2"
             disabled={loading}
             onMouseDown={() =>
