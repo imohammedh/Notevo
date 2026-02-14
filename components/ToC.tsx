@@ -27,8 +27,8 @@ export const ToCItem = ({ item, onItemClick, isExpanded }: ToCItemProps) => {
   // Calculate line width based on hierarchy level when collapsed
   const getLineWidth = () => {
     if (isExpanded) return undefined;
-    // Level 1 (h1): 100%, Level 2 (h2): 85%, Level 3 (h3): 70%, etc.
-    const widthPercentage = 100 - (item.level - 1) * 15;
+    const widthPercentage = 100 - (item.level - 1) * 18;
+    // Result: H1=100%, H2=82%, H3=64%, H4=46%, H5=40%, H6=40%
     return `${Math.max(widthPercentage, 40)}%`; // Minimum 40%
   };
 
@@ -49,11 +49,11 @@ export const ToCItem = ({ item, onItemClick, isExpanded }: ToCItemProps) => {
         href={`#${item.id}`}
         onClick={(e) => onItemClick(e, item)}
         className={`
-          flex items-center gap-2 py-1 px-2 rounded-lg no-underline
+          flex items-center justify-end gap-2 py-1 px-2 rounded-l-lg no-underline
           transition-all duration-200
           ${
             item.isActive && !item.isScrolledOver
-              ? "text-primary bg-primary/10"
+              ? "text-primary "
               : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
           }
           ${item.isScrolledOver ? "opacity-40" : ""}
