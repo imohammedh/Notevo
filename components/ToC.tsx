@@ -24,6 +24,14 @@ interface ToCItemProps {
 }
 
 export const ToCItem = ({ item, onItemClick, isExpanded }: ToCItemProps) => {
+  // Calculate line width based on hierarchy level when collapsed
+  const getLineWidth = () => {
+    if (isExpanded) return undefined;
+    // Level 1 (h1): 100%, Level 2 (h2): 85%, Level 3 (h3): 70%, etc.
+    const widthPercentage = 100 - (item.level - 1) * 15;
+    return `${Math.max(widthPercentage, 40)}%`; // Minimum 40%
+  };
+
   return (
     <div
       className={`
@@ -62,7 +70,7 @@ export const ToCItem = ({ item, onItemClick, isExpanded }: ToCItemProps) => {
             }
           `}
           style={{
-            width: isExpanded ? undefined : "100%",
+            width: isExpanded ? undefined : getLineWidth(),
           }}
         />
 
@@ -389,7 +397,11 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
 
   return (
     <div
-      className="h-full"
+      className={`h-[40rem] transition-all duration-200 ${
+        isExpanded
+          ? "overflow-y-auto scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-transparent"
+          : "overflow-hidden"
+      }`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
@@ -436,7 +448,7 @@ export const CompactFloatingToC = ({
         <div
           onMouseEnter={() => setIsExpanded(true)}
           onMouseLeave={() => setIsExpanded(false)}
-          className="h-full "
+          className="h-[40rem] overflow-hidden"
         >
           <ToC
             items={items}
