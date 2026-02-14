@@ -427,24 +427,323 @@ export default function NoteSettings({
 
       case "pdf":
         try {
-          const html2pdfModule = await import("html2pdf.js");
-          const html2pdf = html2pdfModule.default;
+          const { default: jsPDF } = await import("jspdf");
 
-          const element = createReadableExportElement();
+          // Initialize PDF
+          const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4",
+          });
 
-          const opt = {
-            margin: 1,
-            filename: `${filename}.pdf`,
-            image: { type: "jpeg" as const, quality: 0.98 },
-            html2canvas: { scale: 1.5 },
-            jsPDF: {
-              unit: "in" as const,
-              format: "letter" as const,
-              orientation: "portrait" as const,
-            },
+          // Configuration
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          const margin = 20;
+          const maxWidth = pageWidth - 2 * margin;
+          const lineHeight = 7;
+          let yPosition = margin;
+
+          // Helper function to add new page if needed
+          const checkAndAddPage = (requiredSpace = lineHeight) => {
+            if (yPosition + requiredSpace > pageHeight - margin) {
+              pdf.addPage();
+              yPosition = margin;
+              return true;
+            }
+            return false;
           };
 
-          await html2pdf().set(opt).from(element).save();
+          // Helper function to add text with word wrap
+          const addTextWithWrap = (
+            text: string,
+            fontSize = 11,
+            isBold = false,
+          ) => {
+            pdf.setFontSize(fontSize);
+            if (isBold) {
+              pdf.setFont("helvetica", "bold");
+            } else {
+              pdf.setFont("helvetica", "normal");
+            }
+
+            // Split text while preserving paragraph structure
+            const lines = pdf.splitTextToSize(text, maxWidth);
+
+            lines.forEach((line: string) => {
+              checkAndAddPage();
+              pdf.text(line, margin, yPosition, {
+                maxWidth: maxWidth,
+                align: "left",
+                baseline: "top",
+              });
+              yPosition += lineHeight;
+            });
+          };
+
+          // Add title
+          pdf.setFontSize(20);
+          pdf.setFont("helvetica", "bold");
+          pdf.setTextColor(0, 0, 0);
+          pdf.text(noteTitle || "Note", margin, yPosition);
+          yPosition += lineHeight * 2.5;
+
+          // Add a subtle separator line
+          pdf.setDrawColor(220, 220, 220);
+          pdf.setLineWidth(0.3);
+          pdf.line(
+            margin,
+            yPosition - lineHeight,
+            pageWidth - margin,
+            yPosition - lineHeight,
+          );
+          yPosition += lineHeight * 0.5;
+
+          // Process content recursively
+          const processNode = (node: any, level = 0) => {
+            if (!node) return;
+
+            // Always reset to black text color at the start of each node
+            pdf.setTextColor(0, 0, 0);
+
+            switch (node.type) {
+              case "heading":
+                checkAndAddPage(lineHeight * 1.5);
+                const headingSizes = [18, 16, 14, 13, 12, 11];
+                const size =
+                  headingSizes[Math.min((node.attrs?.level || 1) - 1, 5)];
+                yPosition += lineHeight * 0.7;
+
+                const headingText =
+                  node.content?.map((n: any) => n.text || "").join("") || "";
+
+                pdf.setTextColor(0, 0, 0);
+                addTextWithWrap(headingText, size, true);
+                yPosition += lineHeight * 0.4;
+                break;
+
+              case "paragraph":
+                checkAndAddPage();
+                const paraText =
+                  node.content?.map((n: any) => n.text || "").join("") || "";
+                if (paraText.trim()) {
+                  pdf.setTextColor(40, 40, 40);
+                  addTextWithWrap(paraText, 11, false);
+                }
+                yPosition += lineHeight * 0.3;
+                break;
+
+              case "bulletList":
+              case "orderedList":
+                node.content?.forEach((item: any, index: number) => {
+                  checkAndAddPage();
+                  const bullet =
+                    node.type === "bulletList" ? "• " : `${index + 1}. `;
+                  const itemText =
+                    item.content?.[0]?.content
+                      ?.map((n: any) => n.text || "")
+                      .join("") || "";
+
+                  pdf.setFontSize(11);
+                  pdf.setFont("helvetica", "normal");
+                  const indentedText = bullet + itemText;
+                  const lines = pdf.splitTextToSize(
+                    indentedText,
+                    maxWidth - 10,
+                  );
+
+                  lines.forEach((line: string, idx: number) => {
+                    checkAndAddPage();
+                    const xPos = idx === 0 ? margin + 5 : margin + 10;
+                    pdf.text(line, xPos, yPosition);
+                    yPosition += lineHeight;
+                  });
+                });
+                yPosition += lineHeight * 0.3;
+                break;
+
+              case "codeBlock":
+                checkAndAddPage(lineHeight * 2);
+                const codeText =
+                  node.content?.map((n: any) => n.text || "").join("") || "";
+                const codeLines = codeText.split("\n");
+
+                // Use optimal settings for ASCII art
+                pdf.setFontSize(6.5);
+                pdf.setFont("courier", "normal");
+                pdf.setTextColor(40, 40, 40);
+
+                // Much tighter line height for ASCII art
+                const codeLineHeight = 4.5;
+
+                // Add a visual separator before code block
+                yPosition += lineHeight * 0.3;
+
+                codeLines.forEach((line: string, index: number) => {
+                  // Check if we need a new page
+                  if (yPosition + codeLineHeight > pageHeight - margin) {
+                    pdf.addPage();
+                    yPosition = margin;
+                  }
+
+                  // Draw light gray background for each line individually
+                  pdf.setFillColor(248, 249, 250);
+                  pdf.rect(
+                    margin - 2,
+                    yPosition - 3.5,
+                    maxWidth + 4,
+                    codeLineHeight,
+                    "F",
+                  );
+
+                  // For ASCII art, we need to render each character individually with exact spacing
+                  pdf.setTextColor(40, 40, 40);
+
+                  // Calculate character width for courier at this font size
+                  const charWidth = 1.4; // Adjusted for 6.5pt Courier
+
+                  // Render character by character for precise control
+                  let xPos = margin + 1;
+                  for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    if (char !== " ") {
+                      pdf.text(char, xPos, yPosition);
+                    }
+                    xPos += charWidth;
+                  }
+
+                  yPosition += codeLineHeight;
+                });
+
+                // Reset font and add spacing after code block
+                pdf.setFont("helvetica", "normal");
+                pdf.setFontSize(11);
+                pdf.setTextColor(0, 0, 0);
+                yPosition += lineHeight * 0.5;
+                break;
+
+              case "blockquote":
+                checkAndAddPage(lineHeight * 1.5);
+                pdf.setDrawColor(200, 200, 200);
+                pdf.setLineWidth(2);
+                const quoteText =
+                  node.content
+                    ?.map(
+                      (n: any) =>
+                        n.content?.map((c: any) => c.text || "").join("") || "",
+                    )
+                    .join(" ") || "";
+
+                const quoteStartY = yPosition;
+                pdf.setFontSize(10);
+                pdf.setFont("helvetica", "italic");
+                const quoteLines = pdf.splitTextToSize(
+                  quoteText,
+                  maxWidth - 15,
+                );
+
+                quoteLines.forEach((line: string) => {
+                  checkAndAddPage();
+                  pdf.text(line, margin + 10, yPosition);
+                  yPosition += lineHeight;
+                });
+
+                pdf.line(
+                  margin + 2,
+                  quoteStartY - 2,
+                  margin + 2,
+                  yPosition - lineHeight + 2,
+                );
+                yPosition += lineHeight * 0.3;
+                break;
+
+              case "horizontalRule":
+                checkAndAddPage(lineHeight);
+                pdf.setDrawColor(150, 150, 150);
+                pdf.setLineWidth(0.5);
+                pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+                yPosition += lineHeight;
+                break;
+
+              case "table":
+                checkAndAddPage(lineHeight * 3);
+                yPosition += lineHeight * 0.5;
+
+                node.content?.forEach((row: any, rowIndex: number) => {
+                  const isHeader = row.content?.[0]?.type === "tableHeader";
+                  checkAndAddPage(lineHeight * 1.5);
+
+                  if (isHeader) {
+                    pdf.setFont("helvetica", "bold");
+                  } else {
+                    pdf.setFont("helvetica", "normal");
+                  }
+
+                  const cellTexts =
+                    row.content?.map(
+                      (cell: any) =>
+                        cell.content?.[0]?.content
+                          ?.map((n: any) => n.text || "")
+                          .join("") || "",
+                    ) || [];
+
+                  const cellWidth = maxWidth / cellTexts.length;
+
+                  cellTexts.forEach((text: string, colIndex: number) => {
+                    const xPos = margin + colIndex * cellWidth;
+                    pdf.rect(xPos, yPosition - 5, cellWidth, lineHeight + 2);
+
+                    pdf.setFontSize(9);
+                    const shortText =
+                      text.length > 30 ? text.substring(0, 27) + "..." : text;
+                    pdf.text(shortText, xPos + 2, yPosition);
+                  });
+
+                  yPosition += lineHeight + 2;
+                });
+                yPosition += lineHeight * 0.5;
+                break;
+
+              case "text":
+                // Already handled in parent nodes
+                break;
+
+              default:
+                // Process children for unknown node types
+                if (node.content) {
+                  node.content.forEach((child: any) =>
+                    processNode(child, level + 1),
+                  );
+                }
+            }
+          };
+
+          // Process all content
+          if (parsedBody.content) {
+            parsedBody.content.forEach((node: any) => processNode(node));
+          }
+
+          // Add page numbers
+          const totalPages = pdf.getNumberOfPages();
+          for (let i = 1; i <= totalPages; i++) {
+            pdf.setPage(i);
+            pdf.setFontSize(9);
+            pdf.setFont("helvetica", "normal");
+            pdf.setTextColor(100, 100, 100);
+            pdf.text(
+              `Page ${i} of ${totalPages}`,
+              pageWidth / 2,
+              pageHeight - 10,
+              { align: "center" },
+            );
+          }
+
+          // Reset to page 1 and black text
+          pdf.setPage(1);
+          pdf.setTextColor(0, 0, 0);
+
+          // Save the PDF
+          pdf.save(`${filename}.pdf`);
           return;
         } catch (err) {
           console.error("PDF generation failed:", err);
