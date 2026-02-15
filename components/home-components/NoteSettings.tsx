@@ -20,6 +20,10 @@ import {
   ChevronsLeftRightEllipsis,
   ChevronsRightLeft,
   Download,
+  FileText,
+  FileJson,
+  FileType,
+  FileDown,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
@@ -1004,27 +1008,31 @@ export default function NoteSettings({
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent className="w-48">
                 <DropdownMenuItem
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer flex items-center gap-2"
                   onClick={() => handleDownload("markdown")}
                 >
+                  <FileText size={16} className="text-muted-foreground" />
                   Markdown (.md)
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer flex items-center gap-2"
                   onClick={() => handleDownload("json")}
                 >
+                  <FileJson size={16} className="text-muted-foreground" />
                   JSON
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer flex items-center gap-2"
                   onClick={() => handleDownload("docx")}
                 >
+                  <FileType size={16} className="text-muted-foreground" />
                   Word (.docx)
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="text-sm cursor-pointer"
+                  className="text-sm cursor-pointer flex items-center gap-2"
                   onClick={() => handleDownload("pdf")}
                 >
+                  <FileDown size={16} className="text-muted-foreground" />
                   PDF
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
