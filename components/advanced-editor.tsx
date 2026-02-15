@@ -161,6 +161,7 @@ const TailwindAdvancedEditor = ({
               },
             }}
             onUpdate={({ editor }) => {
+              setEditorInstance(editor);
               onUpdate(editor);
             }}
             onCreate={({ editor }) => {
@@ -196,7 +197,6 @@ const TailwindAdvancedEditor = ({
               </EditorCommandList>
             </EditorCommand>
             <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
-              <Separator orientation="vertical" />
               <NodeSelector open={openNode} onOpenChange={handleOpenNode} />
               <Separator orientation="vertical" />
               <LinkSelector open={openLink} onOpenChange={handleOpenLink} />
