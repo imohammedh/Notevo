@@ -196,7 +196,6 @@ const TailwindAdvancedEditor = ({
               </EditorCommandList>
             </EditorCommand>
             <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
-              <Separator orientation="vertical" />
               <NodeSelector open={openNode} onOpenChange={handleOpenNode} />
               <Separator orientation="vertical" />
               <LinkSelector open={openLink} onOpenChange={handleOpenLink} />
