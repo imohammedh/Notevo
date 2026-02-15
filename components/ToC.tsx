@@ -397,7 +397,7 @@ export const ToC = ({ items = [], editor, onActiveIdChange }: ToCProps) => {
 
   return (
     <div
-      className={`h-[40rem] transition-all duration-200 ${
+      className={`max-h-[40rem] transition-all duration-200 ${
         isExpanded
           ? "overflow-y-auto scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-transparent"
           : "overflow-hidden"
@@ -448,7 +448,7 @@ export const CompactFloatingToC = ({
         <div
           onMouseEnter={() => setIsExpanded(true)}
           onMouseLeave={() => setIsExpanded(false)}
-          className="h-[40rem] overflow-hidden"
+          className="max-h-[40rem] overflow-hidden"
         >
           <ToC
             items={items}
