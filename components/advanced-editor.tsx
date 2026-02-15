@@ -161,7 +161,6 @@ const TailwindAdvancedEditor = ({
               },
             }}
             onUpdate={({ editor }) => {
-              setEditorInstance(editor);
               onUpdate(editor);
             }}
             onCreate={({ editor }) => {
