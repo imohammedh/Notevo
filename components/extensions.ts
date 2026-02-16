@@ -36,7 +36,7 @@ const aiHighlight = AIHighlight;
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
-      "text-blue-200 underline underline-offset-[3px] hover:text-blue-800 transition-colors cursor-pointer",
+      "novel-link text-blue-800 dark:text-blue-200 underline underline-offset-[3px] hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-pointer",
     ),
   },
 });
