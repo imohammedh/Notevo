@@ -31,6 +31,8 @@ import TableCell from "@tiptap/extension-table-cell";
 import Highlight from "@tiptap/extension-highlight";
 import { mergeAttributes } from "@tiptap/core";
 import Heading from "@tiptap/extension-heading";
+import { ReactNodeViewRenderer } from "@tiptap/react";
+import { CodeBlockComponent } from "./code-block-component";
 
 const aiHighlight = AIHighlight;
 const tiptapLink = TiptapLink.configure({
@@ -150,7 +152,11 @@ const starterKit = StarterKit.configure({
 const lowlight = createLowlight(common);
 lowlight.register("typescript", typescript);
 
-const customCodeBlock = CodeBlockLowlight.configure({
+const customCodeBlock = CodeBlockLowlight.extend({
+  addNodeView() {
+    return ReactNodeViewRenderer(CodeBlockComponent);
+  },
+}).configure({
   lowlight,
   HTMLAttributes: {
     class: "code-block-wrapper",
