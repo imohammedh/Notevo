@@ -485,24 +485,6 @@ export default function NoteSettings({
             });
           };
 
-          // Add title
-          pdf.setFontSize(20);
-          pdf.setFont("helvetica", "bold");
-          pdf.setTextColor(0, 0, 0);
-          pdf.text(noteTitle || "Note", margin, yPosition);
-          yPosition += lineHeight * 2.5;
-
-          // Add a subtle separator line
-          pdf.setDrawColor(220, 220, 220);
-          pdf.setLineWidth(0.3);
-          pdf.line(
-            margin,
-            yPosition - lineHeight,
-            pageWidth - margin,
-            yPosition - lineHeight,
-          );
-          yPosition += lineHeight * 0.5;
-
           // Process content recursively
           const processNode = (node: any, level = 0) => {
             if (!node) return;
