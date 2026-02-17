@@ -88,7 +88,7 @@ const SkeletonSidebar = () => {
           <SkeletonTextAnimation className="w-full mx-0 h-8" />
         </div>
       </SidebarHeader>
-      <SidebarContent className="text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-background scrollbar-track-transparent group-hover:scrollbar-thumb-foreground">
+      <SidebarContent className="text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent group-hover:scrollbar-thumb-primary/20">
         <SidebarGroup>
           <SidebarGroupLabel className="text-primary/20">
             <SkeletonTextAnimation className="w-24 h-3" />
@@ -1103,7 +1103,7 @@ const AppSidebar = React.memo(function AppSidebar() {
         loading={loading}
       />
 
-      <SidebarContent className="relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-muted-foreground">
+      <SidebarContent className="relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-primary/20">
         <SidebarNavigation
           pathname={pathname}
           ishome={ishome}

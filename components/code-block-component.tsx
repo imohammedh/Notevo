@@ -3,13 +3,19 @@ import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import { useState } from "react";
 import { Check, Copy, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 export const CodeBlockComponent = ({
   node,
   updateAttributes,
   extension,
 }: any) => {
   const [copied, setCopied] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   const copyToClipboard = async () => {
     try {
@@ -52,55 +58,45 @@ export const CodeBlockComponent = ({
   return (
     <NodeViewWrapper className="code-block-wrapper">
       <div className="code-block-header">
-        <div className="relative">
-          <Button
-            variant="ghost"
-            className=" h-8 px-2 py-2 gap-2"
-            contentEditable={false}
-            onClick={() => setIsOpen(!isOpen)}
-            onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-            type="button"
-          >
-            {currentLanguage?.label}
-            <ChevronDown className="w-3 h-3" />
-          </Button>
-          {isOpen && (
-            <div
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="h-8 px-2 py-2 gap-2"
               contentEditable={false}
-              className="absolute top-full left-0 mt-1 py-1 rounded-md shadow-lg border z-50 max-h-64 overflow-y-auto"
-              style={{
-                backgroundColor: "hsl(var(--popover))",
-                borderColor: "hsl(var(--border))",
-                minWidth: "140px",
-              }}
+              type="button"
             >
-              {languages.map((lang) => (
-                <button
-                  key={lang.value}
-                  onClick={() => {
-                    updateAttributes({ language: lang.value });
-                    setIsOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-1.5 text-xs hover:bg-[hsl(var(--primary))]/10 transition-colors"
-                  style={{
-                    color:
-                      lang.value === node.attrs.language
-                        ? "hsl(var(--primary))"
-                        : "hsl(var(--foreground))",
-                    fontWeight:
-                      lang.value === node.attrs.language ? "600" : "400",
-                  }}
-                  type="button"
-                >
-                  {lang.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+              {currentLanguage?.label}
+              <ChevronDown className="w-3 h-3" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="max-h-64 min-w-32 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent"
+            align="start"
+          >
+            {languages.map((lang) => (
+              <DropdownMenuItem
+                key={lang.value}
+                onClick={() => updateAttributes({ language: lang.value })}
+                className="text-xs"
+                style={{
+                  color:
+                    lang.value === node.attrs.language
+                      ? "hsl(var(--primary))"
+                      : undefined,
+                  fontWeight:
+                    lang.value === node.attrs.language ? "600" : "400",
+                }}
+              >
+                {lang.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <Button
           variant="outline"
-          className=" h-8 px-2 py-2 gap-2"
+          className="h-8 px-2 py-2 gap-2"
           contentEditable={false}
           onClick={copyToClipboard}
           type="button"
