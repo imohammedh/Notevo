@@ -15,7 +15,7 @@ const buttonVariants = cva(
           "border border-primary/20 text-primary bg-transparent hover:bg-accent hover:border-primary/50",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-primary/10 hover:text-muted-foreground",
+        ghost: "hover:bg-primary/10 hover:text-foreground",
         Trigger: "bg-none text-foreground/70 hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         SidebarMenuButton:
