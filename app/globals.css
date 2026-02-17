@@ -411,53 +411,6 @@ html {
   margin: 0;
 }
 
-/* Additionally, you might want to style the code block container */
-.code-block-wrapper {
-  position: relative;
-  margin: 1em 0;
-  background-color: hsl(var(--card));
-  border-radius: var(--radius);
-  overflow: hidden;
-  border: 1px solid hsl(var(--border));
-}
-
-.code-block-wrapper pre {
-  padding: 12px 16px;
-  margin: 0;
-  overflow-x: auto;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  tab-size: 2;
-  color: hsl(var(--foreground));
-}
-
-.code-block-wrapper code {
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: inherit;
-}
-
-.code-block-wrapper::after {
-  content: "Copy";
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 4px 8px;
-  font-size: 12px;
-  color: hsl(var(--primary-foreground));
-  background: hsl(var(--primary));
-  border-radius: var(--radius);
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.code-block-wrapper:hover::after {
-  opacity: 1;
-}
-
 /* Base ToC styles */
 .table-of-contents {
   display: flex;
@@ -624,22 +577,19 @@ html {
   background: hsl(var(--background) / 0.95);
 }
 
-/* For dark mode */
-.dark .code-block-wrapper {
-  background: #1e1e1e;
-}
-
-.dark .code-block-wrapper::after {
-  color: #ccc;
-  background: #171717;
-}
-
-.code-block {
+/* Code Block Styles - Matches App Theme */
+.code-block-wrapper {
   position: relative;
-  margin: 1rem 0;
-  background-color: hsl(var(--card));
-  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  border-radius: calc(var(--radius) - 2px);
+  overflow: hidden;
   border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  transition: box-shadow 0.15s ease;
+}
+
+.code-block-wrapper:hover {
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.1);
 }
 
 .code-block-header {
@@ -647,13 +597,92 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: hsl(var(--muted));
-  border-top-left-radius: var(--radius);
-  border-top-right-radius: var(--radius);
+  background-color: hsl(var(--muted) / 0.5);
   border-bottom: 1px solid hsl(var(--border));
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.8rem;
-  color: hsl(var(--muted-foreground));
+  font-family: "JetBrains Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;
+}
+
+.code-block-header button {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  border-radius: calc(var(--radius) - 4px);
+}
+
+/* Language dropdown scrollbar */
+.code-block-header>div>div::-webkit-scrollbar {
+  width: 6px;
+}
+
+.code-block-header>div>div::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.code-block-header>div>div::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary));
+  border-radius: 3px;
+}
+
+.code-block-header>div>div::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--primary) / 0.5);
+}
+
+/* Thin scrollbar for Firefox */
+.code-block-header>div>div {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+
+.code-block-content {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  background-color: hsl(var(--card));
+  font-family: "JetBrains Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: hsl(var(--foreground));
+}
+
+.code-block-content code {
+  background: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Scrollbar styling for code blocks */
+.code-block-content::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-block-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.code-block-content::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--primary));
+  border-radius: 4px;
+}
+
+.code-block-content::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--primary) / 0.5);
+}
+
+/* Dark mode adjustments */
+.dark .code-block-wrapper {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border));
+}
+
+.dark .code-block-header {
+  background-color: hsl(var(--muted) / 0.3);
+}
+
+.dark .code-block-content {
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
 }
 
 .mask-image-gradient {
