@@ -118,7 +118,7 @@ export default function PublicNotePage() {
   const parsedContent = getNote.body ? JSON.parse(getNote.body) : content;
 
   return (
-    <div className="relative  w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
+    <div className="relative  w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
       <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/80 via-65% to-transparent to-90%">
         <div className="container mx-auto p-3 flex justify-between items-center w-full">
           <div className="flex justify-start items-center gap-1 w-full ">

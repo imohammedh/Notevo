@@ -272,7 +272,7 @@ export default function SearchDialog({
           />
         </div>
         {/* Results */}
-        <div className="min-h-[60vh] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/50 scrollbar-track-transparent p-2">
+        <div className="min-h-[60vh] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent p-2">
           {isLoading ? (
             <SearchLoadingSkeleton />
           ) : !hasResults ? (
