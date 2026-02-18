@@ -19,7 +19,7 @@ import { uploadFn } from "./image-upload";
 export const suggestionItems = createSuggestionItems([
   {
     title: "Text",
-    description: "Just start typing with plain text.",
+    description: "Plain text.",
     searchTerms: ["p", "paragraph"],
     icon: <Text size={18} />,
     command: ({ editor, range }) => {
@@ -124,7 +124,7 @@ export const suggestionItems = createSuggestionItems([
   },
   {
     title: "Image",
-    description: "Upload an image from your computer.",
+    description: "Upload an image.",
     searchTerms: ["photo", "picture", "media"],
     icon: <ImageIcon size={18} />,
     command: ({ editor, range }) => {

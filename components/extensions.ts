@@ -33,8 +33,10 @@ import { mergeAttributes } from "@tiptap/core";
 import Heading from "@tiptap/extension-heading";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { CodeBlockComponent } from "./code-block-component";
+import TextAlign from "@tiptap/extension-text-align";
 
 const aiHighlight = AIHighlight;
+
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
@@ -136,7 +138,7 @@ const starterKit = StarterKit.configure({
   code: {
     HTMLAttributes: {
       class: cx(
-        "rounded-lg bg-brand_fourthary text-brand_tertiary px-1.5 py-1 font-mono font-medium",
+        "rounded-md bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 px-1.5 py-0.5 font-mono font-medium text-[0.875em]",
       ),
       spellcheck: "false",
     },
@@ -206,7 +208,6 @@ const TipTapExtensionTableCell = TableCell.extend({
           if (!attributes.backgroundColor) {
             return {};
           }
-
           return {
             style: `background-color: ${attributes.backgroundColor}`,
           };
@@ -219,9 +220,16 @@ const TipTapExtensionTableCell = TableCell.extend({
   },
 });
 
+const textAlign = TextAlign.configure({
+  types: ["heading", "paragraph"],
+  alignments: ["left", "center", "right", "justify"],
+  defaultAlignment: "left",
+});
+
 export const defaultExtensions = [
   starterKit,
-  CustomHeading, // Use our custom heading extension instead of the default
+  CustomHeading,
+  TiptapUnderline,
   GlobalDragHandle,
   tiptapLink,
   tiptapImage,
@@ -236,4 +244,5 @@ export const defaultExtensions = [
   tableRow,
   tableHeader,
   TipTapExtensionTableCell,
+  textAlign,
 ];
