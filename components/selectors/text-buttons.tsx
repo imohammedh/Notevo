@@ -19,18 +19,12 @@ import {
 } from "lucide-react";
 import { EditorBubbleItem, useEditor } from "novel";
 import type { SelectorItem } from "./node-selector";
-
+import { ShortcutBadge } from "../ui/shortcut-badge";
 // Detect platform once
 const isMac =
   typeof navigator !== "undefined" &&
   /Mac|iPhone|iPad/.test(navigator.platform);
 const mod = isMac ? "⌘" : "Ctrl";
-
-const ShortcutBadge = ({ keys }: { keys: string }) => (
-  <span className="ml-2 rounded bg-accent-foreground px-1.5 py-0.5 text-[10px] font-mono font-semibold text-accent">
-    {keys}
-  </span>
-);
 
 export const TextButtons = () => {
   const { editor } = useEditor();
