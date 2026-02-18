@@ -11,65 +11,80 @@ import {
   CodeIcon,
   ItalicIcon,
   StrikethroughIcon,
+  UnderlineIcon,
   AlignLeftIcon,
   AlignCenterIcon,
   AlignRightIcon,
   AlignJustifyIcon,
-  UnderlineIcon,
 } from "lucide-react";
 import { EditorBubbleItem, useEditor } from "novel";
 import type { SelectorItem } from "./node-selector";
+
+// Detect platform once
+const isMac =
+  typeof navigator !== "undefined" &&
+  /Mac|iPhone|iPad/.test(navigator.platform);
+const mod = isMac ? "⌘" : "Ctrl";
+
+const ShortcutBadge = ({ keys }: { keys: string }) => (
+  <span className="ml-2 rounded bg-accent-foreground px-1.5 py-0.5 text-[10px] font-mono font-semibold text-accent">
+    {keys}
+  </span>
+);
 
 export const TextButtons = () => {
   const { editor } = useEditor();
   if (!editor) return null;
 
-  const items: SelectorItem[] = [
+  const items = [
     {
       name: "bold",
+      label: "Bold",
+      shortcut: `${mod}+B`,
       isActive: (editor: any) => editor.isActive("bold"),
       command: (editor: any) => editor.chain().focus().toggleBold().run(),
       icon: BoldIcon,
     },
     {
       name: "italic",
+      label: "Italic",
+      shortcut: `${mod}+I`,
       isActive: (editor: any) => editor.isActive("italic"),
       command: (editor: any) => editor.chain().focus().toggleItalic().run(),
       icon: ItalicIcon,
     },
     {
       name: "underline",
+      label: "Underline",
+      shortcut: `${mod}+U`,
       isActive: (editor: any) => editor.isActive("underline"),
       command: (editor: any) => editor.chain().focus().toggleUnderline().run(),
       icon: UnderlineIcon,
     },
     {
       name: "strike",
+      label: "Strikethrough",
+      shortcut: `${mod}+Shift+S`,
       isActive: (editor: any) => editor.isActive("strike"),
       command: (editor: any) => editor.chain().focus().toggleStrike().run(),
       icon: StrikethroughIcon,
     },
     {
       name: "code",
+      label: "Inline Code",
+      shortcut: `${mod}+E`,
       isActive: (editor: any) => editor.isActive("code"),
       command: (editor: any) => editor.chain().focus().toggleCode().run(),
       icon: CodeIcon,
     },
   ];
 
-  const tooltipLabels: Record<string, string> = {
-    bold: "Bold",
-    italic: "Italic",
-    underline: "Underline",
-    strike: "Strikethrough",
-    code: "Inline Code",
-  };
-
   const alignItems = [
     {
       name: "alignLeft",
       align: "left",
       label: "Align Left",
+      shortcut: `${mod}+Shift+L`,
       isActive: (editor: any) => editor.isActive({ textAlign: "left" }),
       icon: AlignLeftIcon,
     },
@@ -77,6 +92,7 @@ export const TextButtons = () => {
       name: "alignCenter",
       align: "center",
       label: "Align Center",
+      shortcut: `${mod}+Shift+E`,
       isActive: (editor: any) => editor.isActive({ textAlign: "center" }),
       icon: AlignCenterIcon,
     },
@@ -84,6 +100,7 @@ export const TextButtons = () => {
       name: "alignRight",
       align: "right",
       label: "Align Right",
+      shortcut: `${mod}+Shift+R`,
       isActive: (editor: any) => editor.isActive({ textAlign: "right" }),
       icon: AlignRightIcon,
     },
@@ -116,11 +133,12 @@ export const TextButtons = () => {
                 </Button>
               </TooltipTrigger>
               <TooltipContent
-                className=" text-xs px-1 py-1"
                 side="top"
                 sideOffset={6}
+                className="flex items-center py-1 px-1.5 text-xs gap-1"
               >
-                <p>{tooltipLabels[item.name]}</p>
+                <span>{item.label}</span>
+                <ShortcutBadge keys={item.shortcut} />
               </TooltipContent>
             </Tooltip>
           </EditorBubbleItem>
@@ -148,11 +166,12 @@ export const TextButtons = () => {
               </Button>
             </TooltipTrigger>
             <TooltipContent
-              className=" text-xs px-1 py-1"
               side="top"
               sideOffset={6}
+              className="flexi tems-center py-1 px-1.5 text-xs gap-1"
             >
-              <p>{item.label}</p>
+              <span>{item.label}</span>
+              <ShortcutBadge keys={item.shortcut} />
             </TooltipContent>
           </Tooltip>
         ))}
