@@ -45,7 +45,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
         <Button
           size="sm"
           variant="SidebarMenuButton"
-          className="gap-2 border-none"
+          className="gap-2 border-none px-2 h-8"
         >
           <p className="text-base">↗</p>
           <p

@@ -112,7 +112,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       <PopoverTrigger asChild>
         <Button
           size="sm"
-          className="gap-2 rounded-none border-none"
+          className="gap-2 rounded-l-none border-none px-2 h-8"
           variant="SidebarMenuButton"
         >
           <span

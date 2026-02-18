@@ -110,7 +110,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
         <Button
           size="sm"
           variant="SidebarMenuButton"
-          className="gap-2 border-none rounded-r-none"
+          className="gap-2 border-none rounded-r-none px-2 h-8"
         >
           <span className="whitespace-nowrap text-sm">{activeItem.name}</span>
           <ChevronDown className="h-4 w-4" />
