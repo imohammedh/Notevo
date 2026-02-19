@@ -160,10 +160,9 @@ export default function PublicNotePage() {
           <div className="flex justify-center items-center gap-1">
             {/* Download dropdown */}
             <NoteDownloadDropdown
-              noteBody={getNote.body}
+              noteBody={JSON.stringify(content)}
               noteTitle={getNote.title ?? "note"}
             />
-
             {/* Theme toggle */}
             <TooltipProvider delayDuration={0} disableHoverableContent>
               <Tooltip>
