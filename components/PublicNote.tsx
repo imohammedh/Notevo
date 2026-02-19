@@ -124,7 +124,9 @@ export default function PublicNote({
             </TooltipTrigger>
           </DropdownMenuTrigger>
           <TooltipContent side="bottom" alignOffset={1} align="end">
-            Publish your note to the web
+            {getNote?.published
+              ? "Take a look at your published note"
+              : "Publish your note to the web"}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -138,7 +140,9 @@ export default function PublicNote({
         <DropdownMenuGroup className="relative">
           {getNote?.published ? (
             <header className=" w-full text-start px-5 pb-2 pt-2 flex flex-col justify-center items-start gap-3">
+              {" "}
               <span className=" space-y-2">
+                {" "}
                 <h1 className=" flex justify-start items-center gap-2 text-base text-primary font-bold">
                   <CheckSquare size={14} className=" text-primary" />
                   Published to the web
