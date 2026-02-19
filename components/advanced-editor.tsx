@@ -35,7 +35,7 @@ import {
   TableOfContents,
 } from "@tiptap/extension-table-of-contents";
 import { CompactFloatingToC } from "./ToC";
-
+import { useMediaQuery } from "react-responsive";
 const TailwindAdvancedEditor = ({
   initialContent,
   onUpdate,
@@ -53,6 +53,7 @@ const TailwindAdvancedEditor = ({
   const [items, setItems] = useState<any[]>([]);
   const [dragHandleColor, setDragHandleColor] = useState<string>();
   const { resolvedTheme } = useTheme();
+  const isMobile = useMediaQuery({ maxWidth: 640 });
 
   useEffect(() => {
     if (resolvedTheme !== "dark") {
@@ -215,7 +216,9 @@ const TailwindAdvancedEditor = ({
       </EditorRoot>
 
       {/* Compact Floating ToC */}
-      <CompactFloatingToC items={items} editor={editorInstance} />
+      {!isMobile && (
+        <CompactFloatingToC items={items} editor={editorInstance} />
+      )}
     </>
   );
 };
