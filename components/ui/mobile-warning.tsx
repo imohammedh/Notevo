@@ -24,7 +24,7 @@ export function MobileWarning() {
   if (!showWarning) return null;
 
   return (
-    <div className="fixed top-4 left-4 right-4 z-50 bg-background/50 backdrop-blur-md p-4 rounded-lg border border-border shadow-lg">
+    <div className="fixed top-4 left-4 right-4 z-50 bg-background/60 backdrop-blur-md p-4 rounded-lg border border-border shadow-lg">
       <div className="flex items-start gap-3">
         <AlertTriangle className="h-5 w-5 text-yellow-500 mt-0.5" />
         <div className="flex-1">

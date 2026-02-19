@@ -1,0 +1,79 @@
+"use client";
+
+import { Download, FileText, FileJson, FileType, FileDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useNoteDownload, type DownloadFormat } from "@/hooks/useNoteDownload";
+
+interface NoteDownloadDropdownProps {
+  noteBody: string | undefined | null;
+  noteTitle: string;
+  /** Alignment of the dropdown menu relative to its trigger. Defaults to "end". */
+  align?: "end" | "start" | "center";
+  /** Extra class names for the trigger button. */
+  className?: string;
+}
+
+export default function NoteDownloadDropdown({
+  noteBody,
+  noteTitle,
+  align = "end",
+  className,
+}: NoteDownloadDropdownProps) {
+  const { handleDownload } = useNoteDownload({ noteBody, noteTitle });
+
+  const formats: { label: string; value: DownloadFormat; icon: React.ReactNode }[] = [
+    { label: "Markdown (.md)", value: "markdown", icon: <FileText size={16} className="text-muted-foreground" /> },
+    { label: "JSON", value: "json", icon: <FileJson size={16} className="text-muted-foreground" /> },
+    { label: "Word (.docx)", value: "docx", icon: <FileType size={16} className="text-muted-foreground" /> },
+    { label: "PDF", value: "pdf", icon: <FileDown size={16} className="text-muted-foreground" /> },
+  ];
+
+  return (
+    <DropdownMenu>
+      <TooltipProvider delayDuration={0} disableHoverableContent>
+        <Tooltip>
+          <DropdownMenuTrigger asChild>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`w-8 h-8 mt-0.5 ${className ?? ""}`}
+              >
+                <Download className="h-[1.2rem] w-[1.2rem]" />
+                <span className="sr-only">Download note</span>
+              </Button>
+            </TooltipTrigger>
+          </DropdownMenuTrigger>
+          <TooltipContent className="text-xs px-1 py-1" side="bottom">
+            Download note
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <DropdownMenuContent align={align} side="bottom" className="w-44">
+        {formats.map(({ label, value, icon }) => (
+          <DropdownMenuItem
+            key={value}
+            className="text-sm cursor-pointer flex items-center gap-2"
+            onClick={() => handleDownload(value)}
+          >
+            {icon}
+            {label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

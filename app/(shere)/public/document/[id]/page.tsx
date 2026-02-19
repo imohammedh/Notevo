@@ -25,6 +25,9 @@ import {
 } from "@/components/ui/tooltip";
 import { parseSlug } from "@/lib/parseSlug";
 import { formatUserNoteTitle } from "@/lib/utils";
+import { ReadOnlyWarning } from "@/components/readOnly-warning";
+import NoteDownloadDropdown from "@/components/home-components/NoteDownloadDropdown";
+
 export default function PublicNotePage() {
   const { resolvedTheme, setTheme, theme } = useTheme();
   const [IconImage, setIconImage] = useState<string>("/notevo-logo.svg");
@@ -112,6 +115,7 @@ export default function PublicNotePage() {
   if (getNote === null) {
     return <p>Note not found!</p>;
   }
+
   const PublicNoteTitle = formatUserNoteTitle(
     `${parseSlug(`${getNote.title}`)}`,
   );
@@ -119,9 +123,10 @@ export default function PublicNotePage() {
 
   return (
     <div className="relative  w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-      <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/80 via-65% to-transparent to-90%">
+      <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/90 via-80% to-transparent to-100%">
         <div className="container mx-auto p-3 flex justify-between items-center w-full">
           <div className="flex justify-start items-center gap-1 w-full ">
+            <ReadOnlyWarning />
             <Button variant="ghost" className=" text-sm px-1.5 py-1.5 h-8">
               <Link
                 href="https://notevo.me/"
@@ -153,42 +158,31 @@ export default function PublicNotePage() {
             </Button>
           </div>
           <div className="flex justify-center items-center gap-1">
-            <TooltipProvider delayDuration={0}>
+            {/* Download dropdown */}
+            <NoteDownloadDropdown
+              noteBody={getNote.body}
+              noteTitle={getNote.title ?? "note"}
+            />
+
+            {/* Theme toggle */}
+            <TooltipProvider delayDuration={0} disableHoverableContent>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button className="gap-1 px-1.5 py-1.5 h-8" variant="Trigger">
-                    <OctagonX size={14} />
-                    <p className="text-sm">Read only</p>
+                  <Button
+                    variant="ghost"
+                    className=" w-8 h-8 mt-0.5"
+                    size="icon"
+                    onClick={cycleTheme}
+                  >
+                    {getThemeIcon()}
+                    <span className="sr-only">Toggle theme</span>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="text-sm w-[300px]" side="bottom">
-                  You're editing a life copy of the original note, Your changes
-                  won't affect the original but you can download your edited
-                  copy anytime.
+                <TooltipContent className="text-xs px-1 py-1" side="bottom">
+                  Toggle theme
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-
-            <div className="flex items-center justify-between">
-              <TooltipProvider delayDuration={0} disableHoverableContent>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className=" w-8 h-8 mt-0.5"
-                      size="icon"
-                      onClick={cycleTheme}
-                    >
-                      {getThemeIcon()}
-                      <span className="sr-only">Toggle theme</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent className="text-xs px-1 py-1" side="bottom">
-                    Toggle theme
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
           </div>
         </div>
       </header>
