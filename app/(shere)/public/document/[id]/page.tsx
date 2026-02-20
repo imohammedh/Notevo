@@ -185,7 +185,7 @@ export default function PublicNotePage() {
           </div>
         </div>
       </header>
-      <MaxWContainer className=" Desktop:container Desktop:mx-auto py-0 Desktop:py-[4.1rem] tabletAir:py-[4.1rem] tabletPro:py-[4.1rem] sm:py-16 flex-1">
+      <MaxWContainer className=" Desktop:container Desktop:mx-auto Desktop:py-[4.1rem] tabletAir:py-[4.1rem] tabletPro:py-[4.1rem] sm:py-20 flex-1">
         <TailwindAdvancedEditor
           initialContent={parsedContent}
           onUpdate={(editor) => {
