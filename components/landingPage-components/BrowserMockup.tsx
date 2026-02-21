@@ -544,6 +544,7 @@ const BrowserMockup: React.FC = () => {
         {/* Page Content Area */}
         <div className="h-full pt-24 pb-6 px-4 sm:px-6 lg:px-8 bg-background rounded-b-lg overflow-y-auto">
           <TailwindAdvancedEditor
+            editorBubblePlacement={false}
             initialContent={currentTab.content}
             onUpdate={(editor) => {
               const updatedContent = editor.getJSON();

@@ -39,9 +39,11 @@ import { useMediaQuery } from "react-responsive";
 const TailwindAdvancedEditor = ({
   initialContent,
   onUpdate,
+  editorBubblePlacement,
 }: {
   initialContent: any;
   onUpdate: (editor: EditorInstance) => void;
+  editorBubblePlacement: Boolean;
 }) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
@@ -202,7 +204,11 @@ const TailwindAdvancedEditor = ({
                 ))}
               </EditorCommandList>
             </EditorCommand>
-            <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
+            <GenerativeMenuSwitch
+              editorBubblePlacement={editorBubblePlacement}
+              open={openAI}
+              onOpenChange={setOpenAI}
+            >
               <NodeSelector open={openNode} onOpenChange={handleOpenNode} />
               <Separator orientation="vertical" />
               <LinkSelector open={openLink} onOpenChange={handleOpenLink} />

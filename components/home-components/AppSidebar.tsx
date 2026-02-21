@@ -1133,13 +1133,13 @@ const AppSidebar = React.memo(function AppSidebar() {
       <div className="relative flex min-h-0 flex-1 flex-col">
         {canScroll && scrollTop > 8 && (
           <div
-            className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-12 bg-gradient-to-b from-muted to-transparent"
+            className="pointer-events-none absolute left-0 right-0 -top-1 z-10 h-16 bg-gradient-to-b from-muted to-transparent"
             aria-hidden
           />
         )}
         {canScroll && hasMoreBelow && (
           <div
-            className="pointer-events-none absolute left-0 right-0 bottom-0 z-10 h-12 bg-gradient-to-t from-muted to-transparent"
+            className="pointer-events-none absolute left-0 right-0 -bottom-1 z-10 h-16 bg-gradient-to-t from-muted to-transparent"
             aria-hidden
           />
         )}
@@ -1169,22 +1169,6 @@ const AppSidebar = React.memo(function AppSidebar() {
             open={open}
           />
         </SidebarContent>
-        {scrollTop > 100 && (
-          <Button
-            size="icon"
-            variant="secondary"
-            className="absolute bottom-2 right-2 h-8 w-8 rounded-full shadow-md transition-opacity hover:opacity-90"
-            onClick={() =>
-              sidebarContentRef.current?.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              })
-            }
-            aria-label="Scroll to top"
-          >
-            <ChevronUp size={16} />
-          </Button>
-        )}
       </div>
       <UserAccountSection
         User={User}

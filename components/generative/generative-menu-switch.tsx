@@ -8,11 +8,13 @@ interface GenerativeMenuSwitchProps {
   children: ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  editorBubblePlacement?: Boolean;
 }
 const GenerativeMenuSwitch = ({
   children,
   open,
   onOpenChange,
+  editorBubblePlacement,
 }: GenerativeMenuSwitchProps) => {
   const { editor } = useEditor();
   useEffect(() => {
@@ -21,7 +23,11 @@ const GenerativeMenuSwitch = ({
   return (
     <EditorBubble
       tippyOptions={{
-        placement: open ? "bottom-start" : "top",
+        placement: editorBubblePlacement
+          ? "bottom-start"
+          : open
+            ? "bottom-start"
+            : "top",
         onHidden: () => {
           onOpenChange(false);
           editor?.chain().unsetHighlight().run();
