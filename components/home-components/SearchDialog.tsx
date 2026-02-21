@@ -11,6 +11,7 @@ import {
   Settings,
   Star,
   ChevronDown,
+  ChevronUp,
   X,
 } from "lucide-react";
 import { useState, useEffect, useMemo, useRef } from "react";
@@ -142,6 +143,19 @@ export default function SearchDialog({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const resultsScrollRef = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [canScroll, setCanScroll] = useState(false);
+  const [hasMoreBelow, setHasMoreBelow] = useState(false);
+
+  const handleResultsScroll = () => {
+    const el = resultsScrollRef.current;
+    if (!el) return;
+    setScrollTop(el.scrollTop);
+    const overflow = el.scrollHeight > el.clientHeight;
+    setCanScroll(overflow);
+    setHasMoreBelow(overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8);
+  };
 
   // Debounce the search query
   useEffect(() => {
@@ -226,6 +240,17 @@ export default function SearchDialog({
   const hasResults = allNotes.length > 0;
   const isLoading = isDebouncing || status === "LoadingFirstPage";
 
+  // Check overflow when content changes
+  useEffect(() => {
+    if (!hasResults && !isLoading) return;
+    const el = resultsScrollRef.current;
+    if (!el) return;
+    const overflow = el.scrollHeight > el.clientHeight;
+    setCanScroll(overflow);
+    setScrollTop(el.scrollTop);
+    setHasMoreBelow(overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8);
+  }, [hasResults, isLoading, filteredNotes.length]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -272,7 +297,24 @@ export default function SearchDialog({
           />
         </div>
         {/* Results */}
-        <div className="min-h-[60vh] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent p-2">
+        <div className="relative min-h-[60vh] max-h-[60vh]">
+          {canScroll && scrollTop > 8 && (
+            <div
+              className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-12 bg-gradient-to-b from-background to-transparent"
+              aria-hidden
+            />
+          )}
+          {canScroll && hasMoreBelow && (
+            <div
+              className="pointer-events-none absolute left-0 right-0 bottom-0 z-10 h-12 bg-gradient-to-t from-background to-transparent"
+              aria-hidden
+            />
+          )}
+          <div
+            ref={resultsScrollRef}
+            onScroll={handleResultsScroll}
+            className="min-h-[60vh] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent p-2"
+          >
           {isLoading ? (
             <SearchLoadingSkeleton />
           ) : !hasResults ? (
@@ -377,6 +419,20 @@ export default function SearchDialog({
                 </div>
               )}
             </div>
+          )}
+          </div>
+          {scrollTop > 100 && (
+            <Button
+              size="icon"
+              variant="secondary"
+              className="absolute bottom-2 right-2 h-8 w-8 rounded-full shadow-md transition-opacity hover:opacity-90"
+              onClick={() =>
+                resultsScrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
+              }
+              aria-label="Scroll to top"
+            >
+              <ChevronUp size={16} />
+            </Button>
           )}
         </div>
 

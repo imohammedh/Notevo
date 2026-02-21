@@ -3,7 +3,7 @@ import MaxWContainer from "@/components/ui/MaxWContainer";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { useSearchParams, useParams } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { JSONContent } from "@tiptap/react";
 import TailwindAdvancedEditor from "@/components/advanced-editor";
 import { useDebouncedCallback } from "use-debounce";
@@ -28,9 +28,30 @@ import { formatUserNoteTitle } from "@/lib/utils";
 import { ReadOnlyWarning } from "@/components/readOnly-warning";
 import NoteDownloadDropdown from "@/components/home-components/NoteDownloadDropdown";
 
+const fadeTransition = {
+  show: { ease: "easeInOut" as const, duration: 0 },
+  hide: { ease: "easeInOut" as const, duration: 0 },
+};
+
 export default function PublicNotePage() {
   const { resolvedTheme, setTheme, theme } = useTheme();
   const [IconImage, setIconImage] = useState<string>("/notevo-logo.svg");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    setScrollTop(el.scrollTop);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   useEffect(() => {
     if (resolvedTheme !== "dark") {
@@ -120,10 +141,14 @@ export default function PublicNotePage() {
     `${parseSlug(`${getNote.title}`)}`,
   );
   const parsedContent = getNote.body ? JSON.parse(getNote.body) : content;
+  const showTopFade = scrollTop > 0;
 
   return (
-    <div className="relative  w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-      <header className="fixed top-0 left-0 w-full z-[900] bg-gradient-to-b from-background from-35% via-background/90 via-80% to-transparent to-100%">
+    <div
+      ref={scrollContainerRef}
+      className="relative w-full flex flex-col h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent"
+    >
+      <header className="fixed top-0 left-0 bg-background w-full z-50">
         <div className="container mx-auto p-3 flex justify-between items-center w-full">
           <div className="flex justify-start items-center gap-1 w-full ">
             <ReadOnlyWarning />
@@ -185,15 +210,24 @@ export default function PublicNotePage() {
           </div>
         </div>
       </header>
-      <MaxWContainer className=" Desktop:container Desktop:mx-auto Desktop:py-[4.1rem] tabletAir:py-[4.1rem] tabletPro:py-[4.1rem] sm:py-20 flex-1">
-        <TailwindAdvancedEditor
-          initialContent={parsedContent}
-          onUpdate={(editor) => {
-            const updatedContent = editor.getJSON();
-            setContent(updatedContent);
-          }}
+      <div className="relative z-0">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showTopFade ? 1 : 0 }}
+          transition={showTopFade ? fadeTransition.show : fadeTransition.hide}
+          className="fixed left-0 right-0 top-0 h-48 bg-gradient-to-b from-background from-30% to-transparent to-100% z-[30] pointer-events-none"
+          aria-hidden
         />
-      </MaxWContainer>
+        <MaxWContainer className=" Desktop:container Desktop:mx-auto py-12 flex-1">
+          <TailwindAdvancedEditor
+            initialContent={parsedContent}
+            onUpdate={(editor) => {
+              const updatedContent = editor.getJSON();
+              setContent(updatedContent);
+            }}
+          />
+        </MaxWContainer>
+      </div>
     </div>
   );
 }

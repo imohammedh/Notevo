@@ -8,6 +8,7 @@ import {
   HomeIcon,
   ChevronRight,
   ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { TbSelector } from "react-icons/tb";
 import {
@@ -40,7 +41,7 @@ import { api } from "@/convex/_generated/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
-import { useState, useCallback, memo, useRef, useMemo } from "react";
+import { useState, useCallback, memo, useRef, useMemo, useEffect } from "react";
 import Link from "next/link";
 import SearchDialog from "./SearchDialog";
 import LoadingAnimation from "../ui/LoadingAnimation";
@@ -156,7 +157,7 @@ const SidebarHeaderSection = memo(function SidebarHeaderSection({
   loading,
 }: SidebarHeaderSectionProps) {
   return (
-    <SidebarHeader className=" text-foreground rounded-b-lg border-b border-primary/20">
+    <SidebarHeader className=" text-foreground">
       <div className="flex items-center justify-between p-1.5">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-primary">Notevo</span>
@@ -829,7 +830,7 @@ const UserAccountSection = memo(function UserAccountSection({
               {isSigningOut ? (
                 <Button
                   variant="SidebarMenuButton"
-                  className="border-t border-primary/20 w-full flex items-center justify-center gap-2"
+                  className="w-full flex items-center justify-center gap-2"
                   disabled={isSigningOut}
                 >
                   <LoadingAnimation />
@@ -838,7 +839,7 @@ const UserAccountSection = memo(function UserAccountSection({
               ) : (
                 <Button
                   variant="SidebarMenuButton"
-                  className="border-t border-primary/20 w-full h-15 flex items-center justify-between"
+                  className="w-full h-15 flex items-center justify-between"
                   disabled={isSigningOut}
                 >
                   <Avatar className="h-8 w-8">
@@ -1023,8 +1024,34 @@ const AppSidebar = React.memo(function AppSidebar() {
 
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [loading, setLoading] = useState(false);
+  const sidebarContentRef = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [canScroll, setCanScroll] = useState(false);
+  const [hasMoreBelow, setHasMoreBelow] = useState(false);
+
+  const handleSidebarScroll = useCallback(() => {
+    const el = sidebarContentRef.current;
+    if (!el) return;
+    setScrollTop(el.scrollTop);
+    const overflow = el.scrollHeight > el.clientHeight;
+    setCanScroll(overflow);
+    setHasMoreBelow(
+      overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8,
+    );
+  }, []);
 
   const ishome = useMemo(() => pathname === "/home", [pathname]);
+
+  useEffect(() => {
+    const el = sidebarContentRef.current;
+    if (!el) return;
+    const overflow = el.scrollHeight > el.clientHeight;
+    setCanScroll(overflow);
+    setScrollTop(el.scrollTop);
+    setHasMoreBelow(
+      overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8,
+    );
+  }, [results?.length, getWorkingSpaces?.length]);
 
   const isSidebarLoading = useMemo(
     () => getWorkingSpaces === undefined || User === undefined,
@@ -1103,28 +1130,62 @@ const AppSidebar = React.memo(function AppSidebar() {
         loading={loading}
       />
 
-      <SidebarContent className="relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-primary/20">
-        <SidebarNavigation
-          pathname={pathname}
-          ishome={ishome}
-          isMobile={isMobile}
-          open={open}
-        />
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        {canScroll && scrollTop > 8 && (
+          <div
+            className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-12 bg-gradient-to-b from-muted to-transparent"
+            aria-hidden
+          />
+        )}
+        {canScroll && hasMoreBelow && (
+          <div
+            className="pointer-events-none absolute left-0 right-0 bottom-0 z-10 h-12 bg-gradient-to-t from-muted to-transparent"
+            aria-hidden
+          />
+        )}
+        <SidebarContent
+          ref={sidebarContentRef}
+          onScroll={handleSidebarScroll}
+          className="relative text-foreground transition-all duration-200 ease-in-out scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent group-hover:scrollbar-thumb-primary/20"
+        >
+          <SidebarNavigation
+            pathname={pathname}
+            ishome={ishome}
+            isMobile={isMobile}
+            open={open}
+          />
 
-        <PinnedNotesList
-          favoriteNotes={results}
-          pathname={pathname}
-          open={open}
-          status={status}
-          loadMore={loadMore}
-        />
-        <WorkspacesList
-          getWorkingSpaces={getWorkingSpaces}
-          handleCreateWorkingSpace={handleCreateWorkingSpace}
-          pathname={pathname}
-          open={open}
-        />
-      </SidebarContent>
+          <PinnedNotesList
+            favoriteNotes={results}
+            pathname={pathname}
+            open={open}
+            status={status}
+            loadMore={loadMore}
+          />
+          <WorkspacesList
+            getWorkingSpaces={getWorkingSpaces}
+            handleCreateWorkingSpace={handleCreateWorkingSpace}
+            pathname={pathname}
+            open={open}
+          />
+        </SidebarContent>
+        {scrollTop > 100 && (
+          <Button
+            size="icon"
+            variant="secondary"
+            className="absolute bottom-2 right-2 h-8 w-8 rounded-full shadow-md transition-opacity hover:opacity-90"
+            onClick={() =>
+              sidebarContentRef.current?.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
+            aria-label="Scroll to top"
+          >
+            <ChevronUp size={16} />
+          </Button>
+        )}
+      </div>
       <UserAccountSection
         User={User}
         handleSignOut={handleSignOut}
