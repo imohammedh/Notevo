@@ -222,7 +222,7 @@ export default function SearchDialog({
   // When dialog opens, wait for animation then measure
   useEffect(() => {
     if (!open) return;
-    const timer = setTimeout(handleResultsScroll, 150); // wait for dialog animation
+    const timer = setTimeout(handleResultsScroll, 50); // wait for dialog animation
     return () => clearTimeout(timer);
   }, [open, handleResultsScroll]);
 
