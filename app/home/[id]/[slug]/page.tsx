@@ -111,6 +111,7 @@ export default function NotePage() {
   return (
     <div className={cn(noteWidth === "false" ? "container " : "px-4", "pb-28")}>
       <TailwindAdvancedEditor
+        editorBubblePlacement={false}
         initialContent={parsedContent}
         onUpdate={(editor) => {
           const updatedContent = editor.getJSON();

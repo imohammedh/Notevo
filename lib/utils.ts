@@ -8,7 +8,7 @@ const getMaxTitleLength = () => {
 
   const width = window.innerWidth;
 
-  if (width < 640) return 10; // mobile
+  if (width < 640) return 23; // mobile
   if (width < 1024) return 35; // tablet
   return 60; // desktop
 };

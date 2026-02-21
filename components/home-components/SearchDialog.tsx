@@ -27,7 +27,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
-import { useHotkeys } from "react-hotkeys-hook";
 import { usePaginatedQuery } from "convex/react";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
 
@@ -154,7 +153,9 @@ export default function SearchDialog({
     setScrollTop(el.scrollTop);
     const overflow = el.scrollHeight > el.clientHeight;
     setCanScroll(overflow);
-    setHasMoreBelow(overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8);
+    setHasMoreBelow(
+      overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8,
+    );
   };
 
   // Debounce the search query
@@ -248,7 +249,9 @@ export default function SearchDialog({
     const overflow = el.scrollHeight > el.clientHeight;
     setCanScroll(overflow);
     setScrollTop(el.scrollTop);
-    setHasMoreBelow(overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8);
+    setHasMoreBelow(
+      overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8,
+    );
   }, [hasResults, isLoading, filteredNotes.length]);
 
   return (
@@ -300,13 +303,13 @@ export default function SearchDialog({
         <div className="relative min-h-[60vh] max-h-[60vh]">
           {canScroll && scrollTop > 8 && (
             <div
-              className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-12 bg-gradient-to-b from-background to-transparent"
+              className="pointer-events-none absolute left-0 right-0 -top-1 z-10 h-16 bg-gradient-to-b from-background to-transparent"
               aria-hidden
             />
           )}
           {canScroll && hasMoreBelow && (
             <div
-              className="pointer-events-none absolute left-0 right-0 bottom-0 z-10 h-12 bg-gradient-to-t from-background to-transparent"
+              className="pointer-events-none absolute left-0 right-0 -bottom-1 z-10 h-16 bg-gradient-to-t from-background to-transparent"
               aria-hidden
             />
           )}
@@ -315,125 +318,114 @@ export default function SearchDialog({
             onScroll={handleResultsScroll}
             className="min-h-[60vh] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent p-2"
           >
-          {isLoading ? (
-            <SearchLoadingSkeleton />
-          ) : !hasResults ? (
-            <div className="py-12 text-center text-sm text-muted-foreground">
-              {!query ? (
-                <>
-                  <FileText className="mx-auto h-12 w-12 opacity-50 mb-3 text-primary" />
-                  <p className="font-medium">No notes found</p>
-                  <p className="text-xs mt-1">
-                    Create your first note to get started
-                  </p>
-                </>
-              ) : (
-                <>
-                  <Search className="mx-auto h-12 w-12 opacity-50 text-primary mb-3" />
-                  <p className="font-medium">No results found for "{query}"</p>
-                  <p className="text-xs mt-1">
-                    Try different keywords or check your spelling
-                  </p>
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {groupedNotes.today.length > 0 && (
-                <div className="mb-4">
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
-                    Today
+            {isLoading ? (
+              <SearchLoadingSkeleton />
+            ) : !hasResults ? (
+              <div className="py-12 text-center text-sm text-muted-foreground">
+                {!query ? (
+                  <>
+                    <FileText className="mx-auto h-12 w-12 opacity-50 mb-3 text-primary" />
+                    <p className="font-medium">No notes found</p>
+                    <p className="text-xs mt-1">
+                      Create your first note to get started
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Search className="mx-auto h-12 w-12 opacity-50 text-primary mb-3" />
+                    <p className="font-medium">
+                      No results found for "{query}"
+                    </p>
+                    <p className="text-xs mt-1">
+                      Try different keywords or check your spelling
+                    </p>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {groupedNotes.today.length > 0 && (
+                  <div className="mb-4">
+                    <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                      Today
+                    </div>
+                    {groupedNotes.today.map((note, idx) => (
+                      <NoteItem
+                        key={note._id}
+                        note={note}
+                        onClick={() => handleItemClick(note)}
+                        isSelected={allNotes.indexOf(note) === selectedIndex}
+                      />
+                    ))}
                   </div>
-                  {groupedNotes.today.map((note, idx) => (
-                    <NoteItem
-                      key={note._id}
-                      note={note}
-                      onClick={() => handleItemClick(note)}
-                      isSelected={allNotes.indexOf(note) === selectedIndex}
-                    />
-                  ))}
-                </div>
-              )}
+                )}
 
-              {groupedNotes.yesterday.length > 0 && (
-                <div className="mb-4">
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
-                    Yesterday
+                {groupedNotes.yesterday.length > 0 && (
+                  <div className="mb-4">
+                    <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                      Yesterday
+                    </div>
+                    {groupedNotes.yesterday.map((note) => (
+                      <NoteItem
+                        key={note._id}
+                        note={note}
+                        onClick={() => handleItemClick(note)}
+                        isSelected={allNotes.indexOf(note) === selectedIndex}
+                      />
+                    ))}
                   </div>
-                  {groupedNotes.yesterday.map((note) => (
-                    <NoteItem
-                      key={note._id}
-                      note={note}
-                      onClick={() => handleItemClick(note)}
-                      isSelected={allNotes.indexOf(note) === selectedIndex}
-                    />
-                  ))}
-                </div>
-              )}
+                )}
 
-              {groupedNotes.pastWeek.length > 0 && (
-                <div className="mb-4">
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
-                    Past Week
+                {groupedNotes.pastWeek.length > 0 && (
+                  <div className="mb-4">
+                    <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                      Past Week
+                    </div>
+                    {groupedNotes.pastWeek.map((note) => (
+                      <NoteItem
+                        key={note._id}
+                        note={note}
+                        onClick={() => handleItemClick(note)}
+                        isSelected={allNotes.indexOf(note) === selectedIndex}
+                      />
+                    ))}
                   </div>
-                  {groupedNotes.pastWeek.map((note) => (
-                    <NoteItem
-                      key={note._id}
-                      note={note}
-                      onClick={() => handleItemClick(note)}
-                      isSelected={allNotes.indexOf(note) === selectedIndex}
-                    />
-                  ))}
-                </div>
-              )}
+                )}
 
-              {groupedNotes.pastMonth.length > 0 && (
-                <div className="mb-4">
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
-                    Past 30 Days
+                {groupedNotes.pastMonth.length > 0 && (
+                  <div className="mb-4">
+                    <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                      Past 30 Days
+                    </div>
+                    {groupedNotes.pastMonth.map((note) => (
+                      <NoteItem
+                        key={note._id}
+                        note={note}
+                        onClick={() => handleItemClick(note)}
+                        isSelected={allNotes.indexOf(note) === selectedIndex}
+                      />
+                    ))}
                   </div>
-                  {groupedNotes.pastMonth.map((note) => (
-                    <NoteItem
-                      key={note._id}
-                      note={note}
-                      onClick={() => handleItemClick(note)}
-                      isSelected={allNotes.indexOf(note) === selectedIndex}
-                    />
-                  ))}
-                </div>
-              )}
+                )}
 
-              {groupedNotes.older.length > 0 && (
-                <div className="mb-4">
-                  <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
-                    Older
+                {groupedNotes.older.length > 0 && (
+                  <div className="mb-4">
+                    <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
+                      Older
+                    </div>
+                    {groupedNotes.older.map((note) => (
+                      <NoteItem
+                        key={note._id}
+                        note={note}
+                        onClick={() => handleItemClick(note)}
+                        isSelected={allNotes.indexOf(note) === selectedIndex}
+                      />
+                    ))}
                   </div>
-                  {groupedNotes.older.map((note) => (
-                    <NoteItem
-                      key={note._id}
-                      note={note}
-                      onClick={() => handleItemClick(note)}
-                      isSelected={allNotes.indexOf(note) === selectedIndex}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </div>
+            )}
           </div>
-          {scrollTop > 100 && (
-            <Button
-              size="icon"
-              variant="secondary"
-              className="absolute bottom-2 right-2 h-8 w-8 rounded-full shadow-md transition-opacity hover:opacity-90"
-              onClick={() =>
-                resultsScrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
-              }
-              aria-label="Scroll to top"
-            >
-              <ChevronUp size={16} />
-            </Button>
-          )}
         </div>
 
         {/* Footer */}
