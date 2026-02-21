@@ -1,20 +1,7 @@
 "use client";
 import React from "react";
-import {
-  ArrowDownUp,
-  Undo2,
-  Clock,
-  Code,
-  FileText,
-  Inbox,
-  Search,
-  Settings,
-  Star,
-  ChevronDown,
-  ChevronUp,
-  X,
-} from "lucide-react";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { ArrowDownUp, Undo2, Clock, FileText, Search } from "lucide-react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -37,7 +24,7 @@ interface SearchDialogProps {
   sidebaraOpen?: boolean;
   sidbarMobile?: boolean;
 }
-// Helper to format relative time
+
 const getRelativeTime = (date: Date) => {
   const now = new Date();
   const diffInDays = Math.floor(
@@ -51,7 +38,6 @@ const getRelativeTime = (date: Date) => {
   return `${Math.floor(diffInDays / 30)} months ago`;
 };
 
-// Group notes by time period
 const groupNotesByTime = (notes: any[]) => {
   const now = new Date();
   const today = new Date(now.setHours(0, 0, 0, 0));
@@ -110,7 +96,7 @@ function NoteItem({ note, onClick, isSelected }: any) {
     >
       <div className="flex w-full items-center">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg mr-3 border border-primary/20">
-          <FileText className=" text-primary" size={16} />
+          <FileText className="text-primary" size={16} />
         </div>
         <div className="flex-1 overflow-hidden">
           <p className="font-medium truncate text-foreground">
@@ -147,7 +133,9 @@ export default function SearchDialog({
   const [canScroll, setCanScroll] = useState(false);
   const [hasMoreBelow, setHasMoreBelow] = useState(false);
 
-  const handleResultsScroll = () => {
+  // useCallback so the same reference can be used both as the onScroll
+  // handler and called manually whenever content changes
+  const handleResultsScroll = useCallback(() => {
     const el = resultsScrollRef.current;
     if (!el) return;
     setScrollTop(el.scrollTop);
@@ -156,18 +144,16 @@ export default function SearchDialog({
     setHasMoreBelow(
       overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8,
     );
-  };
+  }, []);
 
   // Debounce the search query
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
     }, 300);
-
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Use the debounced query for the backend search
   const { results, status, loadMore } = usePaginatedQuery(
     api.notes.getNoteByUserId,
     { searchQuery: debouncedQuery || undefined },
@@ -192,22 +178,16 @@ export default function SearchDialog({
         setOpen(true);
       }
     };
-
     window.addEventListener("keydown", handler);
-
-    return () => {
-      window.removeEventListener("keydown", handler);
-    };
+    return () => window.removeEventListener("keydown", handler);
   }, []);
 
   const filteredNotes = results || [];
 
-  // Group notes by time
   const groupedNotes = useMemo(() => {
     return groupNotesByTime(filteredNotes);
   }, [filteredNotes]);
 
-  // Flatten grouped notes for keyboard navigation
   const allNotes = useMemo(() => {
     return [
       ...groupedNotes.today,
@@ -223,7 +203,6 @@ export default function SearchDialog({
     router.push(`/home/${note.workingSpaceId}/${note.slug}?id=${note._id}`);
   };
 
-  // Keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -240,20 +219,18 @@ export default function SearchDialog({
   const isDebouncing = query !== debouncedQuery;
   const hasResults = allNotes.length > 0;
   const isLoading = isDebouncing || status === "LoadingFirstPage";
-
-  // Check overflow when content changes
+  // When dialog opens, wait for animation then measure
   useEffect(() => {
-    if (!hasResults && !isLoading) return;
-    const el = resultsScrollRef.current;
-    if (!el) return;
-    const overflow = el.scrollHeight > el.clientHeight;
-    setCanScroll(overflow);
-    setScrollTop(el.scrollTop);
-    setHasMoreBelow(
-      overflow && el.scrollTop + el.clientHeight < el.scrollHeight - 8,
-    );
-  }, [hasResults, isLoading, filteredNotes.length]);
+    if (!open) return;
+    const timer = setTimeout(handleResultsScroll, 150); // wait for dialog animation
+    return () => clearTimeout(timer);
+  }, [open, handleResultsScroll]);
 
+  // Re-measure when results change
+  useEffect(() => {
+    const raf = requestAnimationFrame(handleResultsScroll);
+    return () => cancelAnimationFrame(raf);
+  }, [handleResultsScroll, filteredNotes.length, isLoading]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -262,7 +239,7 @@ export default function SearchDialog({
           size="sm"
           className="px-2 h-8 group outline-none border-none"
         >
-          <Search className=" text-primary" size={iconSize} />
+          <Search className="text-primary" size={iconSize} />
           {showTitle && (
             <div className="w-full flex items-center justify-between gap-1">
               Search
@@ -283,6 +260,7 @@ export default function SearchDialog({
         className="p-0 overflow-hidden bg-background md:min-w-[800px] gap-0"
       >
         <DialogTitle className="sr-only">Search Notes</DialogTitle>
+
         {/* Search Input */}
         <div className="flex items-center border-b border-border px-4 py-1.5">
           {isDebouncing ? (
@@ -299,17 +277,18 @@ export default function SearchDialog({
             onKeyDown={handleKeyDown}
           />
         </div>
+
         {/* Results */}
         <div className="relative min-h-[60vh] max-h-[60vh]">
           {canScroll && scrollTop > 8 && (
             <div
-              className="pointer-events-none absolute left-0 right-0 -top-1 z-10 h-16 bg-gradient-to-b from-background to-transparent"
+              className="pointer-events-none absolute left-0 right-3 -top-1 z-10 h-20 bg-gradient-to-b from-background/90 from-20% to-transparent"
               aria-hidden
             />
           )}
-          {canScroll && hasMoreBelow && (
+          {hasMoreBelow && (
             <div
-              className="pointer-events-none absolute left-0 right-0 -bottom-1 z-10 h-16 bg-gradient-to-t from-background to-transparent"
+              className="pointer-events-none absolute left-0 right-3 -bottom-1 z-10 h-20 bg-gradient-to-t from-background/90 from-20% to-transparent"
               aria-hidden
             />
           )}
@@ -349,7 +328,7 @@ export default function SearchDialog({
                     <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">
                       Today
                     </div>
-                    {groupedNotes.today.map((note, idx) => (
+                    {groupedNotes.today.map((note) => (
                       <NoteItem
                         key={note._id}
                         note={note}
@@ -434,7 +413,7 @@ export default function SearchDialog({
             <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-lg bg-mute px-1.5 font-mono text-xs font-medium text-primary">
               <ArrowDownUp size={16} /> Navigate
             </kbd>
-            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-lg bg-mute px-1.5 font-mono text-xs font-medium text-primary ">
+            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-lg bg-mute px-1.5 font-mono text-xs font-medium text-primary">
               <Undo2 size={16} /> Open
             </kbd>
           </span>
