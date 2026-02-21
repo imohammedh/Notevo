@@ -60,8 +60,25 @@ I've been looking for a note-taking app that's simpler than Notion but more orga
  ### Environment Variables
  Create a `.env` file and add the following:
  ```env
- CONVEX_DEPLOY_KEY=your_convex_deploy_key
- OPENAI_API_KEY=your_openai_key
+CONVEX_DEPLOYMENT=??
+
+NEXT_PUBLIC_CONVEX_URL=??
+
+CONVEX_SITE_URL=https:??
+
+SETUP_SCRIPT_RAN=??
+
+AUTH_GITHUB_ID=??
+
+AUTH_GITHUB_SECRET=??
+
+AUTH_RESEND_KEY=??
+
+AUTH_GOOGLE_ID=??
+AUTH_GOOGLE_SECRET=??
+AUTH_EMAIL=??
+SITE_URL="https://notevo.me/"
+
  ```
  
  ### Running Locally
