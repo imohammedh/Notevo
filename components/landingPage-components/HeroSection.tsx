@@ -241,7 +241,7 @@ export default function HeroSection() {
               <Link prefetch={true} href="#features">
                 <span className="relative z-10">Learn More</span>
                 <motion.span
-                  className="absolute inset-0 rounded-md bg-primary/10"
+                  className="absolute inset-0 rounded-lg bg-primary/10"
                   initial={{ scale: 0 }}
                   whileHover={{ scale: 1 }}
                   transition={{ duration: 0.3 }}

@@ -87,7 +87,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
               size="icon"
               variant="outline"
               type="button"
-              className="flex h-8 items-center rounded-sm p-1 text-destructive transition-all hover:bg-destructive/10"
+              className="flex h-8 items-center rounded-lg p-1 text-destructive transition-all hover:bg-destructive/10"
               onClick={() => {
                 editor.chain().focus().unsetLink().run();
                 if (inputRef.current) inputRef.current.value = "";

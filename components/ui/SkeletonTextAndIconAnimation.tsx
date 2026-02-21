@@ -19,7 +19,7 @@ export default function SkeletonTextAndIconAnimation({
         ></div>
         <div
           className={cn(
-            "h-4 bg-primary/20 rounded mx-2 w-full",
+            "h-4 bg-primary/20 rounded-lg mx-2 w-full",
             text_className,
           )}
         ></div>

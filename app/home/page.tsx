@@ -244,7 +244,7 @@ function WorkspaceCardSkeleton() {
   return (
     <Card className="relative overflow-hidden bg-card/90 backdrop-blur-sm border-border flex-shrink-0 w-[300px] h-fit">
       <CardHeader className="pb-3 relative">
-        <div className="h-5 bg-primary/20 rounded-md w-3/4 animate-pulse"></div>
+        <div className="h-5 bg-primary/20 rounded-lg w-3/4 animate-pulse"></div>
       </CardHeader>
 
       <CardContent className="pb-3">
@@ -254,8 +254,8 @@ function WorkspaceCardSkeleton() {
       </CardContent>
 
       <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
-        <div className="h-4 bg-primary/20 rounded w-24 animate-pulse"></div>
-        <div className="h-7 bg-primary/20 rounded w-16 animate-pulse"></div>
+        <div className="h-4 bg-primary/20 rounded-lg w-24 animate-pulse"></div>
+        <div className="h-7 bg-primary/20 rounded-lg w-16 animate-pulse"></div>
       </CardFooter>
     </Card>
   );
@@ -267,21 +267,21 @@ function NoteCardSkeleton() {
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 space-y-2">
-            <div className="h-5 bg-primary/20 rounded-md w-3/4 animate-pulse"></div>
-            <div className="h-3 bg-primary/20 rounded-md w-1/2 animate-pulse"></div>
+            <div className="h-5 bg-primary/20 rounded-lg w-3/4 animate-pulse"></div>
+            <div className="h-3 bg-primary/20 rounded-lg w-1/2 animate-pulse"></div>
           </div>
         </div>
       </CardHeader>
 
       <CardContent className="pb-3 space-y-2">
-        <div className="h-3 bg-primary/20 rounded w-full animate-pulse"></div>
-        <div className="h-3 bg-primary/20 rounded w-5/6 animate-pulse"></div>
-        <div className="h-3 bg-primary/20 rounded w-4/6 animate-pulse"></div>
+        <div className="h-3 bg-primary/20 rounded-lg w-full animate-pulse"></div>
+        <div className="h-3 bg-primary/20 rounded-lg w-5/6 animate-pulse"></div>
+        <div className="h-3 bg-primary/20 rounded-lg w-4/6 animate-pulse"></div>
       </CardContent>
 
       <CardFooter className="pt-3 flex justify-between items-center text-xs text-muted-foreground border-t border-border">
-        <div className="h-4 bg-primary/20 rounded w-24 animate-pulse"></div>
-        <div className="h-7 bg-primary/20 rounded w-16 animate-pulse"></div>
+        <div className="h-4 bg-primary/20 rounded-lg w-24 animate-pulse"></div>
+        <div className="h-7 bg-primary/20 rounded-lg w-16 animate-pulse"></div>
       </CardFooter>
     </Card>
   );

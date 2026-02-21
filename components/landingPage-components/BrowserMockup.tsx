@@ -517,7 +517,7 @@ const BrowserMockup: React.FC = () => {
             </div>
 
             {/* URL Bar */}
-            <div className="flex-1 bg-background/80 backdrop-blur rounded-md px-4 py-1.5 text-xs sm:text-sm text-muted-foreground border border-border">
+            <div className="flex-1 bg-background/80 backdrop-blur rounded-lg px-4 py-1.5 text-xs sm:text-sm text-muted-foreground border border-border">
               {currentTab.url}
             </div>
 

@@ -117,7 +117,7 @@ export default function Navbar() {
             >
               Sign In
               <motion.span
-                className="absolute inset-0 rounded-md bg-primary/10"
+                className="absolute inset-0 rounded-lg bg-primary/10"
                 initial={{ scale: 0 }}
                 whileHover={{ scale: 1 }}
                 transition={{ duration: 0.3 }}
@@ -133,7 +133,7 @@ export default function Navbar() {
             >
               Get Started
               <motion.span
-                className="absolute inset-0 rounded-md bg-primary/20"
+                className="absolute inset-0 rounded-lg bg-primary/20"
                 initial={{ scale: 0 }}
                 whileHover={{ scale: 1 }}
                 transition={{ duration: 0.3 }}
