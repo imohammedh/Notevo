@@ -90,10 +90,10 @@ function SearchLoadingSkeleton() {
         <div key={i} className="flex items-center py-2 px-2">
           <div className="h-8 w-8 bg-primary/20 rounded-lg mr-2 animate-pulse" />
           <div className="flex-1 space-y-2">
-            <div className="h-4 bg-primary/20 rounded w-3/4 animate-pulse" />
-            <div className="h-3 bg-primary/20 rounded w-1/2 animate-pulse" />
+            <div className="h-4 bg-primary/20 rounded-lg w-3/4 animate-pulse" />
+            <div className="h-3 bg-primary/20 rounded-lg w-1/2 animate-pulse" />
           </div>
-          <div className="h-3 bg-primary/20 rounded w-20 animate-pulse" />
+          <div className="h-3 bg-primary/20 rounded-lg w-20 animate-pulse" />
         </div>
       ))}
     </div>
@@ -239,10 +239,10 @@ export default function SearchDialog({
             <div className="w-full flex items-center justify-between gap-1">
               Search
               <span className="inline-flex gap-1">
-                <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-mute px-1.5 font-mono text-[10px] font-medium text-primary">
+                <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-5 select-none items-center gap-1 rounded-lg bg-mute px-1.5 font-mono text-[10px] font-medium text-primary">
                   <span className="text-xs">Ctrl</span>
                 </kbd>
-                <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-5 select-none items-center gap-1 rounded bg-mute px-1.5 font-mono text-[10px] font-medium text-primary">
+                <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-5 select-none items-center gap-1 rounded-lg bg-mute px-1.5 font-mono text-[10px] font-medium text-primary">
                   <span className="text-xs">K</span>
                 </kbd>
               </span>
@@ -383,10 +383,10 @@ export default function SearchDialog({
         {/* Footer */}
         <DialogFooter className="border-t border-border px-4 py-3">
           <span className="inline-flex gap-1">
-            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-mute px-1.5 font-mono text-xs font-medium text-primary">
+            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-lg bg-mute px-1.5 font-mono text-xs font-medium text-primary">
               <ArrowDownUp size={16} /> Navigate
             </kbd>
-            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-md bg-mute px-1.5 font-mono text-xs font-medium text-primary ">
+            <kbd className="pointer-events-none border border-primary/10 ml-auto inline-flex h-7 select-none items-center gap-1 rounded-lg bg-mute px-1.5 font-mono text-xs font-medium text-primary ">
               <Undo2 size={16} /> Open
             </kbd>
           </span>

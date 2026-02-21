@@ -116,7 +116,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
           variant="SidebarMenuButton"
         >
           <span
-            className="rounded-sm px-1"
+            className="rounded-lg px-1"
             style={{
               color: activeColorItem?.color,
               backgroundColor: activeHighlightItem?.color,
