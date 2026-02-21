@@ -1,6 +1,13 @@
 "use client";
 
-import { type ReactNode, memo, useRef, useEffect, useState } from "react";
+import {
+  type ReactNode,
+  memo,
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import {
   SidebarProvider,
   SidebarTrigger,
@@ -15,25 +22,32 @@ import type { Id } from "@/convex/_generated/dataModel";
 import { parseSlug } from "@/lib/parseSlug";
 import PublicNote from "../PublicNote";
 import { motion } from "framer-motion";
+
+const fadeTransition = {
+  show: { ease: "easeInOut" as const, duration: 0 },
+  hide: { ease: "easeInOut" as const, duration: 0 },
+};
+
 const HomeContent = memo(({ children }: { children: ReactNode }) => {
   const { open, isMobile } = useSidebar();
-  const [showShadow, setShowShadow] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    setScrollTop(el.scrollTop);
+  }, []);
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
-    const handleScroll = () => {
-      setShowShadow(scrollContainer.scrollTop > 0);
-    };
-
     scrollContainer.addEventListener("scroll", handleScroll);
     handleScroll();
 
-    return () => {
-      scrollContainer.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -41,7 +55,8 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
   const noteid = searchParams.get("id") as Id<"notes">;
   const noteTitle = parseSlug(`${pathSegments[2]}`);
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const showTopFade = scrollTop > 0;
+
   return (
     <div className="flex h-screen w-full bg-muted overflow-hidden">
       <AppSidebar />
@@ -52,13 +67,10 @@ const HomeContent = memo(({ children }: { children: ReactNode }) => {
       >
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: showShadow ? 1 : 0 }}
-          transition={{
-            delay: 0,
-            ease: "easeInOut",
-            duration: showShadow ? 0.2 : 0.3,
-          }}
-          className="absolute rounded-tl-lg transition-colors ease-in-out duration-300 left-0 top-0 w-full h-52 bg-gradient-to-b from-background from-30% to-transparent to-100% z-[5] pointer-events-none"
+          animate={{ opacity: showTopFade ? 1 : 0 }}
+          transition={showTopFade ? fadeTransition.show : fadeTransition.hide}
+          className="absolute rounded-tl-lg left-0 top-0 w-full h-52 bg-gradient-to-b from-background from-30% to-transparent to-100% z-[5] pointer-events-none"
+          aria-hidden
         />
         <div className="z-[10] relative w-full flex items-center justify-start px-5 gap-3 mx-auto rounded-tl-lg border-none py-2.5 ">
           <div className="flex justify-between items-center w-full">
